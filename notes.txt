@@ -16,6 +16,3 @@ Koji su matični podatci, koji su zdravstveni koje treba evidentirati?
 Što se podrazumijeva kao kontakt (mob, adresa...?)
 Treabju li admini username i password?
 DonorId/OIB/MBO kao PK/AK
-
-Pitanja za demosa:
-Je li main isto što i master
