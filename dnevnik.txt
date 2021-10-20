@@ -1,0 +1,23 @@
+1. sastanak (17.10.2021.)
+	Prisutni: svi
+	-Uspostava GitLab repozitorija
+	-uspostava SSH ključeva
+	-Uspostavljena platforma za komunikaciju (Slack)
+	-Prva okvirna podjela poslova:
+		Ana - backend (Spring)
+		Vukota - backend (Spring)
+		Jakov - backend, testovi
+		Dora - backend
+		Marko - full-stack
+		Toni - full-stack, organizacija
+		Borna - frontend (UI)
+	-U četvrtak idemo na inicijalni sastanak s asistentom
+	-Zadatak za prvi tjedan:
+		Do četvrtka:
+			Upoznati se sa radnom okolinom, gitom, 
+			softverom koji se koristi
+			Pročitati zadatak s razumijevanjem
+			Zabilježiti sva pitanja koja se pojave (POGOTOVO TKO NE DOLAZI NA VJEŽBU U ČETVRTAK)			
+		Četvrtak:
+			Sastanak s asistentima (labos) u 11:00
+			Sastanak u 13:00
