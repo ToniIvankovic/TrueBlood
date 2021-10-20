@@ -1,0 +1,21 @@
+Uloge: djelatnik, admin, donor --> svi imaju email i lozinku
+donor --> donorId (samogeneriranje), matični podatci (pitanje), kontakt, zdr podatci, mail, lozinka
+admin --> kreira acc za djelatnike, deakt za djelatnike i donore, definiranje granica
+Ako nema trajnu zabranu, kad se donor ulogira prikazuje mu se stanje njegove krvne grupe
+
+
+Pitanja za asistente:
+Koliko često se rade upiti prema bazi? (bitno radi optimalne implementacije)
+Trebaju li notifikacije donorima i unutar 3/4 mjeseca od zadnjeg darivanja?
+Notifikacije treba slati na dan kad istekne 3/4 mjeseca i kad padnu zalihe (nakon 3/4) mjeseca?
+Timeout notifikacija vezano za česte prelaske donje granice
+Deaktivacija računa od strane admina = Trajno brisanje ili ne
+Kako postati admin?
+Je li admin nužno (i je li uopće moguće) djelatnik? (ili je npr ekonomist/tajnik/informatičar)
+Koji su matični podatci, koji su zdravstveni koje treba evidentirati?
+Što se podrazumijeva kao kontakt (mob, adresa...?)
+Treabju li admini username i password?
+DonorId/OIB/MBO kao PK/AK
+
+Pitanja za demosa:
+Je li main isto što i master
