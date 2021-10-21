@@ -1,0 +1,25 @@
+
+Pitanja za tj. 4:
+-Je li drugi način pada ako ampula s analize dođe kao nepovoljna pa se krv mora ipak baciti?
+-Može li i admin dodati donora (da mu ovlasti samo budu nadskup ovlasti djelatnika, tj da su ovlasti A>Dj>Do)
+-Je li uvijek količina krvi 500mL, ili je odvojeno za M/F
+-Da evidentiramo podatak "datum zadnjeg doniranjea" u donor tablici, ili je to prerdundantno a nedovoljno poboljšava performanse?
+-Treba li mogućnost opt-outa s mailova
+-Smije li se na UC dijagramu koristiti samo UC-jeve koji su detaljno opisani na prvom dijagramu,
+ a sada ih ne želim ponovno detaljno povezivati (tj ne želim pisati sve koji trenutno nisu potrebni)
+
+
+Pitanja za 3.tj:
+Koliko često se rade upiti prema bazi? (bitno radi optimalne implementacije) --> za svaku osobu posebno kad god nam treba radimo zahtjev
+Trebaju li notifikacije donorima i unutar 3/4 mjeseca od zadnjeg darivanja? --> Ne šalju se notifikacije unutar time-out perioda
+Notifikacije treba slati na dan kad istekne 3/4 mjeseca i kad padnu zalihe (nakon 3/4) mjeseca? --> DA 
+Timeout notifikacija vezano za česte prelaske donje granice --> Nema time-outa, notifikacije se šalju svakim prrelaskom (opcionalna nadogradnja)
+
+Deaktivacija računa od strane admina = Trajno brisanje ili ne --> samo bool deactivated true/false
+Kako postati admin? --> ima 1 admin - ne hardkodiran nego ima acc (opcionalno on može grantati admin ovlasti nekom novom računu)
+Je li admin nužno (i je li uopće moguće) djelatnik? (ili je npr ekonomist/tajnik/informatičar) --> NE, svi accountovi imaju 1 role
+
+Koji su matični podatci, koji su zdravstveni koje treba evidentirati?
+Što se podrazumijeva kao kontakt (mob, adresa...?)	 --> Dolazi dokument s podatcima
+Ako nema trajnu zabranu, kad se donor ulogira prikazuje mu se stanje njegove krvne grupe
+
