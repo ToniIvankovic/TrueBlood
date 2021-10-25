@@ -1,4 +1,3 @@
-
 Pitanja za tj. 4:
 -Je li drugi način pada ako ampula s analize dođe kao nepovoljna pa se krv mora ipak baciti?
 -Može li i admin dodati donora (da mu ovlasti samo budu nadskup ovlasti djelatnika, tj da su ovlasti A>Dj>Do)
@@ -7,6 +6,8 @@ Pitanja za tj. 4:
 -Treba li mogućnost opt-outa s mailova
 -Smije li se na UC dijagramu koristiti samo UC-jeve koji su detaljno opisani na prvom dijagramu,
  a sada ih ne želim ponovno detaljno povezivati (tj ne želim pisati sve koji trenutno nisu potrebni)
+-Osigurava li povezanost aktora s nekim use-caseom implicitnu povezanost sa svim use-caseovima koji ga nasljeđuju/includeaju/extendaju, ili
+ moramo spajati baš sa svima 
 
 
 Pitanja za 3.tj:
