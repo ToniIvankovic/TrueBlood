@@ -1,5 +1,7 @@
 Pitanja za tj. 4:
 -Je li drugi način pada ako ampula s analize dođe kao nepovoljna pa se krv mora ipak baciti?
+  --> Treba li automatski nakon doniranja povećati razinu krvi pa naknadno smanjivati ako krv ne ispunjava provjere,
+  ili čekati da dođe odobrenje pa onda povećati
 -Može li i admin dodati donora (da mu ovlasti samo budu nadskup ovlasti djelatnika, tj da su ovlasti A>Dj>Do)
 -Je li uvijek količina krvi 500mL, ili je odvojeno za M/F
 -Da evidentiramo podatak "datum zadnjeg doniranjea" u donor tablici, ili je to prerdundantno a nedovoljno poboljšava performanse?
