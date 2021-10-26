@@ -4,6 +4,8 @@ Pitanja za tj. 4:
   ili čekati da dođe odobrenje pa onda povećati
 -Može li i admin dodati donora (da mu ovlasti samo budu nadskup ovlasti djelatnika, tj da su ovlasti A>Dj>Do)
 -Je li uvijek količina krvi 500mL, ili je odvojeno za M/F
+-Kako je definirana gornja granica skladišta (ne optimalna granica, nego doslovno fizičko ograničenje)
+    --> bitno za vizualni prikaz (ili da stavimo npr. max(trenutno stanje, 30% veće od gornje optimalne granice) )
 -Da evidentiramo podatak "datum zadnjeg doniranjea" u donor tablici, ili je to prerdundantno a nedovoljno poboljšava performanse?
 -Treba li mogućnost opt-outa s mailova
 -Smije li se na UC dijagramu koristiti samo UC-jeve koji su detaljno opisani na prvom dijagramu,
