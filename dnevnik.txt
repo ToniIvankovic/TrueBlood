@@ -63,9 +63,10 @@
 		-Dogovor oko daljnjeg frontend dizajna
 		-Dogovoren sastanak backend podtima (subota) radi inicijalizacije dockera
 	Zadatci do idućeg sastanka:
-		Toni - Popravak i nadogradnja UC dijagrama i crtanje sekvencijskih, inicijalizacija dokumentacije
-		Dora - Upoznavanje sa Springom
-		Ana - dorada baze podataka, istražiti opcije predstavljene na sastanku
-		Jakov, Vukota - 
-		Borna - nastavak idejnih dizajna stranice
+		Toni - Popravak i nadogradnja UC dijagrama i crtanje sekvencijskih; inicijalizacija dokumentacije
+		Dora, Jakov - Upoznavanje sa Springom
+		Ana - dorada baze podataka, istražiti opcije predstavljene na sastanku; docker
+		Vukota - docker, pisanje inicijalnog readme.md
+		Borna - nastavak idejnih dizajna stranice, inicijalna konstrukcija frontend dijela stranice
+		Marko - održavanje gita, rad s Bornom na frontendu
 	Idući sastanak: Backend - subota(30.10.), ostali - četvrtak (4.11.)
