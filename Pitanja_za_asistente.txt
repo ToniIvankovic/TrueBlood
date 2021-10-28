@@ -1,30 +1,57 @@
 Pitanja za tj. 4:
--Je li drugi način pada ako ampula s analize dođe kao nepovoljna pa se krv mora ipak baciti?
-  --> Treba li automatski nakon doniranja povećati razinu krvi pa naknadno smanjivati ako krv ne ispunjava provjere,
-  ili čekati da dođe odobrenje pa onda povećati
--Može li i admin dodati donora (da mu ovlasti samo budu nadskup ovlasti djelatnika, tj da su ovlasti A>Dj>Do)
+-Je li drugi način pada razine krvi u sustavu ako ampula s analize dođe kao nepovoljna pa se krv mora ipak baciti? 
+	--> Treba li (ako je tako) automatski nakon doniranja povećati razinu krvi pa naknadno smanjivati ako krv ne ispunjava 
+	provjere, ili ne povećati odmah nego čekati da dođe odobrenje o kvaliteti krvi pa onda povećati 
+		RE:Ovo ne treba implementirati, drugi način dolaska obavijesti je povišenje donje granice
+-Može li i admin dodati donora (da mu ovlasti samo budu nadskup ovlasti djelatnika, tj da su ovlasti A>Dj>Do) 
+	RE: Ne mora (Opcionalno)
 -Je li uvijek količina krvi 500mL, ili je odvojeno za M/F
--Kako je definirana gornja granica skladišta (ne optimalna granica, nego doslovno fizičko ograničenje)
-    --> bitno za vizualni prikaz (ili da stavimo npr. max(trenutno stanje, 30% veće od gornje optimalne granice) )
--Da evidentiramo podatak "datum zadnjeg doniranjea" u donor tablici, ili je to prerdundantno a nedovoljno poboljšava performanse?
--Treba li mogućnost opt-outa s mailova
--Smije li se na UC dijagramu koristiti samo UC-jeve koji su detaljno opisani na prvom dijagramu,
- a sada ih ne želim ponovno detaljno povezivati (tj ne želim pisati sve koji trenutno nisu potrebni)
--Osigurava li povezanost aktora s nekim use-caseom implicitnu povezanost sa svim use-caseovima koji ga nasljeđuju/includeaju/extendaju, ili
- moramo spajati baš sa svima 
+	RE: svima je 450mL, ali treba evidentirati JEDINICE krvi
+-Kako je definirana gornja granica skladišta (ne optimalna granica, nego doslovno fizičko ograničenje) 
+	--> bitno za vizualni prikaz (ili da stavimo npr. max(trenutno stanje, 30% veće od gornje optimalne granice) ) 
+		RE: gornja granica nije definirana, ako se prijeđe "max", može se vizualizirati kao maxCapacity
+-Da evidentiramo podatak "datum zadnjeg doniranja" u donor tablici, ili je to prerdundantno a nedovoljno poboljšava performanse? 
+	RE: ne definirati, nije toliko složen upit
+-Treba li implementirati mogućnost opt-outa s mailova 
+	RE: Ne mora (Opcionalno)
+
+-Smije li se na UC dijagramu koristiti samo UC-jeve koji su detaljno opisani na prvom dijagramu, a sada 
+ih ne želim ponovno detaljno povezivati nasljeđivanjem, includeanjem, extendanjem... 
+(tj ne želim pisati sve koji trenutno nisu potrebni) 
+-Osigurava li povezanost aktora s nekim use-caseom implicitnu povezanost sa svim use-caseovima 
+koji ga nasljeđuju/includeaju/extendaju, ili moramo spajati baš sa svima 
+	RE: Da
+-Ako aktora 1 spojimo s UC1, a aktor 2 nasljeđuje aktora 1, moramo li i aktora 2 spajati s navedenin 
+UC ako želimo da s njim bude povezan, ili se podrazumijeva da su spojeni
+	RE: Podrazumijeva, ali ista osoba može biti u ulozi više aktora u različitim trenutcima
+-Ako je aktor na nekom od prošlih dijagrama spojen s neki UC-jem (gdje je to bila poanta dijagrama), 
+a sada imamo dijagram s različitom "poantom", moramo li opet sve aktore vezati sa svim stvarima koje 
+mogu, ili možemo izostaviti neke veze radi preglednosti ako one nisu bitne za poantu ovog dijagrama
+-Smije li u različitim dijagramima aktor nekad biti povezan s UC-jem, a nekad ne, ovisno o situaciji? 
+Ili da takve UC-jeve razdvojimo (radi se o ispisu PDF potvrde)
+-Mora li UC biti u formatu glagol-imenica ili je to samo uobičajeno, a ne i nužno?
+	RE:Preferirano imperativ-imenica, vidjeti u predavanju
+
 
 
 Pitanja za 3.tj:
-Koliko često se rade upiti prema bazi? (bitno radi optimalne implementacije) --> za svaku osobu posebno kad god nam treba radimo zahtjev
-Trebaju li notifikacije donorima i unutar 3/4 mjeseca od zadnjeg darivanja? --> Ne šalju se notifikacije unutar time-out perioda
-Notifikacije treba slati na dan kad istekne 3/4 mjeseca i kad padnu zalihe (nakon 3/4) mjeseca? --> DA 
-Timeout notifikacija vezano za česte prelaske donje granice --> Nema time-outa, notifikacije se šalju svakim prrelaskom (opcionalna nadogradnja)
+-Koliko često se rade upiti prema bazi? (bitno radi optimalne implementacije)
+	RE: za svaku osobu posebno kad god nam treba radimo zahtjev
+-Trebaju li notifikacije donorima i unutar 3/4 mjeseca od zadnjeg darivanja?
+	RE: Ne šalju se notifikacije unutar time-out perioda
+-Notifikacije treba slati na dan kad istekne 3/4 mjeseca i kad padnu zalihe (nakon 3/4) mjeseca?
+	RE:DA 
+-Timeout notifikacija vezano za česte prelaske donje granice
+	RE:Nema time-outa, notifikacije se šalju svakim prrelaskom (opcionalna nadogradnja)
 
-Deaktivacija računa od strane admina = Trajno brisanje ili ne --> samo bool deactivated true/false
-Kako postati admin? --> ima 1 admin - ne hardkodiran nego ima acc (opcionalno on može grantati admin ovlasti nekom novom računu)
-Je li admin nužno (i je li uopće moguće) djelatnik? (ili je npr ekonomist/tajnik/informatičar) --> NE, svi accountovi imaju 1 role
+-Deaktivacija računa od strane admina = Trajno brisanje ili ne
+	RE:samo bool deactivated true/false
+-Kako postati admin?
+	RE:ima 1 admin - ne hardkodiran nego ima acc (opcionalno on može grantati admin ovlasti nekom novom računu)
+-Je li admin nužno (i je li uopće moguće) djelatnik? (ili je npr ekonomist/tajnik/informatičar)
+	RE:NE, svi accountovi imaju 1 role
 
-Koji su matični podatci, koji su zdravstveni koje treba evidentirati?
-Što se podrazumijeva kao kontakt (mob, adresa...?)	 --> Dolazi dokument s podatcima
-Ako nema trajnu zabranu, kad se donor ulogira prikazuje mu se stanje njegove krvne grupe
-
+-Koji su matični podatci, koji su zdravstveni koje treba evidentirati?
+-Što se podrazumijeva kao kontakt (mob, adresa...?)
+	RE:Dolazi dokument s podatcima
+**Ako nema trajnu zabranu, kad se donor ulogira prikazuje mu se stanje njegove krvne grupe

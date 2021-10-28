@@ -35,7 +35,7 @@
 		-DonorId je primarni ključ, a OIB alternativni ključ
 	Sastanak grupni:
 		Prisutni: Ana, Vukota, Jakov, Toni, Marko, Dora 
-		-crtanje UC diagrama
+		-crtanje UC dijagrama
   		-backend brainstorming oko funkcionalnosti
 		-userId=donorId
 		-za account postoje 2 bool varijable 1) account inicijalno aktiviran (pokreće se otvaranjem linka u mailu)
@@ -49,3 +49,23 @@
 		Jakov - Uvođenje u Spring
 		Borna - Uvođenje u React
 	Idući sastanak: Četvrtak(28.10.) - sastanak sa asistentima i grupni sastanak (11h, 13h)
+
+4. Sastanak (28.10.2021.)
+	Sastanak s asistentom i demosom: odgovori na pitanja, demonstracija inicijalnih UC, 
+	demonstracija dizajna stranice
+		Prisutni: Toni, Ana, Dora, Borna, Jakov, Luka
+		-Odgovorena pitanja iz maila
+		-Prokomentirani UC dijagrami --> treba reducirati
+		-Predstavljen model baze podataka, spomenute nove mogućnosti platforme
+		-Predstavljen idejni dizajn frontenda
+	Sastanak grupni:
+		Prisutni: svi
+		-Dogovor oko daljnjeg frontend dizajna
+		-Dogovoren sastanak backend podtima (subota) radi inicijalizacije dockera
+	Zadatci do idućeg sastanka:
+		Toni - Popravak i nadogradnja UC dijagrama i crtanje sekvencijskih, inicijalizacija dokumentacije
+		Dora - Upoznavanje sa Springom
+		Ana - dorada baze podataka, istražiti opcije predstavljene na sastanku
+		Jakov, Vukota - 
+		Borna - nastavak idejnih dizajna stranice
+	Idući sastanak: Backend - subota(30.10.), ostali - četvrtak (4.11.)
