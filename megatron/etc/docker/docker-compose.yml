@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  progi-database:
+    image: "postgres:13-alpine"
+    ports:
+      - "5433:5432"
+    volumes:
+      - "progi-db-data:/var/lib/postgresql/data"
+    environment:
+      - "POSTGRES_USER=admin"
+      - "POSTGRES_PASSWORD=admin"
+      - "POSTGRES_DB=progi-dm"
+volumes:
+  hw-db-data:
+
+
+# docker run --rm --name progi-database -v progi-db-data:/var/lib/postgresql/data -p 5433:5432 -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=progi-db -d postgres:13-alpine
+
+# psql -h localhost -p 5433 -d progi-db -U admin
+
+
