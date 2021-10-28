@@ -1,3 +1,7 @@
+Pitanja za tj. 5:
+-Nepraktično nam je s Overleafa svaki put preuzimati dokumentaciju i stavljati na git - možemo li to samo na kraju uploadati 
+(overleaf čuva svoj history, a dokumentiranje promjena pratimo u dokumentaciji)
+
 Pitanja za tj. 4:
 -Je li drugi način pada razine krvi u sustavu ako ampula s analize dođe kao nepovoljna pa se krv mora ipak baciti? 
 	--> Treba li (ako je tako) automatski nakon doniranja povećati razinu krvi pa naknadno smanjivati ako krv ne ispunjava 
