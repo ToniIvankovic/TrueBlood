@@ -6,3 +6,6 @@
 /dokumentacija/*.pdf
 /dokumentacija/*.synctex.gz
 /dokumentacija/*.toc
+IzvorniKod/frontend/node_modules/
+IzvorniKod/frontend/build/
+
