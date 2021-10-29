@@ -1,5 +1,6 @@
-#Documentation setup
-##LATEX SETUP
+## Documentation setup
+
+### LATEX SETUP
 
 1. Download TexLive from [here](https://tug.org/texlive/acquire-netinstall.html)
 
@@ -15,7 +16,7 @@
 5. Instructions on how to write LaTeX documentation can be found [here](https://www.fer.unizg.hr/_download/repository/LaTeX-upute.pdf)
 
 
-#Frontend setup
+## Frontend setup
 
 Within the `frontend` directory, follow these steps:
 
@@ -37,8 +38,8 @@ You can also get the production version by running `yarn build`. The files will 
 
 
 
-#Backend setup
-##DOCKER
+## Backend setup
+### DOCKER
 
 1. Download Docker from [here](https://hub.docker.com/editions/community/docker-ce-desktop-windows/)
 2. Install Docker and set it up.
