@@ -10,6 +10,7 @@ For further reference, please consider the following sections:
 * [Thymeleaf](https://docs.spring.io/spring-boot/docs/2.5.6/reference/htmlsingle/#boot-features-spring-mvc-template-engines)
 * [Spring Security](https://docs.spring.io/spring-boot/docs/2.5.6/reference/htmlsingle/#boot-features-security)
 * [Spring Data JPA](https://docs.spring.io/spring-boot/docs/2.5.6/reference/htmlsingle/#boot-features-jpa-and-spring-data)
+* [Flyway Migration](https://docs.spring.io/spring-boot/docs/2.5.6/reference/htmlsingle/#howto-execute-flyway-database-migrations-on-startup)
 
 ### Guides
 The following guides illustrate how to use some features concretely:
