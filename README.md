@@ -42,7 +42,34 @@ You can also get the production version by running `yarn build`. The files will 
 
 1. Download Docker from [here](https://hub.docker.com/editions/community/docker-ce-desktop-windows/)
 2. Install Docker and set it up.
-3. For running the database as a separate container use
-   ```bash 
+3. Go to root project, open terminal and type
+      ```bash 
    $ docker-compose up
-   ```
+     ```
+   Don't close that window.
+4. Open another terminal in root project and type 
+      ```bash 
+   $ psql -h localhost -p 5430 -d Trueblood -U admin
+     ```
+   or use psql shell.
+5. Type password "admin" (the letters will not be visible while you are typing).
+6. Try out some commands (in that terminal) and make sure it works correctly.
+   ###psql commands
+      `\l` -> lists all databases
+   
+      `\d` -> lists all relations
+   
+      `create table ana(id int);` -> creates a table
+   
+      `insert into ana values (1);` -> inserts n-tuple into a table
+   
+      `select * from ana;` -> fetches all n-tuples from table
+   
+   
+Play around with it! :)
+
+7. Drop all tables so you have an empty database.
+8. Run TruebloodApplication.
+9. Type `\d` in terminal. There should be new tables now (5 database tables and flyway_schema_history).
+
+Well done!
