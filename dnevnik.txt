@@ -70,3 +70,11 @@
 		Borna - nastavak idejnih dizajna stranice, inicijalna konstrukcija frontend dijela stranice
 		Marko - održavanje gita, rad s Bornom na frontendu
 	Idući sastanak: Backend - subota(30.10.), ostali - četvrtak (4.11.)
+
+4.1. Sastanak: Backend (30.10.2021.)
+	Prisutni: Ana, Luka, Jakov, Dora
+	- uspostava Dockera (baza)
+	- početak rada na useru (Ana)
+	- početak rada na bloodSupplyju (Dora i Jakov)
+	- pomaganje (Luka)
+	Idući sastanak: svi - četvrtak (4.11.)
