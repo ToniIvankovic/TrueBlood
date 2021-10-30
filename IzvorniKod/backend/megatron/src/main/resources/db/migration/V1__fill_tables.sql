@@ -71,5 +71,7 @@ CREATE TABLE IF NOT EXISTS donationTry
   FOREIGN KEY (bankWorkerId) REFERENCES bankWorker(bankWorkerId)
 );
 
+CREATE SEQUENCE IF NOT EXISTS USER_SEQ;
+
 --INSERT INTO userAccount (userId, role, password, accActivated, permDeactivated, optOut)
 --    VALUES (10000000, ADMIN, 'admin', 100000000, 0, 0);
