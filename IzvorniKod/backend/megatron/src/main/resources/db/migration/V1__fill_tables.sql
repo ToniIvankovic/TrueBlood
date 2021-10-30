@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS bloodSupply
 (
-  bloodType CHAR(2) NOT NULL,
+  bloodType CHAR(3) NOT NULL,
   numberOfUnits INT NOT NULL,
   maxUnits INT NOT NULL,
   minUnits INT NOT NULL,
