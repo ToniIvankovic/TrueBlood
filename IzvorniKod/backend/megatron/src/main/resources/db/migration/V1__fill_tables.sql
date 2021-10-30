@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS donor
   privateContact VARCHAR(20) NOT NULL,
   workContact VARCHAR(20),
   email VARCHAR(50) NOT NULL,
-  bloodType CHAR(2) NOT NULL,
+  bloodType CHAR(3) NOT NULL,
   permRejectedReason VARCHAR(100),
   lastDonationPlace VARCHAR(100),
   donationCount INT NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS donationTry
 (
   donationId INT NOT NULL,
   rejectedReason VARCHAR(100),
-  bloodType CHAR(2) NOT NULL,
+  bloodType CHAR(3) NOT NULL,
   donorId INT NOT NULL,
   bankWorkerId INT NOT NULL,
   PRIMARY KEY (donationId),
