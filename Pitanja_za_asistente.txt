@@ -1,6 +1,9 @@
 Pitanja za tj. 5:
 -Nepraktično nam je s Overleafa svaki put preuzimati dokumentaciju i stavljati na git - možemo li to samo na kraju uploadati 
 (overleaf čuva svoj history, a dokumentiranje promjena pratimo u dokumentaciji)
+-Treba li pisati bazu podataka u opisima UC dijagrama? Prisutna je kao aktor na dijagramima, ali u opisu smanjuje preglednost i zaklanja bitne stavke
+-Kada (konceptualno) uopće treba deaktivirati račun?
+-Što ako donor ne zna svoju krvnu grupu, može li to biti NULL podatak, ili da zasad zanemarimo tu opciju? 
 
 Pitanja za tj. 4:
 -Je li drugi način pada razine krvi u sustavu ako ampula s analize dođe kao nepovoljna pa se krv mora ipak baciti? 
