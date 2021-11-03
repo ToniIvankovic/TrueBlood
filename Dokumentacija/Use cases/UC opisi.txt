@@ -1,0 +1,194 @@
+UC<broj obrasca>-<ime obrasca>
+•Glavni sudionik:<sudionik>
+•Cilj:<cilj>
+•Sudionici:<sudionici>
+•Preduvjet:<preduvjet>
+•Opis osnovnog tijeka:
+	1.<opis korak jedan>
+	2.<opis korak dva>
+	3.<opis korak tri>
+	4.<opis korak četiri>
+	5.<opis korak pet>
+•Opis mogućih odstupanja:
+	2.a<opis mogućeg scenarija odstupanja u koraku 2>
+		1.<opis rješenja mogućeg scenarija korak 1>
+		2.<opis rješenjamogućeg scenarija korak 2>
+	2.b<opis mogućeg scenarija odstupanja u koraku 2>
+	3.a<opis mogućeg scenarija odstupanja u koraku 3>
+	
+UC1 - Dodaj novi račun
+•Glavni sudionik: djelatnik
+•Cilj: Stvaranje novog računa u sustavu
+•Sudionici: djelatnik, donor, admin
+•Preduvjet: Korisnik nema stvoren račun
+•Opis osnovnog tijeka:
+	Djelatnik dodaje račun:
+		1. Donor dolazi na doniranje i nema postojeći račun
+		2. Djelatnik otvara obrazac za stvaranje računa
+		3. Djelatnik donora ispituje o potrebnim podatcima (matični i kontakt podatci)
+		4. Djelatnik pokreće stvaranje računa, podatci se validiraju
+		5. U bazi podataka stvara se račun i generira donorID
+		6. Djelatnik informira donora o njegovom donorID-ju
+		7. Na e-mail se šalje donorID i aktivacijski link 
+	Donor dodaje račun:
+		1. Donor prije prvog doniranja na web stranici odlučuje napraviti račun
+		2. Donor otvara obrazac za stvaranje računa
+		3. Donor popunjava potrebne podatke (matični i kontakt podatci)
+		4. Donor pokreće stvaranje računa, podatci se validiraju
+		5. U bazi podataka stvara se račun i generira donorID
+		6. Donoru se na ekran ispisuje njegov donorID
+		7. Na e-mail se šalje donorID i aktivacijski link 
+	Admin dodaje račun djelatnika:
+		1. Admin treba dodati novog djelatnika ili admina
+		2. Admin otvara obrazac za stvaranje računa
+		3. Admin popunjava potrebne podatke (ulogu te matične i kontakt podatke za djelatnika, šifru za admina)
+		4. Admin pokreće stvaranje računa, podatci se validiraju
+		5. U bazi podataka stvara se račun (i za djelatnika generira userID)
+		6. Admin informira djelatnika / novog admina o njegovom ID-ju
+		7. SAMO ZA RAČUN DJELATNIKA: Na e-mail se šalje bankworkerID i aktivacijski link 
+•Opis mogućih odstupanja:
+	1. Korisnik sustava već ima račun, ali je zaboravio njegove podatke
+		1. Korisnika se može pretražiti i po OIB-u koji je jedinstven pa ponovno dohvatiti njegov ID
+	3.a Korisnik nema / ne zna neki od traženih podataka
+		1. Obavezni podatci su samo oni koji su neophodni za stvaranje računa, a to su podatci koje bi svatko morao znati
+			- ako ni njih nema, ne može se stvoriti račun
+		2. Neobavezne podatke korisnik može kasnije urediti u sustavu ili pri idućem doniranju
+	3.b Korisnik ne zna svoju krvnu grupu
+	3.c Dani podatci su pogrešni (sintaksno)
+		1. Sustav posjeduje mogućnost validacije podataka te dojavljuje ukoliko neki podatak ne može biti ispravan
+	3.d Dani podatci su pogrešni (semantički)
+		1. Pri svakom doniranju, djelatnik provjerava podatke s donorom te popravlja u slučaju greške
+		2. Korisnik pogrešne podatke može i sam ispraviti prijavom u sustav
+	4. Sustav se može zablokirati zbog neadekvatnog sklopovlja pa se račun ne može pravovremeno napraviti
+		1. U ovakvom ekstremnom slučaju može se ručno voditi evidencija podataka dok se problem ne riješi
+	5. Baza podataka nema prostora za pohranu novih zapisa
+		1. Veća investicija u opremu
+		2. Sustav je dovoljno malen da ovo odstupanje ne predstavlja značajan rizik
+	
+UC2 - Uredi podatke računa
+•Glavni sudionik: djelatnik
+•Cilj: Uređivanje postojećih podataka o računu
+•Sudionici: djelatnik, admin
+•Preduvjet: Korisnik ima stvoren račun
+•Opis osnovnog tijeka:
+	Djelatnik uređuje račun donora:
+		1. Donor dolazi na darivanje krvi
+		2. Djelatnik banke u komunikaciji s donorom provjerava aktualnost podataka u sustavu
+		3. u slučaju neaktualnih podataka, djelatnik ažurira podatke
+		4. Pri pokušaju darivanja, ukoliko se pokaže okolnost za trajno odbijanje donora, djelatnik to evidentira u sustav (Vidi UC 2.2)
+		4. Validacija i spremanje podataka
+		5. Ažuriranje postojećih zapisa u bazi podataka
+•Opis mogućih odstupanja:
+	3. Djelatnik želi promijeniti donorID koji je ključ u bazi podataka ili OIB koji mora biti jedinstven
+		1. Dopuštena je promjena samo određenih podataka koji su podložni mijenjanju, donorID nije moguće promijeniti, OIB samo ako ostaje jedinstven
+	4.a Dani podatci su pogrešni (sintaksno)
+		1. Sustav posjeduje mogućnost validacije podataka te dojavljuje ukoliko neki podatak ne može biti ispravan kako bi se isti ispravio
+	4.b Kolizija među podatcima (Promjena OIB-a kako više ne bi bio jedinstven)
+		1. Baza podataka provjerava jedinstvenost OIB-a i odbija unijeti promjenu ukoliko bi se narušilo ovo ograničenje
+		
+UC2.1 - Uredi matične i kontakt podatke
+•Glavni sudionik: djelatnik
+•Cilj: Uređivanje postojećih matičnih i kontakt podataka o računu
+•Sudionici: djelatnik, donor, admin
+•Preduvjet: Korisnik ima stvoren račun
+•Opis osnovnog tijeka:
+	Djelatnik uređuje račun donora:
+		Vidi UC2
+	Uređivanje vlastitog računa:
+		1. Aktivacija računa poveznicom u e-mailu
+		2. Prijava u sustav na web-aplikaciji
+		3. Revizija postojećih podataka i eventualna izmjena podataka koji se smiju mijenjati
+		4. Validacija i spremanje podataka
+		5. Ažuriranje postojećih zapisa u bazi podataka
+•Opis mogućih odstupanja:
+	3. Želi se promijeniti OIB koji mora biti jedinstven
+		1. Dopuštena je promjena samo određenih podataka koji su podložni mijenjanju, OIB može promijeniti samo djelatnik banke (pri doniranju) i to samo ako ostaje jedinstven
+	4.a Dani podatci su pogrešni (sintaksno)
+		1. Sustav posjeduje mogućnost validacije podataka te dojavljuje ukoliko neki podatak ne može biti ispravan kako bi se isti ispravio
+		
+UC2.2 - Evidentiraj trajno odbijanje donora
+•Glavni sudionik: djelatnik
+•Cilj: Uređivanje postojećih matičnih i kontakt podataka o računu
+•Sudionici: djelatnik, admin
+•Preduvjet: Korisnik ima stvoren račun, donor pripada nekoj od skupina koja se trajno odbija
+•Opis osnovnog tijeka:
+	1. Donor pristupa darivanju krvi
+	2. Djelatnik pri stvaranju pokušaja doniranja ispituje donora o zdravstvenim podatcima i uočava da donor pripada rizičnoj skupini
+	3. Djelatnik označuje pokušaj doniranja neuspjelim
+	4. Djelatnik na računu donora evidentira trajno odbijanje i pripadni razlog
+	5. Promjene se spremaju u bazu podataka
+•Opis mogućih odstupanja:
+	2. Djelatnik pogrešno tumači dane podatke i pogrešno svrsta donora u skupinu trajno odbijenih
+		1. Djelatnik trajno odbijanje može i naknadno ispraviti u slučaju da donor istakne da je riječ o pogrešci
+**u budućoj implementaciji admin ne bi trebao moći biti povezan s ovim UC. Trenutno se oslanjamo na povjerenje.
+
+UC3 - Deaktiviraj račun
+•Glavni sudionik: admin
+•Cilj: Deaktivacija postojećeg računa 
+•Sudionici: admin
+•Preduvjet: Korisnički račun postoji
+•Opis osnovnog tijeka:
+	1. Admin u sustavu pronalazi račun koji iz bilo kojeg razloga treba deaktivirati
+	2. Admin deaktivira odabrani račun
+	3. U bazi podataka evidentira se da je račun deaktiviran, ali račun se ne briše
+•Opis mogućih odstupanja:
+	2. Admin zabunom deaktivira račun korisnika
+		
+UC4 - Stvori pokušaj doniranja
+•Glavni sudionik: djelatnik
+•Cilj: Stvaranje pokušaja doniranja, evidentiranje zdravstvenih podataka
+•Sudionici: djelatnik
+•Preduvjet: Donor je došao na doniranje i ima izrađen profil (račun) 
+•Opis osnovnog tijeka:
+	1. Djelatnik ispituje donora o zdravstvenim podatcima te ispunjava obrazac
+	2. Ukoliko zbog nekog zdravstvenog podatka donor nije u stanju trenutno darivati krv, pokušaj doniranja označuje se neuspješnim
+	2.1 Ukoliko neki zdravstveni podatak implicira trajno odbijanje, djelatnik to evidentira u sustav (vidi UC 2.2)
+	3. Ako su svi podatci ispravni, donor odlazi darivati krv, a pokušaj doniranja smatra se uspješnim
+	4. Spremanje pokušaja doniranja u bazu podataka, na mail se šalje PDF potvrda (vidi UC 6)
+	4. Evidentira se povećanje zalihe krvi (vidi UC 5)
+•Opis mogućih odstupanja:
+	2. Donor prešućuje neki od zdravstvenih podataka zbog kojih bi trebao moći darivati krv
+		1. Doniranje krvi se ne plaća i stoga se jako smanjuje interes laganja radi darivanja krvi
+		2. Kao mjera predostrožnosti, ampula s malom dozom krvi se uzima od donora (pored jedinice od 450 mL) radi testiranja na patogene
+		3. Ovaj rizik nikada se ne može potpuno eliminirati
+	3. Prilikom doniranja nešto može poći po zlu, a ta mogućnost nije ostavljena u trenutnom sustavu
+		1. U budućoj implementaciji moguće je ostaviti mogućnost neevidentiranja uspješnosti pokušaja sve dok proces darivanja ne završi uspješno 
+			(zahtijeva više otvorenih zahtijeva paralelno ili mnogo veće kapacitete osoblja i sustava)
+
+UC5 - Povećaj zalihu krvi
+•Glavni sudionik: djelatnik
+•Cilj: Povećanje trenutne zalihe krvi u bazi podataka
+•Sudionici: djelatnik
+•Preduvjet: Donor je došao na doniranje i pokušaj doniranja prošao je uspješno (vidi UC 4)
+•Opis osnovnog tijeka:
+	1. Djelatnik evidentira uspješan pokušaj doniranja
+	2. Djelatnik evidentira dozu krvi u sustavu
+	3. Zaliha krvi u bazi podataka za danu grupu povećava se za 1
+•Opis mogućih odstupanja:
+	2. Prilikom doniranja nešto može poći po zlu, a ta mogućnost nije ostavljena u trenutnom sustavu
+		1. U budućoj implementaciji moguće je ostaviti mogućnost neevidentiranja povećanja zalihe sve dok proces darivanja ne završi uspješno 
+			(zahtijeva više otvorenih zahtijeva paralelno ili mnogo veće kapacitete osoblja i sustava)
+	3.a Donor može ne znati svoju krvnu grupu pa se zaliha ne može povećati dok se krv ne testira na grupu
+	3.b Krv pri testiranju može završiti kao nepovoljna i uzeta doza krvi mora se odbaciti
+		1. U trenutnom sustavu još ne implementiramu navedenu funkcionalnost, ali može se odigrati kao poseban slučaj slanja krvi u bolnicu
+			(vidi UC 13), gdje se za bolnicu navede odbacivanje krvi i razlog
+			
+UC6 - Šalji PDF potvrdu na e-mail
+•Glavni sudionik: donor ???
+•Cilj: Slanje potvrde o rezultatu doniranja na donorov mail
+•Sudionici: donor
+•Preduvjet: Donor je došao na doniranje i pokušaj doniranja prošao je uspješno (vidi UC 4)
+•Opis osnovnog tijeka:
+	1. Djelatnik evidentira uspješan pokušaj doniranja
+	2. Sustav generira PDF potvrdu o darivanju
+	3. PDF potvrda šalje se na mail donoru
+•Opis mogućih odstupanja:
+	1. Donor koji nije uspješno završio proces doniranja svejedno treba potvrdu
+		1. Ova funkcionalnost trenutno nije implementirana, ali je ostavljena kao buduća mogućnsot
+	2. Dolazi do problema pri generiranju PDF potvrde
+		1. PDF potvrdu moguće je preuzeti i naknadno online, jednom kada se problem generiranja razriješi
+	3. U sustavu je zabilježena pogrešna e-adresa donora
+		1. Donor uočava da ne dobiva potvrde te u sustavu mijenja e-adresu
+		2. Radi zaštite osjetljivih podataka, potvrda ne sadrži osjetljive informacije
+			
+			
