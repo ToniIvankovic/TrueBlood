@@ -58,6 +58,7 @@
 		-Prokomentirani UC dijagrami --> treba reducirati
 		-Predstavljen model baze podataka, spomenute nove mogućnosti platforme
 		-Predstavljen idejni dizajn frontenda
+		-Predloženi alati Overleaf (Latex), Dbdiagram.io, Hibernate (crtanje Jave)
 	Sastanak grupni:
 		Prisutni: svi
 		-Dogovor oko daljnjeg frontend dizajna
