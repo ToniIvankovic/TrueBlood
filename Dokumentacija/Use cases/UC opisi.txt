@@ -190,5 +190,63 @@ UC6 - Šalji PDF potvrdu na e-mail
 	3. U sustavu je zabilježena pogrešna e-adresa donora
 		1. Donor uočava da ne dobiva potvrde te u sustavu mijenja e-adresu
 		2. Radi zaštite osjetljivih podataka, potvrda ne sadrži osjetljive informacije
-			
-			
+		
+UC6.1 - Preuzmi PDF potvrdu
+•Glavni sudionik: donor
+•Cilj: Preuzimanje PDF potvrde o pokušaju doniranja iz povijesti doniranja u sustavu
+•Sudionici: donor
+•Preduvjet: Donor ima aktiviran račun i barem jedno uspješno doniranje
+•Opis osnovnog tijeka:
+	1. Djelatnik pri darivanju evidentira uspješan pokušaj doniranja
+	2. Prijavom na web-aplikaciju, donor ima uvid u povijest pokušaja doniranja
+	3. Za svako doniranje donor ima mogućnost ponovno preuzeti PDF potvrdu o doniranju
+	4. Sustav generira PDF potvrdu o doniranju
+	5. PDF potvrda se preuzima ili se šalje na mail donoru 
+•Opis mogućih odstupanja:
+	5. U sustavu je zabilježena pogrešna e-adresa donora
+		1. Donor uočava da ne dobiva potvrde te u sustavu mijenja e-adresu
+		2. Radi zaštite osjetljivih podataka, potvrda ne sadrži osjetljive informacije
+				
+UC7 - Pregledaj zalihe svih krvnih grupa
+•Glavni sudionik: korisnik interneta
+•Cilj: Na javnom webu pregledati stanja svih krvnih grupa i dobiti informaciju o stanju u odnosu na optimalne granice
+•Sudionici: korisnik interneta, donor
+•Preduvjet: Admin je definirao optimalne granice (vidi UC 8) i sustav funkcionira
+•Opis osnovnog tijeka:
+	1. Admin je u sustavu definirao optimalne granice zaliha krvnih grupa
+	2. Stanje zaliha doza krvi prati se u bazi podataka, izraženo u jedinicama krvi
+	3. Na web stranici vizualno je i pristupačno predočeno trenutno stanje zaliha svih krvnih grupa
+	4. Ukoliko neke krvne grupe ima ispod optimalne granice, sustav automatski ispisuje takvu poruku na ekran
+•Opis mogućih odstupanja:
+	1. Admin nije definirao optimalne granice zaliha
+		1. Stanje krvi će se u svakom slučaju pokazati vizualno kako bi ipak dale neku informaciju donorima
+		2. U daljnjim implementacijama, admina bi sustav mogao upozoriti da optimalne granice nisu postavljene
+	4.a U sustavu nedostaje više krvnih grupa
+		1. Poruka se može ispisati i za više krvnih grupa
+	4.b Ispisom nedostatka više krvnih grupa gubi se preglednost
+		1. Podatci o nedostatku krvne grupe vidljivi su i vizualno i tekstom pa se pouzdamo da takva 
+			redundancija daje dovoljno mjesta na kojima se podatak može lako vidjeti
+		2. U nekoj od budućih implementacija moguće je napraviti da se krvne grupe koje nedostaju još dodatno istaknu
+
+//In progress
+UC8 - Definiraj gornje i donje optimalne granice
+•Glavni sudionik: admin
+•Cilj: 
+•Sudionici: korisnik interneta, donor
+•Preduvjet: Admin je definirao optimalne granice (vidi UC 8) i sustav funkcionira
+•Opis osnovnog tijeka:
+	1. Admin je u sustavu definirao optimalne granice zaliha krvnih grupa
+	2. Stanje zaliha doza krvi prati se u bazi podataka, izraženo u jedinicama krvi
+	3. Na web stranici vizualno je i pristupačno predočeno trenutno stanje zaliha svih krvnih grupa
+	4. Ukoliko neke krvne grupe ima ispod optimalne granice, sustav automatski ispisuje takvu poruku na ekran
+•Opis mogućih odstupanja:
+	1. Admin nije definirao optimalne granice zaliha
+		1. Stanje krvi će se u svakom slučaju pokazati vizualno kako bi ipak dale neku informaciju donorima
+		2. U daljnjim implementacijama, admina bi sustav mogao upozoriti da optimalne granice nisu postavljene
+	4.a U sustavu nedostaje više krvnih grupa
+		1. Poruka se može ispisati i za više krvnih grupa
+	4.b Ispisom nedostatka više krvnih grupa gubi se preglednost
+		1. Podatci o nedostatku krvne grupe vidljivi su i vizualno i tekstom pa se pouzdamo da takva 
+			redundancija daje dovoljno mjesta na kojima se podatak može lako vidjeti
+		2. U nekoj od budućih implementacija moguće je napraviti da se krvne grupe koje nedostaju još dodatno istaknu
+
