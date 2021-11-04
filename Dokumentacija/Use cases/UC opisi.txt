@@ -1,21 +1,5 @@
-UC<broj obrasca>-<ime obrasca>
-•Glavni sudionik:<sudionik>
-•Cilj:<cilj>
-•Sudionici:<sudionici>
-•Preduvjet:<preduvjet>
-•Opis osnovnog tijeka:
-	1.<opis korak jedan>
-	2.<opis korak dva>
-	3.<opis korak tri>
-	4.<opis korak četiri>
-	5.<opis korak pet>
-•Opis mogućih odstupanja:
-	2.a<opis mogućeg scenarija odstupanja u koraku 2>
-		1.<opis rješenja mogućeg scenarija korak 1>
-		2.<opis rješenjamogućeg scenarija korak 2>
-	2.b<opis mogućeg scenarija odstupanja u koraku 2>
-	3.a<opis mogućeg scenarija odstupanja u koraku 3>
-	
+**Baza podatak sudionik je u svim UC-jevima i ne navodimo ju u svakom UC-ju
+
 UC1 - Dodaj novi račun
 •Glavni sudionik: djelatnik
 •Cilj: Stvaranje novog računa u sustavu

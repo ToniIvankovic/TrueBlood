@@ -58,7 +58,7 @@
 		-Prokomentirani UC dijagrami --> treba reducirati
 		-Predstavljen model baze podataka, spomenute nove mogućnosti platforme
 		-Predstavljen idejni dizajn frontenda
-		-Predloženi alati Overleaf (Latex), Dbdiagram.io, Hibernate (crtanje Jave)
+		-Predloženi alati Overleaf (Latex), Dbdiagram.io, Hibernate
 	Sastanak grupni:
 		Prisutni: svi
 		-Dogovor oko daljnjeg frontend dizajna
@@ -79,3 +79,27 @@
 	- početak rada na bloodSupplyju (Dora i Jakov)
 	- pomaganje (Luka)
 	Idući sastanak: svi - četvrtak (4.11.)
+
+5. sastanak: (4.11.2021.)
+	Sastanak s asistentima:
+		Prisutni: Toni, Ana, Dora, Borna, Jakov, Vukota
+		-Maknuti field brojDonacija iz donora
+		-Maknuti NOT NULL sa bloodType
+		-Glavni sudionik ne pisati pod sudionici u opisima UC-jeva
+		-UC dodavanje računa moguće razdvojiti na tri (da imamo u svakom po jednog glavnog sudionika)
+		-Za generičku funkcionalnost treba pokazati da imamo session, držimo session, i možemo kreirati usera (U tablici 3 prikazano što treba)
+	Grupni sastanak:
+		Prisutni: Svi
+		-Edukacija o gitu
+		-Dogovor da idući tjedan bude gotov login page i registracija
+		-Oformljen zajednički account za uređivanje dokumentacije
+		-Pri stvaranju accounta, na mail se šalje link za aktivaciju I RANDOM LOZINKA, a postojat će opcija "Promijeni lozinku"
+		-Za generičku funkcionalnost, lozinka se ispisuje u terminal
+	Zadatci za idući tjedan:
+		Vukota: završi sve modele (klase kao relacije u bazi)
+		Ana: Endpoint (create user)
+		Dora: Endpoint (create donor)
+		Jakov: Istražiti Heroku (deploy aplikacije), Testovi (backend)
+		Borna: Dovršiti login page (popravci) i dizajn za stranicu registracije
+		Marko: spajanje frontenda i backenda
+		Toni: Popravak UC dijagrama, pisanje dokumentacije
