@@ -7,7 +7,7 @@ import progi.megatron.model.BankWorker;
 @Repository
 public interface BankWorkerRepository extends JpaRepository<BankWorker, Long> {
 
-    // todo: create band worker
+    // todo: create bank worker
     // todo: delete bank worker
 
 }
