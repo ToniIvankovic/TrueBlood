@@ -8,6 +8,8 @@ import java.io.Serializable;
 @Table(name = "user_account")
 public class User implements Serializable {
 
+    // todo: make user sequence start at 100000, not 1
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ")
     @SequenceGenerator(name = "USER_SEQ", sequenceName = "USER_SEQ", allocationSize = 1)
