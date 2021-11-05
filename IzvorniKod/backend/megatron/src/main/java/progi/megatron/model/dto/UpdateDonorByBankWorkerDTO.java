@@ -1,5 +1,5 @@
 package progi.megatron.model.dto;
 
-public class UpdateDonorByWorkerDTO {
+public class UpdateDonorByBankWorkerDTO {
     
 }
