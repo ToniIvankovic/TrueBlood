@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS blood_supply
 
 CREATE TABLE IF NOT EXISTS user_account
 (
-  user_id BIGSERIAL NOT NULL,
+  user_id BIGINT NOT NULL,
   user_role VARCHAR(20) NOT NULL,
   password VARCHAR(20),
   acc_activated INT NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS user_account
 
 CREATE TABLE IF NOT EXISTS donor
 (
-  donor_id BIGSERIAL NOT NULL,
+  donor_id BIGINT NOT NULL,
   first_name VARCHAR(50) NOT NULL,
   last_name VARCHAR(50) NOT NULL,
   oib CHAR(11) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS donor
 
 CREATE TABLE IF NOT EXISTS bank_worker
 (
-  bank_worker_id BIGSERIAL NOT NULL,
+  bank_worker_id BIGINT NOT NULL,
   first_name VARCHAR(50) NOT NULL,
   last_name VARCHAR(50) NOT NULL,
   oib CHAR(11) NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS bank_worker
 
 CREATE TABLE IF NOT EXISTS donation_try
 (
-  donation_id BIGSERIAL NOT NULL,
+  donation_id BIGINT NOT NULL,
   rejected_reason VARCHAR(100),
   blood_type CHAR(3) NOT NULL,
   donor_id BIGSERIAL NOT NULL,
