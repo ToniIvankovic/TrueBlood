@@ -1,5 +1,6 @@
 import React from "react";
 import Image from './Image.png';
+import {Link} from 'react-router-dom';
 
 
 const Home = () => {
@@ -8,9 +9,11 @@ const Home = () => {
             <div className="text-login">
                 <div className="text">
                     <div><p>Doniraj krv, spasi život!</p></div>
-                    <button className="registracija"> Registriraj se</button>
+                    <Link to='/registracija'>
+                        <button className="registracija"> Registriraj se</button>
+                    </Link>
                 </div>
-                <div className="login">
+                <form className='login'>
                     <p>Prijavi se!</p>
                     <input 
                         className='input'
@@ -28,7 +31,7 @@ const Home = () => {
                         className='submit'
                         type="submit"
                     >Prijava</button>
-                </div>
+                </form>
             </div>
             <div className="image-alert">
                 <p className="alert">Nedostaje krvi krvne grupe x</p>

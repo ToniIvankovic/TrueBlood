@@ -70,8 +70,9 @@
         position: absolute;
         display: block;
         list-style: none;
-        font-style: italic;
+        font-style: normal;
         background-color: #f6f5fa;
+        border: 1px #1e396f solid;
         border-radius: 50px;
         left: 0;
         top: 150px;

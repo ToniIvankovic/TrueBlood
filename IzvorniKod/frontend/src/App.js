@@ -5,6 +5,8 @@ import Home from "./Home";
 import Faq from "./Faq";
 import Kontakt from "./Kontakt";
 import './index.css'
+import Registracija from "./Registracija";
+import Autorizacija from "./Autorizacija";
 
 const App = () => {
   return(
@@ -20,6 +22,12 @@ const App = () => {
           </Route>
           <Route path = "/kontakt" component={Kontakt} exact>
             <Kontakt/>
+          </Route>
+          <Route path='/registracija' component={Registracija} exact>
+            <Registracija/>
+          </Route>
+          <Route path ='/autorizacija' component = {Autorizacija} exact>
+            <Autorizacija/>
           </Route>
         </Switch>
       </Router> 
