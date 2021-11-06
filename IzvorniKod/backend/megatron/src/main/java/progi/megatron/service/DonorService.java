@@ -17,12 +17,16 @@ public class DonorService {
         this.userService = userService;
     }
 
-    public void createDonor(Donor donor) {
+    public Donor createDonor(Donor donor) {
         User user = new User(Role.DONOR, "generated password");
         userService.createUser(user);
-        // todo: create donor
+
+        donor.setDonorId(user.getUserId());
+        donor.setBloodType(null);
+        donor.setPermRejectedReason(null);
+
         // todo: send email
-        return;
+        return donorRepository.save(donor);
     }
 
 }

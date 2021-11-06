@@ -35,6 +35,29 @@ public class Donor implements Serializable {
 
     private String permRejectedReason;
 
-    private String lastDonationPlace;
+    public Donor(User user, String firstName, String lastName, String oib, LocalDate birthDate, String birthPlace,
+                 String address, String workPlace, String privateContact, String workContact, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.oib = oib;
+        this.birthDate = birthDate;
+        this.birthPlace = birthPlace;
+        this.address = address;
+        this.workPlace = workPlace;
+        this.workContact = workContact;
+        this.privateContact = privateContact;
+        this.email = email;
+    }
 
+    public void setDonorId(Long donorId) {
+        this.donorId = donorId;
+    }
+
+    public void setBloodType(String bloodType) {
+        this.bloodType = bloodType;
+    }
+
+    public void setPermRejectedReason(String permRejectedReason) {
+        this.permRejectedReason = permRejectedReason;
+    }
 }

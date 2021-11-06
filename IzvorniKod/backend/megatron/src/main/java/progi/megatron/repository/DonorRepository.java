@@ -14,7 +14,8 @@ public interface DonorRepository extends JpaRepository<Donor, Long> {
     // in service make sure that if the user is bank worker blood type and perm rejected are not null,
     // and if the user is donor blood type and perm rejected are null
 
-    // todo: crate donor
+    Donor save(Donor donor);
+
     // todo: update donor
     // todo: check if donor permanently rejected
     // todo: get donor by id

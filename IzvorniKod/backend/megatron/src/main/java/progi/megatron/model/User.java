@@ -37,4 +37,8 @@ public class User implements Serializable {
         this.optOut = 0;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
 }
