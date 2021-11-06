@@ -21,7 +21,8 @@ public class DonorService {
         User user = new User(Role.DONOR, "generated password");
         userService.createUser(user);
 
-        donor.setDonorId(user.getUserId());
+        donor.setDonorId(user.getUserId());   // ovo ne radi jer se donorId postavi na 100000, a userId na 1,
+//        donor.setDonorId(1L);                 // ali ako se stavi donorId rucno na 1 onda radi
         donor.setBloodType(null);
         donor.setPermRejectedReason(null);
 

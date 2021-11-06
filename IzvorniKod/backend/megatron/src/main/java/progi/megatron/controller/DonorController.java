@@ -9,7 +9,7 @@ import progi.megatron.service.UserService;
 import progi.megatron.util.Role;
 
 @RestController
-@RequestMapping("/api/v1/donor")
+//@RequestMapping("/api/v1/donor")
 public class DonorController {
 
     private final DonorService donorService;
@@ -18,10 +18,11 @@ public class DonorController {
         this.donorService = donorService;
     }
 
-    @PostMapping
-    public void createDonor(@RequestBody Donor donor) {
+    @PostMapping(value="/api/v1/donor")
+    public Donor createDonor(@RequestBody Donor donor) {
         donorService.createDonor(donor);
-        return;
+        return donor;
     }
+
 
 }
