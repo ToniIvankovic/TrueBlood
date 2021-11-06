@@ -1,0 +1,13 @@
+-UserId koristi funkciju da ne bude samoinkremntirajuć nego pseudoslučajan
+-Timeout period za obavijesti
+-Opcija "označi sve sa NE" pri ispunjavanju upitnika u sustavu
+-Pdf i za neuspješno darivanje
+-Opcija "Forgot your password"
+-Mogućnost da admin može pregledati sve račune (radi sigurnije deaktivacije)
+-Mogućnost da admin reaktivira račun
+-Slanje maila pri generiranja novog računa admina (mail se ne mora spremiti trajno, samo jednokratno poslati)
+-Ograničenje izmjene OIB-a donoru (mijenja samo djelatnik pri doniranju)
+-Upozorenje adminu da optimalne granice nisu postavljene
+-Dodatno vizualno isticanje krvnih grupa kojih nedostaje
+-Izbor preuzimanja ili slanja PDF-potvrde pri pregledu povijesti doniranja
+-Ponovno slanje e-maila za aktivaciju
