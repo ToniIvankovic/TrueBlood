@@ -1,236 +1,447 @@
-**Baza podatak sudionik je u svim UC-jevima i ne navodimo ju u svakom UC-ju
+**Baza podatak sudionik je u svim UC-jevima i ne navodimo ju zasebno u svakom UC-ju
 
-UC1 - Dodaj novi račun
+UC1.1 - Stvori novi račun donoru
 •Glavni sudionik: djelatnik
-•Cilj: Stvaranje novog računa u sustavu
-•Sudionici: djelatnik, donor, admin
-•Preduvjet: Korisnik nema stvoren račun
+•Cilj: Stvaranje novog računa donora u sustavu pri doniranju krvi
+•Sudionici: donor
+•Preduvjet: Donor nema stvoren račun
 •Opis osnovnog tijeka:
-	Djelatnik dodaje račun:
-		1. Donor dolazi na doniranje i nema postojeći račun
-		2. Djelatnik otvara obrazac za stvaranje računa
-		3. Djelatnik donora ispituje o potrebnim podatcima (matični i kontakt podatci)
-		4. Djelatnik pokreće stvaranje računa, podatci se validiraju
-		5. U bazi podataka stvara se račun i generira donorID
-		6. Djelatnik informira donora o njegovom donorID-ju
-		7. Na e-mail se šalje donorID i aktivacijski link 
-	Donor dodaje račun:
-		1. Donor prije prvog doniranja na web stranici odlučuje napraviti račun
-		2. Donor otvara obrazac za stvaranje računa
-		3. Donor popunjava potrebne podatke (matični i kontakt podatci)
-		4. Donor pokreće stvaranje računa, podatci se validiraju
-		5. U bazi podataka stvara se račun i generira donorID
-		6. Donoru se na ekran ispisuje njegov donorID
-		7. Na e-mail se šalje donorID i aktivacijski link 
-	Admin dodaje račun djelatnika:
-		1. Admin treba dodati novog djelatnika ili admina
-		2. Admin otvara obrazac za stvaranje računa
-		3. Admin popunjava potrebne podatke (ulogu te matične i kontakt podatke za djelatnika, šifru za admina)
-		4. Admin pokreće stvaranje računa, podatci se validiraju
-		5. U bazi podataka stvara se račun (i za djelatnika generira userID)
-		6. Admin informira djelatnika / novog admina o njegovom ID-ju
-		7. SAMO ZA RAČUN DJELATNIKA: Na e-mail se šalje bankworkerID i aktivacijski link 
+	1. Donor dolazi na doniranje i nema postojeći račun
+	2. Djelatnik otvara obrazac za stvaranje računa
+	3. Djelatnik donora ispituje o potrebnim podatcima (matični i kontakt podatci)
+	4. Djelatnik pokreće stvaranje računa, podatci se validiraju
+	5. U bazi podataka stvara se račun i generira donorID
+	6. Djelatnik informira donora o njegovom donorID-ju
+	7. Na e-mail se šalje donorID, inicijalna lozinka i aktivacijski link 
 •Opis mogućih odstupanja:
-	1. Korisnik sustava već ima račun, ali je zaboravio njegove podatke
-		1. Korisnika se može pretražiti i po OIB-u koji je jedinstven pa ponovno dohvatiti njegov ID
-	3.a Korisnik nema / ne zna neki od traženih podataka
+	1. Donor već ima račun, ali je zaboravio njegove podatke
+		1. Donora se može pretražiti i po OIB-u koji je jedinstven pa ponovno dohvatiti njegov ID
+	3.a Donor nema / ne zna neki od traženih podataka
 		1. Obavezni podatci su samo oni koji su neophodni za stvaranje računa, a to su podatci koje bi svatko morao znati
 			- ako ni njih nema, ne može se stvoriti račun
-		2. Neobavezne podatke korisnik može kasnije urediti u sustavu ili pri idućem doniranju
-	3.b Korisnik ne zna svoju krvnu grupu
+		2. Neobavezne podatke donor može kasnije urediti u sustavu ili pri idućem doniranju
+	3.b Donor ne zna svoju krvnu grupu
+		1. Na darivanju krvi otkriva se krvna grupa donora i upisuje u sustav
 	3.c Dani podatci su pogrešni (sintaksno)
 		1. Sustav posjeduje mogućnost validacije podataka te dojavljuje ukoliko neki podatak ne može biti ispravan
 	3.d Dani podatci su pogrešni (semantički)
 		1. Pri svakom doniranju, djelatnik provjerava podatke s donorom te popravlja u slučaju greške
-		2. Korisnik pogrešne podatke može i sam ispraviti prijavom u sustav
+		2. Donor pogrešne podatke može i sam ispraviti prijavom u sustav
 	4. Sustav se može zablokirati zbog neadekvatnog sklopovlja pa se račun ne može pravovremeno napraviti
 		1. U ovakvom ekstremnom slučaju može se ručno voditi evidencija podataka dok se problem ne riješi
 	5. Baza podataka nema prostora za pohranu novih zapisa
 		1. Veća investicija u opremu
 		2. Sustav je dovoljno malen da ovo odstupanje ne predstavlja značajan rizik
-	
-UC2 - Uredi podatke računa
-•Glavni sudionik: djelatnik
-•Cilj: Uređivanje postojećih podataka o računu
-•Sudionici: djelatnik, admin
-•Preduvjet: Korisnik ima stvoren račun
+
+UC1.2 - Stvori sebi novi račun
+•Glavni sudionik: donor
+•Cilj: Osobno stvaranje novog računa donora u sustavu
+•Sudionici:
+•Preduvjet: Donor nema stvoren račun, ima pristup internetu
 •Opis osnovnog tijeka:
-	Djelatnik uređuje račun donora:
-		1. Donor dolazi na darivanje krvi
-		2. Djelatnik banke u komunikaciji s donorom provjerava aktualnost podataka u sustavu
-		3. u slučaju neaktualnih podataka, djelatnik ažurira podatke
-		4. Pri pokušaju darivanja, ukoliko se pokaže okolnost za trajno odbijanje donora, djelatnik to evidentira u sustav (Vidi UC 2.2)
-		4. Validacija i spremanje podataka
-		5. Ažuriranje postojećih zapisa u bazi podataka
+	1. Donor prije prvog doniranja na web stranici odlučuje napraviti račun
+	2. Donor otvara obrazac za stvaranje računa
+	3. Donor popunjava potrebne podatke (matični i kontakt podatci), ali ne i krvnu grupu
+	4. Donor pokreće stvaranje računa, podatci se validiraju
+	5. U bazi podataka stvara se račun i generira donorID
+	6. Donoru se na ekran ispisuje njegov donorID
+	7. Na e-mail se šalje donorID, inicijalna lozinka i aktivacijski link 
 •Opis mogućih odstupanja:
-	3. Djelatnik želi promijeniti donorID koji je ključ u bazi podataka ili OIB koji mora biti jedinstven
-		1. Dopuštena je promjena samo određenih podataka koji su podložni mijenjanju, donorID nije moguće promijeniti, OIB samo ako ostaje jedinstven
-	4.a Dani podatci su pogrešni (sintaksno)
+	1. Donor već ima račun, ali je zaboravio njegove podatke
+		1. Donor svoje inicijalne podatke, ako nije mijenjao lozinku, može pronaći u aktivacijskom e-mailu
+		2. Buduća implementacija može ponuditi mogućnost promjene lozinke putem e-maila u slučaju zaborava
+	3.a Donor nema / ne zna neki od traženih podataka
+		1. Obavezni podatci su samo oni koji su neophodni za stvaranje računa, a to su podatci koje bi svatko morao znati
+			- ako ni njih nema, ne može se stvoriti račun
+		2. Neobavezne podatke donor može kasnije urediti u sustavu ili pri idućem doniranju
+		3. Donor se otvaranju računa u ovom slučaju može vratiti kad god to poželi, s obzirom na to da se ovaj slučaj odvija
+			u proizvoljnom trenutku
+	3.b Uneseni podatci su pogrešni (sintaksno)
+		1. Sustav posjeduje mogućnost validacije podataka te dojavljuje ukoliko neki podatak ne može biti ispravan
+	3.c Uneseni podatci su pogrešni (semantički)
+		1. Pri svakom doniranju, djelatnik provjerava podatke s donorom te popravlja u slučaju greške
+		2. Donor pogrešne podatke može i sam ispraviti prijavom u sustav
+	4. Sustav se može zablokirati zbog neadekvatnog sklopovlja pa se račun ne može pravovremeno napraviti
+		1. Donor može račun pokušati napraviti kasnije kada se problem razriješi
+	5. Baza podataka nema prostora za pohranu novih zapisa
+		1. Veća investicija u opremu
+		2. Sustav je dovoljno malen da ovo odstupanje ne predstavlja značajan rizik
+
+UC1.3 - Stvori novi račun djelatniku
+•Glavni sudionik: admin
+•Cilj: Stvaranje novog računa djelatnika u sustavu
+•Sudionici: djelatnik
+•Preduvjet: Djelatnik nema stvoren račun, admin ima sve potrebne podatke
+•Opis osnovnog tijeka:
+	1. Admin treba dodati novog djelatnika
+	2. Admin otvara obrazac za stvaranje djelatnika
+	3. Admin popunjava potrebne podatke (ulogu te matične i kontakt podatke za djelatnika)
+	4. Admin pokreće stvaranje računa, podatci se validiraju
+	5. U bazi podataka stvara se račun i za generira bankworkerID
+	6. Na e-mail se šalje bankworkerID, inicijalna lozinka i aktivacijski link 
+•Opis mogućih odstupanja:
+	1. Djelatnik već ima račun, ali je zaboravio njegove podatke
+		1. Djelatnik svoje inicijalne podatke, ako nije mijenjao lozinku, može pronaći u aktivacijskom e-mailu
+		2. Buduća implementacija može ponuditi mogućnost promjene lozinke putem e-maila u slučaju zaborava
+	3.a Admin nema neki od potrebnih podataka za kreiranje računa
+		1. Admin treba djelatniku stvoriti račun tek kad ima sve potrebne podatke
+		2. Neobavezne podatke djelatnik može kasnije urediti u sustavu
+	3.b Uneseni podatci su pogrešni (sintaksno)
+		1. Sustav posjeduje mogućnost validacije podataka te dojavljuje ukoliko neki podatak ne može biti ispravan
+	3.d Uneseni podatci su pogrešni (semantički)
+		1. Djelantik pogrešne podatke može i sam ispraviti prijavom u sustav
+	4. Sustav se može zablokirati zbog neadekvatnog sklopovlja pa se račun ne može pravovremeno napraviti
+		1. Admin može račun djelatnika pokušati napraviti kasnije kada se problem razriješi
+	5. Baza podataka nema prostora za pohranu novih zapisa
+		1. Veća investicija u opremu
+		2. Sustav je dovoljno malen da ovo odstupanje ne predstavlja značajan rizik
+
+UC1.4 - Stvori novi račun admina
+•Glavni sudionik: admin
+•Cilj: Stvaranje novog računa admina u sustavu
+•Sudionici:
+•Preduvjet: Postoji jedan admin u sustavu
+•Opis osnovnog tijeka:
+	1. Admin treba dodati novog admina
+	2. Admin otvara obrazac za stvaranje novog admina
+	3. Postojeći admin unosi samo e-adresu novog admina koja se ne sprema trajno
+	4. Pokreće se stvaranje računa, e-adresa se validira
+	5. U bazi podataka stvara se račun i za generira userID
+	6. Na unesenu e-adresu šalju se generirani podatci i aktivacijski link
+	//6. Trenutni admin na proizvoljan način šalje generirane podatke novom adminu
+	//7. Novi admin po potrebi mijenja svoju inicijalnu lozinku (vidi UC8)
+•Opis mogućih odstupanja:
+	/*1. Trenutni admin generira novi račun, ali ih ne zabilježi
+		1. Admin može pregledati sve račune u sustavu i tako pronaći traženi račun, te ga deaktivirati po potrebi
+		2. Buduća implementacija može dodati i opciju slanja novogeneriranih podataka na unesenu e-adresu novog admina
+	*/
+	4. Sustav se može zablokirati zbog neadekvatnog sklopovlja pa se račun ne može pravovremeno napraviti
+		1. Admin može novi račun admina pokušati napraviti kasnije kada se problem razriješi
+	5. Baza podataka nema prostora za pohranu novih zapisa
+		1. Veća investicija u opremu
+		2. Sustav je dovoljno malen da ovo odstupanje ne predstavlja značajan rizik
+	
+		
+UC2 - Pošalji e-mail za aktivaciju
+•Glavni sudionik: korisnik sustava
+•Cilj: Poslati e-mail s korisničkim podatcima i poveznicom za aktivaciju računa
+•Sudionici: 
+•Preduvjet: Korisnik sustava unio je sve podatke potrebne za stvaranje računa
+•Opis osnovnog tijeka:
+	1. Sustav generira userID, inicijalnu lozinku i poveznicu za aktivaciju računa
+	2. Na evidentiranu e-adresu šalje se e-poruka s navedenim podatcima
+	3. Klikom na poveznicu u poruci, račun se može aktivirati (vidi UC 13)
+•Opis mogućih odstupanja:
+	1. Korisnik je unio pogrešnu e-adresu
+		1. Buduća implementacija može omogućiti stvaranje novog računa s istim podatcima dok prošli nije aktiviran i 
+			automatsko brisanje računa s pograšnim podatcima
+		
+UC3 - Aktiviraj svoj račun
+•Glavni sudionik: korisnik sustava
+•Cilj: Aktivirati korisnički račun radi buduće prijave u sustav
+•Sudionici: 
+•Preduvjet: Korisnik sustava ima generiran račun i korisnički podatci dostavljeni su na e-adresu
+•Opis osnovnog tijeka:
+	1. Korisnik sustava otvara e-poruku sustava s userID-jem, inicijalnom lozinkom i aktivacijskim linkom (vidi UC 12)
+	2. Otvaranjem aktivacijskog linka, račun se evidentira kao aktiviran
+	3. Korisnik sustava se sada može prijaviti podatcima navedenim u e-poruci i po želji promijeniti lozinku
+•Opis mogućih odstupanja:
+	1. Korisnik je zagubio e-poruku s navedenim podatcima
+		1. Buduća implementacija može omogućiti ponovno slanje poruke 
+	2. Neovlašteni korisnik može nasumično pogoditi aktivacijski link i aktivirati račun bez dopuštenja
+		1. Aktivacijski link bit će dovoljno dugačak da ovo ne predstavlja realni rizik
+	3. Korisnik želi biti prijavljen odmah po otvaranju aktivacijskog maila, bez upisa podataka za prijavu
+		1. Ovo je jednokratno produljenje procesa i kao takvo ne utječe značajno na iskustvo korisnika
+		2. Buduća implementacija može stvoriti sjednicu korisnika nakon pristupa poveznici za aktivaciju 
+
+UC4 - Uredi podatke računa donora
+•Glavni sudionik: djelatnik
+•Cilj: Uređivanje postojećih podataka o računu donora
+•Sudionici: donor
+•Preduvjet: Donor ima stvoren račun
+•Opis osnovnog tijeka:
+	1. Donor dolazi na darivanje krvi
+	2. Djelatnik banke po osnovnim matičnim podatcima pronalazi donora u sustavu
+	3. Djelatnik banke u komunikaciji s donorom provjerava aktualnost podataka u sustavu
+	4. U slučaju neaktualnih podataka, djelatnik ažurira podatke
+	4.1 U slučaju da je donor sam stvorio račun, provjerava se krvna grupa donora i djelatnik ju unosi u sustav
+	5. Pri pokušaju darivanja, ukoliko se pokaže okolnost za trajno odbijanje donora, djelatnik to evidentira u sustav (Vidi UC 2.3)
+	6. Validacija i spremanje podataka
+	7. Ažuriranje postojećih zapisa u bazi podataka
+•Opis mogućih odstupanja:
+	2. Djelatnik banke ne može pronaći donora
+		1. Donor očito nema stvoren račun pa mu se stvara novi račun
+		2. Ako donor zna da ima stvoren račun, može pronaći svoj točan donorID pa ih reći djelatniku, koji će potom ispraviti
+			osobne podatke računa zbog kojih se račun nije mogao pretražiti jednostavnije (po OIB-u ili imenu i prezimenu)
+	4. Djelatnik želi promijeniti donorID koji je ključ u bazi podataka ili OIB koji mora biti jedinstven
+		1. Dopuštena je promjena samo određenih podataka koji su podložni mijenjanju, 
+			donorID nije moguće promijeniti, OIB samo ako ostaje jedinstven
+	6.a Dani podatci su pogrešni (sintaksno)
 		1. Sustav posjeduje mogućnost validacije podataka te dojavljuje ukoliko neki podatak ne može biti ispravan kako bi se isti ispravio
-	4.b Kolizija među podatcima (Promjena OIB-a kako više ne bi bio jedinstven)
+	6.b Kolizija među podatcima (Promjena OIB-a kako više ne bi bio jedinstven)
 		1. Baza podataka provjerava jedinstvenost OIB-a i odbija unijeti promjenu ukoliko bi se narušilo ovo ograničenje
 		
-UC2.1 - Uredi matične i kontakt podatke
-•Glavni sudionik: djelatnik
-•Cilj: Uređivanje postojećih matičnih i kontakt podataka o računu
-•Sudionici: djelatnik, donor, admin
-•Preduvjet: Korisnik ima stvoren račun
+UC4.1 - Uredi svoje matične i kontakt podatke (donor)
+•Glavni sudionik: donor
+•Cilj: Uređivanje svojih postojećih matičnih i kontakt podataka o računu donora
+•Sudionici: 
+•Preduvjet: Donor ima stvoren račun i podatke za prijavu u sustav
 •Opis osnovnog tijeka:
-	Djelatnik uređuje račun donora:
-		Vidi UC2
-	Uređivanje vlastitog računa:
-		1. Aktivacija računa poveznicom u e-mailu
-		2. Prijava u sustav na web-aplikaciji
-		3. Revizija postojećih podataka i eventualna izmjena podataka koji se smiju mijenjati
-		4. Validacija i spremanje podataka
-		5. Ažuriranje postojećih zapisa u bazi podataka
+	1. Aktivacija računa poveznicom u e-mailu
+	2. Prijava u sustav na web-aplikaciji
+	3. Revizija postojećih podataka i eventualna izmjena podataka koji se smiju mijenjati (sve osim krvne grupe i trajnog odbijanja)
+	4. Validacija i spremanje podataka
+	5. Ažuriranje postojećih zapisa u bazi podataka
 •Opis mogućih odstupanja:
-	3. Želi se promijeniti OIB koji mora biti jedinstven
-		1. Dopuštena je promjena samo određenih podataka koji su podložni mijenjanju, OIB može promijeniti samo djelatnik banke (pri doniranju) i to samo ako ostaje jedinstven
+	3. Donor želi promijeniti OIB koji mora biti jedinstven
+		1. OIB se može promijeniti samo ako ostaje jedinstven - u budućoj implementaciji može se ograničiti izmjena OIB-a donoru
 	4.a Dani podatci su pogrešni (sintaksno)
 		1. Sustav posjeduje mogućnost validacije podataka te dojavljuje ukoliko neki podatak ne može biti ispravan kako bi se isti ispravio
 		
-UC2.2 - Evidentiraj trajno odbijanje donora
+UC4.2 - Uredi matične i kontakt podatke djelatnika
+•Glavni sudionik: djelatnik
+•Cilj: Uređivanje postojećih matičnih i kontakt podataka o računu djelatnika
+•Sudionici: admin
+•Preduvjet: Djelantik ima stvoren račun
+•Opis osnovnog tijeka:
+	1. Aktivacija vlastitog računa poveznicom u e-mailu
+	2. Prijava u sustav na web-aplikaciji
+	3. Revizija postojećih podataka i eventualna izmjena podataka koji se smiju mijenjati
+	4. Validacija i spremanje podataka
+	5. Ažuriranje postojećih zapisa u bazi podataka
+•Opis mogućih odstupanja:
+	3. Želi se promijeniti OIB koji mora biti jedinstven
+		1. OIB se može promijeniti samo ako ostaje jedinstven
+	4.a Dani podatci su pogrešni (sintaksno)
+		1. Sustav posjeduje mogućnost validacije podataka te dojavljuje ukoliko neki podatak ne može biti ispravan kako bi se isti ispravio
+		
+UC4.3 - Evidentiraj trajno odbijanje donora
 •Glavni sudionik: djelatnik
 •Cilj: Uređivanje postojećih matičnih i kontakt podataka o računu
-•Sudionici: djelatnik, admin
-•Preduvjet: Korisnik ima stvoren račun, donor pripada nekoj od skupina koja se trajno odbija
+•Sudionici: 
+•Preduvjet: Donor ima stvoren račun i pripada nekoj od skupina koja se trajno odbija
 •Opis osnovnog tijeka:
 	1. Donor pristupa darivanju krvi
 	2. Djelatnik pri stvaranju pokušaja doniranja ispituje donora o zdravstvenim podatcima i uočava da donor pripada rizičnoj skupini
-	3. Djelatnik označuje pokušaj doniranja neuspjelim
+	3. Djelatnik označuje pokušaj doniranja neuspjelim (vidi UC 4)
 	4. Djelatnik na računu donora evidentira trajno odbijanje i pripadni razlog
 	5. Promjene se spremaju u bazu podataka
 •Opis mogućih odstupanja:
 	2. Djelatnik pogrešno tumači dane podatke i pogrešno svrsta donora u skupinu trajno odbijenih
 		1. Djelatnik trajno odbijanje može i naknadno ispraviti u slučaju da donor istakne da je riječ o pogrešci
-**u budućoj implementaciji admin ne bi trebao moći biti povezan s ovim UC. Trenutno se oslanjamo na povjerenje.
 
-UC3 - Deaktiviraj račun
+UC5 - Deaktiviraj račun
 •Glavni sudionik: admin
 •Cilj: Deaktivacija postojećeg računa 
-•Sudionici: admin
-•Preduvjet: Korisnički račun postoji
+•Sudionici: 
+•Preduvjet: Korisnički račun postoji i admin ima njegove podatke
 •Opis osnovnog tijeka:
-	1. Admin u sustavu pronalazi račun koji iz bilo kojeg razloga treba deaktivirati
-	2. Admin deaktivira odabrani račun
+	1. Admin na stranici za deaktivaciju unosi userID računa koji treba deaktivirati
+	2. Deaktivira se odabrani račun
 	3. U bazi podataka evidentira se da je račun deaktiviran, ali račun se ne briše
 •Opis mogućih odstupanja:
+	1. Admin nema podatke računa koji treba deaktivirati nego zna neki od osobnih podataka (OIB, ...)
+		1. Buduća implementacija može adminu omogućiti pregled svih računa u sustavu i pretragu
+			sličnu onoj koju radi djelatnik banke na doniranju krvi (vidi UC 2)
 	2. Admin zabunom deaktivira račun korisnika
+		1. Buduća implementacija može omogućiti reaktivaciju računa
+	
 		
-UC4 - Stvori pokušaj doniranja
+UC6 - Stvori pokušaj doniranja
 •Glavni sudionik: djelatnik
 •Cilj: Stvaranje pokušaja doniranja, evidentiranje zdravstvenih podataka
-•Sudionici: djelatnik
+•Sudionici: donor
 •Preduvjet: Donor je došao na doniranje i ima izrađen profil (račun) 
 •Opis osnovnog tijeka:
 	1. Djelatnik ispituje donora o zdravstvenim podatcima te ispunjava obrazac
 	2. Ukoliko zbog nekog zdravstvenog podatka donor nije u stanju trenutno darivati krv, pokušaj doniranja označuje se neuspješnim
-	2.1 Ukoliko neki zdravstveni podatak implicira trajno odbijanje, djelatnik to evidentira u sustav (vidi UC 2.2)
+	2.1 Ukoliko neki zdravstveni podatak implicira trajno odbijanje, djelatnik to evidentira u sustav (vidi UC 2.3)
 	3. Ako su svi podatci ispravni, donor odlazi darivati krv, a pokušaj doniranja smatra se uspješnim
-	4. Spremanje pokušaja doniranja u bazu podataka, na mail se šalje PDF potvrda (vidi UC 6)
-	4. Evidentira se povećanje zalihe krvi (vidi UC 5)
+	4. Spremanje pokušaja doniranja u bazu podataka
+	5. Evidentira se povećanje zalihe krvi te se u bazi podataka povećava zaliha krvne grupe trenutnog donora za jednu dozu
+	6. Generira se PDF potvrda o dativanju i šalje se na mail (vidi UC 6 za sličnu funkcionalnost)
 •Opis mogućih odstupanja:
 	2. Donor prešućuje neki od zdravstvenih podataka zbog kojih bi trebao moći darivati krv
 		1. Doniranje krvi se ne plaća i stoga se jako smanjuje interes laganja radi darivanja krvi
 		2. Kao mjera predostrožnosti, ampula s malom dozom krvi se uzima od donora (pored jedinice od 450 mL) radi testiranja na patogene
 		3. Ovaj rizik nikada se ne može potpuno eliminirati
 	3. Prilikom doniranja nešto može poći po zlu, a ta mogućnost nije ostavljena u trenutnom sustavu
-		1. U budućoj implementaciji moguće je ostaviti mogućnost neevidentiranja uspješnosti pokušaja sve dok proces darivanja ne završi uspješno 
-			(zahtijeva više otvorenih zahtijeva paralelno ili mnogo veće kapacitete osoblja i sustava)
-
-UC5 - Povećaj zalihu krvi
-•Glavni sudionik: djelatnik
-•Cilj: Povećanje trenutne zalihe krvi u bazi podataka
-•Sudionici: djelatnik
-•Preduvjet: Donor je došao na doniranje i pokušaj doniranja prošao je uspješno (vidi UC 4)
-•Opis osnovnog tijeka:
-	1. Djelatnik evidentira uspješan pokušaj doniranja
-	2. Djelatnik evidentira dozu krvi u sustavu
-	3. Zaliha krvi u bazi podataka za danu grupu povećava se za 1
-•Opis mogućih odstupanja:
-	2. Prilikom doniranja nešto može poći po zlu, a ta mogućnost nije ostavljena u trenutnom sustavu
-		1. U budućoj implementaciji moguće je ostaviti mogućnost neevidentiranja povećanja zalihe sve dok proces darivanja ne završi uspješno 
-			(zahtijeva više otvorenih zahtijeva paralelno ili mnogo veće kapacitete osoblja i sustava)
-	3.a Donor može ne znati svoju krvnu grupu pa se zaliha ne može povećati dok se krv ne testira na grupu
-	3.b Krv pri testiranju može završiti kao nepovoljna i uzeta doza krvi mora se odbaciti
+		1. U budućoj implementaciji moguće je ostaviti mogućnost neevidentiranja uspješnosti pokušaja i povećanja zaliha krvi
+			sve dok proces darivanja ne završi uspješno (zahtijeva više otvorenih zahtijeva paralelno ili mnogo veće kapacitete osoblja i sustava)
+	5.a Donor može ne znati svoju krvnu grupu pa se zaliha ne može povećati dok se krv ne testira na grupu
+		1. Trenutno je pretpostavka sustava da se krvna grupa može lako otkriti pri doniranju, buduća implementacija mogla bi ostaviti
+			mogućnost naknadnog evidentiranja krvne grupe neke doze kako bi se otkrivanje krvne grupe moglo obaviti naknadno
+	5.b Krv pri testiranju može završiti kao nepovoljna i uzeta doza krvi mora se odbaciti
 		1. U trenutnom sustavu još ne implementiramu navedenu funkcionalnost, ali može se odigrati kao poseban slučaj slanja krvi u bolnicu
 			(vidi UC 13), gdje se za bolnicu navede odbacivanje krvi i razlog
-			
-UC6 - Šalji PDF potvrdu na e-mail
-•Glavni sudionik: donor ???
-•Cilj: Slanje potvrde o rezultatu doniranja na donorov mail
+	5.c Trenutni sustav ne razlikuje pojedinačne doze krvi i ne može povezati dozu krvi s npr. rezultatom serološkog testiranja
+		1. Buduća implementacija mogla bi u bazi podataka umjesto ukupne količine krvi evidentirati pojedinačne doze krvi s vlastitim
+			identifikatorom koje bi se mogle izravno povezati s donorom
+							
+UC7 - Pregledaj zalihe svih krvnih grupa
+•Glavni sudionik: korisnik interneta
+•Cilj: Na javnom webu pregledati stanja svih krvnih grupa i dobiti informaciju o stanju u odnosu na optimalne granice
 •Sudionici: donor
-•Preduvjet: Donor je došao na doniranje i pokušaj doniranja prošao je uspješno (vidi UC 4)
+•Preduvjet: Admin je definirao optimalne granice (vidi UC 9) i sustav funkcionira
 •Opis osnovnog tijeka:
-	1. Djelatnik evidentira uspješan pokušaj doniranja
-	2. Sustav generira PDF potvrdu o darivanju
-	3. PDF potvrda šalje se na mail donoru
+	1. Admin je u sustavu definirao optimalne granice zaliha krvnih grupa
+	2. Stanje zaliha doza krvi prati se u bazi podataka, izraženo u jedinicama krvi
+	3. Na web stranici vizualno je i pregledno predočeno trenutno stanje zaliha svih krvnih grupa
+	4. Ukoliko neke krvne grupe ima ispod optimalne granice, sustav automatski ispisuje takvu poruku na ekran
 •Opis mogućih odstupanja:
-	1. Donor koji nije uspješno završio proces doniranja svejedno treba potvrdu
-		1. Ova funkcionalnost trenutno nije implementirana, ali je ostavljena kao buduća mogućnsot
-	2. Dolazi do problema pri generiranju PDF potvrde
-		1. PDF potvrdu moguće je preuzeti i naknadno online, jednom kada se problem generiranja razriješi
-	3. U sustavu je zabilježena pogrešna e-adresa donora
-		1. Donor uočava da ne dobiva potvrde te u sustavu mijenja e-adresu
-		2. Radi zaštite osjetljivih podataka, potvrda ne sadrži osjetljive informacije
-		
-UC6.1 - Preuzmi PDF potvrdu
+	1. Admin nije definirao optimalne granice zaliha
+		1. Stanje krvi će se u svakom slučaju pokazati vizualno kako bi ipak dale neku informaciju donorima
+		2. U daljnjim implementacijama, admina bi sustav mogao upozoriti da optimalne granice nisu postavljene
+	4.a U sustavu nedostaje više krvnih grupa
+		1. Poruka se može ispisati i za više krvnih grupa
+	4.b Ispisom nedostatka više krvnih grupa gubi se preglednost
+		1. Podatci o nedostatku krvne grupe vidljivi su i vizualno i tekstom pa se pouzdamo da takva 
+			redundancija daje dovoljno mjesta na kojima se podatak može lako vidjeti
+		2. U nekoj od budućih implementacija moguće je napraviti da se krvne grupe koje nedostaju još dodatno istaknu
+
+UC8 - Promijeni lozinku
+•Glavni sudionik: Prijavljeni korisnik
+•Cilj: Promijeniti lozinku svog računa
+•Sudionici: 
+•Preduvjet: Korisnik ima trenutne podatke i može pristupiti računu
+•Opis osnovnog tijeka:
+	1. Korisnik ima potrebu za promjenom lozinke
+	2. Korisnik otvara obrazac za promjenu lozinke i unosi staru i novu lozinku
+	3. Sustav validira lozinku
+	4. Promjena lozinke evidentira se u bazi podataka
+•Opis mogućih odstupanja:
+	1. Korisnik je zaboravio lozinku pa ju zato želi promijeniti
+		1. U nekoj od budućih implementacija moguće je uvesti mogućnost "Zaboravljena lozinka" kako bi na e-adresu korisnik sustava dobio
+			svoje podatke
+	3. Lozinka je nesigurna
+		***1.Lozinka se validira kako bi bila dovoljno snažna i u suprotnom drukčija se mora unijeti
+
+UC9 - Definiraj optimalne granice zaliha krvi
+•Glavni sudionik: admin
+•Cilj: Postaviti gornje i donje optimalne granice za svaku krvnu grupu
+•Sudionici:
+•Preduvjet: Admin ima korisnički račun i može pristupiti sustavu
+•Opis osnovnog tijeka:
+	1. Admin pristupa obrascu za postavljanje optimalnih granica 
+	2. Za svaku krvnu grupu, admin podešava gornje i donje optimalne granice zaliha krvi
+	3. Promjene se pohranjuju
+	4. Ako se donja granica podesi na razinu iznad trenutne zalihe krvi, obavijest o nedovoljnom stanju krvi 
+		izdaje se svim djelatnicima (vidi UC 14)
+•Opis mogućih odstupanja:
+	3. Promjene se ne mogu pohraniti zbog pogreške u sustavu
+		1. Granice se mogu redefinirati u bilo kojem trenutku kada se sustav oporavi
+
+
+UC10 - Ispiši poruku o stanju zalihe krvne grupe donora
+•Glavni sudionik: donor
+•Cilj: Informirati donora o okvirnom stanju zaliha njegove krvne grupe
+•Sudionici:
+•Preduvjet: Donor je prijavljen u sustav i nema trajnu zabranu darivanja
+•Opis osnovnog tijeka:
+	1. Donor se prijavljuje u sustav
+	2. Na ekranu se prikazuje jedna od tri vrste poruka, ovisno o stanju zaliha krvi krvne grupe donora: 
+		-stanje zaliha ispod optimalne granice 
+		-stanje zaliha je optimalno
+		-stanje zaliha je iznad gornje optimalne granice
+	3. U slučaju stanja zaliha ispod gornje optimalne granice, ispisuje se i poticajna poruka za darivanje krvi
+	3.a U slučaju stanja zaliha ispod donje optimalne granice, poticajna poruka je dodatno istaknuta
+•Opis mogućih odstupanja:
+	3. Donor ima evidentirano trajno odbijanje, ali informativno želi znati stanje svoje krvne grupe
+		1. Stanje svih krvnih grupa uvijek se može provjeriti na javnom webu, jedino što neće vidjeti je 
+			eksplicitni poziv na doniranje (jer istome ne može ni pristupiti)
+			
+
+UC11 - Pregledaj povijest pokušaja doniranja
+•Glavni sudionik: donor
+•Cilj: Dati donoru uvid u sve svoje prijašnje pokušaje doniranja i njihov ishod, te ponuditi mogućnsot preuzimanja potvrde
+•Sudionici: djelatnik
+•Preduvjet: Donor je prijavljen u sustav / djelatnik je pronašao donora u sustavu pri darivanju
+•Opis osnovnog tijeka:
+	1. Korisnik otvara stranicu s povijesti pokušaja doniranja
+	2. Za svaki pokušaj doniranja navedeni su osnovni podatci kao datum i mjesto, a naveden je i ishod i razlog odbijanja u slučaju neuspješnog ishoda
+	3. Za svaki uspješni pokušaj doniranja dostupna je i značajka preuzimanja PDF potvrde (vidi UC6)
+•Opis mogućih odstupanja:
+	3. Potrebno je slanje potvrde na e-mail umjesto preuzimanja
+		1. Buduća implemenacija može omogućiti izbor preuzimanja ili slanja na e-adresu
+
+UC12 - Preuzmi PDF potvrdu
 •Glavni sudionik: donor
 •Cilj: Preuzimanje PDF potvrde o pokušaju doniranja iz povijesti doniranja u sustavu
-•Sudionici: donor
+•Sudionici: 
 •Preduvjet: Donor ima aktiviran račun i barem jedno uspješno doniranje
 •Opis osnovnog tijeka:
 	1. Djelatnik pri darivanju evidentira uspješan pokušaj doniranja
 	2. Prijavom na web-aplikaciju, donor ima uvid u povijest pokušaja doniranja
-	3. Za svako doniranje donor ima mogućnost ponovno preuzeti PDF potvrdu o doniranju
+	3. Za svako uspješno doniranje donor ima mogućnost ponovno preuzeti PDF potvrdu o doniranju
 	4. Sustav generira PDF potvrdu o doniranju
 	5. PDF potvrda se preuzima ili se šalje na mail donoru 
 •Opis mogućih odstupanja:
+	3. Donor koji nije uspješno završio proces doniranja svejedno treba potvrdu
+		1. Ova funkcionalnost trenutno nije implementirana, ali je ostavljena kao buduća mogućnsot
+	4. Dolazi do problema pri generiranju PDF potvrde
+		1. PDF potvrdu moguće je preuzeti u proizvoljnom trenutku online, jednom kada se problem generiranja razriješi
 	5. U sustavu je zabilježena pogrešna e-adresa donora
 		1. Donor uočava da ne dobiva potvrde te u sustavu mijenja e-adresu
 		2. Radi zaštite osjetljivih podataka, potvrda ne sadrži osjetljive informacije
-				
-UC7 - Pregledaj zalihe svih krvnih grupa
-•Glavni sudionik: korisnik interneta
-•Cilj: Na javnom webu pregledati stanja svih krvnih grupa i dobiti informaciju o stanju u odnosu na optimalne granice
-•Sudionici: korisnik interneta, donor
-•Preduvjet: Admin je definirao optimalne granice (vidi UC 8) i sustav funkcionira
-•Opis osnovnog tijeka:
-	1. Admin je u sustavu definirao optimalne granice zaliha krvnih grupa
-	2. Stanje zaliha doza krvi prati se u bazi podataka, izraženo u jedinicama krvi
-	3. Na web stranici vizualno je i pristupačno predočeno trenutno stanje zaliha svih krvnih grupa
-	4. Ukoliko neke krvne grupe ima ispod optimalne granice, sustav automatski ispisuje takvu poruku na ekran
-•Opis mogućih odstupanja:
-	1. Admin nije definirao optimalne granice zaliha
-		1. Stanje krvi će se u svakom slučaju pokazati vizualno kako bi ipak dale neku informaciju donorima
-		2. U daljnjim implementacijama, admina bi sustav mogao upozoriti da optimalne granice nisu postavljene
-	4.a U sustavu nedostaje više krvnih grupa
-		1. Poruka se može ispisati i za više krvnih grupa
-	4.b Ispisom nedostatka više krvnih grupa gubi se preglednost
-		1. Podatci o nedostatku krvne grupe vidljivi su i vizualno i tekstom pa se pouzdamo da takva 
-			redundancija daje dovoljno mjesta na kojima se podatak može lako vidjeti
-		2. U nekoj od budućih implementacija moguće je napraviti da se krvne grupe koje nedostaju još dodatno istaknu
 
-//In progress
-UC8 - Definiraj gornje i donje optimalne granice
-•Glavni sudionik: admin
-•Cilj: 
-•Sudionici: korisnik interneta, donor
-•Preduvjet: Admin je definirao optimalne granice (vidi UC 8) i sustav funkcionira
+UC13 - Evidentiraj slanje krvi u bolnicu
+•Glavni sudionik: djelatnik
+•Cilj: Evidentirati smanjenje zalihe krvi radi slanja u bolnicu
+•Sudionici: 
+•Preduvjet: U sustavu postoje doze krvi koje se mogu poslati
 •Opis osnovnog tijeka:
-	1. Admin je u sustavu definirao optimalne granice zaliha krvnih grupa
-	2. Stanje zaliha doza krvi prati se u bazi podataka, izraženo u jedinicama krvi
-	3. Na web stranici vizualno je i pristupačno predočeno trenutno stanje zaliha svih krvnih grupa
-	4. Ukoliko neke krvne grupe ima ispod optimalne granice, sustav automatski ispisuje takvu poruku na ekran
+	1. Djelatnik fizički priprema doze krvi koje će poslati u zdravstvenu instituciju (bolnicu)
+	2. Djelatnik u sustavu otvara obrazac za slanje krvi u bolnicu
+	3. Popunjava se broj doza koji se šalje (od svake krvne grupe) te se evidentira institucija u koju se šalje
+	4. U bazi podataka smanjuje se zaliha krvi
+	5. Potencijalno se inicira slanje obavijesti upozorenja o stanju zaliha (vidi UC 15)
 •Opis mogućih odstupanja:
-	1. Admin nije definirao optimalne granice zaliha
-		1. Stanje krvi će se u svakom slučaju pokazati vizualno kako bi ipak dale neku informaciju donorima
-		2. U daljnjim implementacijama, admina bi sustav mogao upozoriti da optimalne granice nisu postavljene
-	4.a U sustavu nedostaje više krvnih grupa
-		1. Poruka se može ispisati i za više krvnih grupa
-	4.b Ispisom nedostatka više krvnih grupa gubi se preglednost
-		1. Podatci o nedostatku krvne grupe vidljivi su i vizualno i tekstom pa se pouzdamo da takva 
-			redundancija daje dovoljno mjesta na kojima se podatak može lako vidjeti
-		2. U nekoj od budućih implementacija moguće je napraviti da se krvne grupe koje nedostaju još dodatno istaknu
+	3.a Djelatnik želi poslati više doza krvi nego što je evidentirano u sustavu
+		1. Djelatniku se ispisuje poruka upozorenja da je nemoguće poslati toliko doza krvi i akcija se odbija provesti
+	3.b Stanje zaliha u bazi podataka nije u skladu sa realnim stanjem u skladištu
+		1. Buduća implementacija može omogućiti adminu "rekalibraciju" stanja, a zasad se višak može popraviti "lažnim slanjem" 
+			u instituciju
 
+UC14 - Izdaj upozorenje o prekoračenju optimalne granice
+•Glavni sudionik: djelatnik
+•Cilj: Upozoriti djelatnike u slučaju prekoračenja optimalnih granica zaliha krvi 
+	te upozoriti donore u slučaju prekoračenja donje optimalne granice
+•Sudionici: donor
+•Preduvjet: U sustavu postoje definirane optimalne granice zaliha krvi
+•Opis osnovnog tijeka:
+	Tri su osnovna slučaja kada se izdaje upozorenje:
+		1. Evidentiranjem slanja krvi u bolnicu (UC 14)
+			1.1 Djelatnik evidentira slanje krvi u bolnicu
+			1.2 Zaliha krvi neke krvne grupe pada ispod definiranje donje optimalne granice zaliha
+			1.3 Izdaje se e-mail upozorenje o stanju zaliha te krvne grupe svim djelatnicima banke 
+			1.4 Izdaje se e-mail upozorenje s poticajem na doniranje svim donorima te krvne grupe
+		2. Redefiniranjem optimalnih granica (UC 9)
+			2.1 Admin mijenja neku od optimalnih granica zaliha krvne grupe
+			2.2 Ako je nova donja granica postavljena iznad trenutne razine zaliha, a prije je bila ispod, izdaje se upozorenje kao u koraku 1
+			2.3 Ako je nova gornja granica postavljena ispod trenutne razine zaliha, a prije je bila iznad, izdaje se e-mail upozorenje svim
+				djelatnicima banke o prekomjernom stanju zaliha te krvne grupe
+		3. Dodavanjem nove doze krvi u sustav (UC 4)
+			3.1 Pokušaj doniranja prolazi uspješno
+			3.2 U sustavu se evidentira nova doza krvi i povećava trenutna zaliha te krvne grupe
+			3.3 Ako nova razina zaliha prelazi gornju optimalnu granicu, izdaje se upozorenje svim djelatnicima banke kao u koraku 2.3
+•Opis mogućih odstupanja:
+	1.4 Čestim slanjem doza krvi u institucije i novim doniranjem, može doći do čestog prelaska donje granice i zatrpavanja obavijestima
+		1. Buduća implementacija mogla bi za svakog korisnika uvesti period vremena u kojemu neće dobivati nove obavijesti (npr. 2 dana)
+	1.4 Donori koji su već donirali krv u posljednja 3 ili 4 mjeseca nikako ne mogu ponovno darivati krv i obavijest im je uglavnom nepotrebna
+		1. Buduća implementacija mogla bi uvesti mogućnost odjave s e-mail upozorenja unutar perioda nemogućnosti darivanja
+		2. Buduća implementacija mogla bi uvesti mogućnost potpune odjave s e-mail upozorenja
+	
+UC15 - Izdaj obavijest o isteku perioda nemogućnosti darivanja
+•Glavni sudionik: donor
+•Cilj: Obavijestiti donora o ponovnoj mogućnosti darivanja krvi
+•Sudionici: 
+•Preduvjet: Donor je već darivao krv
+•Opis osnovnog tijeka:
+	1. Donor daruje krv i naredna tri do četiri mjeseca (ovisno o spolu) ne može ponovno darivati krv
+	2. Na dan isteka perioda nemogućnosti darivanja baza podataka pokreće proces obavještavanja donora
+	3. Donor na e-mail dobiva obavijest da mu je istekao period od 3 ili 4 mjeseca od posljednjeg darivanja te da može ponovno darivati krv
+•Opis mogućih odstupanja:
+	2. Baza podataka može propustiti stvoriti okidač za slanje upozorenja
+		1. Svi donori mogu u svojoj povijesti doniranja vidjeti svoja prethodna doniranja i sami vidjeti da mogu ponovno darivati krv
+		2. Buduća implementacija mogla bi uvesti indikator moguićnosti darivanja na početnom ekranu nakon prijave u sustav
+	
