@@ -35,7 +35,7 @@
     width: 75%;
 }
 
-.prijava, .faq, .kontakt {
+.profil, .faq, .kontakt {
     text-decoration: none;
     color: #1e396f;
     font-size: 30px;
@@ -44,7 +44,7 @@
     cursor: pointer;
 }
 
-.prijava li:hover,
+.profil li:hover,
 .faq li:hover,
 .kontakt li:hover{
     color: #d65d5c;
@@ -80,7 +80,8 @@
         z-index: 4;
     }
 
-    .prijava,
+    .profil
+,
     .faq,
     .kontakt{
         color: #1e396f;

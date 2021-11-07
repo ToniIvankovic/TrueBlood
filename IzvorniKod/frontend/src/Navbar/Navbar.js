@@ -11,8 +11,8 @@ const Navbar = () => {
                 <h3 className="logo">Trueblood</h3>
             </Link>
             <ul className={isMob ? "links-mob" : "links"} onClick={()=>setIsMob(false)}>
-                <Link to="/" className="prijava">
-                    <li>Prijava</li>
+                <Link to="/profil" className="profil">
+                    <li>Profil</li>
                 </Link>
                 <Link to="/faq" className="faq">
                     <li>FAQ</li>

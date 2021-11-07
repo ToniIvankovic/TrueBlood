@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;1,400;1,500&family=Leckerli+One&display=swap');
 
-
+/* Login page css */
 .homepage{
     margin:0;
     margin-right: auto;
@@ -11,8 +11,6 @@
     overflow: auto;
     
 }
-
-/* Login page css */
 
 .text-login{
     display: flex;
@@ -243,7 +241,6 @@
     .login p{
         font-size: 40px;
     }
-    
 }
 
 
@@ -364,7 +361,7 @@
     }
     .reg input::placeholder{
         font-size: 20px;
-    }
+    }  
 }
 @media screen and (max-width: 545px){
     .dupli{
@@ -383,4 +380,157 @@
         margin: 20px auto 0 30px;  
     }
     
+}
+
+/* Autorizacija css */
+
+.sent{
+    display: grid;
+    grid-template-rows: auto;
+    justify-content: center;
+    text-align: center;
+    margin: 0 20px 10px;
+}
+
+.big p{
+    font-size: 60px;
+    padding-bottom: 10px;
+}
+.small p{
+    font-size: 40px;
+    padding-bottom: 10px;
+}
+
+.sent span{
+    color: #d65d5c;
+}
+@media screen and (max-width: 1025px) {
+    .big p{
+        font-size: 50px;
+        padding-bottom: 10px;
+    }
+    .small p{
+        font-size: 30px;
+        padding-bottom: 10px;
+    }  
+}
+
+/* Homepage css */
+
+.naslovna{
+    display: grid;
+    grid-template-rows: auto;
+    justify-content: center;
+    text-align: center;
+    margin: 0 20px 10px;
+}
+
+.pitanje p{
+    font-size: 60px;
+    margin-top: 20px;
+}
+
+.akt{
+    margin: 60px auto 20px auto;
+}
+
+.akt p{
+    font-size: 40px;
+}
+
+/* .epruvete{
+    display: grid;
+    grid-template-columns: auto;
+    justify-content: center;
+    transform: rotate(90deg);
+    margin: -170px auto;
+}
+
+.sample{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    justify-content: center;
+    text-align: center;
+    margin: 20px 0;
+}
+.sample p{
+    font-size: 30px;
+    transform: rotate(-90deg);
+}
+.bar{
+    width: 350px;
+    height: 55px;
+    border-radius: 100px;
+    background-color: #f6f5fa;
+    box-sizing: border-box;
+} */
+
+.info{
+    margin: 50px auto 10px;
+    font-size: 15px;
+}
+/* @media  screen and (max-width: 770px) {
+    .epruvete{
+        display: grid;
+        grid-template-columns: auto;
+        justify-content: center;
+        transform: rotate(180deg);
+        margin: 0 -170px;
+    }
+    
+    .sample{
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        justify-content: center;
+        text-align: center;
+        margin: 10px 0;
+    }
+    .sample p{
+        font-size: 30px;
+        transform: rotate(180deg);
+        text-align: center;
+    }
+    .bar{
+        width: 350px;
+        height: 55px;
+        border-radius: 100px;
+        background-color: #f6f5fa;
+        box-sizing: border-box;
+        margin-left: -20px;
+    }
+    
+} */
+@media screen and (max-width:500px) {
+    .pitanje p{
+        font-size: 50px;
+    }
+    
+}
+
+/* Profil css */
+
+.profile{
+    display: grid;
+    grid-template-rows: auto;
+    justify-content: center;
+    text-align: center;
+    margin: 20px auto;
+}
+
+.ikona img{
+    max-width: 50%;
+}
+.donacije{
+    margin: 50px 10px;
+}
+.donacije p{
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+.lista{
+    background-color: #f6f5fa;
+    text-align: center;
+    height: 300px;
+    box-sizing: border-box;
+    border-radius: 50px;
 }
