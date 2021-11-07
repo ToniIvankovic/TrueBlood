@@ -38,7 +38,7 @@ public class Donor implements Serializable {
     public Donor() {
     }
 
-    public Donor(User user, String firstName, String lastName, String oib, LocalDate birthDate, String birthPlace,
+    public Donor(String firstName, String lastName, String oib, LocalDate birthDate, String birthPlace,
                  String address, String workPlace, String privateContact, String workContact, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
