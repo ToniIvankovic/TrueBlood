@@ -250,7 +250,7 @@
     display: grid;
     grid-template-rows: auto;
     justify-content: center;
-    margin: 0 20px;
+    margin: 0 20px 10px;
 }
 
 .reg input{

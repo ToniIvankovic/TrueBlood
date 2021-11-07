@@ -8,7 +8,7 @@ const Update = () => {
         <div className="reg">
             <form className='formular'>
                 <div className="tekst">
-                <p>Kreiraj korisnički račun!</p>
+                <p>Uredi svoje osobne podatke.</p>
                 </div>
                 <div className="label">
                     <label>Osobni podaci</label>
