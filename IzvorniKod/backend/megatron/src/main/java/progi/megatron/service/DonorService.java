@@ -6,6 +6,8 @@ import progi.megatron.model.User;
 import progi.megatron.repository.DonorRepository;
 import progi.megatron.util.Role;
 
+import javax.transaction.Transactional;
+
 @Service
 public class DonorService {
 
@@ -17,12 +19,16 @@ public class DonorService {
         this.userService = userService;
     }
 
-    public void createDonor(Donor donor) {
+    @Transactional
+    public Donor createDonor(Donor donor) {
         User user = new User(Role.DONOR, "generated password");
         userService.createUser(user);
-        // todo: create donor
+        donor.setDonorId(user.getUserId());
+        donor.setBloodType(null);
+        donor.setPermRejectedReason(null);
+
         // todo: send email
-        return;
+        return donorRepository.save(donor);
     }
 
 }

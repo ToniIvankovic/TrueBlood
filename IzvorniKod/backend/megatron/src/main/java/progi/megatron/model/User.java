@@ -12,7 +12,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ")
-    @SequenceGenerator(name = "USER_SEQ", sequenceName = "USER_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "USER_SEQ", sequenceName = "USER_SEQ", initialValue = 10, allocationSize = 1)
     private Long userId;
 
     private String userRole;
@@ -29,12 +29,16 @@ public class User implements Serializable {
     }
 
     public User(Role userRole, String password) {
-        this.userId = 100000L;
+        this.userId = 1L;
         this.userRole = userRole.toString();
         this.password = password;
         this.accActivated = 0;
         this.permDeactivated = 0;
         this.optOut = 0;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 
 }
