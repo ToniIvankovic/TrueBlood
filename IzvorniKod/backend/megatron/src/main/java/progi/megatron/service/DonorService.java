@@ -6,7 +6,7 @@ import progi.megatron.model.User;
 import progi.megatron.repository.DonorRepository;
 import progi.megatron.util.Role;
 
-import javax.transaction.Transactional;
+import java.security.SecureRandom;
 
 @Service
 public class DonorService {
@@ -30,5 +30,10 @@ public class DonorService {
         // todo: send email
         return donorRepository.save(donor);
     }
+
+
+
+
+
 
 }

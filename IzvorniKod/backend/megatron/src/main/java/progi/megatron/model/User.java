@@ -1,5 +1,6 @@
 package progi.megatron.model;
 
+import progi.megatron.service.UserService;
 import progi.megatron.util.Role;
 import javax.persistence.*;
 import java.io.Serializable;
@@ -28,10 +29,10 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Role userRole, String password) {
-        this.userId = 1L;
+    public User(Role userRole) {
+        this.userId = 100000L;
         this.userRole = userRole.toString();
-        this.password = password;
+        this.password = UserService.randomPassword();
         this.accActivated = 0;
         this.permDeactivated = 0;
         this.optOut = 0;
