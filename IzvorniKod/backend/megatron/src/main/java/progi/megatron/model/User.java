@@ -1,8 +1,10 @@
 package progi.megatron.model;
 
+import org.springframework.security.core.GrantedAuthority;
 import progi.megatron.util.Role;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "user_account")
@@ -45,6 +47,8 @@ public class User implements Serializable {
     public String getPassword() {
         return password;
     }
+
+    public boolean isAdmin() { return userRole.equals("ADMIN"); }
 
     public boolean isDonor() {
         return userRole.equals("DONOR");

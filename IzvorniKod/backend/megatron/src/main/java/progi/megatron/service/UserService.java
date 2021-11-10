@@ -20,7 +20,17 @@ public class UserService {
     }
 
     public Optional<User> findById(String userIdString) {
+        if(!isValidUserId(userIdString)) { return null; }
         return userRepository.getUserByUserId(Long.valueOf(userIdString));
+    }
+
+    private boolean isValidUserId(String id) {
+        try {
+            Long value = Long.valueOf(id);
+        } catch(NumberFormatException exc) {
+            return false;
+        }
+        return true;
     }
 
 }
