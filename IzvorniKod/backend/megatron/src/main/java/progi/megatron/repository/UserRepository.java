@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     User save(User user);
+    Optional<User> getUserByUserId(Long userId);
 
     // todo: activate user
     // todo: deactivate user

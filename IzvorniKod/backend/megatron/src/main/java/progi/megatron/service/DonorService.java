@@ -1,5 +1,7 @@
 package progi.megatron.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import progi.megatron.model.Donor;
 import progi.megatron.model.User;
@@ -17,8 +19,10 @@ public class DonorService {
         this.userService = userService;
     }
 
+
     public void createDonor(Donor donor) {
-        User user = new User(Role.DONOR, "generated password");
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        User user = new User(Role.DONOR, encoder.encode("generated password"));
         userService.createUser(user);
         // todo: create donor
         // todo: send email
