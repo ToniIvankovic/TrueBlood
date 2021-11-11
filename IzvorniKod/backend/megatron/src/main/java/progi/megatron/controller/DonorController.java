@@ -1,5 +1,6 @@
 package progi.megatron.controller;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.Donor;
 import progi.megatron.model.User;

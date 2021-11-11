@@ -10,10 +10,11 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     // todo: make user sequence start at 100000, not 1
+    // todo: validation
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ")
-    @SequenceGenerator(name = "USER_SEQ", sequenceName = "USER_SEQ", initialValue = 10, allocationSize = 1)
+    @SequenceGenerator(name = "USER_SEQ", sequenceName = "USER_SEQ", initialValue = 10000, allocationSize = 1)
     private Long userId;
 
     private String userRole;
@@ -29,10 +30,9 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Role userRole) {
-        this.userId = 100000L;
+    public User(Role userRole, String password) {
         this.userRole = userRole.toString();
-        this.password = UserService.randomPassword();
+        this.password = password;
         this.accActivated = 0;
         this.permDeactivated = 0;
         this.optOut = 0;
@@ -40,6 +40,24 @@ public class User implements Serializable {
 
     public Long getUserId() {
         return userId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public Boolean isAdmin() { return userRole.equals("ADMIN"); }
+
+    public Boolean isDonor() {
+        return userRole.equals("DONOR");
+    }
+
+    public Boolean isWorker() {
+        return userRole.equals("WORKER");
     }
 
 }

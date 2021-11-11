@@ -20,6 +20,20 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public Optional<User> findById(String userIdString) {
+        if(!isValidUserId(userIdString)) { return null; }
+        return userRepository.getUserByUserId(Long.valueOf(userIdString));
+    }
+
+    private boolean isValidUserId(String id) {
+        try {
+            Long value = Long.valueOf(id);
+        } catch(NumberFormatException exc) {
+            return false;
+        }
+        return true;
+    }
+
     //returns String with random chars from A-Z, a-z and 0-9
     public static String randomPassword(){
         final int size = 8;     //length of password
