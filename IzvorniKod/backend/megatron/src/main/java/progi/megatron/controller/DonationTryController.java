@@ -16,10 +16,4 @@ public class DonationTryController {
         this.donationTryService = donationTryService;
     }
 
-    @Secured("ROLE_DONOR")
-    @GetMapping
-    public void donate() {
-
-    }
-
 }

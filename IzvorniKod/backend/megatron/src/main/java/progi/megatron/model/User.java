@@ -48,6 +48,10 @@ public class User implements Serializable {
         return password;
     }
 
+    public String getUserRole() {
+        return userRole;
+    }
+
     public boolean isAdmin() { return userRole.equals("ADMIN"); }
 
     public boolean isDonor() {
