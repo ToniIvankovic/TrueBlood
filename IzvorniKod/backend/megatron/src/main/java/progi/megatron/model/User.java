@@ -50,13 +50,13 @@ public class User implements Serializable {
         return userRole;
     }
 
-    public boolean isAdmin() { return userRole.equals("ADMIN"); }
+    public Boolean isAdmin() { return userRole.equals("ADMIN"); }
 
-    public boolean isDonor() {
+    public Boolean isDonor() {
         return userRole.equals("DONOR");
     }
 
-    public boolean isWorker() {
+    public Boolean isWorker() {
         return userRole.equals("WORKER");
     }
 
