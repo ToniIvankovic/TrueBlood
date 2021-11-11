@@ -115,5 +115,11 @@
 		Toni, Jakov: Rad na dokumentaciji
 		
 6.1 sastanak: Asistenti (11.11.2021.)
-	
-	
+	Prisutni: Toni, Vukota, Marko
+	- Na idućem sastanku: 
+		- prezentacija generičke funkcionalnosti
+		- postaviti sva pitanja koja još imamo za finalni upload u petak u 23:59
+		- generička funkcionalnost treba pokazati session (refresh čuva session)
+	- sami napravimo neki mail za slanje aktivacijskih mailova
+	- (vezano za markov problem sa statusom 200/401) napraviti novi kontroler da provjeri paše li cookie i spring će ili odmah odbiti ili izvršiti odluku 
+	- idući sastanak u srijedu u 11:00 - svi su obavezni
