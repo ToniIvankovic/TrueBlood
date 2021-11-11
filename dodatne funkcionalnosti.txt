@@ -17,3 +17,4 @@
 -Promjena tablice "stanje zaliha" u tablicu "doze krvi" gdje svaka doza ima svoj ID koji se bilježi u pokušaju doniranja (kao UNIQUE) i
 	može jednoznačno povezati s donorom i dodatnim testovima na krv (serološki testovi, određivanje krvne grupe...)
 -Indikator mogućnosti darivanja nakon logina (Možeš donirati / Ne možeš donirati još x dana)
+-Omogućiti login emailom

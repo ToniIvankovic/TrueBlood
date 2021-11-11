@@ -103,3 +103,17 @@
 		Borna: Dovršiti login page (popravci) i dizajn za stranicu registracije
 		Marko: spajanje frontenda i backenda
 		Toni: Popravak UC dijagrama, pisanje dokumentacije
+
+6. sastanak: (10.11.2021.)
+	Prisutni: svi
+	-Rad na web securityju
+	-Brainstorm o mergeu frontenda i backenda kao priprema za deploy
+	-Podjela posla oko dokumentacije
+	Zadatci za dalje:
+		Borna: Napisati ukratko dio vezan za frontend u dokumentaciju - arhitektura_sustava
+		Marko, Ana, Vukota: Web security (omogućiti funkcionalnost logina)
+		Toni, Jakov: Rad na dokumentaciji
+		
+6.1 sastanak: Asistenti (11.11.2021.)
+	
+	

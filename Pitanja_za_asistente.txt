@@ -2,6 +2,8 @@ Pitanja za 6. tj:
 -Je li nužna ekripcija lozinke u bazi podataka ako nitko nema izravan pristup bazi?
 -Generiranje passworda pri stvaranju računa ili MORA biti kako je opisano, da korisnik pri aktivaciji bira lozinku
 -Mora li za generičku funkcionalnost raditi aktivacijski e-mail, ili je dovoljno pomoću console.log() ispisivati potrebne podatke
+-U dokumentaciji, u Aktori i njihovi funkcionalni zahtjevi, treba li pisati samo stvari iz zadatka, ili i dodatne
+	funkcionalnosti koje smo/ćemo ostvariti (npr. aktivacijski link za admina...)
 
 Pitanja za tj. 5:
 -Nepraktično nam je s Overleafa svaki put preuzimati dokumentaciju i stavljati na git - možemo li to samo na kraju uploadati 
