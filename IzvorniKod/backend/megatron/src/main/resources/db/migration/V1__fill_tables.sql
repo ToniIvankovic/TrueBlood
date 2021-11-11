@@ -33,7 +33,6 @@ CREATE TABLE IF NOT EXISTS donor
   email VARCHAR(50) NOT NULL,
   blood_type CHAR(3),
   perm_rejected_reason VARCHAR(100),
-  last_donation_place VARCHAR(100),
   PRIMARY KEY (donor_id),
   FOREIGN KEY (donor_id) REFERENCES user_account(user_id),
   FOREIGN KEY (blood_type) REFERENCES blood_supply(blood_type),

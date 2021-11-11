@@ -20,9 +20,9 @@ public class DonorController {
     }
 
     @PostMapping
-    public void createDonor(@RequestBody Donor donor) {
-        donorService.createDonor(donor);
-        return;
+    public Donor createDonor(@RequestBody Donor donor) {
+        return donorService.createDonor(donor);
     }
+
 
 }

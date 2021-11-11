@@ -8,6 +8,8 @@ import progi.megatron.model.User;
 import progi.megatron.repository.DonorRepository;
 import progi.megatron.util.Role;
 
+import java.security.SecureRandom;
+
 @Service
 public class DonorService {
 
@@ -24,9 +26,17 @@ public class DonorService {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         User user = new User(Role.DONOR, encoder.encode("generated password"));
         userService.createUser(user);
-        // todo: create donor
+        donor.setDonorId(user.getUserId());
+        donor.setBloodType(null);
+        donor.setPermRejectedReason(null);
+
         // todo: send email
-        return;
+        return donorRepository.save(donor);
     }
+
+
+
+
+
 
 }
