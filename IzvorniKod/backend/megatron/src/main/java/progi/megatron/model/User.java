@@ -14,7 +14,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ")
-    @SequenceGenerator(name = "USER_SEQ", sequenceName = "USER_SEQ", initialValue = 10, allocationSize = 1)
+    @SequenceGenerator(name = "USER_SEQ", sequenceName = "USER_SEQ", initialValue = 10000, allocationSize = 1)
     private Long userId;
 
     private String userRole;
@@ -30,10 +30,9 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Role userRole) {
-        this.userId = 100000L;
+    public User(Role userRole, String password) {
         this.userRole = userRole.toString();
-        this.password = UserService.randomPassword();
+        this.password = password;
         this.accActivated = 0;
         this.permDeactivated = 0;
         this.optOut = 0;

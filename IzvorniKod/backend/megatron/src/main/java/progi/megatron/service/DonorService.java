@@ -22,7 +22,7 @@ public class DonorService {
     }
 
 
-    public void createDonor(Donor donor) {
+    public Donor createDonor(Donor donor) {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         User user = new User(Role.DONOR, encoder.encode("generated password"));
         userService.createUser(user);
