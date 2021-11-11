@@ -1,10 +1,8 @@
 package progi.megatron.model;
 
-import org.springframework.security.core.GrantedAuthority;
 import progi.megatron.util.Role;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
 
 @Entity
 @Table(name = "user_account")

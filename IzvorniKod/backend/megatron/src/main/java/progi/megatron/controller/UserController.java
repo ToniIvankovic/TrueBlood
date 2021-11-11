@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.User;
 import progi.megatron.model.UserInfo;
 import progi.megatron.service.UserService;
-import progi.megatron.util.Role;
 
 import java.util.Optional;
 
