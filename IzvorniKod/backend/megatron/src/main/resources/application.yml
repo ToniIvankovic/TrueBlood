@@ -6,7 +6,4 @@ spring:
   jpa:
     open-in-view: false
 
-#todo IZBRISAT PRIJE COMMITA
-progi:
-  admin:
-    password: "2a$10$7dR1nXFoZCc1I9UMEWxWDO4AIC7CRh66h5O90YlcNk7wo0GqaHoI6"
+
