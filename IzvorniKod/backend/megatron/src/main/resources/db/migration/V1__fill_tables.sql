@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS donation_try
   FOREIGN KEY (bank_worker_id) REFERENCES bank_worker(bank_worker_id)
 );
 
-CREATE SEQUENCE IF NOT EXISTS USER_SEQ;
+CREATE SEQUENCE IF NOT EXISTS USER_SEQ START WITH 1000000;
 CREATE SEQUENCE IF NOT EXISTS DONATION_SEQ;
 
 --INSERT INTO userAccount (userId, role, password, accActivated, permDeactivated, optOut)
