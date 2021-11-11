@@ -40,8 +40,8 @@ public class Donor implements Serializable {
 
     private String permRejectedReason;
 
-    public Donor() {
-    }
+
+    public Donor() { }
 
     public Donor(Long id, String firstName, String lastName, String oib, LocalDate birthDate, String birthPlace,
                  String address, String workPlace, String privateContact, String workContact, String email,

@@ -27,8 +27,8 @@ public class User implements Serializable {
 
     private int optOut;
 
-    public User() {
-    }
+
+    public User() { }
 
     public User(Role userRole, String password) {
         this.userRole = userRole.toString();

@@ -1,4 +1,4 @@
-package progi.megatron.controller;
+package progi.megatron.controller.login;
 
 import org.springframework.web.bind.annotation.*;
 

@@ -12,11 +12,9 @@ import java.security.SecureRandom;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final UserDTO userDTO;
 
-    public UserService(UserRepository userRepository, UserDTO userDTO) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.userDTO = userDTO;
     }
 
     public User createUser(User user) {
@@ -40,7 +38,7 @@ public class UserService {
     /**
      * @return String with random chars from A-Z, a-z and 0-9
      */
-    public static String randomPassword(){
+    public String randomPassword(){
         final int size = 8;     //length of password
         final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         SecureRandom randomizer = new SecureRandom();

@@ -1,9 +1,10 @@
 package progi.megatron.model.dto;
 
+import org.springframework.stereotype.Component;
 import progi.megatron.model.Donor;
-
 import java.time.LocalDate;
 
+@Component
 public class DonorByDonorDTO {
 
     private String firstName;
@@ -16,6 +17,8 @@ public class DonorByDonorDTO {
     private String privateContact;
     private String workContact;
     private String email;
+
+    public DonorByDonorDTO() {}
 
     public DonorByDonorDTO(String firstName, String lastName, String oib, LocalDate birthDate, String birthPlace, String address, String workPlace, String privateContact, String workContact, String email) {
         this.firstName = firstName;
