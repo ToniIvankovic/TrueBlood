@@ -1,8 +1,10 @@
 package progi.megatron.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.Donor;
+import progi.megatron.model.dto.DonorByDonorDTO;
 import progi.megatron.service.DonorService;
 
 @RestController
@@ -15,9 +17,10 @@ public class DonorController {
         this.donorService = donorService;
     }
 
+    @Secured({"ROLE_DONOR"})
     @PostMapping
-    public ResponseEntity<Donor> createDonor(@RequestBody Donor donor) {
-        return ResponseEntity.ok(donorService.createDonor(donor));
+    public ResponseEntity<Donor> createDonorByDonor(@RequestBody DonorByDonorDTO donorByDonorDTO) {
+        return ResponseEntity.ok(donorService.createDonorByDonor(donorByDonorDTO));
     }
 
 }

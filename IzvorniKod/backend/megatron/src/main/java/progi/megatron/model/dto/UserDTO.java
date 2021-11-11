@@ -12,14 +12,6 @@ public class UserDTO {
         this.role = role;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
     public UserDTO userToUserDTO(User user) {
         return new UserDTO(user.getUserId().toString(), user.getPassword());
     }

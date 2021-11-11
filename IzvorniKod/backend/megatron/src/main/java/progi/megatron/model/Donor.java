@@ -43,8 +43,10 @@ public class Donor implements Serializable {
     public Donor() {
     }
 
-    public Donor(String firstName, String lastName, String oib, LocalDate birthDate, String birthPlace,
-                 String address, String workPlace, String privateContact, String workContact, String email) {
+    public Donor(Long id, String firstName, String lastName, String oib, LocalDate birthDate, String birthPlace,
+                 String address, String workPlace, String privateContact, String workContact, String email,
+                 String bloodType, String permRejectedReason) {
+        this.donorId = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.oib = oib;
@@ -55,6 +57,8 @@ public class Donor implements Serializable {
         this.workContact = workContact;
         this.privateContact = privateContact;
         this.email = email;
+        this.bloodType = bloodType;
+        this.permRejectedReason = permRejectedReason;
     }
 
 }
