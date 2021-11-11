@@ -2,7 +2,11 @@ package progi.megatron.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "bank_worker")
 public class BankWorker implements Serializable {

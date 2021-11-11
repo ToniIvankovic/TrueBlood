@@ -11,9 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import progi.megatron.model.User;
 import progi.megatron.service.UserService;
-
 import java.util.*;
-
 import static org.springframework.security.core.authority.AuthorityUtils.NO_AUTHORITIES;
 import static org.springframework.security.core.authority.AuthorityUtils.commaSeparatedStringToAuthorityList;
 
@@ -34,14 +32,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
 
         // check if user exists
-        Optional<User> user = userService.findById(name);
-        if(!user.isPresent()) { throw new UsernameNotFoundException("No user '" + name + "'"); }
+        User user = userService.findById(name);
+        if (!user.isPresent()) { throw new UsernameNotFoundException("No user '" + name + "'"); }
 
         String encodedPassword = user.get().getPassword();
         PasswordEncoder encoder = new BCryptPasswordEncoder();
+
         // check password
         if(encoder.matches(password, encodedPassword)) {
-            List<GrantedAuthority> authorities = new ArrayList<>();
+            List<GrantedAuthority> authorities;
             String authoritiesString;
             // tip: role names have to start with 'ROLE_'
             if(user.get().isDonor()) {

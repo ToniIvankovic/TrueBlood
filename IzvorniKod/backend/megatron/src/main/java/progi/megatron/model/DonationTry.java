@@ -1,7 +1,12 @@
 package progi.megatron.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "donation_try")
 public class DonationTry {

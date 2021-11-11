@@ -2,8 +2,9 @@ package progi.megatron.service;
 
 import org.springframework.stereotype.Service;
 import progi.megatron.model.User;
+import progi.megatron.model.dto.UserDTO;
 import progi.megatron.repository.UserRepository;
-
+import progi.megatron.exception.UserNotFoundException;
 import java.security.SecureRandom;
 import java.util.Optional;
 
@@ -11,18 +12,21 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserDTO userDTO;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserDTO userDTO) {
         this.userRepository = userRepository;
+        this.userDTO = userDTO;
     }
 
     public User createUser(User user) {
         return userRepository.save(user);
     }
 
-    public Optional<User> findById(String userIdString) {
+    public User findById(String userIdString) {
+        User user = userRepository.getUserByUserId(Long.valueOf(userIdString)).orElseThrow(UserNotFoundException::new);
         if(!isValidUserId(userIdString)) { return null; }
-        return userRepository.getUserByUserId(Long.valueOf(userIdString));
+        return user;
     }
 
     private boolean isValidUserId(String id) {

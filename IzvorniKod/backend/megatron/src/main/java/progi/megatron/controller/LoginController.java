@@ -10,4 +10,5 @@ public class LoginController {
     public void login() {
         // status 200 is automatically returned if basic auth is successful
     }
+
 }
