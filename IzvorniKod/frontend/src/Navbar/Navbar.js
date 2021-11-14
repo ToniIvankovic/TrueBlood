@@ -5,23 +5,24 @@ import "./Navbar.css";
 const Navbar = () => {
 
     const [isMob, setIsMob] = useState(false);
+    const handleClick = () => setIsMob(!isMob)
     return (
         <nav className="navbar">
             <Link to="/">
                 <h3 className="logo">Trueblood</h3>
             </Link>
-            <ul className={isMob ? "links-mob" : "links"} onClick={()=>setIsMob(false)}>
-                <Link to="/profil" className="profil">
+            <ul className={isMob ? "links-mob" : "links"}>
+                <Link to="/profil" className="profil" onClick={()=>setIsMob(false)}>
                     <li>Profil</li>
                 </Link>
-                <Link to="/faq" className="faq">
+                <Link to="/faq" className="faq" onClick={()=>setIsMob(false)}>
                     <li>FAQ</li>
                 </Link>
-                <Link to="/kontakt" className="kontakt">
+                <Link to="/kontakt" className="kontakt" onClick={()=>setIsMob(false)}>
                     <li>Kontakt</li>
                 </Link>
             </ul>
-            <button className = "mobile-menu" onClick={()=>setIsMob(!isMob)}>
+            <button className = "mobile-menu" onClick={handleClick}>
                 {isMob ? <i className="fas fa-times"></i> : <i className="fas fa-bars"></i>}
             </button>
         </nav>

@@ -11,7 +11,10 @@ const Profil = () => {
             <div className="uredi">
                 <Link to='/update'>
                     <button className="registracija">Uredi podatke</button>
-                </Link>    
+                </Link>
+                <Link to='/'>
+                    <button className="submit">Odjava</button>
+                </Link>      
             </div>
             <div className="donacije">
                 <p>Moje donacije</p>

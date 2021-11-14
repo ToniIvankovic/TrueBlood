@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;1,400;1,500&family=Leckerli+One&display=swap');
 
-/* Login page css */
+/* Login page css /////////////////////////////////////////////////////*/ 
 .homepage{
     margin:0;
     margin-right: auto;
@@ -244,7 +244,7 @@
 }
 
 
-/* Sign up page css */
+/* Sign up page css //////////////////////////////////////////////////*/
 
 .reg{
     display: grid;
@@ -382,7 +382,7 @@
     
 }
 
-/* Autorizacija css */
+/* Autorizacija css /////////////////////////////////////////////////*/
 
 .sent{
     display: grid;
@@ -415,7 +415,7 @@
     }  
 }
 
-/* Homepage css */
+/* Homepage css ///////////////////////////////////////////////////////*/
 
 .naslovna{
     display: grid;
@@ -431,7 +431,7 @@
 }
 
 .akt{
-    margin: 60px auto 20px auto;
+    margin: 50px auto 20px auto;
 }
 
 .akt p{
@@ -443,7 +443,9 @@
     grid-template-columns: auto;
     justify-content: center;
     transform: rotate(90deg);
-    margin: -170px auto;
+    max-width: 470px;
+    max-height: 400px;
+    margin: 0;
 }
 
 .sample{
@@ -466,6 +468,7 @@
 } */
 
 .info{
+    text-align: center;
     margin: 50px auto 10px;
     font-size: 15px;
 }
@@ -507,7 +510,7 @@
     
 }
 
-/* Profil css */
+/* Profil css ////////////////////////////////////////////////////////*/
 
 .profile{
     display: grid;
@@ -516,12 +519,15 @@
     text-align: center;
     margin: 20px auto;
 }
-
+.uredi{
+    display: grid;
+    grid-template-rows: auto;
+}
 .ikona img{
     max-width: 50%;
 }
 .donacije{
-    margin: 50px 10px;
+    margin: 30px 10px;
 }
 .donacije p{
     font-size: 40px;

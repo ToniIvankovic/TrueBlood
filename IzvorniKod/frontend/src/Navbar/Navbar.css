@@ -55,6 +55,13 @@
     display: none;
 }
 
+.links-mob{
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+    width: 75%;
+}
+
 @media screen and (max-width: 1210px){
     .logo{
         display: flex;
@@ -80,8 +87,7 @@
         z-index: 4;
     }
 
-    .profil
-,
+    .profil,
     .faq,
     .kontakt{
         color: #1e396f;
