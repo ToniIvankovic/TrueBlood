@@ -45,7 +45,7 @@ public class UserService {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < size; i++) {
-            sb.append(chars.charAt(randomizer.nextInt()));
+            sb.append(chars.charAt(randomizer.nextInt(chars.length())));
         }
 
         return sb.toString();
