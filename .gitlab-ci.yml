@@ -1,0 +1,22 @@
+stages:
+  - deploy
+
+deploy-be:
+  stage: deploy
+  script:
+    - apt-get update -yq
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=trueblood-be --api_key=$HEROKU_API_STAGING_BE
+  only:
+    - develop
+
+deploy-fe:
+  stage: deploy
+  script:
+    - apt-get update -yq
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=trueblood-be --api_key=$HEROKU_API_STAGING_FE
+  only:
+    - develop
