@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "heroku-prebuild": "yarn install --production=false",
     "start": "webpack-dev-server --mode=development --open --hot",
-    "build": "webpack --mode=production",
-    "heroku-prebuild": "yarn install"
+    "build": "webpack --mode=production"
   },
   "license": "MIT",
   "devDependencies": {
