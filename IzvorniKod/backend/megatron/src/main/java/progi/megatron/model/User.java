@@ -1,16 +1,16 @@
 package progi.megatron.model;
 
-import progi.megatron.service.UserService;
+import lombok.Getter;
+import lombok.Setter;
 import progi.megatron.util.Role;
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "user_account")
 public class User implements Serializable {
-
-    // todo: make user sequence start at 100000, not 1
-    // todo: validation
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ")
@@ -27,8 +27,8 @@ public class User implements Serializable {
 
     private int optOut;
 
-    public User() {
-    }
+
+    public User() { }
 
     public User(Role userRole, String password) {
         this.userRole = userRole.toString();
@@ -38,19 +38,7 @@ public class User implements Serializable {
         this.optOut = 0;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getUserRole() {
-        return userRole;
-    }
-
-    public Boolean isAdmin() { return userRole.equals("ADMIN"); }
+    public boolean isAdmin() { return userRole.equals("ADMIN"); }
 
     public Boolean isDonor() {
         return userRole.equals("DONOR");

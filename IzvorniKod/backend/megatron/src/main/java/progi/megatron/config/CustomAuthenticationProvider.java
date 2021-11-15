@@ -5,15 +5,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import progi.megatron.model.User;
 import progi.megatron.service.UserService;
-
 import java.util.*;
-
 import static org.springframework.security.core.authority.AuthorityUtils.NO_AUTHORITIES;
 import static org.springframework.security.core.authority.AuthorityUtils.commaSeparatedStringToAuthorityList;
 
@@ -34,21 +31,21 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
 
         // check if user exists
-        Optional<User> user = userService.findById(name);
-        if(!user.isPresent()) { throw new UsernameNotFoundException("No user '" + name + "'"); }
+        User user = userService.findById(name);
 
-        String encodedPassword = user.get().getPassword();
+        String encodedPassword = user.getPassword();
         PasswordEncoder encoder = new BCryptPasswordEncoder();
+
         // check password
         if(encoder.matches(password, encodedPassword)) {
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            String authoritiesString;
+            System.out.println("TRUE");
+            List<GrantedAuthority> authorities;
             // tip: role names have to start with 'ROLE_'
-            if(user.get().isDonor()) {
+            if(user.isDonor()) {
                 authorities = commaSeparatedStringToAuthorityList("ROLE_DONOR");
-            } else if(user.get().isWorker()) {
+            } else if(user.isWorker()) {
                 authorities = commaSeparatedStringToAuthorityList("ROLE_WORKER");
-            } else if(user.get().isAdmin()) {
+            } else if(user.isAdmin()) {
                 authorities = commaSeparatedStringToAuthorityList("ROLE_ADMIN");
             } else {
                 authorities = NO_AUTHORITIES;
