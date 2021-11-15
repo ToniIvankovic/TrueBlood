@@ -1,5 +1,6 @@
 package progi.megatron.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -24,10 +25,17 @@ public class UserController {
 
     @Secured({"ROLE_DONOR", "ROLE_WORKER"})
     @GetMapping
-    public ResponseEntity<UserDTO> getCurrentUser() {
+    public ResponseEntity<Object> getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
-        User user = userService.findById(currentUsername);
-        return ResponseEntity.ok(userDTO.userToUserDTO(user));
+        try {
+            User user = userService.findById(currentUsername);
+            return ResponseEntity.ok(userDTO.userToUserDTO(user));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+
     }
+
+    // todo: activate account
 }
