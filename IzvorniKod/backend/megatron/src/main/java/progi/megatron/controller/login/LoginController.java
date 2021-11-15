@@ -4,7 +4,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import progi.megatron.model.LoggedInResponse;
 
 @RestController
@@ -20,10 +22,11 @@ public class LoginController {
     @GetMapping("/logged_in")
     public ResponseEntity<LoggedInResponse> loggedIn() {
         SecurityContext context = SecurityContextHolder.getContext();
-        if(context == null) return ResponseEntity.ok(new LoggedInResponse(false));
+        if (context == null) return ResponseEntity.ok(new LoggedInResponse(false));
         Authentication authentication = context.getAuthentication();
-        if(authentication == null) return ResponseEntity.ok(new LoggedInResponse(false));
-        if(authentication.getAuthorities().isEmpty()) return ResponseEntity.ok(new LoggedInResponse(false));
+        if (authentication == null) return ResponseEntity.ok(new LoggedInResponse(false));
+        if (authentication.getAuthorities().isEmpty()) return ResponseEntity.ok(new LoggedInResponse(false));
         return ResponseEntity.ok(new LoggedInResponse(true));
     }
+
 }
