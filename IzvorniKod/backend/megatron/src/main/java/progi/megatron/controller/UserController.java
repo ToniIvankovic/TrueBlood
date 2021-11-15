@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import progi.megatron.model.User;
 import progi.megatron.model.dto.UserDTO;
 import progi.megatron.service.UserService;
 
@@ -26,6 +27,7 @@ public class UserController {
     public ResponseEntity<UserDTO> getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
-        return ResponseEntity.ok(userDTO.userToUserDTO(userService.findById(currentUsername)));
+        User user = userService.findById(currentUsername);
+        return ResponseEntity.ok(userDTO.userToUserDTO(user));
     }
 }

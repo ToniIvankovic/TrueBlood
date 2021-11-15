@@ -31,14 +31,16 @@ public class DonorService {
 
     @Transactional(rollbackFor = Exception.class)
     public Donor createDonorByDonor(DonorByDonorDTO donorByDonorDTO){
-        String password = userService.randomPassword();
+        //String password = userService.randomPassword();
+        String password = "generated password";
         logger.info("Generated password is " + password);
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
+        user = userService.createUser(user);
 
         Donor donor = donorByDonorDTO.DonorByDonorDTOToDonor(donorByDonorDTO, user.getUserId());
         donorValidator.validateDonor(donor);
 
-        userService.createUser(user);
+        // todo: delete user if validation is not successful
         // todo: send email
         logger.info("Sending e-mail to user.");
         return donorRepository.save(donor);
@@ -46,14 +48,16 @@ public class DonorService {
 
     @Transactional(rollbackFor = Exception.class)
     public Donor createDonorByBankWorker(DonorByBankWorkerDTO donorByBankWorkerDTO){
-        String password = userService.randomPassword();
+        //String password = userService.randomPassword();
+        String password = "generated password";
         logger.info("Generated password is " + password);
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
+        userService.createUser(user);
 
         Donor donor = donorByBankWorkerDTO.DonorByBankWorkerDTOToDonor(donorByBankWorkerDTO, user.getUserId());
         donorValidator.validateDonor(donor);
 
-        userService.createUser(user);
+        // todo: delete user if validation is not successful
         // todo: send email
         logger.info("Sending e-mail to user.");
         return donorRepository.save(donor);

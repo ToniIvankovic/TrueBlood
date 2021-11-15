@@ -1,8 +1,12 @@
 package progi.megatron.model.dto;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 import progi.megatron.model.User;
 
+@Getter
+@Setter
 @Component
 public class UserDTO {
 
@@ -17,7 +21,7 @@ public class UserDTO {
     }
 
     public UserDTO userToUserDTO(User user) {
-        return new UserDTO(user.getUserId().toString(), user.getPassword());
+        return new UserDTO(user.getUserId().toString(), user.getUserRole());
     }
 
 }
