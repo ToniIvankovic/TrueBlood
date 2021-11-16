@@ -30,6 +30,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
         http.headers().frameOptions().sameOrigin(); // fixes h2-console problem
         http
+                .cors()
+                .and()
                 .csrf().disable()
                 .authorizeRequests().antMatchers("/**").permitAll()
                 .anyRequest().authenticated()

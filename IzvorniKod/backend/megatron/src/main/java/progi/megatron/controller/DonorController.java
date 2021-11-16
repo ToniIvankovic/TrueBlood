@@ -10,6 +10,7 @@ import progi.megatron.model.dto.DonorByDonorDTO;
 import progi.megatron.service.DonorService;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/donor")
 public class DonorController {
 
