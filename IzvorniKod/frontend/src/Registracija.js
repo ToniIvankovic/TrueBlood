@@ -1,12 +1,52 @@
-import React from "react";
+import axios from './util/axios-instance';
+import React, { useState } from "react";
 import { useRef } from "react";
 import {Link} from 'react-router-dom';
 
 const Registracija = () => {
     const ref = useRef();
+
+    const [donorInfo, setDonorInfo] = useState({
+        firstName: '',
+        lastName: '',
+        oib: '',
+        birthDate: '',
+        birthPlace: '',
+        address: '',
+        workPlace: '',
+        privateContact: '',
+        workContact: '',
+        email: ''
+    });
+
+    const handleChange = (event) => {
+        let name = event.target.name;
+        let value = event.target.value;
+        setDonorInfo({
+            ...donorInfo,
+            [name]: value
+        });
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log('Submitting!');
+        console.log(donorInfo);
+        const url = '/api/v1/donor/registration'
+        axios.post(url, donorInfo)
+        .then((response) => {
+            if(response.ok) {
+                console.log("User successfully created.");
+            }
+        })
+        .catch((error) => {
+            console.log('Error while creating user. Response: ' + error.response);
+        });
+    }
+
     return(
         <div className="reg">
-            <form className='formular'>
+            <form onSubmit={(event) => handleSubmit(event)} className='formular'>
                 <div className="tekst">
                 <p>Kreiraj korisnički račun!</p>
                 </div>
@@ -15,18 +55,21 @@ const Registracija = () => {
                 </div>
                 <div className="dupli">
                     <input
-                        name='ime' 
+                        onChange={(event) => handleChange(event)}
+                        name='firstName' 
                         type="text"
                         placeholder="Ime *"
                         required></input>
                     <input
-                        name='prezime' 
+                        onChange={(event) => handleChange(event)}
+                        name='lastName' 
                         type="text"
                         placeholder="Prezime *"
                         required></input>
                 </div>
                 <div className="single">
                     <input
+                        onChange={(event) => handleChange(event)}
                         name='oib' 
                         type="text"
                         placeholder="OIB *"
@@ -35,21 +78,24 @@ const Registracija = () => {
                 </div>
                 <div className="dupli">
                     <input
-                        name='datumrod' 
+                        onChange={(event) => handleChange(event)}
+                        name='birthDate' 
                         type = 'text'
                         ref={ref}
                         onFocus = {() => (ref.current.type = 'date')}
                         onBlur = {() => (ref.current.type = 'text')}
                         placeholder="Datum rođenja"></input>
                     <input
-                        name='mjestorod' 
+                        onChange={(event) => handleChange(event)}
+                        name='birthPlace' 
                         type="text"
                         placeholder="Mjesto rođenja *"
                         required></input>
                 </div>
                 <div className="single">
                     <input
-                        name='adresa' 
+                        onChange={(event) => handleChange(event)}
+                        name='address' 
                         type="text"
                         placeholder="Adresa stanovanja *"
                         required></input>
@@ -59,6 +105,7 @@ const Registracija = () => {
                 </div>
                 <div className="single">
                     <input
+                        onChange={(event) => handleChange(event)}
                         name='email' 
                         type="text"
                         placeholder="Email *"
@@ -66,7 +113,8 @@ const Registracija = () => {
                 </div>
                 <div className="single">
                     <input
-                        name='mobitel' 
+                        onChange={(event) => handleChange(event)}
+                        name='privateContact' 
                         type="text"
                         placeholder="Kontakt (osobni) *"
                         maxLength='10'
@@ -74,11 +122,13 @@ const Registracija = () => {
                 </div>
                 <div className="dupli">
                     <input
-                        name='firma' 
+                        onChange={(event) => handleChange(event)}
+                        name='workplace' 
                         type="text"
                         placeholder="Mjesto zaposlenja (firma)"></input>
                     <input
-                        name='telefon' 
+                        onChange={(event) => handleChange(event)}
+                        name='workContact' 
                         type="text"
                         placeholder="Kontakt (poslovni)"
                         maxLength='10'></input>                    
@@ -100,9 +150,7 @@ const Registracija = () => {
                     </select>       
                 </div> */}
                 <div className="gumbi">
-                    <Link to='/autorizacija'>
-                        <button className='kreiraj'>Kreiraj račun</button>
-                    </Link> 
+                    <button className='kreiraj'>Kreiraj račun</button>
                 </div>
                 {/* <div className="napomena">
                     <p>*Vaše zdravstvene podatke popunjava djelatnik prije doniranja krvi.</p>

@@ -1,8 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Profilimg from './Profile.png'
+import Profilimg from './Profile.png';
+import axios from './util/axios-instance';
+import { useHistory } from "react-router";
 
 const Profil = () => {
+
+    let history = useHistory();
+
+    const logout = (event) => {
+        const url = '/api/v1/logout';
+        axios.get(url)
+        .then((response) => {
+            console.log('LOGOUT SUCCESS');
+            history.push('/');
+        })
+        .catch((error) => {
+            console.log('LOGOUT ERROR: ' + error);
+        });
+    }
+
     return(
         <div className="profile">
             <div className="ikona">
@@ -13,7 +30,7 @@ const Profil = () => {
                     <button className="registracija">Uredi podatke</button>
                 </Link>
                 <Link to='/'>
-                    <button className="submit">Odjava</button>
+                    <button onClick={(event) => logout(event)} className="submit">Odjava</button>
                 </Link>      
             </div>
             <div className="donacije">
