@@ -64,7 +64,7 @@
 
 @media screen and (max-width: 1210px){
     .logo{
-        display: flex;
+        display: block;
         position: absolute;
         top: 30px;
         left: 35px;
@@ -109,4 +109,10 @@
         cursor: pointer;
 
     }    
+}
+@media screen and (max-width: 440px) {
+    .logo{
+        font-size: 50px;
+        top: 40px;
+    }
 }
