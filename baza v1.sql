@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS user_account
 (
   user_id BIGINT NOT NULL,
   user_role VARCHAR(20) NOT NULL,
-  password VARCHAR(20),
+  password VARCHAR(128),
   acc_activated INT NOT NULL,
   perm_deactivated INT NOT NULL,
   opt_out INT NOT NULL,
@@ -70,8 +70,8 @@ CREATE TABLE IF NOT EXISTS donation_try
   FOREIGN KEY (bank_worker_id) REFERENCES bank_worker(bank_worker_id)
 );
 
-CREATE SEQUENCE IF NOT EXISTS USER_SEQ;
+CREATE SEQUENCE IF NOT EXISTS USER_SEQ START WITH 1000001;
 CREATE SEQUENCE IF NOT EXISTS DONATION_SEQ;
 
---INSERT INTO userAccount (userId, role, password, accActivated, permDeactivated, optOut)
---    VALUES (10000000, ADMIN, 'admin', 100000000, 0, 0);
+INSERT INTO user_account (user_id, user_role, password, acc_activated, perm_deactivated, opt_out)
+    VALUES (1000000, 'ADMIN', '$2a$10$jBBLYlPInYB.SvgIzenJge6TQLX3vAmBJA.j2C08rQCMeVJpBBvmC', 1, 0, 0);   -- password is adminpass
