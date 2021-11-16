@@ -1,18 +1,20 @@
 package progi.megatron.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import progi.megatron.util.Role;
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "user_account")
 public class User implements Serializable {
 
-    // todo: make user sequence start at 100000, not 1
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ")
-    @SequenceGenerator(name = "USER_SEQ", sequenceName = "USER_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "USER_SEQ", sequenceName = "USER_SEQ", initialValue = 10000, allocationSize = 1)
     private Long userId;
 
     private String userRole;
@@ -25,11 +27,10 @@ public class User implements Serializable {
 
     private int optOut;
 
-    public User() {
-    }
+
+    public User() { }
 
     public User(Role userRole, String password) {
-        this.userId = 100000L;
         this.userRole = userRole.toString();
         this.password = password;
         this.accActivated = 0;
@@ -37,49 +38,14 @@ public class User implements Serializable {
         this.optOut = 0;
     }
 
-    //    @OneToOne(cascade = CascadeType.ALL, optional = true, mappedBy = "user")
-//    //@JoinColumn(name = "bankWorkerId")
-//    private BankWorker bankWorker;
-//
-//    @OneToOne(cascade = CascadeType.ALL, optional = true, mappedBy = "user")
-//    //@JoinColumn(name = "donorId")
-//    private Donor donor;
-//
-//    public Long getUserId() {
-//        return userId;
-//    }
-//    public void setUserId(Long userId) {
-//        this.userId = userId;
-//    }
-//    public Role getUserRole() {
-//        return userRole;
-//    }
-//    public void setUserRole(Role userRole) {
-//        this.userRole = userRole;
-//    }
-//    public String getPassword() {
-//        return password;
-//    }
-//    public void setPassword(String password) {
-//        this.password = password;
-//    }
-//
-//    public User(){
-//
-//    }
-//
-//    public User(Long userId, Role userRole, String password, int accActivated, int permDeactivated, int optOut) {
-//        this.userId = userId;
-//        this.userRole = userRole;
-//        this.password = password;
-//        this.accActivated = accActivated;
-//        this.permDeactivated = permDeactivated;
-//        this.optOut = optOut;
-//    }
-//
-//    public static User newUser(Role role){
-//        return new User(1000000L, role,null,0,0,0);
-//
-//    }
+    public boolean isAdmin() { return userRole.equals("ADMIN"); }
+
+    public Boolean isDonor() {
+        return userRole.equals("DONOR");
+    }
+
+    public Boolean isWorker() {
+        return userRole.equals("WORKER");
+    }
 
 }

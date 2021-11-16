@@ -1,0 +1,24 @@
+stages:
+  - deploy
+
+deploy-be:
+  stage: deploy
+  script:
+    - apt-get update -yq
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - cd IzvorniKod/backend/megatron
+    - dpl --provider=heroku --app=$HEROKU_API_STAGING_BE --api_key=$HEROKU_API_KEY
+  only:
+    - develop
+
+deploy-fe:
+  stage: deploy
+  script:
+    - apt-get update -yq
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - cd IzvorniKod/frontend
+    - dpl --provider=heroku --app=$HEROKU_API_STAGING_FE --api_key=$HEROKU_API_KEY
+  only:
+    - develop

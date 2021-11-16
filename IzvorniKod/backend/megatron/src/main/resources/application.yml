@@ -5,3 +5,5 @@ spring:
     username: admin
   jpa:
     open-in-view: false
+
+

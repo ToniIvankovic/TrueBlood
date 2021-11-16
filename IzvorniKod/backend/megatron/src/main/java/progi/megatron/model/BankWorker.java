@@ -2,7 +2,11 @@ package progi.megatron.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "bank_worker")
 public class BankWorker implements Serializable {
@@ -30,25 +34,4 @@ public class BankWorker implements Serializable {
 
     private String email;
 
-//    @OneToOne(cascade = CascadeType.ALL, optional = false)
-//    @PrimaryKeyJoinColumn
-//    private User user;
-
-//   /* @OneToOne
-//    @JoinColumn(name = "donation_try_bank_worker_id")
-//    private DonationTry donationTry;*/
-//
-//    public BankWorker(User user, String firstName, String lastName, String oib, String birthDate, String birthPlace, String address, String workPlace, String privateContact, String workContact, String email) {
-//        this.user = user;
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.oib = oib;
-//        this.birthDate = birthDate;
-//        this.birthPlace = birthPlace;
-//        this.address = address;
-//        this.workPlace = workPlace;
-//        this.privateContact = privateContact;
-//        this.workContact = workContact;
-//        this.email = email;
-//    }
 }
