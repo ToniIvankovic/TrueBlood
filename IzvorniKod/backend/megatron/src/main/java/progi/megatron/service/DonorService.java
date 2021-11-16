@@ -30,7 +30,8 @@ public class DonorService {
 
     @Transactional(rollbackFor = Exception.class)
     public Donor createDonorByDonor(DonorByDonorDTO donorByDonorDTO){
-        String password = userService.randomPassword();
+        //String password = userService.randomPassword();
+        String password = "generated password";
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
         user = userService.createUser(user);
         Donor donor = donorByDonorDTO.DonorByDonorDTOToDonor(donorByDonorDTO, user.getUserId());
@@ -44,7 +45,8 @@ public class DonorService {
 
     @Transactional(rollbackFor = Exception.class)
     public Donor createDonorByBankWorker(DonorByBankWorkerDTO donorByBankWorkerDTO){
-        String password = userService.randomPassword();
+        //String password = userService.randomPassword();
+        String password = "generated password";
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
         userService.createUser(user);
         Donor donor = donorByBankWorkerDTO.DonorByBankWorkerDTOToDonor(donorByBankWorkerDTO, user.getUserId());
