@@ -217,7 +217,7 @@ UC4.2 - Uredi matične i kontakt podatke djelatnika
 		
 UC4.3 - Evidentiraj trajno odbijanje donora
 •Glavni sudionik: djelatnik
-•Cilj: Uređivanje postojećih matičnih i kontakt podataka o računu
+•Cilj: Evidentirati trajno odbijanje donora
 •Sudionici: 
 •Preduvjet: Donor ima stvoren račun i pripada nekoj od skupina koja se trajno odbija
 •Opis osnovnog tijeka:
