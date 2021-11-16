@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;1,400;1,500&family=Leckerli+One&display=swap');
 
-
+/* Login page css /////////////////////////////////////////////////////*/ 
 .homepage{
     margin:0;
     margin-right: auto;
-    display: flex;
-    justify-content: flex-end;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     font-family: "Alegreya";
     color: #1e396f;
     overflow: auto;
@@ -23,6 +23,20 @@
     max-width: 900px;
     font-size: 60px;
     justify-content: center;
+}
+
+.errorcard {
+    display: flex;
+    background-color: #ff3e3e;
+    color: #ffffff;
+    font-size: 20pt;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 80px;
+    justify-content: center;
+    align-items: center;
 }
 
 .text{
@@ -66,12 +80,13 @@
     margin-top: 0;
     margin-bottom: auto;
     justify-content: center;
-    max-width: 500px;
+    max-width: 550px;
     background-color: #f6f5fa;
     border-radius: 50px;
     padding: 20px 10px 20px 10px;
 
 }
+
 
 .input{
     background-color: #1e396f;
@@ -85,7 +100,7 @@
     cursor: pointer;
 }
 
-::placeholder{
+.login ::placeholder{
     color: #f6f5fa;
     opacity: 0.5;
     font-style: italic;
@@ -98,7 +113,6 @@
     font-style: normal;
     outline: none;
     border: 1px solid #1e396f;
-
 }
 .submit{
     width: 150px;
@@ -123,7 +137,7 @@
 }
 
 .login p{
-    margin-bottom: 40px;
+    margin-bottom: 60px;
 }
 
 .image-alert{
@@ -161,7 +175,11 @@
 }
 
 
-@media screen and (max-width: 1500px){
+@media screen and (max-width: 1520px){
+    .homepage{
+        display: flex;
+        justify-content: flex-end;
+    }
     .image-alert{
         max-width: 600px;
         justify-content: center;
@@ -175,6 +193,9 @@
     }
     .login{
         margin-top: auto;
+    }
+    .text{
+        margin-bottom: 30%;
     }
 
     .text-login{
@@ -220,7 +241,9 @@
     }
 
     .login {
-        margin: auto;
+        margin-top: -30px;
+        margin-left: auto;
+        margin-right: auto;
         justify-content: center;
     }
 
@@ -232,5 +255,302 @@
     .login p{
         font-size: 40px;
     }
+}
+
+
+/* Sign up page css //////////////////////////////////////////////////*/
+
+.reg{
+    display: grid;
+    grid-template-rows: auto;
+    justify-content: center;
+    margin: 0 20px 10px;
+}
+
+.reg input{
+    border-radius: 100px;
+    padding: 10px 30px;
+    width: 100%;
+    outline: none !important;
+    border: none;
+    background-color: #f6f5fa;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.reg input:focus{
+    background-color: white;
+    color: #1e396f;
+    transition: all 0.5s ease;
+    font-style: normal;
+    outline: none;
+    border: 1px solid #d65d5c;
+}
+
+.reg ::placeholder{
+    color: #1e396f;
+    font-style: italic;
+    font-size: 25px;
+    opacity: 0.5;
+}
+
+.reg label{
+    color: #d65d5c;
+}
+
+.tekst{
+    font-size: 60px;
+    color: #1e396f;
+    text-align: center;
+}
+
+.label{
+    font-size: 25px;
+    margin: 20px auto 20px 30px;  
+}
+
+.dupli{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 0 auto 20px auto;
+    column-gap: 10px;
+
+}
+
+.single{
+    margin: 20px auto;
+}
+
+.krgrupe{
+    text-align: center;
+}
+
+.krgrupe select{
+    border-radius: 100px;
+    font-size: 25px;
+    padding-left: 5px;
+    outline: none !important;
+    border: 1px solid #1e396f;
+}
+
+.krgrupe label{
+    color: #1e396f;
+    font-size: 25px;
+    padding: 10px 30px;
+}
+
+.napomena p{
+    font-size: 20px;
+    margin: 20px; 
+    text-align: center;  
+}
+
+.gumbi{
+    text-align: center;
+}
+
+.kreiraj{
+    font-size: 30px;
+    border-radius: 100px;
+    background-color: #d65d5c;
+    color: #f6f5fa;
+    border: none;
+    padding: 10px 30px;
+}
+
+.kreiraj:hover{
+    background-color: #f6f5fa;
+    color: #1e396f;
+    transition: all 0.5s ease;
+    outline: none !important;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 700px){
+    .tekst{
+        font-size: 40px;
+    }
+    .reg input{
+        font-size: 20px;
+    }
+    .reg input::placeholder{
+        font-size: 20px;
+    }  
+}
+@media screen and (max-width: 545px){
+    .dupli{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .dupli input{
+        margin-top: 20px;
+    }
+    .reg {
+        margin: 10px 40px;
+    }
+    .label{
+        font-size: 20px;
+        margin: 20px auto 0 30px;  
+    }
     
+}
+
+/* Autorizacija css /////////////////////////////////////////////////*/
+
+.sent{
+    display: grid;
+    grid-template-rows: auto;
+    justify-content: center;
+    text-align: center;
+    margin: 0 20px 10px;
+}
+
+.big p{
+    font-size: 60px;
+    padding-bottom: 10px;
+}
+.small p{
+    font-size: 40px;
+    padding-bottom: 10px;
+}
+
+.sent span{
+    color: #d65d5c;
+}
+@media screen and (max-width: 1025px) {
+    .big p{
+        font-size: 50px;
+        padding-bottom: 10px;
+    }
+    .small p{
+        font-size: 30px;
+        padding-bottom: 10px;
+    }  
+}
+
+/* Homepage css ///////////////////////////////////////////////////////*/
+
+.naslovna{
+    display: grid;
+    grid-template-rows: auto;
+    justify-content: center;
+    text-align: center;
+    margin: 0 20px 10px;
+}
+
+.pitanje p{
+    font-size: 60px;
+    margin-top: 20px;
+}
+
+.akt{
+    margin: 50px auto 20px auto;
+}
+
+.akt p{
+    font-size: 40px;
+}
+
+/* .epruvete{
+    display: grid;
+    grid-template-columns: auto;
+    justify-content: center;
+    transform: rotate(90deg);
+    max-width: 470px;
+    max-height: 400px;
+    margin: 0;
+}
+
+.sample{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    justify-content: center;
+    text-align: center;
+    margin: 20px 0;
+}
+.sample p{
+    font-size: 30px;
+    transform: rotate(-90deg);
+}
+.bar{
+    width: 350px;
+    height: 55px;
+    border-radius: 100px;
+    background-color: #f6f5fa;
+    box-sizing: border-box;
+} */
+
+.info{
+    text-align: center;
+    margin: 50px auto 10px;
+    font-size: 15px;
+}
+/* @media  screen and (max-width: 770px) {
+    .epruvete{
+        display: grid;
+        grid-template-columns: auto;
+        justify-content: center;
+        transform: rotate(180deg);
+        margin: 0 -170px;
+    }
+    
+    .sample{
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        justify-content: center;
+        text-align: center;
+        margin: 10px 0;
+    }
+    .sample p{
+        font-size: 30px;
+        transform: rotate(180deg);
+        text-align: center;
+    }
+    .bar{
+        width: 350px;
+        height: 55px;
+        border-radius: 100px;
+        background-color: #f6f5fa;
+        box-sizing: border-box;
+        margin-left: -20px;
+    }
+    
+} */
+@media screen and (max-width:500px) {
+    .pitanje p{
+        font-size: 50px;
+    }
+    
+}
+
+/* Profil css ////////////////////////////////////////////////////////*/
+
+.profile{
+    display: grid;
+    grid-template-rows: auto;
+    justify-content: center;
+    text-align: center;
+    margin: 20px auto;
+}
+.uredi{
+    display: grid;
+    grid-template-rows: auto;
+}
+.ikona img{
+    max-width: 50%;
+}
+.donacije{
+    margin: 30px 10px;
+}
+.donacije p{
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+.lista{
+    background-color: #f6f5fa;
+    text-align: center;
+    height: 300px;
+    box-sizing: border-box;
+    border-radius: 50px;
 }

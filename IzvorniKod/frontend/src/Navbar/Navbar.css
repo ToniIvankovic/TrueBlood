@@ -35,7 +35,7 @@
     width: 75%;
 }
 
-.prijava, .faq, .kontakt {
+.profil, .faq, .kontakt {
     text-decoration: none;
     color: #1e396f;
     font-size: 30px;
@@ -44,7 +44,7 @@
     cursor: pointer;
 }
 
-.prijava li:hover,
+.profil li:hover,
 .faq li:hover,
 .kontakt li:hover{
     color: #d65d5c;
@@ -55,9 +55,16 @@
     display: none;
 }
 
+.links-mob{
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+    width: 75%;
+}
+
 @media screen and (max-width: 1210px){
     .logo{
-        display: flex;
+        display: block;
         position: absolute;
         top: 30px;
         left: 35px;
@@ -70,8 +77,9 @@
         position: absolute;
         display: block;
         list-style: none;
-        font-style: italic;
+        font-style: normal;
         background-color: #f6f5fa;
+        border: 1px #1e396f solid;
         border-radius: 50px;
         left: 0;
         top: 150px;
@@ -79,7 +87,7 @@
         z-index: 4;
     }
 
-    .prijava,
+    .profil,
     .faq,
     .kontakt{
         color: #1e396f;
@@ -101,4 +109,10 @@
         cursor: pointer;
 
     }    
+}
+@media screen and (max-width: 440px) {
+    .logo{
+        font-size: 50px;
+        top: 40px;
+    }
 }

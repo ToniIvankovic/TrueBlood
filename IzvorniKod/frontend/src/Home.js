@@ -1,40 +1,61 @@
 import React from "react";
-import Image from './Image.png';
-
+import {Link} from 'react-router-dom';
 
 const Home = () => {
     return(
-        <div className="homepage">
-            <div className="text-login">
-                <div className="text">
-                    <div><p>Doniraj krv, spasi život!</p></div>
-                    <button className="registracija"> Registriraj se</button>
+        <div className="content">
+            <div className="naslovna">
+                <div className="pitanje">
+                    <p>Želiš donirati krv?</p>
                 </div>
-                <div className="login">
-                    <p>Prijavi se!</p>
-                    <input 
-                        className='input'
-                        type='text'
-                        placeholder="Email"
-                        required
-                    ></input>
-                    <input
-                        className='input'
-                        type='password'
-                        placeholder="Lozinka"
-                        required
-                    ></input>
-                    <button
-                        className='submit'
-                        type="submit"
-                    >Prijava</button>
+                <div>
+                    <Link to='/prijava'>
+                        <button className="registracija">Prijavi se</button>
+                    </Link>
                 </div>
+                {/* <div className="akt">
+                    <p>Aktualne zalihe krvi:</p>
+                </div> */}
             </div>
-            <div className="image-alert">
-                <p className="alert">Nedostaje krvi krvne grupe x</p>
-                <img src={Image} alt="image1" className="image"/>
-            </div>
+            {/* <div className="epruvete">
+                <div className="sample">
+                    <p>0-</p>
+                    <div className="bar"></div>
+                </div>
+                <div className="sample">
+                    <p>0+</p>
+                    <div className="bar"></div>
+                </div>
+                <div className="sample">
+                    <p>AB-</p>                
+                    <div className="bar"></div>
+                </div>
+                <div className="sample">
+                    <p>AB+</p>
+                    <div className="bar"></div>
+                </div>
+                <div className="sample">
+                    <p>B-</p>
+                    <div className="bar"></div>
+                </div>
+                <div className="sample">
+                    <p>B+</p>
+                    <div className="bar"></div>
+                </div>
+                <div className="sample">
+                    <p>A-</p>
+                    <div className="bar"></div>
+                </div>
+                <div className="sample">
+                    <p>A+</p>
+                    <div className="bar"></div>
+                </div>
+            </div> */}
+            {/* <div className="info">
+                <p>*Zalihe krvi iskazane su u jedinicama (450mL).</p>
+            </div> */}
         </div>
     )
 }
+
 export default Home;
