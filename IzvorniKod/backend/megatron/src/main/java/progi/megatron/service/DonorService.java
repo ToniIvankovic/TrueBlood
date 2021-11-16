@@ -38,7 +38,7 @@ public class DonorService {
         // todo: delete user if validation is not successful
 
         // todo: send email
-        logger.info("Sending e-mail to user. Password is " + password);
+        logger.info("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
         return donorRepository.save(donor);
     }
 
