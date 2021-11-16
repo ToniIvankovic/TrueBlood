@@ -86,6 +86,7 @@ The following examples use the backend application (trueblood-be), but you can a
 - view logs: `heroku logs --tail --app trueblood-be`
 - restart app: `heroku restart --app trueblood-be`
 - view builds: `heroku builds --app trueblood-be`
+- connect to database: `heroku pg:psql --app trueblood-be` (this is only available for trueblood-be)
 
 If the builds plugin is not installed, you can install it with `heroku plugins:install heroku-builds`.
 
