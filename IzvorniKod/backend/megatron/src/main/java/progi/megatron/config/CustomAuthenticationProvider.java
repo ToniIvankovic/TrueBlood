@@ -44,7 +44,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             if(user.isDonor()) {
                 authorities = commaSeparatedStringToAuthorityList("ROLE_DONOR");
             } else if(user.isWorker()) {
-                authorities = commaSeparatedStringToAuthorityList("ROLE_WORKER");
+                authorities = commaSeparatedStringToAuthorityList("ROLE_BANK_WORKER");
             } else if(user.isAdmin()) {
                 authorities = commaSeparatedStringToAuthorityList("ROLE_ADMIN");
             } else {
