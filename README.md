@@ -55,7 +55,7 @@ You can also get the production version by running `yarn build`. The files will 
    or use psql shell.
 5. Type password "admin" (the letters will not be visible while you are typing).
 6. Try out some commands (in that terminal) and make sure it works correctly.
-   ###psql commands
+   ### psql commands
       `\l` -> lists all databases
    
       `\d` -> lists all relations
@@ -74,3 +74,21 @@ Play around with it! :)
 9. Type `\d` in terminal. There should be new tables now (5 database tables and flyway_schema_history).
 
 Well done!
+
+## Heroku and CI/CD
+
+1. Create a [heroku account](https://signup.heroku.com).
+1. Install [heroku CLI](https://devcenter.heroku.com/articles/heroku-cli).
+2. Run `heroku login`.
+
+The following examples use the backend application (trueblood-be), but you can also use trueblood-fe for the frontend app.
+
+- view logs: `heroku logs --tail --app trueblood-be`
+- restart app: `heroku restart --app trueblood-be`
+- view builds: `heroku builds --app trueblood-be`
+
+If the builds plugin is not installed, you can install it with `heroku plugins:install heroku-builds`.
+
+You can view current pipeline status in the sidebar in CI/CD -> Pipelines, then clicking on the status of the pipeline (running/passed/failed).  
+**NOTE**: In case the pipeline fails and the logs show a `Your account has reached its concurrent builds limit` error, run `heroku restart` on the application.
+
