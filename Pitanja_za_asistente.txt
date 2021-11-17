@@ -1,5 +1,5 @@
 Pitanja za 6. tj:
--Je li generička funkcionalnost samo
+-Je li generička funkcionalnost samo 
 
 Pitanja za tj. 5:
 -Nepraktično nam je s Overleafa svaki put preuzimati dokumentaciju i stavljati na git - možemo li to samo na kraju uploadati 
