@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Image from './Image.png';
 import {Link} from 'react-router-dom';
 import axios from './util/axios-instance';
 import { Buffer } from 'buffer';
 import { useHistory } from "react-router";
 import ErrorCard from "./ErrorCard";
+import { GlobalContext } from "./context/GlobalState";
 
 
 const Login = () => {
 
     let history = useHistory();
+
+    const { updateLoggedInEvent } = useContext(GlobalContext);
 
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
@@ -18,6 +21,10 @@ const Login = () => {
     const range = (lower, upper) => {
         if(upper - lower < 1) { return null; }
         return Array.from(new Array(upper - lower), (x, i) => i + lower);
+    }
+
+    const setLoginState = (value) => {
+        updateLoggedInEvent('SET_LOGGED_IN', value);
     }
     
     const handleSubmit = (event) => {
@@ -31,6 +38,7 @@ const Login = () => {
         .then((response) => {
             // if response.ok then route to profile
             setErrorHidden(true);
+            setLoginState(true);
             console.log('LOGIN SUCCESS');
             history.push('/profil');
         })
