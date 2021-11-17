@@ -1,3 +1,7 @@
+Pitanja za 8. tj:
+-je li potrebno sustavom onemogućiti doniranje ako je donor već darivao krv u zadnjih 3/4 mjeseca, ili se 
+	pouzdamo u djelatnika (domena primjene)?
+
 Pitanja za 6. tj:
 -Je li nužna ekripcija lozinke u bazi podataka ako nitko nema izravan pristup bazi?
 	RE: da, ali ne za generičku
