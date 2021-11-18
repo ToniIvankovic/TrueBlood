@@ -1,18 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Image from './Image.png';
 import {Link} from 'react-router-dom';
 import axios from './util/axios-instance';
-import { Buffer } from 'buffer';
 import { useHistory } from "react-router";
 import ErrorCard from "./ErrorCard";
-import { GlobalContext } from "./context/GlobalState";
 
+// TODO: Clean up logs
 
-const Login = () => {
+const Login = (props) => {
 
     let history = useHistory();
-
-    const { updateLoggedInEvent } = useContext(GlobalContext);
 
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
@@ -22,24 +19,24 @@ const Login = () => {
         if(upper - lower < 1) { return null; }
         return Array.from(new Array(upper - lower), (x, i) => i + lower);
     }
-
-    const setLoginState = (value) => {
-        updateLoggedInEvent('SET_LOGGED_IN', value);
-    }
     
     const handleSubmit = (event) => {
         event.preventDefault();
         const url = '/api/v1/login';
-        const credentials = Buffer.from(userId + ':' + password).toString('base64');
-        const basicAuth = 'Basic ' + credentials;
-        axios.get(url, {
-            headers: {'Authorization': basicAuth}
-        })
+        axios.post(
+            url,
+            {
+                userId: userId,
+                password: password
+            }
+        )
         .then((response) => {
-            // if response.ok then route to profile
             setErrorHidden(true);
-            setLoginState(true);
             console.log('LOGIN SUCCESS');
+            console.log(response.headers.authorization);
+            window.localStorage.setItem('token', response.headers.authorization);
+            props.onLogin();
+            console.log("PUSHING TO PROFIL");
             history.push('/profil');
         })
         .catch((error) => {
@@ -67,6 +64,13 @@ const Login = () => {
         });
     }
 
+    useEffect(() => {
+        const token = window.localStorage.getItem('token');
+        if(token != null) {
+            history.push('/');
+        }
+    })
+
     return(
         <div className="homepage">
             <div className="text-login">
@@ -83,7 +87,7 @@ const Login = () => {
                         onChange={(e) => setUserId(e.target.value)}
                         className='input'
                         type='text'
-                        placeholder="Email"
+                        placeholder="Identifikacijski broj"
                         required
                     ></input>
                     <input

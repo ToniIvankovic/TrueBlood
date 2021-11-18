@@ -1,32 +1,54 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Profilimg from './Profile.png';
 import axios from './util/axios-instance';
 import { useHistory } from "react-router";
-import { GlobalContext } from "./context/GlobalState";
 
-const Profil = () => {
+const Profil = (props) => {
+
+    const [user, setUser] = useState({});
 
     let history = useHistory();
 
-    const { loggedIn, updateLoggedInEvent } = useContext(GlobalContext);
+    const getUserInfo = async () => {
+        const url = '/api/v1/user';
+        const token = window.localStorage.getItem('token');
+        console.log("GETTING USER INFO: " + token);
+        const bearerAuth = 'Bearer ' + token;
+        await axios.get(url, {
+            headers: {'Authorization': bearerAuth}
+        })
+        .then((response) => {
+            if(response.data != null) {
+                setUser({
+                    userId: response.data.id,
+                    role: response.data.role
+                });
+            }
+        })
+        .catch((error) => {
+            console.log('Error retrieving user info: ' + error);
+            history.push('/');
+        })
+    }
 
     useEffect(() => {
-        if(!loggedIn) {
-            history.push('/');
-        }
-    })
+        getUserInfo();
+    }, []);
 
     const logout = (event) => {
         const url = '/api/v1/logout';
         axios.get(url)
         .then((response) => {
-            updateLoggedInEvent('SET_LOGGED_IN', false);
             console.log('LOGOUT SUCCESS');
             history.push('/');
         })
         .catch((error) => {
             console.log('LOGOUT ERROR: ' + error);
+        })
+        .finally(() => {
+            window.localStorage.clear();
+            props.onLogout();
         });
     }
 
@@ -35,13 +57,15 @@ const Profil = () => {
             <div className="ikona">
                 <img src={Profilimg} alt="profileimg" />
             </div>
+            <div className="basicInfo">
+                <div>{user ? user.userId : null}</div>
+                <div>{user ? user.role : null}</div>
+            </div>
             <div className="uredi">
                 <Link to='/update'>
                     <button className="registracija">Uredi podatke</button>
                 </Link>
-                <Link to='/'>
-                    <button onClick={(event) => logout(event)} className="submit">Odjava</button>
-                </Link>      
+                <button onClick={(event) => logout(event)} className="submit">Odjava</button>
             </div>
             <div className="donacije">
                 <p>Moje donacije</p>

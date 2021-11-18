@@ -1,9 +1,11 @@
 import axios from './util/axios-instance';
 import React, { useState } from "react";
 import { useRef } from "react";
-import {Link} from 'react-router-dom';
+import { useHistory } from 'react-router';
 
 const Registracija = () => {
+
+    const history = useHistory();
     const ref = useRef();
 
     const [donorInfo, setDonorInfo] = useState({
@@ -36,12 +38,15 @@ const Registracija = () => {
         axios.post(url, donorInfo)
         .then((response) => {
             if(response.ok) {
-                console.log("User successfully created.");
+                console.log('User successfully created.');
             }
         })
         .catch((error) => {
             console.log('Error while creating user. Response: ' + error.response);
-        });
+        })
+        .finally(() => {
+            history.push('/');
+        })
     }
 
     return(

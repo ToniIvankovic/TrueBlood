@@ -39,6 +39,11 @@
     align-items: center;
 }
 
+.basicInfo {
+    font-size: 20pt;
+    text-align: center;
+}
+
 .text{
     display: flex;
     flex-wrap: wrap;
