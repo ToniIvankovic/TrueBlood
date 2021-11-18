@@ -1,9 +1,12 @@
 import axios from './util/axios-instance';
 import React, { useState } from "react";
 import { useRef } from "react";
-import {Link} from 'react-router-dom';
+import { useHistory } from 'react-router';
+import ErrorCard from './ErrorCard';
 
 const Registracija = () => {
+
+    const history = useHistory();
     const ref = useRef();
 
     const [donorInfo, setDonorInfo] = useState({
@@ -18,6 +21,9 @@ const Registracija = () => {
         workContact: '',
         email: ''
     });
+
+    const [errorMessage, setErrorMessage] = useState('Greška');
+    const [errorHidden, setErrorHidden] = useState(true);
 
     const handleChange = (event) => {
         let name = event.target.name;
@@ -35,12 +41,19 @@ const Registracija = () => {
         const url = '/api/v1/donor/registration'
         axios.post(url, donorInfo)
         .then((response) => {
-            if(response.ok) {
-                console.log("User successfully created.");
-            }
+            console.log('User successfully created.');
+            history.push('/');
         })
         .catch((error) => {
             console.log('Error while creating user. Response: ' + error.response);
+            if(error.response) {
+                if(error.response.status == 400) {
+                    setErrorMessage('Greška! Korisnik s navedenim OIB-om već postoji.');
+                } else {
+                    setErrorMessage('Greška pri registraciji!');
+                }
+            }
+            setErrorHidden(false);
         });
     }
 
@@ -149,6 +162,7 @@ const Registracija = () => {
                         <option value="0-">0-</option>
                     </select>       
                 </div> */}
+                { errorHidden ? null : <ErrorCard message={errorMessage}/> }
                 <div className="gumbi">
                     <button className='kreiraj'>Kreiraj račun</button>
                 </div>

@@ -1,12 +1,10 @@
 import React from 'react';
 
-const ErrorCard = () => {
+const ErrorCard = (props) => {
 
     return (
-        <div>
-            <div className='errorcard'>
-                Netočan ID ili lozinka
-            </div>
+        <div className='errorcard'>
+            {props.message}
         </div>
     );
 }

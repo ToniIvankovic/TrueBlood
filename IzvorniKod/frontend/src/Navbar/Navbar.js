@@ -1,11 +1,8 @@
-import React, {useContext, useState} from "react";
+import React, { useState } from "react";
 import {Link} from "react-router-dom";
-import { GlobalContext } from "../context/GlobalState";
 import "./Navbar.css";
 
-const Navbar = () => {
-
-    const { loggedIn } = useContext(GlobalContext);
+const Navbar = (props) => {
 
     const [isMob, setIsMob] = useState(false);
     const handleClick = () => setIsMob(!isMob)
@@ -16,11 +13,10 @@ const Navbar = () => {
                 <h3 className="logo">Trueblood</h3>
             </Link>
             <ul className={isMob ? "links-mob" : "links"}>
-                { loggedIn ? (
+                { props.showProfile ?
                     <Link to="/profil" className="profil" onClick={()=>setIsMob(false)}>
                         <li>Profil</li>
                     </Link>
-                )
                 : null }
                 <Link to="/faq" className="faq" onClick={()=>setIsMob(false)}>
                     <li>FAQ</li>
