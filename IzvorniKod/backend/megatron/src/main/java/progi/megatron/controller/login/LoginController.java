@@ -45,11 +45,12 @@ public class LoginController {
             String userId = authenticate.getPrincipal().toString();
             User user = userService.findById(userId);
 
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.AUTHORIZATION);
+            responseHeaders.add(HttpHeaders.AUTHORIZATION, jwtTokenUtil.generateAccessToken(user));
+
             return ResponseEntity.ok()
-                    .header(
-                            HttpHeaders.AUTHORIZATION,
-                            jwtTokenUtil.generateAccessToken(user)
-                    )
+                    .headers(responseHeaders)
                     .body(user.getUserId());
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

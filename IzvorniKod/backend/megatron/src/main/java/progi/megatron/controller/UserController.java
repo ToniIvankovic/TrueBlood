@@ -14,6 +14,7 @@ import progi.megatron.util.JwtTokenUtil;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
+@CrossOrigin
 @RequestMapping("/api/v1/user")
 public class UserController {
 
