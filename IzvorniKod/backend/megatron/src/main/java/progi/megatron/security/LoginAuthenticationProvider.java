@@ -1,4 +1,4 @@
-package progi.megatron.config;
+package progi.megatron.security;
 
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import progi.megatron.model.User;
 import progi.megatron.service.UserService;
-import progi.megatron.util.JwtTokenUtil;
 
 @Component
 public class LoginAuthenticationProvider implements AuthenticationProvider {

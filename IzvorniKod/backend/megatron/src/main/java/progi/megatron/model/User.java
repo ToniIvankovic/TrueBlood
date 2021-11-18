@@ -49,15 +49,15 @@ public class User implements Serializable {
         return userRole.equals("DONOR");
     }
 
-    public Boolean isWorker() {
-        return userRole.equals("WORKER");
+    public Boolean isBankWorker() {
+        return userRole.equals("BANK_WORKER");
     }
 
     public List<GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities;
         if(isDonor()) {
             authorities = commaSeparatedStringToAuthorityList("ROLE_DONOR");
-        } else if(isWorker()) {
+        } else if(isBankWorker()) {
             authorities = commaSeparatedStringToAuthorityList("ROLE_BANK_WORKER");
         } else if(isAdmin()) {
             authorities = commaSeparatedStringToAuthorityList("ROLE_ADMIN");

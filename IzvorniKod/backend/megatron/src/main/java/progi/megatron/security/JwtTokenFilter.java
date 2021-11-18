@@ -1,4 +1,4 @@
-package progi.megatron.config;
+package progi.megatron.security;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import progi.megatron.model.User;
 import progi.megatron.service.UserService;
-import progi.megatron.util.JwtTokenUtil;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

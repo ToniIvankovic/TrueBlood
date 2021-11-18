@@ -1,4 +1,4 @@
-package progi.megatron.config;
+package progi.megatron.security;
 
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,7 +43,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             // tip: role names have to start with 'ROLE_'
             if(user.isDonor()) {
                 authorities = commaSeparatedStringToAuthorityList("ROLE_DONOR");
-            } else if(user.isWorker()) {
+            } else if(user.isBankWorker()) {
                 authorities = commaSeparatedStringToAuthorityList("ROLE_BANK_WORKER");
             } else if(user.isAdmin()) {
                 authorities = commaSeparatedStringToAuthorityList("ROLE_ADMIN");

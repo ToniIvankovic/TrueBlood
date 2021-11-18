@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.User;
 import progi.megatron.model.dto.UserDTO;
 import progi.megatron.service.UserService;
-import progi.megatron.util.JwtTokenUtil;
+import progi.megatron.security.JwtTokenUtil;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,7 +28,7 @@ public class UserController {
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
-    @Secured({"ROLE_DONOR", "ROLE_BANK_WORKER"})
+    //@Secured({"ROLE_DONOR", "ROLE_BANK_WORKER"})
     @GetMapping
     public ResponseEntity<Object> getCurrentUser(HttpServletRequest request) {
 

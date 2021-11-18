@@ -1,4 +1,4 @@
-package progi.megatron.model;
+package progi.megatron.security;
 
 public class LoggedInResponse {
     private Boolean loggedIn;
