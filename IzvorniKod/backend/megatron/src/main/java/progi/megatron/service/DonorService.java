@@ -3,6 +3,7 @@ package progi.megatron.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import progi.megatron.exception.WrongDonorException;
 import progi.megatron.model.Donor;
 import progi.megatron.model.User;
 import progi.megatron.model.dto.DonorByBankWorkerDTO;
@@ -34,12 +35,17 @@ public class DonorService {
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
         user = userService.createUser(user);
         Donor donor = donorByDonorDTO.DonorByDonorDTOToDonor(donorByDonorDTO, user.getUserId());
+
         donorValidator.validateDonor(donor);
-        // todo: delete user if validation is not successful
+        if (getDonorByOib(donor.getOib()) != null) {
+            throw new WrongDonorException("Donor with that oib already exists. ");
+        }
+        donor = donorRepository.save(donor);
 
         // todo: send email
         logger.info("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
-        return donorRepository.save(donor);
+
+        return donor;
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -48,12 +54,21 @@ public class DonorService {
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
         userService.createUser(user);
         Donor donor = donorByBankWorkerDTO.DonorByBankWorkerDTOToDonor(donorByBankWorkerDTO, user.getUserId());
+
         donorValidator.validateDonor(donor);
-        // todo: delete user if validation is not successful
+        if (getDonorByOib(donor.getOib()) != null) {
+            throw new WrongDonorException("Donor with that oib already exists. ");
+        }
+        donor = donorRepository.save(donor);
 
         // todo: send email
-        logger.info("Sending e-mail to user. Password is " + password);
-        return donorRepository.save(donor);
+        logger.info("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
+
+        return donor;
+    }
+
+    public Donor getDonorByOib(String oib){
+        return donorRepository.getDonorByOib(oib);
     }
 
 }

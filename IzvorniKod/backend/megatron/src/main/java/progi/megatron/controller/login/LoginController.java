@@ -11,11 +11,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import progi.megatron.model.LoggedInResponse;
+import progi.megatron.controller.UserController;
+import progi.megatron.security.LoggedInResponse;
 import progi.megatron.model.User;
 import progi.megatron.model.dto.AuthRequest;
 import progi.megatron.service.UserService;
-import progi.megatron.util.JwtTokenUtil;
+import progi.megatron.security.JwtTokenUtil;
 
 @RestController
 @CrossOrigin
@@ -25,15 +26,20 @@ public class LoginController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
     private final UserService userService;
+    private final UserController userController;
 
-    public LoginController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, UserService userService) {
+    public LoginController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, UserService userService, UserController userController) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userService = userService;
+        this.userController = userController;
     }
 
     @PostMapping
     public ResponseEntity<? extends Object> login(@RequestBody AuthRequest request) {
+//        if (userController.getCurrentUser().getStatusCode().is2xxSuccessful()) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Already logged in.");
+//        }
         try {
             Authentication authenticate = authenticationManager
                     .authenticate(

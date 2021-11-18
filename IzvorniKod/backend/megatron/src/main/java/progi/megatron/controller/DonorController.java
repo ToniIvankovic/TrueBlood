@@ -20,7 +20,6 @@ public class DonorController {
         this.donorService = donorService;
     }
 
-    // TODO: fix oib not unique response
     @PostMapping("/registration")
     public ResponseEntity<Object> createDonorByDonor(@RequestBody DonorByDonorDTO donorByDonorDTO) {
         try {

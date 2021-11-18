@@ -1,4 +1,4 @@
-package progi.megatron.util;
+package progi.megatron.security;
 
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;

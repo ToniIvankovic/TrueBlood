@@ -2,9 +2,8 @@ package progi.megatron.service;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import progi.megatron.exception.WrongUserIdException;
+import progi.megatron.exception.WrongUserException;
 import progi.megatron.model.User;
-import progi.megatron.model.dto.UserDTO;
 import progi.megatron.repository.UserRepository;
 import java.security.SecureRandom;
 
@@ -31,7 +30,7 @@ public class UserService {
         try {
             Long value = Long.valueOf(id);
         } catch(NumberFormatException exc) {
-            throw new WrongUserIdException();
+            throw new WrongUserException("User id is not numeric. ");
         }
     }
 
