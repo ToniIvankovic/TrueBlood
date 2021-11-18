@@ -2,9 +2,14 @@ package progi.megatron.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
 import progi.megatron.util.Role;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
+
+import static org.springframework.security.core.authority.AuthorityUtils.NO_AUTHORITIES;
+import static org.springframework.security.core.authority.AuthorityUtils.commaSeparatedStringToAuthorityList;
 
 @Getter
 @Setter
@@ -46,6 +51,20 @@ public class User implements Serializable {
 
     public Boolean isWorker() {
         return userRole.equals("WORKER");
+    }
+
+    public List<GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities;
+        if(isDonor()) {
+            authorities = commaSeparatedStringToAuthorityList("ROLE_DONOR");
+        } else if(isWorker()) {
+            authorities = commaSeparatedStringToAuthorityList("ROLE_BANK_WORKER");
+        } else if(isAdmin()) {
+            authorities = commaSeparatedStringToAuthorityList("ROLE_ADMIN");
+        } else {
+            authorities = NO_AUTHORITIES;
+        }
+        return authorities;
     }
 
 }
