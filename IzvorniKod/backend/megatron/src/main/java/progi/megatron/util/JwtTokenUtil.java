@@ -16,7 +16,7 @@ public class JwtTokenUtil {
         if(jwtSecret == null) {
             System.out.println("JWT_SECRET not set!");
         }
-        
+
         return Jwts.builder()
                 .setSubject(String.valueOf(user.getUserId())) //was 'userid,username'
                 .setIssuer(jwtIssuer)
