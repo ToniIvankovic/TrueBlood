@@ -121,5 +121,15 @@
 		- postaviti sva pitanja koja još imamo za finalni upload u petak u 23:59
 		- generička funkcionalnost treba pokazati session (refresh čuva session)
 	- sami napravimo neki mail za slanje aktivacijskih mailova
-	- (vezano za markov problem sa statusom 200/401) napraviti novi kontroler da provjeri paše li cookie i spring će ili odmah odbiti ili izvršiti odluku 
 	- idući sastanak u srijedu u 11:00 - svi su obavezni
+	
+7. sastanak: Prezentacija generičke funkcionalnosti
+	Prisutni: Svi
+	-Potrebno ispraviti UC opise na puno strože definiranje akcija i reakcija u sustavu
+	-Potrebno proširiti opis sustava (poglavlje 2)
+	-Osigurati pouzdanost sustava do krajnje predaje u petak
+	-Napraviti neke quality-of-life promjene
+		-Prijavljenim korisnicima onemogućiti ponovnu prijavu
+		-Redizajnirati endpointe
+		-Promijeniti login na AWT-token
+	-Ispraviti i dovršiti poglavlje o arhitekturi sustava
