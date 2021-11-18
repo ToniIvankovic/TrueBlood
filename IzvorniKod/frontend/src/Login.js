@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from './Image.png';
 import {Link} from 'react-router-dom';
 import axios from './util/axios-instance';
@@ -36,7 +36,6 @@ const Login = (props) => {
             console.log(response.headers.authorization);
             window.localStorage.setItem('token', response.headers.authorization);
             props.onLogin();
-            console.log("PUSHING TO PROFIL");
             history.push('/profil');
         })
         .catch((error) => {
@@ -69,7 +68,7 @@ const Login = (props) => {
         if(token != null) {
             history.push('/');
         }
-    })
+    }, []);
 
     return(
         <div className="homepage">
@@ -80,7 +79,7 @@ const Login = (props) => {
                         <button className="registracija"> Registriraj se</button>
                     </Link>
                 </div>
-                { errorHidden ? null : <ErrorCard /> }
+                { errorHidden ? null : <ErrorCard message={'Netočan ID ili lozinka!'}/> }
                 <form onSubmit={(event) => handleSubmit(event)} className='login'>
                     <p>Prijavi se!</p>
                     <input 

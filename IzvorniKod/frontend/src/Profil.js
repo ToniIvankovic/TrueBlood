@@ -13,7 +13,6 @@ const Profil = (props) => {
     const getUserInfo = async () => {
         const url = '/api/v1/user';
         const token = window.localStorage.getItem('token');
-        console.log("GETTING USER INFO: " + token);
         const bearerAuth = 'Bearer ' + token;
         await axios.get(url, {
             headers: {'Authorization': bearerAuth}
