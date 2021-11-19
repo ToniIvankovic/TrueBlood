@@ -1,0 +1,20 @@
+-UserId koristi funkciju da ne bude samoinkremntirajuć nego pseudoslučajan
+-Timeout period za obavijesti o prekoračenju granica
+-Opcija "označi sve sa NE" pri ispunjavanju upitnika u sustavu
+-Pdf i za neuspješno darivanje
+-Opcija "Forgot your password"
+-Mogućnost da admin može pregledati sve račune (radi sigurnije deaktivacije)
+-Mogućnost da admin reaktivira račun
+-Slanje maila pri generiranja novog računa admina (mail se ne mora spremiti trajno, samo jednokratno poslati)
+-Ograničenje izmjene OIB-a donoru (mijenja samo djelatnik pri doniranju)
+-Upozorenje adminu da optimalne granice nisu postavljene
+-Dodatno vizualno isticanje krvnih grupa kojih nedostaje
+-Izbor preuzimanja ili slanja PDF-potvrde pri pregledu povijesti doniranja
+-Ponovno slanje e-maila za aktivaciju
+-Enkripcija lozinke u bazi podataka
+-Aktivacijski mail stvara session i korisnik je odmah ulogiran bez upisivanja login podataka
+-Stvaranje novog računa s istim matičnim podatcima dok prošli nije aktiviran (u slučaju pogrešnog emaila)
+-Promjena tablice "stanje zaliha" u tablicu "doze krvi" gdje svaka doza ima svoj ID koji se bilježi u pokušaju doniranja (kao UNIQUE) i
+	može jednoznačno povezati s donorom i dodatnim testovima na krv (serološki testovi, određivanje krvne grupe...)
+-Indikator mogućnosti darivanja nakon logina (Možeš donirati / Ne možeš donirati još x dana)
+-Omogućiti login emailom

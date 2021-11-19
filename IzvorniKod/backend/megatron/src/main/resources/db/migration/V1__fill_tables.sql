@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS user_account
 (
   user_id BIGINT NOT NULL,
   user_role VARCHAR(20) NOT NULL,
-  password VARCHAR(128),
+  password VARCHAR(128) NOT NULL,
   acc_activated INT NOT NULL,
   perm_deactivated INT NOT NULL,
   opt_out INT NOT NULL,

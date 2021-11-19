@@ -103,3 +103,33 @@
 		Borna: Dovršiti login page (popravci) i dizajn za stranicu registracije
 		Marko: spajanje frontenda i backenda
 		Toni: Popravak UC dijagrama, pisanje dokumentacije
+
+6. sastanak: (10.11.2021.)
+	Prisutni: svi
+	-Rad na web securityju
+	-Brainstorm o mergeu frontenda i backenda kao priprema za deploy
+	-Podjela posla oko dokumentacije
+	Zadatci za dalje:
+		Borna: Napisati ukratko dio vezan za frontend u dokumentaciju - arhitektura_sustava
+		Marko, Ana, Vukota: Web security (omogućiti funkcionalnost logina)
+		Toni, Jakov: Rad na dokumentaciji
+		
+6.1 sastanak: Asistenti (11.11.2021.)
+	Prisutni: Toni, Vukota, Marko
+	- Na idućem sastanku: 
+		- prezentacija generičke funkcionalnosti
+		- postaviti sva pitanja koja još imamo za finalni upload u petak u 23:59
+		- generička funkcionalnost treba pokazati session (refresh čuva session)
+	- sami napravimo neki mail za slanje aktivacijskih mailova
+	- idući sastanak u srijedu u 11:00 - svi su obavezni
+	
+7. sastanak: Prezentacija generičke funkcionalnosti
+	Prisutni: Svi
+	-Potrebno ispraviti UC opise na puno strože definiranje akcija i reakcija u sustavu
+	-Potrebno proširiti opis sustava (poglavlje 2)
+	-Osigurati pouzdanost sustava do krajnje predaje u petak
+	-Napraviti neke quality-of-life promjene
+		-Prijavljenim korisnicima onemogućiti ponovnu prijavu
+		-Redizajnirati endpointe
+		-Promijeniti login na AWT-token
+	-Ispraviti i dovršiti poglavlje o arhitekturi sustava
