@@ -1,0 +1,13 @@
+Nakon provjere postojanja i ispravnosti podataka u sustavu, djelatnik za
+donora stvara pokušaj doniranja. U obrazac koji se otvara u web aplikaciji
+djelatnik evidentira zdravstvene podatke koje otkriva u komunikaciji s 
+donorom (ili iz popunjenog obrasca koji mu dostavi donor).
+Ukoliko neki od podataka implicira nemogućnost donora za darivanje krvi,
+djelatnik donora informira o tome. Pokušaj doniranja sprema se u bazu podataka
+te se donoru na mail šalje potvrda o pokušaju doniranja.
+U slučaju da je donor nije odbijen (zdravstveni podatci su ispravni), u
+sustavu se povećava zaliha krvi za jednu dozu ažuriranjem podataka u bazi, a
+donor odlazi donirati krv.
+U slučaju da je donor trajno odbijen, dodatno se u njegovom računu zabilježava
+trajno odbijanje ažuriranjem njegovih podataka u bazi.
+Ako je donor samo privremeno odbijen, ne poduzimaju se nikakvi dodatni koraci.
