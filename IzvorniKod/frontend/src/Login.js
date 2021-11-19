@@ -14,6 +14,7 @@ const Login = (props) => {
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
     const [errorHidden, setErrorHidden] = useState(true);
+    const [errorMessage, setErrorMessage] = useState('Netočan ID ili lozinka!');
 
     const range = (lower, upper) => {
         if(upper - lower < 1) { return null; }
@@ -40,6 +41,8 @@ const Login = (props) => {
         })
         .catch((error) => {
             if(!error.response) {
+                setErrorMessage('Greška! Nije moguće dohvatiti server.');
+                setErrorHidden(false);
                 console.log(error.statusText);
                 return;
             }
@@ -50,6 +53,7 @@ const Login = (props) => {
                 if(response.status == 401) {
                     // authentication error, userid or password incorrect
                     console.log('userid and/or password incorrect');
+                    setErrorMessage('Netočan ID ili lozinka!');
                     setErrorHidden(false);
                 } else if(response.status == 404) {
                     // hmm
@@ -79,7 +83,7 @@ const Login = (props) => {
                         <button className="registracija"> Registriraj se</button>
                     </Link>
                 </div>
-                { errorHidden ? null : <ErrorCard message={'Netočan ID ili lozinka!'}/> }
+                { errorHidden ? null : <ErrorCard message={errorMessage}/> }
                 <form onSubmit={(event) => handleSubmit(event)} className='login'>
                     <p>Prijavi se!</p>
                     <input 
