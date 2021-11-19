@@ -64,7 +64,6 @@ CREATE TABLE IF NOT EXISTS donation_try
   donor_id BIGINT NOT NULL,
   bank_worker_id BIGINT NOT NULL,
   PRIMARY KEY (donation_id),
-  FOREIGN KEY (blood_type) REFERENCES blood_supply(blood_type),
   FOREIGN KEY (donor_id) REFERENCES donor(donor_id),
   FOREIGN KEY (bank_worker_id) REFERENCES bank_worker(bank_worker_id)
 );
