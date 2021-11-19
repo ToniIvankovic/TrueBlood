@@ -1,6 +1,16 @@
+Pitanja za 6. tj:
+-Je li generička funkcionalnost samo 
+
 Pitanja za tj. 5:
 -Nepraktično nam je s Overleafa svaki put preuzimati dokumentaciju i stavljati na git - možemo li to samo na kraju uploadati 
 (overleaf čuva svoj history, a dokumentiranje promjena pratimo u dokumentaciji)
+	RE: Povremeno (za veće promjene) staviti na git
+-Treba li pisati bazu podataka u opisima UC dijagrama? Prisutna je kao aktor na dijagramima, ali u opisu smanjuje preglednost i zaklanja bitne stavke
+	RE: Može se na početku napisati da je prisutna u svima
+-Kada (konceptualno) uopće treba deaktivirati račun?
+	RE: djelatnika ako izgubi radni odnos, donora u slučaju greške ili smrti
+-Što ako donor ne zna svoju krvnu grupu, može li to biti NULL podatak, ili da zasad zanemarimo tu opciju? 
+	RE: ovo unosi samo djelatnik banke, i pravimo se da saznaje u trenu doniranja
 
 Pitanja za tj. 4:
 -Je li drugi način pada razine krvi u sustavu ako ampula s analize dođe kao nepovoljna pa se krv mora ipak baciti? 

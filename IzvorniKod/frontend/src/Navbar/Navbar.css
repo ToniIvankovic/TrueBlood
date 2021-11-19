@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;1,400;1,500&family=Leckerli+One&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: #1e396f;
+    font-family: "Alegreya";
+    text-decoration: none;
+}
+
+.navbar{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100px;
+    margin-top: 30px;
+    margin-left: 40px;
+    margin-right: 20px;
+    text-decoration: none;
+}
+
+.logo{
+    font-size: 90px;
+    font-family: "Leckerli One";
+    color: #d65d5c;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.links{
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+    width: 75%;
+}
+
+.profil, .faq, .kontakt {
+    text-decoration: none;
+    color: #1e396f;
+    font-size: 30px;
+    padding: 50px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.profil li:hover,
+.faq li:hover,
+.kontakt li:hover{
+    color: #d65d5c;
+}
+
+
+.mobile-menu {
+    display: none;
+}
+
+.links-mob{
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+    width: 75%;
+}
+
+@media screen and (max-width: 1210px){
+    .logo{
+        display: block;
+        position: absolute;
+        top: 30px;
+        left: 35px;
+        font-size: 70px;
+    }
+    .links{
+        display: none;
+    }
+    .links-mob{
+        position: absolute;
+        display: block;
+        list-style: none;
+        font-style: normal;
+        background-color: #f6f5fa;
+        border: 1px #1e396f solid;
+        border-radius: 50px;
+        left: 0;
+        top: 150px;
+        width: 100%;
+        z-index: 4;
+    }
+
+    .profil,
+    .faq,
+    .kontakt{
+        color: #1e396f;
+        text-align: center;
+        padding: 30px;
+        width: 100%;
+    }
+    .mobile-menu{
+        display: block;
+        position: absolute;
+        font-size: 30px;
+        color: #d65d5c;
+        background-color: white;
+        border: none;
+        outline: none;
+        top: 60px;
+        right: 40px;
+        margin-left: 40px;
+        cursor: pointer;
+
+    }    
+}
+@media screen and (max-width: 440px) {
+    .logo{
+        font-size: 50px;
+        top: 40px;
+    }
+}

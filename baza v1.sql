@@ -1,75 +1,71 @@
-CREATE TABLE IF NOT EXISTS bloodSupply
+CREATE TABLE IF NOT EXISTS blood_supply
 (
-  bloodType CHAR(2) NOT NULL,
-  numberOfUnits INT NOT NULL,
-  maxUnits INT NOT NULL,
-  minUnits INT NOT NULL,
-  PRIMARY KEY (bloodType)
+  blood_type CHAR(3) NOT NULL,
+  number_of_units INT NOT NULL,
+  max_units INT NOT NULL,
+  min_units INT NOT NULL,
+  PRIMARY KEY (blood_type)
 );
 
-CREATE TABLE IF NOT EXISTS userAccount
+CREATE TABLE IF NOT EXISTS user_account
 (
-  userId INT NOT NULL,
-  role VARCHAR(20) NOT NULL,
-  password VARCHAR(20),
-  accActivated INT NOT NULL,
-  permDeactivated INT NOT NULL,
-  optOut INT NOT NULL,
-  PRIMARY KEY (userId)
+  user_id BIGINT NOT NULL,
+  user_role VARCHAR(20) NOT NULL,
+  password VARCHAR(128),
+  acc_activated INT NOT NULL,
+  perm_deactivated INT NOT NULL,
+  opt_out INT NOT NULL,
+  PRIMARY KEY (user_id)
 );
 
 CREATE TABLE IF NOT EXISTS donor
 (
-  donorId INT NOT NULL,
-  lastName VARCHAR(50) NOT NULL,
-  OIB CHAR(11) NOT NULL,
-  birthDate DATE NOT NULL,
-  birthPlace VARCHAR(100) NOT NULL,
+  donor_id BIGINT NOT NULL,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  oib CHAR(11) NOT NULL,
+  birth_date DATE NOT NULL,
+  birth_place VARCHAR(100) NOT NULL,
   address VARCHAR(100) NOT NULL,
-  workPlace VARCHAR(100),
-  privateContact VARCHAR(20) NOT NULL,
-  workContact VARCHAR(20),
+  work_place VARCHAR(100),
+  private_contact VARCHAR(20) NOT NULL,
+  work_contact VARCHAR(20),
   email VARCHAR(50) NOT NULL,
-  bloodType CHAR(2) NOT NULL,
-  permRejectedReason VARCHAR(100),
-  lastDonationPlace VARCHAR(100),
-  donationCount INT NOT NULL,
-  PRIMARY KEY (donorId),
-  FOREIGN KEY (donorId) REFERENCES userAccount(userId),
-  FOREIGN KEY (bloodType) REFERENCES bloodSupply(bloodType),
-  UNIQUE (OIB)
+  blood_type CHAR(3),
+  perm_rejected_reason VARCHAR(100),
+  PRIMARY KEY (donor_id),
+  FOREIGN KEY (donor_id) REFERENCES user_account(user_id),
+  FOREIGN KEY (blood_type) REFERENCES blood_supply(blood_type),
+  UNIQUE (oib)
 );
 
-CREATE TABLE IF NOT EXISTS bankWorker
+CREATE TABLE IF NOT EXISTS bank_worker
 (
-  bankWorkerId INT NOT NULL,
-  firstName VARCHAR(50) NOT NULL,
-  lastName VARCHAR(50) NOT NULL,
-  OIB CHAR NOT NULL,
-  birthDate DATE NOT NULL,
-  birthPlace VARCHAR(100) NOT NULL,
+  bank_worker_id BIGINT NOT NULL,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  oib CHAR(11) NOT NULL,
+  birth_date DATE NOT NULL,
+  birth_place VARCHAR(100) NOT NULL,
   address VARCHAR(100) NOT NULL,
-  workPlace VARCHAR(100) NOT NULL,
-  privateContact VARCHAR(20) NOT NULL,
-  workContact VARCHAR(20) NOT NULL,
+  work_place VARCHAR(100) NOT NULL,
+  private_contact VARCHAR(20) NOT NULL,
+  work_contact VARCHAR(20) NOT NULL,
   email VARCHAR(50) NOT NULL,
-  PRIMARY KEY (bankWorkerId),
-  FOREIGN KEY (bankWorkerId) REFERENCES userAccount(userId),
-  UNIQUE (OIB)
+  PRIMARY KEY (bank_worker_id),
+  FOREIGN KEY (bank_worker_id) REFERENCES user_account(user_id),
+  UNIQUE (oib)
 );
 
-CREATE TABLE IF NOT EXISTS donationTry
+CREATE TABLE IF NOT EXISTS donation_try
 (
-  donationId INT NOT NULL,
-  rejectedReason VARCHAR(100),
-  bloodType CHAR(2) NOT NULL,
-  donorId INT NOT NULL,
-  bankWorkerId INT NOT NULL,
-  PRIMARY KEY (donationId),
-  FOREIGN KEY (bloodType) REFERENCES bloodSupply(bloodType),
-  FOREIGN KEY (donorId) REFERENCES donor(donorId),
-  FOREIGN KEY (bankWorkerId) REFERENCES bankWorker(bankWorkerId)
+  donation_id BIGINT NOT NULL,
+  rejected_reason VARCHAR(100),
+  blood_type CHAR(3) NOT NULL,
+  donor_id BIGINT NOT NULL,
+  bank_worker_id BIGINT NOT NULL,
+  PRIMARY KEY (donation_id),
+  FOREIGN KEY (blood_type) REFERENCES blood_supply(blood_type),
+  FOREIGN KEY (donor_id) REFERENCES donor(donor_id),
+  FOREIGN KEY (bank_worker_id) REFERENCES bank_worker(bank_worker_id)
 );
-
---INSERT INTO userAccount (userId, role, password, accActivated, permDeactivated, optOut)
---    VALUES (10000000, ADMIN, 'admin', 100000000, 0, 0);
