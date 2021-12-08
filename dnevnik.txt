@@ -133,3 +133,22 @@
 		-Redizajnirati endpointe
 		-Promijeniti login na AWT-token
 	-Ispraviti i dovršiti poglavlje o arhitekturi sustava
+	
+7.1 sastanak: Koordinacija prije kolokviranja (5.12.2021.)
+	Prisutni: svi
+	-Prezentirani dijelovi projekta kako bi se svi upoznali sa bitnim funkcionalnostima
+	-Dogovor o preraspodjeli odgovornosti na projektu
+		-Borna: frontend
+		-Toni: frontend + koordinacija
+		-Marko: fullstack
+		-Ana: backend
+		-Vukota: backend
+		-Dora: dokumentacija + backend
+		-Jakov: dokumentacija + testiranje
+		
+8. sastanak: (8.12.2021.)
+	Prisutni: svi
+	-Dogovor oko demokratske raspodjele bodova na prvoj predaji
+	-Dogovor o prioritetima u nastavku projekta
+	-Oformljen dokument s napretkom na pojedinim stavkama projekta
+	
