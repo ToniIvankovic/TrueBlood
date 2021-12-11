@@ -1,10 +1,10 @@
 import axios from './util/axios-instance';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { useHistory } from 'react-router';
 import ErrorCard from './ErrorCard';
 
-const Registracija = () => {
+const Registracija = (props) => {
 
     const history = useHistory();
     const ref = useRef();
@@ -24,6 +24,16 @@ const Registracija = () => {
 
     const [errorMessage, setErrorMessage] = useState('Greška');
     const [errorHidden, setErrorHidden] = useState(true);
+
+    const [user, setUser] = useState({});
+    
+    useEffect(() => {
+        if(props.role === 'DONOR'){
+            history.push('/');
+        }
+     },[props.role]);
+ 
+    
 
     const handleChange = (event) => {
         let name = event.target.name;
@@ -48,7 +58,7 @@ const Registracija = () => {
             console.log('Error while creating user. Response: ' + error.response);
             if(error.response) {
                 if(error.response.status == 400) {
-                    setErrorMessage('Greška! Korisnik s navedenim OIB-om već postoji.');
+                    setErrorMessage('Greška! Neispravan OIB (već postoji ili neispravan format).');
                 } else {
                     setErrorMessage('Greška pri registraciji!');
                 }
@@ -61,7 +71,7 @@ const Registracija = () => {
         <div className="reg">
             <form onSubmit={(event) => handleSubmit(event)} className='formular'>
                 <div className="tekst">
-                <p>Kreiraj korisnički račun!</p>
+                <p>Kreiraj korisnički račun! ({props.role})</p>
                 </div>
                 <div className="label">
                     <label>Osobni podaci</label>
@@ -146,12 +156,13 @@ const Registracija = () => {
                         placeholder="Kontakt (poslovni)"
                         maxLength='10'></input>                    
                 </div>
-                {/* <div className="label">
+                <div className="label">
                     <label>Zdravstveni podaci*</label>
-                </div> */}
-                {/* <div className="krgrupe">
+                </div>
+                <div className="krgrupe">
                     <label>Krvna grupa</label>
-                    <select>
+                    <select  disabled={props.role!="WORKER"}> {/*Possibly treba izmijeniti ovisno o backend implementaciji rolea*/ }
+                        <option selected value="---">Nema</option>
                         <option value="A+">A+</option>
                         <option value="A-">A-</option>
                         <option value="B+">B+</option>
@@ -161,14 +172,14 @@ const Registracija = () => {
                         <option value="0+">0+</option>
                         <option value="0-">0-</option>
                     </select>       
-                </div> */}
+                </div> 
+                <div className="napomena">
+                    <p>*Vašu krvnu grupu popunjava djelatnik pri prvom doniranju krvi.</p>
+                </div>
                 { errorHidden ? null : <ErrorCard message={errorMessage}/> }
                 <div className="gumbi">
                     <button className='kreiraj'>Kreiraj račun</button>
                 </div>
-                {/* <div className="napomena">
-                    <p>*Vaše zdravstvene podatke popunjava djelatnik prije doniranja krvi.</p>
-                </div> */}
             </form>
         </div>
     )

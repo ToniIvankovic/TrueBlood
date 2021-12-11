@@ -11,6 +11,13 @@ const Login = (props) => {
 
     let history = useHistory();
 
+    useEffect(() => {
+        const token = window.localStorage.getItem('token');
+        if(token != null) {
+            history.push('/');
+        }
+    }, []);
+    
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
     const [errorHidden, setErrorHidden] = useState(true);
@@ -67,19 +74,12 @@ const Login = (props) => {
         });
     }
 
-    useEffect(() => {
-        const token = window.localStorage.getItem('token');
-        if(token != null) {
-            history.push('/');
-        }
-    }, []);
-
     return(
         <div className="homepage">
             <div className="text-login">
                 <div className="text">
                     <div><p>Doniraj krv, spasi život!</p></div>
-                    <Link to='/registracija'>
+                    <Link to='/stvori_donora'>
                         <button className="registracija"> Registriraj se</button>
                     </Link>
                 </div>
