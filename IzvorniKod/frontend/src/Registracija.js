@@ -42,7 +42,7 @@ const Registracija = () => {
         axios.post(url, donorInfo)
         .then((response) => {
             console.log('User successfully created.');
-            history.push('/');
+            history.push('/autorizacija');
         })
         .catch((error) => {
             console.log('Error while creating user. Response: ' + error.response);
