@@ -1,7 +1,7 @@
 import React from "react";
 
 const Faq = () => {
-    return(
+    return (
         <div className="faq">
             <p>Česta pitanja</p>
         </div>

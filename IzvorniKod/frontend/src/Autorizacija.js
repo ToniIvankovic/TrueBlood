@@ -1,12 +1,12 @@
 import React from "react";
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Loginimg from './Loginimg.png';
 
 const Autorizacija = () => {
     return (
         <div className="sent">
             <div className="smile">
-                <img src={Loginimg} alt="smileface"/>
+                <img src={Loginimg} alt="smileface" />
             </div>
             <div className="big">
                 <p>Vaš korisnički račun je uspješno kreiran!</p>

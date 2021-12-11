@@ -9,31 +9,31 @@ const Profil = (props) => {
     const user = props.user;
 
     const history = useHistory();
-    
+
     useEffect(() => {
         const token = window.localStorage.getItem('token');
-        if(token == null) {
+        if (token == null) {
             history.push('/');
         }
     }, []);
-    
+
     const logout = (event) => {
         const url = '/api/v1/logout';
         axios.get(url)
-        .then((response) => {
-            console.log('LOGOUT SUCCESS');
-            history.push('/');
-        })
-        .catch((error) => {
-            console.log('LOGOUT ERROR: ' + error);
-        })
-        .finally(() => {
-            window.localStorage.clear();
-            props.onLogout();
-        });
+            .then((response) => {
+                console.log('LOGOUT SUCCESS');
+                history.push('/');
+            })
+            .catch((error) => {
+                console.log('LOGOUT ERROR: ' + error);
+            })
+            .finally(() => {
+                window.localStorage.clear();
+                props.onLogout();
+            });
     }
 
-    return(
+    return (
         <div className="profile">
             <div className="ikona">
                 <img src={Profilimg} alt="profileimg" />
