@@ -12,9 +12,7 @@ const Autorizacija = () => {
                 <p>Vaš korisnički račun je uspješno kreiran!</p>
             </div>
             <div className="small">
-                <p>
-                    Na Vašu email adresu poslani su <span>donorId</span>, inicijalna <span>lozinka</span> i poveznica za <span>aktivaciju</span> računa
-                </p>
+                <p>Na Vašu email adresu poslan je link za <span>aktivaciju</span> računa i odabir <span>lozinke</span>.</p>
             </div>
             <div className="idi">
                 <Link to='/'>
