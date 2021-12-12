@@ -1,7 +1,12 @@
-## Link to deployed application
+## Link to deployed application - stable version (1.0)
 
 Frontend: https://trueblood-fe.herokuapp.com  
 Backend:  https://trueblood-be.herokuapp.com
+
+## Link to deployed application - develop version
+
+Frontend: https://trueblood-fe-dev.herokuapp.com  
+Backend:  https://trueblood-be-dev.herokuapp.com
 
 ### Test users
 
@@ -9,45 +14,8 @@ Backend:  https://trueblood-be.herokuapp.com
 | ---     | ---      |
 | 1000001 | D5JBc9C4 |
 | 1000002 | XWZr3hE8 |
-
-## Documentation setup
-
-### LATEX SETUP
-
-1. Download TexLive from [here](https://tug.org/texlive/acquire-netinstall.html)
-
-   Choose `install-tl-windows.exe`.
-
-2. Download TeXstudio from [here](https://www.texstudio.org/)
-3. Download the Croatian dictionary for the text editor [here](https://extensions.openoffice.org/en/project/croatian-dictionary-and-hyphenation-patterns)
-4. Open TexStudio, then click:
-
-   `Options -> Configure TeXstudio -> Language checking -> Import dictionary`
-
-   Then import the downloaded dictionary and set it as default.
-5. Instructions on how to write LaTeX documentation can be found [here](https://www.fer.unizg.hr/_download/repository/LaTeX-upute.pdf)
-
-
-## Frontend setup
-
-Within the `frontend` directory, follow these steps:
-
-1. If you don't have `yarn` installed, use the following command to install it globally:
-   ```bash
-   $ npm install --global yarn
-   ```   
-   You can find download instructions for `npm` [here](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
-2. Install required packages:
-   ```bash
-   $ yarn install
-   ```
-3. Start the development server:
-   ```bash
-   $ yarn start
-   ```
-
-You can also get the production version by running `yarn build`. The files will be in the `build` folder.
-
+| 1000031 | J5nocfC4 | - worker
+| 1000000 | adminpass | - admin
 
 
 ## Backend setup
@@ -104,4 +72,46 @@ If the builds plugin is not installed, you can install it with `heroku plugins:i
 
 You can view current pipeline status in the sidebar in CI/CD -> Pipelines, then clicking on the status of the pipeline (running/passed/failed).  
 **NOTE**: In case the pipeline fails and the logs show a `Your account has reached its concurrent builds limit` error, run `heroku restart` on the application.
+
+## Frontend setup
+
+Within the `frontend` directory, follow these steps:
+
+1. If you don't have `yarn` installed, use the following command to install it globally:
+   ```bash
+   $ npm install --global yarn
+   ```   
+   You can find download instructions for `npm` [here](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+2. Install required packages:
+   ```bash
+   $ yarn install
+   ```
+3. Start the development server:
+   ```bash
+   $ yarn start
+   ```
+
+You can also get the production version by running `yarn build`. The files will be in the `build` folder.
+
+## Documentation setup
+
+### Overleaf
+1. All edits should be done online on Overleaf.
+2. Account details are available on Slack
+
+### LATEX SETUP
+
+1. Download TexLive from [here](https://tug.org/texlive/acquire-netinstall.html)
+
+   Choose `install-tl-windows.exe`.
+
+2. Download TeXstudio from [here](https://www.texstudio.org/)
+3. Download the Croatian dictionary for the text editor [here](https://extensions.openoffice.org/en/project/croatian-dictionary-and-hyphenation-patterns)
+4. Open TexStudio, then click:
+
+   `Options -> Configure TeXstudio -> Language checking -> Import dictionary`
+
+   Then import the downloaded dictionary and set it as default.
+5. Instructions on how to write LaTeX documentation can be found [here](https://www.fer.unizg.hr/_download/repository/LaTeX-upute.pdf)
+
 
