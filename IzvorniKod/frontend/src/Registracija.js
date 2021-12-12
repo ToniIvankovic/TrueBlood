@@ -161,7 +161,7 @@ const Registracija = (props) => {
                 </div>
                 <div className="krgrupe">
                     <label>Krvna grupa</label>
-                    <select disabled={props.role != "WORKER"}> {/*Possibly treba izmijeniti ovisno o backend implementaciji rolea*/}
+                    <select disabled={props.role != "BANK_WORKER"}> {/*Possibly treba izmijeniti ovisno o backend implementaciji rolea*/}
                         <option selected value="---">Nema</option>
                         <option value="A+">A+</option>
                         <option value="A-">A-</option>
