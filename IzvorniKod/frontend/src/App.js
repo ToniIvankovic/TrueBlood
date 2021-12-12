@@ -6,10 +6,12 @@ import Faq from "./Faq";
 import Kontakt from "./Kontakt";
 import './index.css'
 import Registracija from "./Registracija";
-import Autorizacija from "./Autorizacija";
+import KreiranDonor from "./KreiranDonor";
 import Home from "./Home";
 import Profil from "./Profil";
 import Update from "./Update";
+import PokusajDoniranja from "./PokusajDoniranja";
+import TraziDonora from "./TraziDonora";
 import { getCurrentUserIdAndRole } from "./Util";
 
 // TODO: global context for role and user data
@@ -17,26 +19,42 @@ import { getCurrentUserIdAndRole } from "./Util";
 const App = () => {
 
     const roleNone = 'JAVNO';
-    const userNone = {};
+    const userNone = {
+        userId: null,
+        role: roleNone
+    };
     const [user, setUser] = useState(userNone);
+
+    const [token, setToken] = useState("");
 
     const [loggedIn, setLoggedIn] = useState(false);
 
     useEffect(() => {
-        const token = window.localStorage.getItem('token');
+        setToken(window.localStorage.getItem('token'));
         if (token) {
             setLoggedIn(true);
             getCurrentUserIdAndRole(user, setUser);
         }
-    }, []);
+    }, [token]);
 
-    const [userRole, setUserRole] = useState('javno');
 
+    const [userRole, setUserRole] = useState('JAVNO');
     useEffect(() => {
         setUserRole(user.role ? user.role : roleNone);
     }, [user]);
-    // console.log("role in app: " + userRole);
-    // console.log("PROMJENA")
+
+
+    const donorNone = {};
+    const [donorToSeeChange, setDonorToSeeChange] = useState(donorNone);
+
+    const [donor, setDonor] = useState({})
+
+    useEffect(() => {
+        let donorFromStorage = JSON.parse(window.localStorage.getItem('donor'));
+        setDonor(donorFromStorage ? donorFromStorage : {});
+        console.log("App vidi donora u storageu ovako:")
+        console.log(donorFromStorage ? donorFromStorage.donorId ? donorFromStorage : "donor objekt prazan" : "donor doesnt exist in storage");
+    }, [donorToSeeChange.donorId]);
 
     return (
         <div className='app'>
@@ -58,6 +76,7 @@ const App = () => {
                             setLoggedIn(false);
                             setUser(userNone);
                             setUserRole(roleNone);
+                            setDonorToSeeChange({});
                         }}
                             user={user} />
                     </Route>
@@ -71,10 +90,16 @@ const App = () => {
                         <Kontakt />
                     </Route>
                     <Route path='/stvori_donora' component={Registracija} exact>
-                        <Registracija role={userRole} />
+                        <Registracija role={userRole} token={token} setDonor={setDonorToSeeChange} />
                     </Route>
-                    <Route path='/autorizacija' component={Autorizacija} exact>
-                        <Autorizacija />
+                    <Route path='/kreiran_donor' component={KreiranDonor} exact>
+                        <KreiranDonor user={user} />
+                    </Route>
+                    <Route path='/pokusaj_doniranja' component={PokusajDoniranja} exact>
+                        <PokusajDoniranja user={user} donor={donor} />
+                    </Route>
+                    <Route path='/trazi_donora' component={TraziDonora} exact>
+                        <TraziDonora user={user} setDonor={setDonorToSeeChange} />
                     </Route>
                 </Switch>
             </Router>
