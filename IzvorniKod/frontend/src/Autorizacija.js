@@ -1,18 +1,20 @@
 import React from "react";
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Loginimg from './Loginimg.png';
 
 const Autorizacija = () => {
     return (
         <div className="sent">
             <div className="smile">
-                <img src={Loginimg} alt="smileface"/>
+                <img src={Loginimg} alt="smileface" />
             </div>
             <div className="big">
                 <p>Vaš korisnički račun je uspješno kreiran!</p>
             </div>
             <div className="small">
-                <p>Na Vašu email adresu poslan je link za <span>aktivaciju</span> računa i odabir <span>lozinke</span>.</p>
+                <p>
+                    Na Vašu email adresu poslani su <span>donorId</span>, inicijalna <span>lozinka</span> i poveznica za <span>aktivaciju</span> računa
+                </p>
             </div>
             <div className="idi">
                 <Link to='/'>

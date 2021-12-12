@@ -1,33 +1,33 @@
 import React from "react";
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useRef } from "react";
 
 const Update = () => {
     const ref = useRef();
-    return(
+    return (
         <div className="reg">
             <form className='formular'>
                 <div className="tekst">
-                <p>Uredi svoje osobne podatke.</p>
+                    <p>Uredi svoje osobne podatke.</p>
                 </div>
                 <div className="label">
                     <label>Osobni podaci</label>
                 </div>
                 <div className="dupli">
                     <input
-                        name='ime' 
+                        name='ime'
                         type="text"
                         placeholder="Ime *"
                         required></input>
                     <input
-                        name='prezime' 
+                        name='prezime'
                         type="text"
                         placeholder="Prezime *"
                         required></input>
                 </div>
                 <div className="single">
                     <input
-                        name='oib' 
+                        name='oib'
                         type="text"
                         placeholder="OIB *"
                         maxLength='11'
@@ -35,21 +35,21 @@ const Update = () => {
                 </div>
                 <div className="dupli">
                     <input
-                        name='datumrod' 
-                        type = 'text'
+                        name='datumrod'
+                        type='text'
                         ref={ref}
-                        onFocus = {() => (ref.current.type = 'date')}
-                        onBlur = {() => (ref.current.type = 'text')}
+                        onFocus={() => (ref.current.type = 'date')}
+                        onBlur={() => (ref.current.type = 'text')}
                         placeholder="Datum rođenja"></input>
                     <input
-                        name='mjestorod' 
+                        name='mjestorod'
                         type="text"
                         placeholder="Mjesto rođenja *"
                         required></input>
                 </div>
                 <div className="single">
                     <input
-                        name='adresa' 
+                        name='adresa'
                         type="text"
                         placeholder="Adresa stanovanja *"
                         required></input>
@@ -59,14 +59,14 @@ const Update = () => {
                 </div>
                 <div className="single">
                     <input
-                        name='email' 
+                        name='email'
                         type="text"
                         placeholder="Email *"
                         required></input>
                 </div>
                 <div className="single">
                     <input
-                        name='mobitel' 
+                        name='mobitel'
                         type="text"
                         placeholder="Kontakt (osobni) *"
                         maxLength='10'
@@ -74,22 +74,22 @@ const Update = () => {
                 </div>
                 <div className="dupli">
                     <input
-                        name='firma' 
+                        name='firma'
                         type="text"
                         placeholder="Mjesto zaposlenja (firma)"></input>
                     <input
-                        name='telefon' 
+                        name='telefon'
                         type="text"
                         placeholder="Kontakt (poslovni)"
-                        maxLength='10'></input>                    
+                        maxLength='10'></input>
                 </div>
                 <div className="gumbi">
                     <Link to='/profil'>
                         <button className='kreiraj'>Spremi promjene</button>
-                    </Link> 
+                    </Link>
                 </div>
             </form>
-        </div>      
+        </div>
     )
 }
 export default Update;

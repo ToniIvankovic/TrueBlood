@@ -6,59 +6,41 @@ import { useHistory } from "react-router";
 
 const Profil = (props) => {
 
-    const [user, setUser] = useState({});
+    const user = props.user;
 
-    let history = useHistory();
-
-    const getUserInfo = async () => {
-        const url = '/api/v1/user';
-        const token = window.localStorage.getItem('token');
-        const bearerAuth = 'Bearer ' + token;
-        await axios.get(url, {
-            headers: {'Authorization': bearerAuth}
-        })
-        .then((response) => {
-            if(response.data != null) {
-                setUser({
-                    userId: response.data.id,
-                    role: response.data.role
-                });
-            }
-        })
-        .catch((error) => {
-            console.log('Error retrieving user info: ' + error);
-            history.push('/');
-        })
-    }
+    const history = useHistory();
 
     useEffect(() => {
-        getUserInfo();
+        const token = window.localStorage.getItem('token');
+        if (token == null) {
+            history.push('/');
+        }
     }, []);
 
     const logout = (event) => {
         const url = '/api/v1/logout';
         axios.get(url)
-        .then((response) => {
-            console.log('LOGOUT SUCCESS');
-            history.push('/');
-        })
-        .catch((error) => {
-            console.log('LOGOUT ERROR: ' + error);
-        })
-        .finally(() => {
-            window.localStorage.clear();
-            props.onLogout();
-        });
+            .then((response) => {
+                console.log('LOGOUT SUCCESS');
+                history.push('/');
+            })
+            .catch((error) => {
+                console.log('LOGOUT ERROR: ' + error);
+            })
+            .finally(() => {
+                window.localStorage.clear();
+                props.onLogout();
+            });
     }
 
-    return(
+    return (
         <div className="profile">
             <div className="ikona">
                 <img src={Profilimg} alt="profileimg" />
             </div>
             <div className="basicInfo">
-                <div>{user ? user.userId : null}</div>
-                <div>{user ? user.role : null}</div>
+                <div>{user.userId}</div>
+                <div>{user.role}</div>
             </div>
             <div className="uredi">
                 <Link to='/update'>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Image from './Image.png';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from './util/axios-instance';
 import { useHistory } from "react-router";
 import ErrorCard from "./ErrorCard";
@@ -11,16 +11,23 @@ const Login = (props) => {
 
     let history = useHistory();
 
+    useEffect(() => {
+        const token = window.localStorage.getItem('token');
+        if (token != null) {
+            history.push('/');
+        }
+    }, []);
+
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
     const [errorHidden, setErrorHidden] = useState(true);
     const [errorMessage, setErrorMessage] = useState('Netočan ID ili lozinka!');
 
     const range = (lower, upper) => {
-        if(upper - lower < 1) { return null; }
+        if (upper - lower < 1) { return null; }
         return Array.from(new Array(upper - lower), (x, i) => i + lower);
     }
-    
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const url = '/api/v1/login';
@@ -31,62 +38,55 @@ const Login = (props) => {
                 password: password
             }
         )
-        .then((response) => {
-            setErrorHidden(true);
-            console.log('LOGIN SUCCESS');
-            console.log(response.headers.authorization);
-            window.localStorage.setItem('token', response.headers.authorization);
-            props.onLogin();
-            history.push('/profil');
-        })
-        .catch((error) => {
-            if(!error.response) {
-                setErrorMessage('Greška! Nije moguće dohvatiti server.');
-                setErrorHidden(false);
-                console.log(error.statusText);
-                return;
-            }
-            const response = error.response;
-            if(range(300, 400).includes(response.status)) {
-                console.log('300 error: ' + response.status);
-            } else if(range(400, 500).includes(response.status)) {
-                if(response.status == 401) {
-                    // authentication error, userid or password incorrect
-                    console.log('userid and/or password incorrect');
-                    setErrorMessage('Netočan ID ili lozinka!');
+            .then((response) => {
+                setErrorHidden(true);
+                console.log('LOGIN SUCCESS');
+                console.log(response.headers.authorization);
+                window.localStorage.setItem('token', response.headers.authorization);
+                props.onLogin();
+                history.push('/profil');
+            })
+            .catch((error) => {
+                if (!error.response) {
+                    setErrorMessage('Greška! Nije moguće dohvatiti server.');
                     setErrorHidden(false);
-                } else if(response.status == 404) {
-                    // hmm
-                } else {
-                    //other 400-range errors
-                    console.log('400 error: ' + response.status)
+                    console.log(error.statusText);
+                    return;
                 }
-            } else if(range(500, 600).includes(response.status)) {
-                console.log('Internal server error: ' + response.statusText);
-            }
-        });
+                const response = error.response;
+                if (range(300, 400).includes(response.status)) {
+                    console.log('300 error: ' + response.status);
+                } else if (range(400, 500).includes(response.status)) {
+                    if (response.status == 401) {
+                        // authentication error, userid or password incorrect
+                        console.log('userid and/or password incorrect');
+                        setErrorMessage('Netočan ID ili lozinka!');
+                        setErrorHidden(false);
+                    } else if (response.status == 404) {
+                        // hmm
+                    } else {
+                        //other 400-range errors
+                        console.log('400 error: ' + response.status)
+                    }
+                } else if (range(500, 600).includes(response.status)) {
+                    console.log('Internal server error: ' + response.statusText);
+                }
+            });
     }
 
-    useEffect(() => {
-        const token = window.localStorage.getItem('token');
-        if(token != null) {
-            history.push('/');
-        }
-    }, []);
-
-    return(
+    return (
         <div className="homepage">
             <div className="text-login">
                 <div className="text">
                     <div><p>Doniraj krv, spasi život!</p></div>
-                    <Link to='/registracija'>
+                    <Link to='/stvori_donora'>
                         <button className="registracija"> Registriraj se</button>
                     </Link>
                 </div>
-                { errorHidden ? null : <ErrorCard message={errorMessage}/> }
+                {errorHidden ? null : <ErrorCard message={errorMessage} />}
                 <form onSubmit={(event) => handleSubmit(event)} className='login'>
                     <p>Prijavi se!</p>
-                    <input 
+                    <input
                         onChange={(e) => setUserId(e.target.value)}
                         className='input'
                         type='text'
@@ -110,7 +110,7 @@ const Login = (props) => {
             </div>
             <div className="image-alert">
                 <p className="alert">Nedostaje krvi krvne grupe x</p>
-                <img src={Image} alt="image1" className="image"/>
+                <img src={Image} alt="image1" className="image" />
             </div>
         </div>
     )

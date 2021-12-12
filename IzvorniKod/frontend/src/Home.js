@@ -1,18 +1,27 @@
 import React from "react";
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const Home = () => {
-    return(
+const Home = (props) => {
+    return (
         <div className="content">
             <div className="naslovna">
                 <div className="pitanje">
                     <p>Želiš donirati krv?</p>
                 </div>
-                <div>
-                    <Link to='/prijava'>
-                        <button className="registracija">Prijavi se</button>
-                    </Link>
-                </div>
+                {props.loggedIn ?
+                    <div>
+                        <Link to='/profil'>
+                            <button className="registracija">Profil</button>
+                        </Link>
+                    </div>
+                    :
+                    <div>
+                        <Link to='/prijava'>
+                            <button className="registracija">Prijavi se</button>
+                        </Link>
+                    </div>
+                }
+
                 {/* <div className="akt">
                     <p>Aktualne zalihe krvi:</p>
                 </div> */}

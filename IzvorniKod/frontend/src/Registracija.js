@@ -1,10 +1,10 @@
 import axios from './util/axios-instance';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { useHistory } from 'react-router';
 import ErrorCard from './ErrorCard';
 
-const Registracija = () => {
+const Registracija = (props) => {
 
     const history = useHistory();
     const ref = useRef();
@@ -25,6 +25,16 @@ const Registracija = () => {
     const [errorMessage, setErrorMessage] = useState('Greška');
     const [errorHidden, setErrorHidden] = useState(true);
 
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        if (props.role === 'DONOR') {
+            history.push('/');
+        }
+    }, [props.role]);
+
+
+
     const handleChange = (event) => {
         let name = event.target.name;
         let value = event.target.value;
@@ -40,28 +50,28 @@ const Registracija = () => {
         console.log(donorInfo);
         const url = '/api/v1/donor/registration'
         axios.post(url, donorInfo)
-        .then((response) => {
-            console.log('User successfully created.');
-            history.push('/');
-        })
-        .catch((error) => {
-            console.log('Error while creating user. Response: ' + error.response);
-            if(error.response) {
-                if(error.response.status == 400) {
-                    setErrorMessage('Greška! Korisnik s navedenim OIB-om već postoji.');
-                } else {
-                    setErrorMessage('Greška pri registraciji!');
+            .then((response) => {
+                console.log('User successfully created.');
+                history.push('/autorizacija');
+            })
+            .catch((error) => {
+                console.log('Error while creating user. Response: ' + error.response);
+                if (error.response) {
+                    if (error.response.status == 400) {
+                        setErrorMessage('Greška! Neispravan OIB (već postoji ili neispravan format).');
+                    } else {
+                        setErrorMessage('Greška pri registraciji!');
+                    }
                 }
-            }
-            setErrorHidden(false);
-        });
+                setErrorHidden(false);
+            });
     }
 
-    return(
+    return (
         <div className="reg">
             <form onSubmit={(event) => handleSubmit(event)} className='formular'>
                 <div className="tekst">
-                <p>Kreiraj korisnički račun!</p>
+                    <p>Kreiraj korisnički račun! ({props.role})</p>
                 </div>
                 <div className="label">
                     <label>Osobni podaci</label>
@@ -69,13 +79,13 @@ const Registracija = () => {
                 <div className="dupli">
                     <input
                         onChange={(event) => handleChange(event)}
-                        name='firstName' 
+                        name='firstName'
                         type="text"
                         placeholder="Ime *"
                         required></input>
                     <input
                         onChange={(event) => handleChange(event)}
-                        name='lastName' 
+                        name='lastName'
                         type="text"
                         placeholder="Prezime *"
                         required></input>
@@ -83,7 +93,7 @@ const Registracija = () => {
                 <div className="single">
                     <input
                         onChange={(event) => handleChange(event)}
-                        name='oib' 
+                        name='oib'
                         type="text"
                         placeholder="OIB *"
                         maxLength='11'
@@ -92,15 +102,15 @@ const Registracija = () => {
                 <div className="dupli">
                     <input
                         onChange={(event) => handleChange(event)}
-                        name='birthDate' 
-                        type = 'text'
+                        name='birthDate'
+                        type='text'
                         ref={ref}
-                        onFocus = {() => (ref.current.type = 'date')}
-                        onBlur = {() => (ref.current.type = 'text')}
+                        onFocus={() => (ref.current.type = 'date')}
+                        onBlur={() => (ref.current.type = 'text')}
                         placeholder="Datum rođenja"></input>
                     <input
                         onChange={(event) => handleChange(event)}
-                        name='birthPlace' 
+                        name='birthPlace'
                         type="text"
                         placeholder="Mjesto rođenja *"
                         required></input>
@@ -108,7 +118,7 @@ const Registracija = () => {
                 <div className="single">
                     <input
                         onChange={(event) => handleChange(event)}
-                        name='address' 
+                        name='address'
                         type="text"
                         placeholder="Adresa stanovanja *"
                         required></input>
@@ -119,7 +129,7 @@ const Registracija = () => {
                 <div className="single">
                     <input
                         onChange={(event) => handleChange(event)}
-                        name='email' 
+                        name='email'
                         type="text"
                         placeholder="Email *"
                         required></input>
@@ -127,7 +137,7 @@ const Registracija = () => {
                 <div className="single">
                     <input
                         onChange={(event) => handleChange(event)}
-                        name='privateContact' 
+                        name='privateContact'
                         type="text"
                         placeholder="Kontakt (osobni) *"
                         maxLength='10'
@@ -136,22 +146,23 @@ const Registracija = () => {
                 <div className="dupli">
                     <input
                         onChange={(event) => handleChange(event)}
-                        name='workplace' 
+                        name='workplace'
                         type="text"
                         placeholder="Mjesto zaposlenja (firma)"></input>
                     <input
                         onChange={(event) => handleChange(event)}
-                        name='workContact' 
+                        name='workContact'
                         type="text"
                         placeholder="Kontakt (poslovni)"
-                        maxLength='10'></input>                    
+                        maxLength='10'></input>
                 </div>
-                {/* <div className="label">
+                <div className="label">
                     <label>Zdravstveni podaci*</label>
-                </div> */}
-                {/* <div className="krgrupe">
+                </div>
+                <div className="krgrupe">
                     <label>Krvna grupa</label>
-                    <select>
+                    <select disabled={props.role != "BANK_WORKER"}> {/*Possibly treba izmijeniti ovisno o backend implementaciji rolea*/}
+                        <option selected value="---">Nema</option>
                         <option value="A+">A+</option>
                         <option value="A-">A-</option>
                         <option value="B+">B+</option>
@@ -160,15 +171,15 @@ const Registracija = () => {
                         <option value="AB-">AB-</option>
                         <option value="0+">0+</option>
                         <option value="0-">0-</option>
-                    </select>       
-                </div> */}
-                { errorHidden ? null : <ErrorCard message={errorMessage}/> }
+                    </select>
+                </div>
+                <div className="napomena">
+                    <p>*Vašu krvnu grupu popunjava djelatnik pri prvom doniranju krvi.</p>
+                </div>
+                {errorHidden ? null : <ErrorCard message={errorMessage} />}
                 <div className="gumbi">
                     <button className='kreiraj'>Kreiraj račun</button>
                 </div>
-                {/* <div className="napomena">
-                    <p>*Vaše zdravstvene podatke popunjava djelatnik prije doniranja krvi.</p>
-                </div> */}
             </form>
         </div>
     )
