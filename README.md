@@ -14,8 +14,12 @@ Backend:  https://trueblood-be-dev.herokuapp.com
 | ---     | ---      |
 | 1000001 | D5JBc9C4 |
 | 1000002 | XWZr3hE8 |
-| 1000031 | J5nocfC4 | - worker
-| 1000000 | adminpass | - admin
+| 1000031 | J5nocfC4 |
+| 1000000 | adminpass |
+
+1000031 is a BANK_WORKER,
+1000000 is an ADMIN,
+others are donors
 
 
 ## Backend setup
