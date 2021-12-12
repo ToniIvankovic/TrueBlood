@@ -4,10 +4,16 @@ import axios from './util/axios-instance';
 
 const getCurrentUserIdAndRole = async (user, setUser) => {
 
+    const roleNone = 'JAVNO';
+    const userNone = {
+        userId: null,
+        role: roleNone
+    };
+
     const url = '/api/v1/user';
     const token = window.localStorage.getItem('token');
     if (!token) {
-        setUser({});
+        setUser(userNone);
         return;
     }
 
@@ -21,6 +27,8 @@ const getCurrentUserIdAndRole = async (user, setUser) => {
                     userId: response.data.id,
                     role: response.data.role
                 });
+            } else {
+                setUser(userNone);
             }
         })
         .catch((error) => {
