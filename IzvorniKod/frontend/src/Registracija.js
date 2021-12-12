@@ -19,7 +19,8 @@ const Registracija = (props) => {
         workPlace: '',
         privateContact: '',
         workContact: '',
-        email: ''
+        email: '',
+        bloodType: ''
     });
 
     const [errorMessage, setErrorMessage] = useState('Greška');
@@ -29,7 +30,7 @@ const Registracija = (props) => {
 
     useEffect(() => {
         if (props.role === 'DONOR') {
-            history.push('/');
+            history.push('/profil');
         }
     }, [props.role]);
 
@@ -38,6 +39,8 @@ const Registracija = (props) => {
     const handleChange = (event) => {
         let name = event.target.name;
         let value = event.target.value;
+        //console.log(name)
+        //console.log(value)
         setDonorInfo({
             ...donorInfo,
             [name]: value
@@ -48,17 +51,39 @@ const Registracija = (props) => {
         event.preventDefault();
         console.log('Submitting!');
         console.log(donorInfo);
-        const url = '/api/v1/donor/registration'
-        axios.post(url, donorInfo)
+
+        var url
+        if (props.role == 'BANK_WORKER') {
+            url = '/api/v1/donor/add-donor'
+        } else {
+            url = '/api/v1/donor/registration'
+        }
+
+        axios.post(url, donorInfo, { headers: { "Authorization": `Bearer ${props.token}` } })
             .then((response) => {
-                console.log('User successfully created.');
-                history.push('/autorizacija');
+                console.log('User successfully created:');
+                console.log(response.data)
+
+                window.localStorage.setItem('donor', JSON.stringify(response.data));
+                props.setDonor(donor)
+                history.push('/kreiran_donor');
             })
             .catch((error) => {
                 console.log('Error while creating user. Response: ' + error.response);
+                console.log(error.response);
                 if (error.response) {
                     if (error.response.status == 400) {
-                        setErrorMessage('Greška! Neispravan OIB (već postoji ili neispravan format).');
+                        const message = error.response.data;
+                        if (message.includes('oib')) {
+                            if (message.includes('already exists')) {
+                                setErrorMessage('Greška! OIB već postoji.');
+                            } else {
+                                setErrorMessage('Greška! Pogrešan format OIB-a.');
+                            }
+                        } else if (message.includes('blood')) {
+                            setErrorMessage('Greška! Krvna grupa mora se postaviti.');
+                        }
+                        console.log(error.response.data);
                     } else {
                         setErrorMessage('Greška pri registraciji!');
                     }
@@ -96,6 +121,7 @@ const Registracija = (props) => {
                         name='oib'
                         type="text"
                         placeholder="OIB *"
+                        minLength='11'
                         maxLength='11'
                         required></input>
                 </div>
@@ -107,7 +133,8 @@ const Registracija = (props) => {
                         ref={ref}
                         onFocus={() => (ref.current.type = 'date')}
                         onBlur={() => (ref.current.type = 'text')}
-                        placeholder="Datum rođenja"></input>
+                        placeholder="Datum rođenja *"
+                        required></input>
                     <input
                         onChange={(event) => handleChange(event)}
                         name='birthPlace'
@@ -161,8 +188,13 @@ const Registracija = (props) => {
                 </div>
                 <div className="krgrupe">
                     <label>Krvna grupa</label>
-                    <select disabled={props.role != "BANK_WORKER"}> {/*Possibly treba izmijeniti ovisno o backend implementaciji rolea*/}
-                        <option selected value="---">Nema</option>
+                    <select defaultValue="---"
+                        disabled={props.role != "BANK_WORKER"}
+                        onChange={(event) => {
+                            event.target.name = "bloodType";
+                            handleChange(event);
+                        }}>
+                        <option value="---">Nema</option>
                         <option value="A+">A+</option>
                         <option value="A-">A-</option>
                         <option value="B+">B+</option>
