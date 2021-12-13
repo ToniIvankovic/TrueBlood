@@ -46,5 +46,23 @@ public class UserController {
 
     }
 
-    // todo: activate account
+    @Secured({"ROLE_DONOR", "ROLE_BANK_WORKER", "ROLE_ADMIN"})
+    @GetMapping("/activated")
+    public ResponseEntity<Object> activateCurrentUser(HttpServletRequest request) {
+
+        // todo: examine if there is a more apt method of passing current userId to this method than getting token from request header
+        try {
+            // This assumes header and token were both validated by passing through the JwtTokenFilter
+            final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+            final String token = header.split(" ")[1].trim();
+            String userId = jwtTokenUtil.getUserId(token);
+            Long longUserId = userService.activateUserAccount(userId);
+            if (longUserId == null) return ResponseEntity.ok("This user is already activated.");
+            return ResponseEntity.ok(longUserId);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+
+    }
+
 }
