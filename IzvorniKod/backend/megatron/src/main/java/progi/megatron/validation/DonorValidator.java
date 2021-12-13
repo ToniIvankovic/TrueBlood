@@ -17,7 +17,7 @@ public class DonorValidator {
     public boolean validateOib(String oib) {
         try {
             Long value = Long.valueOf(oib);
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             throw new WrongDonorException("Donor oib is not numeric. ");
         }
         if (oib.length() != 11) throw new WrongDonorException("Donor oib does not have exactly 11 characters. ");

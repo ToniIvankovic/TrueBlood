@@ -28,11 +28,11 @@ public class UserController {
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
-    //@Secured({"ROLE_DONOR", "ROLE_BANK_WORKER"})
+    @Secured({"ROLE_DONOR", "ROLE_BANK_WORKER", "ROLE_ADMIN"})
     @GetMapping
     public ResponseEntity<Object> getCurrentUser(HttpServletRequest request) {
 
-        // TODO: examine if there is a more apt method of passing current userId to this method than getting token from request header
+        // todo: examine if there is a more apt method of passing current userId to this method than getting token from request header
         try {
             // This assumes header and token were both validated by passing through the JwtTokenFilter
             final String header = request.getHeader(HttpHeaders.AUTHORIZATION);

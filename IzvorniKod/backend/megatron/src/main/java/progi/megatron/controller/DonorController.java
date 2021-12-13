@@ -9,6 +9,8 @@ import progi.megatron.model.dto.DonorByBankWorkerDTO;
 import progi.megatron.model.dto.DonorByDonorDTO;
 import progi.megatron.service.DonorService;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v1/donor")
@@ -20,6 +22,7 @@ public class DonorController {
         this.donorService = donorService;
     }
 
+    // todo: secured (no role)
     @PostMapping("/registration")
     public ResponseEntity<Object> createDonorByDonor(@RequestBody DonorByDonorDTO donorByDonorDTO) {
         try {
@@ -40,10 +43,31 @@ public class DonorController {
         }
     }
 
-    @GetMapping("/{oib}")
+    @Secured({"ROLE_ADMIN", "ROLE_BANK_WORKER"})
+    @GetMapping("/oib/{oib}")
     public ResponseEntity<Object> getDonorByOib(@PathVariable String oib) {
         try {
             return ResponseEntity.ok(donorService.getDonorByOib(oib));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
+    @Secured({"ROLE_ADMIN", "ROLE_BANK_WORKER"})
+    @GetMapping("/donor-id/{donorId}")
+    public ResponseEntity<Object> getDonorByDonorId(@PathVariable Long donorId) {
+        try {
+            return ResponseEntity.ok(donorService.getDonorByDonorId(donorId));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
+    @Secured({"ROLE_ADMIN", "ROLE_BANK_WORKER"})
+    @GetMapping("/name/{firstName}/{lastName}")
+    public ResponseEntity<Object> getOibsByFirstNameAndLastName(@PathVariable String firstName, @PathVariable String lastName) {
+        try {
+            return ResponseEntity.ok(donorService.getOibsByFirstNameAndLastName(firstName, lastName));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
