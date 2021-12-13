@@ -18,6 +18,6 @@ public class BloodSupplyService {
 
     public BloodSupply getBloodsupplyByBloodType(String bloodType) {
         bloodTypeValidator.validateBloodType(bloodType);
-        return bloodSupplyRepository.getBloodsupplyByBloodType(bloodType);
+        return bloodSupplyRepository.getBloodSupplyByBloodType(bloodType);
     }
 }
