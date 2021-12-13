@@ -8,17 +8,20 @@ import progi.megatron.model.Donor;
 public class DonorValidator {
 
     public boolean validateDonor(Donor donor) {
-        try {
-            Long value = Long.valueOf(donor.getOib());
-        } catch (Exception ex) {
-            throw new WrongDonorException("Donor oib is not numeric. ");
-        }
-        if (donor.getOib().length() != 11) throw new WrongDonorException("Donor oib does not have exactly 11 characters. ");
+        if (validateOib(donor.getOib()) == false) return false;
         if (!donor.getEmail().contains("@")) throw new WrongDonorException("Donor email is not correct. ");
         // todo: rest of validation
         return true;
     }
 
-
+    public boolean validateOib(String oib) {
+        try {
+            Long value = Long.valueOf(oib);
+        } catch (Exception ex) {
+            throw new WrongDonorException("Donor oib is not numeric. ");
+        }
+        if (oib.length() != 11) throw new WrongDonorException("Donor oib does not have exactly 11 characters. ");
+        return true;
+    }
 
 }

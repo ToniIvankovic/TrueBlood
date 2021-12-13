@@ -40,4 +40,13 @@ public class DonorController {
         }
     }
 
+    @GetMapping("/{oib}")
+    public ResponseEntity<Object> getDonorByOib(@PathVariable String oib) {
+        try {
+            return ResponseEntity.ok(donorService.getDonorByOib(oib));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
 }

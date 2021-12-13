@@ -68,6 +68,7 @@ public class DonorService {
     }
 
     public Donor getDonorByOib(String oib){
+        donorValidator.validateOib(oib);
         return donorRepository.getDonorByOib(oib);
     }
 
