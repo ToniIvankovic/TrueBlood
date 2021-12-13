@@ -12,6 +12,9 @@ import progi.megatron.repository.DonorRepository;
 import progi.megatron.util.Role;
 import progi.megatron.validation.DonorValidator;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class DonorService {
 
@@ -68,7 +71,17 @@ public class DonorService {
     }
 
     public Donor getDonorByOib(String oib){
+        donorValidator.validateOib(oib);
         return donorRepository.getDonorByOib(oib);
+    }
+
+    public Donor getDonorByDonorId(Long donorId){
+        return donorRepository.getDonorByDonorId(Long.valueOf(donorId));
+    }
+
+    public List<String> getOibsByFirstNameAndLastName(String firstName, String lastName){
+        List<Donor> donors = donorRepository.getDonorByFirstNameAndLastName(firstName, lastName);
+        return donors.stream().map(donor -> donor.getOib()).collect(Collectors.toList());
     }
 
 }

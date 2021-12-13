@@ -8,14 +8,16 @@ import progi.megatron.model.User;
 import java.util.Optional;
 
 @Repository
-@Transactional
 public interface UserRepository extends JpaRepository<User, Long> {
 
     User save(User user);
+
     Optional<User> getUserByUserId(Long userId);
 
     // todo: activate user
+
     // todo: deactivate user
+
     // todo: change password
 
 }

@@ -64,7 +64,7 @@ public class LoginController {
     }
 
     @Secured({"ROLE_DONOR", "ROLE_BANK_WORKER", "ROLE_ADMIN"})
-    @GetMapping("/logged_in")
+    @GetMapping("/logged-in")
     public ResponseEntity<LoggedInResponse> loggedIn() {
         SecurityContext context = SecurityContextHolder.getContext();
         if (context == null) return ResponseEntity.ok(new LoggedInResponse(false));
