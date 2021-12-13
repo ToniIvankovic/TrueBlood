@@ -19,7 +19,7 @@ public class BloodSupplyController {
     }
 
     @GetMapping("/{bloodType}")
-    public ResponseEntity<Object> getDonorByOib(@PathVariable String bloodType) {
+    public ResponseEntity<Object> getBloodsupplyByBloodType(@PathVariable String bloodType) {
         try {
             return ResponseEntity.ok(bloodSupplyService.getBloodsupplyByBloodType(bloodType));
         } catch (Exception ex) {
