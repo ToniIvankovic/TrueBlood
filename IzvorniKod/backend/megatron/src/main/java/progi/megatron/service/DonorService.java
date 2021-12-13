@@ -75,7 +75,8 @@ public class DonorService {
         return donorRepository.getDonorByOib(oib);
     }
 
-    public Donor getDonorByDonorId(Long donorId){
+    public Donor getDonorByDonorId(String donorId){
+        donorValidator.validateDonorId(donorId);
         return donorRepository.getDonorByDonorId(Long.valueOf(donorId));
     }
 

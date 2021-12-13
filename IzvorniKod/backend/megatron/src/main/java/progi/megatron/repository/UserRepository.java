@@ -1,10 +1,11 @@
 package progi.megatron.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import progi.megatron.model.User;
-
 import java.util.Optional;
 
 @Repository
@@ -14,9 +15,15 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> getUserByUserId(Long userId);
 
-    // todo: activate user
+    @Transactional
+    @Modifying
+    @Query("UPDATE User u SET u.accActivated = 1 WHERE u.userId = ?1")
+    void activateUserAccount(Long userId);
 
-    // todo: deactivate user
+    @Transactional
+    @Modifying
+    @Query("UPDATE User u SET u.accActivated = 0 WHERE u.userId = ?1")
+    void deactivateUserAccount(Long userId);
 
     // todo: change password
 

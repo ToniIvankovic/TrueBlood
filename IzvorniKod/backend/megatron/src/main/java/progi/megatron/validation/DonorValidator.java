@@ -24,4 +24,13 @@ public class DonorValidator {
         return true;
     }
 
+    public boolean validateDonorId(String donorId) {
+        try {
+            Long value = Long.valueOf(donorId);
+        } catch (NumberFormatException ex) {
+            throw new WrongDonorException("Donor id is not numeric. ");
+        }
+        return true;
+    }
+
 }

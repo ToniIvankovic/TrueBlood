@@ -26,6 +26,24 @@ public class UserService {
         return user;
     }
 
+    public Long activateUserAccount(String userId) {
+        isValidUserId(userId);
+        Long longUserId = Long.valueOf(userId);
+        User user = userRepository.getUserByUserId(longUserId).orElseThrow(() -> new WrongUserException("No user with that userId."));
+        if (user.getAccActivated() == 1) return null;
+        userRepository.activateUserAccount(longUserId);
+        return longUserId;
+    }
+
+    public Long deactivateUserAccount(String userId) {
+        isValidUserId(userId);
+        Long longUserId = Long.valueOf(userId);
+        User user = userRepository.getUserByUserId(longUserId).orElseThrow(() -> new WrongUserException("No user with that userId."));
+        if (user.getAccActivated() == 0) return null;
+        userRepository.deactivateUserAccount(longUserId);
+        return Long.valueOf(userId);
+    }
+
     private void isValidUserId(String id) {
         try {
             Long value = Long.valueOf(id);

@@ -55,7 +55,7 @@ public class DonorController {
 
     @Secured({"ROLE_ADMIN", "ROLE_BANK_WORKER"})
     @GetMapping("/donor-id/{donorId}")
-    public ResponseEntity<Object> getDonorByDonorId(@PathVariable Long donorId) {
+    public ResponseEntity<Object> getDonorByDonorId(@PathVariable String donorId) {
         try {
             return ResponseEntity.ok(donorService.getDonorByDonorId(donorId));
         } catch (Exception ex) {
