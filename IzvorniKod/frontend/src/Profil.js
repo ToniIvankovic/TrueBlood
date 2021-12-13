@@ -57,6 +57,19 @@ const Profil = (props) => {
                     <div className="lista">...</div>
                 </div>
                 : ''}
+            
+            {
+            //privremeni indikator je li račun aktiviran i vodi na stranicu za neaktivirane
+            }
+            {props.accActivated ? 
+            '' :
+            <div>
+                <Link to='/racun_neaktiviran'>
+                    <button className="registracija">neaktiviran</button>
+                </Link>
+            </div>
+            }
+            
         </div>
     )
 }

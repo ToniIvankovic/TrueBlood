@@ -31,17 +31,13 @@ const Login = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const url = '/api/v1/login';
-        axios.post(
-            url,
-            {
-                userId: userId,
-                password: password
-            }
-        )
+        axios.post(url, {
+            userId: userId,
+            password: password
+        })
             .then((response) => {
                 setErrorHidden(true);
-                console.log('LOGIN SUCCESS');
-                console.log(response.headers.authorization);
+                // console.log(response.headers.authorization);
                 window.localStorage.setItem('token', response.headers.authorization);
                 props.onLogin();
                 history.push('/profil');
@@ -64,6 +60,7 @@ const Login = (props) => {
                         setErrorHidden(false);
                     } else if (response.status == 404) {
                         // hmm
+                        console.log('404 error: ' + response.status)
                     } else {
                         //other 400-range errors
                         console.log('400 error: ' + response.status)

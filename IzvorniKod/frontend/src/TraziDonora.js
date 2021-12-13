@@ -13,24 +13,19 @@ const TraziDonora = (props) => {
     const [errorMessage, setErrorMessage] = useState('Greška');
     const [errorHidden, setErrorHidden] = useState(true);
 
-    useEffect(() => {
-        // if (props.user.userId && props.user.role != 'BANK_WORKER') {
-        //     history.push('/');
-        // }
-    });
-
     const donorNone = {};
     const [donor, setDonor] = useState(donorNone);
 
     const handleSubmit = (event) => {
         event.preventDefault();
         window.localStorage.setItem('donor', JSON.stringify(donor));
-        props.setDonor(donor)
+        props.setDonor(donor)   //Dojavljuje app.js-u da je donor postavljen u localstorage
         history.push('/pokusaj_doniranja');
     }
 
     const findDonor = (event) => {
-        //treba slati upit na endpoint i dohvattiti preostale podatke - ovo je samo fake placeholder
+        //treba slati upit na endpoint i dohvatiti preostale podatke - ovo je samo fake placeholder
+        //TODO: u tražilici napraviti onchange koji će mijenjati neke stateove i oni se šalju u requestu
         setDonor({
             donorId: 1234567,
             firstName: "toni",
