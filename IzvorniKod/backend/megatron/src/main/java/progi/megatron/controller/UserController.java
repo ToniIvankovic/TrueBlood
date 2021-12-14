@@ -28,7 +28,7 @@ public class UserController {
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
-    //@Secured({"ROLE_DONOR", "ROLE_BANK_WORKER"}) - frontendu treba ova metoda uvijek pa neka ne bude secured
+    //@Secured({"ROLE_DONOR", "ROLE_BANK_WORKER"})
     @GetMapping
     public ResponseEntity<Object> getCurrentUser(HttpServletRequest request) {
 
