@@ -7,6 +7,6 @@ import progi.megatron.model.DonationTry;
 @Repository
 public interface DonationTryRepository extends JpaRepository<DonationTry, Long> {
 
-    // todo: add donation try
+    DonationTry save(DonationTry donationTry);
 
 }

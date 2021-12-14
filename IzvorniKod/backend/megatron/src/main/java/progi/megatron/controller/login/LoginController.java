@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import progi.megatron.controller.UserController;
 import progi.megatron.security.LoggedInResponse;
 import progi.megatron.model.User;
-import progi.megatron.model.dto.AuthRequest;
+import progi.megatron.security.AuthRequest;
 import progi.megatron.service.UserService;
 import progi.megatron.security.JwtTokenUtil;
 

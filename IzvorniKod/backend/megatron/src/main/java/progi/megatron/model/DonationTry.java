@@ -2,7 +2,6 @@ package progi.megatron.model;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.*;
 
 @Getter
@@ -21,9 +20,22 @@ public class DonationTry {
     private String bloodType;
 
     @ManyToOne
+    @JoinColumn(name = "donor_id")
     private Donor donor;
 
     @ManyToOne
+    @JoinColumn(name = "bank_worker_id")
     private BankWorker bankWorker;
+
+    public DonationTry() {
+    }
+
+    public DonationTry(Long donationId, String rejectReason, String bloodType, Donor donor, BankWorker bankWorker) {
+        this.donationId = donationId;
+        this.rejectReason = rejectReason;
+        this.bloodType = bloodType;
+        this.donor = donor;
+        this.bankWorker = bankWorker;
+    }
 
 }

@@ -22,7 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE User u SET u.accActivated = 0 WHERE u.userId = ?1")
+    @Query("UPDATE User u SET u.permDeactivated = 1 WHERE u.userId = ?1")
     void deactivateUserAccount(Long userId);
 
     // todo: change password

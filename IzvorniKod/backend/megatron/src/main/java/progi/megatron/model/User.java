@@ -7,7 +7,6 @@ import progi.megatron.util.Role;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-
 import static org.springframework.security.core.authority.AuthorityUtils.NO_AUTHORITIES;
 import static org.springframework.security.core.authority.AuthorityUtils.commaSeparatedStringToAuthorityList;
 
@@ -31,7 +30,6 @@ public class User implements Serializable {
     private int permDeactivated;
 
     private int optOut;
-
 
     public User() { }
 

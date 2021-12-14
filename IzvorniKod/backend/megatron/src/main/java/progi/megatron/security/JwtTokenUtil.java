@@ -3,7 +3,6 @@ package progi.megatron.security;
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 import progi.megatron.model.User;
-
 import java.util.Date;
 
 @Component

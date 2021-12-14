@@ -7,28 +7,19 @@ import progi.megatron.model.Donor;
 @Component
 public class DonorValidator {
 
+    public final BloodTypeValidator bloodTypeValidator;
+    public final OibValidator oibValidator;
+
+    public DonorValidator(BloodTypeValidator bloodTypeValidator, OibValidator oibValidator) {
+        this.bloodTypeValidator = bloodTypeValidator;
+        this.oibValidator = oibValidator;
+    }
+
     public boolean validateDonor(Donor donor) {
-        if (validateOib(donor.getOib()) == false) return false;
+        if (oibValidator.validateOib(donor.getOib()) == false) return false;
         if (!donor.getEmail().contains("@")) throw new WrongDonorException("Donor email is not correct. ");
-        // todo: rest of validation
-        return true;
-    }
-
-    public boolean validateOib(String oib) {
-        try {
-            Long value = Long.valueOf(oib);
-        } catch (NumberFormatException ex) {
-            throw new WrongDonorException("Donor oib is not numeric. ");
-        }
-        if (oib.length() != 11) throw new WrongDonorException("Donor oib does not have exactly 11 characters. ");
-        return true;
-    }
-
-    public boolean validateDonorId(String donorId) {
-        try {
-            Long value = Long.valueOf(donorId);
-        } catch (NumberFormatException ex) {
-            throw new WrongDonorException("Donor id is not numeric. ");
+        if (donor.getBloodType() != null) {
+            bloodTypeValidator.validateBloodType(donor.getBloodType());
         }
         return true;
     }

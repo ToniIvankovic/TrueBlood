@@ -11,7 +11,8 @@ import progi.megatron.model.dto.DonorByDonorDTO;
 import progi.megatron.repository.DonorRepository;
 import progi.megatron.util.Role;
 import progi.megatron.validation.DonorValidator;
-
+import progi.megatron.validation.IdValidator;
+import progi.megatron.validation.OibValidator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +22,16 @@ public class DonorService {
     private final DonorRepository donorRepository;
     private final UserService userService;
     private final DonorValidator donorValidator;
+    private final IdValidator idValidator;
+    private final OibValidator oibValidator;
     private final PasswordEncoder passwordEncoder;
 
-    public DonorService(DonorRepository donorRepository, UserService userService, DonorValidator donorValidator, PasswordEncoder passwordEncoder) {
+    public DonorService(DonorRepository donorRepository, UserService userService, DonorValidator donorValidator, IdValidator idValidator, OibValidator oibValidator, PasswordEncoder passwordEncoder) {
         this.donorRepository = donorRepository;
         this.userService = userService;
         this.donorValidator = donorValidator;
+        this.idValidator = idValidator;
+        this.oibValidator = oibValidator;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -71,12 +76,12 @@ public class DonorService {
     }
 
     public Donor getDonorByOib(String oib){
-        donorValidator.validateOib(oib);
+        oibValidator.validateOib(oib);
         return donorRepository.getDonorByOib(oib);
     }
 
     public Donor getDonorByDonorId(String donorId){
-        donorValidator.validateDonorId(donorId);
+        idValidator.validateId(donorId);
         return donorRepository.getDonorByDonorId(Long.valueOf(donorId));
     }
 
