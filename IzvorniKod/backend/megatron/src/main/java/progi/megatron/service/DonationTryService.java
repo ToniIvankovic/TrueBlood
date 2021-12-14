@@ -1,7 +1,6 @@
 package progi.megatron.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import progi.megatron.exception.WrongBankWorkerException;
 import progi.megatron.exception.WrongDonationTryException;
 import progi.megatron.exception.WrongDonorException;
@@ -26,7 +25,6 @@ public class DonationTryService {
         this.bloodSupplyService = bloodSupplyService;
     }
 
-    @Transactional(rollbackFor = Exception.class)
     public boolean createDonationTry(DonationTryDTO donationTryDTO){
 
         boolean donated = false;

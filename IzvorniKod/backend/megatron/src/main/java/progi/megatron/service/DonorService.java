@@ -2,7 +2,6 @@ package progi.megatron.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import progi.megatron.exception.WrongDonorException;
 import progi.megatron.model.Donor;
 import progi.megatron.model.User;
@@ -37,7 +36,6 @@ public class DonorService {
 
     java.util.logging.Logger logger =  java.util.logging.Logger.getLogger(this.getClass().getName());
 
-    @Transactional(rollbackFor = Exception.class)
     public Donor createDonorByDonor(DonorByDonorDTO donorByDonorDTO){
         String password = userService.randomPassword();
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
@@ -56,7 +54,6 @@ public class DonorService {
         return donor;
     }
 
-    @Transactional(rollbackFor = Exception.class)
     public Donor createDonorByBankWorker(DonorByBankWorkerDTO donorByBankWorkerDTO){
         String password = userService.randomPassword();
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
