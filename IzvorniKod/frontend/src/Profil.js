@@ -6,8 +6,6 @@ import { useHistory } from "react-router";
 
 const Profil = (props) => {
 
-    const user = props.user;
-
     const history = useHistory();
 
     useEffect(() => {
@@ -39,19 +37,39 @@ const Profil = (props) => {
                 <img src={Profilimg} alt="profileimg" />
             </div>
             <div className="basicInfo">
-                <div>{user.userId}</div>
-                <div>{user.role}</div>
+                <div>{props.user.userId}</div>
+                <div>{props.user.role}</div>
             </div>
             <div className="uredi">
                 <Link to='/update'>
                     <button className="registracija">Uredi podatke</button>
                 </Link>
                 <button onClick={(event) => logout(event)} className="submit">Odjava</button>
+                {props.user.role == 'BANK_WORKER' ?
+                    <Link to='/pokusaj_doniranja'>
+                        <button className="registracija">Stvori pokušaj doniranja</button>
+                    </Link>
+                    : ''}
             </div>
-            <div className="donacije">
-                <p>Moje donacije</p>
-                <div className="lista">...</div>
+            {props.user.role == 'DONOR' ?
+                <div className="donacije">
+                    <p>Moje donacije</p>
+                    <div className="lista">...</div>
+                </div>
+                : ''}
+            
+            {
+            //privremeni indikator je li račun aktiviran i vodi na stranicu za neaktivirane
+            }
+            {props.accActivated ? 
+            '' :
+            <div>
+                <Link to='/racun_neaktiviran'>
+                    <button className="registracija">neaktiviran</button>
+                </Link>
             </div>
+            }
+            
         </div>
     )
 }

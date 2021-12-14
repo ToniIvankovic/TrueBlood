@@ -1,80 +1,121 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
 import Navbar from "./Navbar/Navbar";
 import Login from "./Login";
 import Faq from "./Faq";
 import Kontakt from "./Kontakt";
 import './index.css'
 import Registracija from "./Registracija";
-import Autorizacija from "./Autorizacija";
+import KreiranDonor from "./KreiranDonor";
 import Home from "./Home";
 import Profil from "./Profil";
 import Update from "./Update";
-import { getCurrentUserIdAndRole } from "./Util";
+import PokusajDoniranja from "./PokusajDoniranja";
+import TraziDonora from "./TraziDonora";
+import RacunNeaktiviran from "./RacunNeaktiviran";
+
+import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, roleNone, userNone, userPublic } from "./Util";
+import _ from 'lodash';
 
 // TODO: global context for role and user data
 
+
 const App = () => {
 
-    const roleNone = 'JAVNO';
-    const userNone = {};
+    //Provjeri je li itko logiran
     const [user, setUser] = useState(userNone);
-
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [token, setToken] = useState("");
 
     useEffect(() => {
-        const token = window.localStorage.getItem('token');
+        console.log(token)
+        setToken(window.localStorage.getItem('token'));
         if (token) {
-            setLoggedIn(true);
             getCurrentUserIdAndRole(user, setUser);
+        } else{
+            setUser(userPublic);
         }
-    }, []);
+    }, [token]);
 
-    const [userRole, setUserRole] = useState('javno');
 
+    //Kada se nađe user, provjeriti je li aktiviran i postaviti njegov role
+    const [accActivated, setAccActivated] = useState(null);
     useEffect(() => {
-        setUserRole(user.role ? user.role : roleNone);
+        if(!isEqualWithNull(user,userNone)){
+            getAccActivated(user.userId, setAccActivated);
+        }
     }, [user]);
-    // console.log("role in app: " + userRole);
-    // console.log("PROMJENA")
 
+    
+    //Uzimanje donora iz localStoragea (makar ga i nema)
+    const [donor, setDonor] = useState(undefined)
+    
+    useEffect(() => {
+        let donorFromStorage = JSON.parse(window.localStorage.getItem('donor'));
+        if(donor == undefined || ! isEqualWithNull(donor, donorFromStorage) ){
+            setDonor(donorFromStorage ? donorFromStorage : {});
+        }
+    },[donor]);
+
+
+    //Samo ako su sva stanja postavljena, stranica se može renderirati - sprječava preuranjeni history.push i slično
+    const[pageReady, setPageReady] = useState(false);
+    
+    useEffect(()=>{
+        if( !isEqualWithNull(user, userNone) && accActivated != null && donor != undefined){
+            setPageReady(true);
+        }
+    },[user, accActivated, donor]);
+    
+    
+    if(!pageReady){
+        return(<div>Loading</div>)
+    }
     return (
         <div className='app'>
             <Router>
-                <Navbar showProfile={loggedIn} />
+                <Navbar showProfile={token != null} />
                 <Switch>
-                    <Route path="/" component={Home} exact>
-                        <Home loggedIn={loggedIn} />
+                    <Route path="/" exact>
+                        <Home loggedIn={token != null} />
                     </Route>
-                    <Route path="/prijava" component={Login} exact>
+                    <Route path="/prijava" exact>
                         <Login onLogin={() => {
-                            setLoggedIn(true);
                             getCurrentUserIdAndRole(user, setUser);
-                            setUserRole(user.role)
+                            setToken(window.localStorage.getItem('token'));
                         }} />
                     </Route>
-                    <Route path="/profil" component={Profil} exact>
+                    <Route path='/racun_neaktiviran' exact>
+                        <RacunNeaktiviran user={user} accActivated={accActivated}/>
+                    </Route>
+                    <Route path="/profil" exact>
                         <Profil onLogout={() => {
-                            setLoggedIn(false);
-                            setUser(userNone);
-                            setUserRole(roleNone);
+                            setToken(null);
+                            setDonor({});
                         }}
+                            accActivated={accActivated}
                             user={user} />
                     </Route>
-                    <Route path="/update" component={Update} exact>
+                    <Route path="/update" exact>
                         <Update />
                     </Route>
-                    <Route path="/faq" component={Faq} exact>
+                    <Route path="/faq" exact>
                         <Faq />
                     </Route>
-                    <Route path="/kontakt" component={Kontakt} exact>
+                    <Route path="/kontakt" exact>
                         <Kontakt />
                     </Route>
-                    <Route path='/stvori_donora' component={Registracija} exact>
-                        <Registracija role={userRole} />
+                    <Route path='/stvori_donora' exact>
+                        <Registracija role={user.role} token={token} setDonor={setDonor} />
                     </Route>
-                    <Route path='/autorizacija' component={Autorizacija} exact>
-                        <Autorizacija />
+                    <Route path='/kreiran_donor' exact>
+                        <KreiranDonor user={user} />
+                    </Route>
+                    <Route path='/pokusaj_doniranja' exact>
+                        <PokusajDoniranja user={user} donor={donor} />
+                    </Route>
+                    <Route path='/trazi_donora' exact>
+                        <TraziDonora user={user} setDonor={setDonor} />
                     </Route>
                 </Switch>
             </Router>
