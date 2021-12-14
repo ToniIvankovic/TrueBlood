@@ -65,4 +65,18 @@ public class UserController {
 
     }
 
+    @Secured({"ROLE_ADMIN"})
+    @GetMapping("/deactivated/{userId}")
+    public ResponseEntity<Object> permDeactivateUser(@PathVariable String userId) {
+
+        try {
+            Long longUserId = userService.permDeactivateUserAccount(userId);
+            if (longUserId == null) return ResponseEntity.ok("This user is already permanently deactivated.");
+            return ResponseEntity.ok(longUserId);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+
+    }
+
 }

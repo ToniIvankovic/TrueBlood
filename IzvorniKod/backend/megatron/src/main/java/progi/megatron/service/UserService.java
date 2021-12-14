@@ -35,11 +35,11 @@ public class UserService {
         return longUserId;
     }
 
-    public Long deactivateUserAccount(String userId) {
+    public Long permDeactivateUserAccount(String userId) {
         isValidUserId(userId);
         Long longUserId = Long.valueOf(userId);
         User user = userRepository.getUserByUserId(longUserId).orElseThrow(() -> new WrongUserException("No user with that userId."));
-        if (user.getAccActivated() == 0) return null;
+        if (user.getPermDeactivated() == 1) return null;
         userRepository.deactivateUserAccount(longUserId);
         return Long.valueOf(userId);
     }

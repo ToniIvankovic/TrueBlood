@@ -16,8 +16,16 @@ public class BloodSupplyService {
         this.bloodTypeValidator = bloodTypeValidator;
     }
 
-    public BloodSupply getBloodsupplyByBloodType(String bloodType) {
+    public BloodSupply getBloodSupplyByBloodType(String bloodType) {
         bloodTypeValidator.validateBloodType(bloodType);
         return bloodSupplyRepository.getBloodSupplyByBloodType(bloodType);
     }
+
+    public String donateBlood(String bloodType) {
+        bloodTypeValidator.validateBloodType(bloodType);
+        int oldNumberOfUnits = bloodSupplyRepository.getBloodSupplyByBloodType(bloodType).getNumberOfUnits();
+        bloodSupplyRepository.donateBlood(bloodType, oldNumberOfUnits + 1);
+        return bloodType;
+    }
+
 }
