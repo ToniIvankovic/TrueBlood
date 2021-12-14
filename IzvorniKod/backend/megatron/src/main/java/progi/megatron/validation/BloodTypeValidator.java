@@ -2,8 +2,6 @@ package progi.megatron.validation;
 
 import org.springframework.stereotype.Component;
 import progi.megatron.exception.WrongBloodTypeException;
-import progi.megatron.exception.WrongDonorException;
-
 import java.util.List;
 
 @Component

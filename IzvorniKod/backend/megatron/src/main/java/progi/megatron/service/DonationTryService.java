@@ -1,10 +1,14 @@
 package progi.megatron.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import progi.megatron.exception.WrongBankWorkerException;
+import progi.megatron.exception.WrongDonationTryException;
+import progi.megatron.exception.WrongDonorException;
+import progi.megatron.model.BankWorker;
 import progi.megatron.model.DonationTry;
 import progi.megatron.model.Donor;
-import progi.megatron.model.dto.DonationTryDTO1;
-import progi.megatron.model.dto.DonationTryDTO2;
+import progi.megatron.model.dto.DonationTryDTO;
 import progi.megatron.repository.DonationTryRepository;
 
 @Service
@@ -22,24 +26,41 @@ public class DonationTryService {
         this.bloodSupplyService = bloodSupplyService;
     }
 
-    public DonationTry createDonationTry(DonationTryDTO1 donationTryDTO1){
+    @Transactional
+    public boolean createDonationTry(DonationTryDTO donationTryDTO){
 
-        DonationTryDTO2 donationTryDTO2 = new DonationTryDTO2(
-                donationTryDTO1.getBloodType(),
-                donationTryDTO1.getRejectReason(),
-                donorService.getDonorByDonorId(donationTryDTO1.getDonorId()),
-                bankWorkerService.
-        )
+        boolean donated = false;
 
-        if (donationTry.getRejectReason() == null) {
-            Donor donor = donorService.getDonorByDonorId(String.valueOf(donationTry.getDonor().getDonorId()));
-            if (donor.getPermRejectedReason() != null) {
-                donationTry.setRejectReason("Donor is permanently rejected.");
+        String bloodType = donationTryDTO.getBloodType();
+
+        Donor donor = donorService.getDonorByDonorId(donationTryDTO.getDonorId());
+        if (donor == null) throw new WrongDonorException("There is no donor with that id.");
+
+        BankWorker bankWorker = bankWorkerService.getBankWorkerByBankWorkerId(donationTryDTO.getBankWorkerId());
+        if (bankWorker == null) throw new WrongBankWorkerException("There is no bank worker with that id.");
+
+        if (!bloodType.trim().equals(donor.getBloodType().trim())) throw new WrongDonationTryException("Given blood type does not match donor's blood type.");
+
+        if (donationTryDTO.getRejectReason() == null) {
+            if (donor.getPermRejectedReason() == null) {
+                donationTryDTO.setRejectReason("Donor is permanently rejected.");
             } else {
-                bloodSupplyService.donateBlood(donor.getBloodType());
+                bloodSupplyService.donateBlood(bloodType);
+                donated = true;
             }
         }
-        return donationTryRepository.save(donationTry);
+
+        DonationTry donationTry = new DonationTry (
+                null,
+                donationTryDTO.getRejectReason(),
+                bloodType,
+                donor,
+                bankWorker
+        );
+
+        donationTry = donationTryRepository.save(donationTry);
+
+        return donated;
     }
 
 }

@@ -2,13 +2,14 @@ package progi.megatron.service;
 
 import org.springframework.stereotype.Service;
 import progi.megatron.model.BloodSupply;
+import progi.megatron.model.dto.BloodSupplyDTO;
 import progi.megatron.repository.BloodSupplyRepository;
 import progi.megatron.validation.BloodTypeValidator;
 
 @Service
 public class BloodSupplyService {
 
-    private BloodSupplyRepository bloodSupplyRepository;
+    private final BloodSupplyRepository bloodSupplyRepository;
     private final BloodTypeValidator bloodTypeValidator;
 
     public BloodSupplyService(BloodSupplyRepository bloodSupplyRepository, BloodTypeValidator bloodTypeValidator) {
@@ -16,9 +17,10 @@ public class BloodSupplyService {
         this.bloodTypeValidator = bloodTypeValidator;
     }
 
-    public BloodSupply getBloodSupplyByBloodType(String bloodType) {
+    public BloodSupplyDTO getBloodSupplyByBloodType(String bloodType) {
         bloodTypeValidator.validateBloodType(bloodType);
-        return bloodSupplyRepository.getBloodSupplyByBloodType(bloodType);
+        BloodSupply bloodSupply = bloodSupplyRepository.getBloodSupplyByBloodType(bloodType);
+        return new BloodSupplyDTO(bloodSupply.getBloodType(), bloodSupply.getNumberOfUnits());
     }
 
     public String donateBlood(String bloodType) {

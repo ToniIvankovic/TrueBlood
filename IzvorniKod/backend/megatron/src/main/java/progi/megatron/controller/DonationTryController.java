@@ -2,11 +2,10 @@ package progi.megatron.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import progi.megatron.model.DonationTry;
-import progi.megatron.model.Donor;
-import progi.megatron.model.dto.DonationTryDTO1;
+import progi.megatron.model.dto.DonationTryDTO;
 import progi.megatron.service.DonationTryService;
 
 @Controller
@@ -19,10 +18,13 @@ public class DonationTryController {
         this.donationTryService = donationTryService;
     }
 
+    @Secured({"ROLE_BANK_WORKER"})
     @PostMapping
-    public ResponseEntity<Object> createDonationTry(@RequestBody DonationTryDTO1 donationTryDTO1){
+    public ResponseEntity<Object> createDonationTry(@RequestBody DonationTryDTO donationTryDTO){
         try {
-            return ResponseEntity.ok(donationTryService.createDonationTry(donationTryDTO1));
+            boolean donated = donationTryService.createDonationTry(donationTryDTO);
+            if (donated) return ResponseEntity.ok("Successfully donated blood.");
+            else return ResponseEntity.ok("Could not donate blood.");
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }

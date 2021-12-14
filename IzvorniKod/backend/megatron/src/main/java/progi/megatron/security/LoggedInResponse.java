@@ -1,6 +1,7 @@
 package progi.megatron.security;
 
 public class LoggedInResponse {
+
     private Boolean loggedIn;
 
     public LoggedInResponse(boolean loggedIn) {
@@ -10,4 +11,5 @@ public class LoggedInResponse {
     public boolean isLoggedIn() {
         return loggedIn;
     }
+
 }

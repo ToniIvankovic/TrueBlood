@@ -2,7 +2,6 @@ package progi.megatron.model;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -54,8 +53,8 @@ public class Donor implements Serializable {
         this.birthPlace = birthPlace;
         this.address = address;
         this.workPlace = workPlace;
-        this.workContact = workContact;
         this.privateContact = privateContact;
+        this.workContact = workContact;
         this.email = email;
         this.bloodType = bloodType;
         this.permRejectedReason = permRejectedReason;

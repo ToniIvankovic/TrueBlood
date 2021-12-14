@@ -2,6 +2,7 @@ package progi.megatron.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +21,7 @@ public class BankWorker implements Serializable {
 
     private String oib;
 
-    private String birthDate;
+    private LocalDate birthDate;
 
     private String birthPlace;
 
@@ -33,5 +34,22 @@ public class BankWorker implements Serializable {
     private String workContact;
 
     private String email;
+
+    public BankWorker() {
+    }
+
+    public BankWorker(Long bankWorkerId, String firstName, String lastName, String oib, LocalDate birthDate, String birthPlace, String address, String workPlace, String privateContact, String workContact, String email) {
+        this.bankWorkerId = bankWorkerId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.oib = oib;
+        this.birthDate = birthDate;
+        this.birthPlace = birthPlace;
+        this.address = address;
+        this.workPlace = workPlace;
+        this.privateContact = privateContact;
+        this.workContact = workContact;
+        this.email = email;
+    }
 
 }

@@ -10,7 +10,6 @@ import progi.megatron.model.User;
 import progi.megatron.model.dto.UserDTO;
 import progi.megatron.service.UserService;
 import progi.megatron.security.JwtTokenUtil;
-
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
@@ -68,7 +67,6 @@ public class UserController {
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/deactivated/{userId}")
     public ResponseEntity<Object> permDeactivateUser(@PathVariable String userId) {
-
         try {
             Long longUserId = userService.permDeactivateUserAccount(userId);
             if (longUserId == null) return ResponseEntity.ok("This user is already permanently deactivated.");
@@ -76,7 +74,6 @@ public class UserController {
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
-
     }
 
 }

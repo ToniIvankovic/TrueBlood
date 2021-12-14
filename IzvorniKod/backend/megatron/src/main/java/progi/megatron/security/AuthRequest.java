@@ -1,4 +1,4 @@
-package progi.megatron.model.dto;
+package progi.megatron.security;
 
 import lombok.Data;
 

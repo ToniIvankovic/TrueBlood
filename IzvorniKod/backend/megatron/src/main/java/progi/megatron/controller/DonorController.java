@@ -4,12 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import progi.megatron.model.Donor;
 import progi.megatron.model.dto.DonorByBankWorkerDTO;
 import progi.megatron.model.dto.DonorByDonorDTO;
 import progi.megatron.service.DonorService;
-
-import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -54,7 +51,7 @@ public class DonorController {
     }
 
     @Secured({"ROLE_ADMIN", "ROLE_BANK_WORKER"})
-    @GetMapping("/donor-id/{donorId}")
+    @GetMapping("/id/{donorId}")
     public ResponseEntity<Object> getDonorByDonorId(@PathVariable String donorId) {
         try {
             return ResponseEntity.ok(donorService.getDonorByDonorId(donorId));

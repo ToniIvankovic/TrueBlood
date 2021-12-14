@@ -35,8 +35,8 @@ public class DonorByBankWorkerDTO {
         this.birthPlace = birthPlace;
         this.address = address;
         this.workPlace = workPlace;
-        this.workContact = workContact;
         this.privateContact = privateContact;
+        this.workContact = workContact;
         this.email = email;
         this.bloodType = bloodType;
         this.permRejectedReason = permRejectedReason;
@@ -45,7 +45,7 @@ public class DonorByBankWorkerDTO {
     public Donor DonorByBankWorkerDTOToDonor(DonorByBankWorkerDTO donorByBankWorkerDTO, Long userId) {
         return new Donor(userId, donorByBankWorkerDTO.firstName, donorByBankWorkerDTO.lastName, donorByBankWorkerDTO.oib,
                 donorByBankWorkerDTO.birthDate, donorByBankWorkerDTO.birthPlace, donorByBankWorkerDTO.address,
-                donorByBankWorkerDTO.workPlace, donorByBankWorkerDTO.workContact, donorByBankWorkerDTO.privateContact,
+                donorByBankWorkerDTO.workPlace, donorByBankWorkerDTO.privateContact, donorByBankWorkerDTO.workContact,
                 donorByBankWorkerDTO.email, donorByBankWorkerDTO.bloodType, donorByBankWorkerDTO.permRejectedReason);
     }
     
