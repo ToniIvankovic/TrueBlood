@@ -65,7 +65,7 @@ const Registracija = (props) => {
                 console.log(response.data)
 
                 window.localStorage.setItem('donor', JSON.stringify(response.data));
-                props.setDonor(donor)
+                props.setDonor(response.data)
                 history.push('/kreiran_donor');
             })
             .catch((error) => {
