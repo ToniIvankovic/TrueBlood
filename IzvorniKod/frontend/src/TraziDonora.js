@@ -14,19 +14,25 @@ const TraziDonora = (props) => {
     const [errorHidden, setErrorHidden] = useState(true);
 
     const donorNone = {};
-    const [donor, setDonor] = useState(donorNone);
+    const [foundDonor, setFoundDonor] = useState(donorNone);
+
+    useEffect(() => {
+        if (props.user.role && props.user.role != 'BANK_WORKER' && props.user.role != 'ADMIN') {
+            history.push('/profil');
+        }
+    }, [props.role]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        window.localStorage.setItem('donor', JSON.stringify(donor));
-        props.setDonor(donor)   //Dojavljuje app.js-u da je donor postavljen u localstorage
+        // window.localStorage.setItem('foundDonor', JSON.stringify(foundDonor));
+        props.setDonor(foundDonor)   //Dojavljuje app.js-u da je foundDonor postavljen u localstorage
         history.push('/pokusaj_doniranja');
     }
 
     const findDonor = (event) => {
         //treba slati upit na endpoint i dohvatiti preostale podatke - ovo je samo fake placeholder
         //TODO: u tražilici napraviti onchange koji će mijenjati neke stateove i oni se šalju u requestu
-        setDonor({
+        setFoundDonor({
             donorId: 1234567,
             firstName: "toni",
             lastName: "ivankovic",
@@ -37,8 +43,8 @@ const TraziDonora = (props) => {
 
     useEffect(() => {
         console.log("Donor u trazidonora:")
-        console.log(donor)
-    }, [donor]);
+        console.log(foundDonor)
+    }, [foundDonor]);
 
     return (
         <div className="reg">
@@ -55,26 +61,26 @@ const TraziDonora = (props) => {
                     <input
                         name='donorId'
                         type="text"
-                        placeholder={"donorId: " + donor.donorId}
+                        placeholder={"donorId: " + foundDonor.donorId}
                     ></input>
                 </div>
                 <div className="dupli">
                     <input
                         name='firstName'
                         type="text"
-                        placeholder={"ime: " + donor.firstName}
+                        placeholder={"ime: " + foundDonor.firstName}
                     ></input>
                     <input
                         name='lastName'
                         type="text"
-                        placeholder={"prezime: " + donor.lastName}
+                        placeholder={"prezime: " + foundDonor.lastName}
                     ></input>
                 </div>
                 <div className="single">
                     <input
                         name='oib'
                         type="text"
-                        placeholder={"OIB: " + donor.oib}
+                        placeholder={"OIB: " + foundDonor.oib}
                     ></input>
                 </div>
 

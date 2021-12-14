@@ -15,7 +15,7 @@ import PokusajDoniranja from "./PokusajDoniranja";
 import TraziDonora from "./TraziDonora";
 import RacunNeaktiviran from "./RacunNeaktiviran";
 
-import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, roleNone, userNone, userPublic } from "./Util";
+import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, roleNone, userNone, userPublic, donorNone } from "./Util";
 import _ from 'lodash';
 
 // TODO: global context for role and user data
@@ -48,29 +48,37 @@ const App = () => {
 
     
     //Uzimanje donora iz localStoragea (makar ga i nema)
-    const [donor, setDonor] = useState(undefined)
+    const [donor, setDonor] = useState(donorNone);
     
-    useEffect(() => {
-        let donorFromStorage = JSON.parse(window.localStorage.getItem('donor'));
-        if(donor == undefined || ! isEqualWithNull(donor, donorFromStorage) ){
-            setDonor(donorFromStorage ? donorFromStorage : {});
-        }
-    },[donor]);
+    // useEffect(() => {
+    //     let donorFromStorage = JSON.parse(window.localStorage.getItem('donor'));
+    //     if(donor == undefined || ! isEqualWithNull(donor, donorFromStorage) ){
+    //         setDonor(donorFromStorage ? donorFromStorage : {});
+    //     }
+    // },[donor]);
+
 
 
     //Samo ako su sva stanja postavljena, stranica se može renderirati - sprječava preuranjeni history.push i slično
-    const[pageReady, setPageReady] = useState(false);
+    // const[pageReady, setPageReady] = useState(false);
     
-    useEffect(()=>{
-        if( !isEqualWithNull(user, userNone) && accActivated != null && donor != undefined){
-            setPageReady(true);
-        }
-    },[user, accActivated, donor]);
+    // useEffect(()=>{
+    //     if( !isEqualWithNull(user, userNone) && accActivated != null){
+    //         setPageReady(true);
+    //     }
+    // },[user, accActivated]);
     
     
-    if(!pageReady){
-        return(<div>Loading</div>)
-    }
+    // if(!pageReady){
+    //     return(<div className='app'>
+    //     <Router>
+    //         <Navbar showProfile={token != null} />
+    //         <Home loggedIn={token != null} />
+    //     </Router>
+    // </div>)
+    // }
+
+    //page ready
     return (
         <div className='app'>
             <Router>
@@ -106,7 +114,7 @@ const App = () => {
                         <Kontakt />
                     </Route>
                     <Route path='/stvori_donora' exact>
-                        <Registracija role={user.role} token={token} setDonor={setDonor} />
+                        <Registracija user={user} token={token} setDonor={setDonor} />
                     </Route>
                     <Route path='/kreiran_donor' exact>
                         <KreiranDonor user={user} />

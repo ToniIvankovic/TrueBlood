@@ -14,10 +14,10 @@ const PokusajDoniranja = (props) => {
     const [errorHidden, setErrorHidden] = useState(true);
 
     useEffect(() => {
-        // if (props.user.userId && props.user.role != 'BANK_WORKER') {
-        //     history.push('/');
-        // }
-    });
+        if (props.user.role && props.user.role != 'BANK_WORKER' && props.user.role != 'ADMIN') {
+            history.push('/profil');
+        }
+    }, [props.role]);
 
     const handleSubmit = (event) => {
         console.log("submit")

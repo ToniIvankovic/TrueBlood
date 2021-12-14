@@ -26,21 +26,17 @@ const Registracija = (props) => {
     const [errorMessage, setErrorMessage] = useState('Greška');
     const [errorHidden, setErrorHidden] = useState(true);
 
-    const [user, setUser] = useState({});
 
     useEffect(() => {
-        if (props.role === 'DONOR') {
+        if (props.user.role == 'DONOR') {
             history.push('/profil');
         }
-    }, [props.role]);
-
+    }, [props.user.role]);
 
 
     const handleChange = (event) => {
         let name = event.target.name;
         let value = event.target.value;
-        //console.log(name)
-        //console.log(value)
         setDonorInfo({
             ...donorInfo,
             [name]: value
@@ -53,7 +49,7 @@ const Registracija = (props) => {
         console.log(donorInfo);
 
         var url
-        if (props.role == 'BANK_WORKER') {
+        if (props.user.role == 'BANK_WORKER') {
             url = '/api/v1/donor/add-donor'
         } else {
             url = '/api/v1/donor/registration'
@@ -87,6 +83,8 @@ const Registracija = (props) => {
                     } else {
                         setErrorMessage('Greška pri registraciji!');
                     }
+                } else{
+                    setErrorMessage('Unutarnja greška');s
                 }
                 setErrorHidden(false);
             });
@@ -94,9 +92,10 @@ const Registracija = (props) => {
 
     return (
         <div className="reg">
+            ({props.user.role})
             <form onSubmit={(event) => handleSubmit(event)} className='formular'>
                 <div className="tekst">
-                    <p>Kreiraj korisnički račun! ({props.role})</p>
+                    <p>Kreiraj korisnički račun!</p>
                 </div>
                 <div className="label">
                     <label>Osobni podaci</label>
@@ -189,7 +188,7 @@ const Registracija = (props) => {
                 <div className="krgrupe">
                     <label>Krvna grupa</label>
                     <select defaultValue="---"
-                        disabled={props.role != "BANK_WORKER"}
+                        disabled={props.user.role != "BANK_WORKER"}
                         onChange={(event) => {
                             event.target.name = "bloodType";
                             handleChange(event);

@@ -4,6 +4,7 @@ import axios from './util/axios-instance';
 
 //globalne varijable za aplikaciju
 const roleNone = 'JAVNO';
+const donorNone = {};
 const userNone = {};
 const userPublic = {
     userId: null,
@@ -107,3 +108,4 @@ export { isEqualWithNull };
 export { roleNone };
 export { userNone };
 export { userPublic };
+export { donorNone };
