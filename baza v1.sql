@@ -60,10 +60,41 @@ CREATE TABLE IF NOT EXISTS bank_worker
 CREATE TABLE IF NOT EXISTS donation_try
 (
   donation_id BIGINT NOT NULL,
-  rejected_reason VARCHAR(100),
+  reject_reason VARCHAR(100),
+  blood_type CHAR(3),
   donor_id BIGINT NOT NULL,
   bank_worker_id BIGINT NOT NULL,
   PRIMARY KEY (donation_id),
   FOREIGN KEY (donor_id) REFERENCES donor(donor_id),
   FOREIGN KEY (bank_worker_id) REFERENCES bank_worker(bank_worker_id)
 );
+
+CREATE SEQUENCE IF NOT EXISTS USER_SEQ START WITH 1000001;
+CREATE SEQUENCE IF NOT EXISTS DONATION_SEQ;
+
+INSERT INTO user_account (user_id, user_role, password, acc_activated, perm_deactivated, opt_out)
+    VALUES (1000000, 'ADMIN', '$2a$10$jBBLYlPInYB.SvgIzenJge6TQLX3vAmBJA.j2C08rQCMeVJpBBvmC', 1, 0, 0);   -- password is adminpass
+
+INSERT INTO blood_supply (blood_type, number_of_units, max_units, min_units)
+    VALUES ('A+', 0, 1000000, 0);
+
+INSERT INTO blood_supply (blood_type, number_of_units, max_units, min_units)
+    VALUES ('B+', 0, 1000000, 0);
+
+INSERT INTO blood_supply (blood_type, number_of_units, max_units, min_units)
+    VALUES ('AB+', 0, 1000000, 0);
+
+INSERT INTO blood_supply (blood_type, number_of_units, max_units, min_units)
+    VALUES ('0+', 0, 1000000, 0);
+
+INSERT INTO blood_supply (blood_type, number_of_units, max_units, min_units)
+    VALUES ('A-', 0, 1000000, 0);
+
+INSERT INTO blood_supply (blood_type, number_of_units, max_units, min_units)
+    VALUES ('B-', 0, 1000000, 0);
+
+INSERT INTO blood_supply (blood_type, number_of_units, max_units, min_units)
+    VALUES ('AB-', 0, 1000000, 0);
+
+INSERT INTO blood_supply (blood_type, number_of_units, max_units, min_units)
+    VALUES ('0-', 0, 1000000, 0);

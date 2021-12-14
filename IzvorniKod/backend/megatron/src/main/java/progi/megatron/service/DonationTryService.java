@@ -26,7 +26,7 @@ public class DonationTryService {
         this.bloodSupplyService = bloodSupplyService;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean createDonationTry(DonationTryDTO donationTryDTO){
 
         boolean donated = false;
