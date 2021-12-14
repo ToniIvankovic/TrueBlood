@@ -6,6 +6,9 @@ import progi.megatron.model.dto.BloodSupplyDTO;
 import progi.megatron.repository.BloodSupplyRepository;
 import progi.megatron.validation.BloodTypeValidator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class BloodSupplyService {
 
@@ -30,4 +33,12 @@ public class BloodSupplyService {
         return bloodType;
     }
 
+    public List<BloodSupplyDTO> getBloodSupply() {
+        List<String> bloodTypes = List.of("A+", "A-", "B+", "B-", "0+", "0-", "AB+", "AB-");
+        List<BloodSupplyDTO> bloodSupplies = new ArrayList<>();
+        for (String bloodyType : bloodTypes) {
+            bloodSupplies.add(getBloodSupplyByBloodType(bloodyType));
+        }
+        return bloodSupplies;
+    }
 }

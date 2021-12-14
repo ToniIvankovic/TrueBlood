@@ -27,4 +27,13 @@ public class BloodSupplyController {
         }
     }
 
+    @GetMapping()
+    public ResponseEntity<Object> getBloodSupply() {
+        try {
+            return ResponseEntity.ok(bloodSupplyService.getBloodSupply());
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
 }
