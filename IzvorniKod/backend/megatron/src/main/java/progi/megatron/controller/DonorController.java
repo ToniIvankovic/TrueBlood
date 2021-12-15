@@ -50,7 +50,7 @@ public class DonorController {
         }
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_BANK_WORKER"})
+    @Secured({"ROLE_ADMIN", "ROLE_BANK_WORKER", "ROLE_DONOR"})
     @GetMapping("/id/{donorId}")
     public ResponseEntity<Object> getDonorByDonorId(@PathVariable String donorId) {
         try {

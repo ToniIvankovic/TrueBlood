@@ -6,7 +6,7 @@ import Login from "./Login";
 import Faq from "./Faq";
 import Kontakt from "./Kontakt";
 import './index.css'
-import Registracija from "./Registracija";
+import StvoriDonora from "./StvoriDonora";
 import KreiranDonor from "./KreiranDonor";
 import Home from "./Home";
 import Profil from "./Profil";
@@ -46,6 +46,7 @@ const App = () => {
         }
     }, [user]);
 
+    const [existing, setExisting] = useState(false);
     
     //Uzimanje donora iz localStoragea (makar ga i nema)
     const [donor, setDonor] = useState(donorNone);
@@ -102,7 +103,8 @@ const App = () => {
                             setDonor({});
                         }}
                             accActivated={accActivated}
-                            user={user} />
+                            user={user}
+                            setExisting={setExisting} />
                     </Route>
                     <Route path="/update" exact>
                         <Update />
@@ -114,7 +116,7 @@ const App = () => {
                         <Kontakt />
                     </Route>
                     <Route path='/stvori_donora' exact>
-                        <Registracija user={user} token={token} setDonor={setDonor} />
+                        <StvoriDonora user={user} token={token} setDonor={setDonor} existing={existing} setExisting={setExisting} />
                     </Route>
                     <Route path='/kreiran_donor' exact>
                         <KreiranDonor user={user} />

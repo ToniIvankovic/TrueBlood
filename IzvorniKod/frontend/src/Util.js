@@ -44,6 +44,38 @@ const getCurrentUserIdAndRole = async (user, setUser) => {
         })
 }
 
+const getDonorById = async (donorId, setDonor) => {
+
+    const url = '/api/v1/donor/id/' + donorId;
+    const token = window.localStorage.getItem('token');
+    if (!token) {
+        console.log("Greska u getDonorById - nema tokena")
+        return;
+    }
+
+    const bearerAuth = 'Bearer ' + token;
+    await axios.get(url, {
+        headers: { 'Authorization': bearerAuth }
+    })
+        .then((response) => {
+            if (response.data != null) {
+                if(response.data.donorId != donorId){
+                    console.log("Greška - id u odgovoru poslužitelja se ne podudara s trenutnim donorIdjem " + donorId);
+                    console.log(response.data)
+                    return;
+                }
+
+                setDonor(response.data);
+            } else {
+                //Sto ovdje napraviti?
+                console.log("Prazan odgovor poslužitelja")
+            }
+        })
+        .catch((error) => {
+            console.log('Error retrieving user info: ' + error);
+        })
+}
+
 const getAccActivated = async (userId, setActivated) => {
 
     const url = '/api/v1/user/activated'; //potencijalna promjena
@@ -103,6 +135,7 @@ const isEqualWithNull = (v1, v2) =>{
 
 
 export { getCurrentUserIdAndRole };
+export { getDonorById };
 export { getAccActivated };
 export { isEqualWithNull };
 export { roleNone };
