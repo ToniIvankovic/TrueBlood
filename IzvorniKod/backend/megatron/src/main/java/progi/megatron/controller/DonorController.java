@@ -30,7 +30,7 @@ public class DonorController {
 
     }
 
-    @Secured({"ROLE_BANK_WORKER"})
+    //@Secured({"ROLE_BANK_WORKER"})
     @PostMapping("/add-donor")
     public ResponseEntity<Object> createDonorByBankWorker(@RequestBody DonorByBankWorkerDTO donorByBankWorkerDTO) {
         try {
@@ -66,6 +66,26 @@ public class DonorController {
         try {
             return ResponseEntity.ok(donorService.getOibsByFirstNameAndLastName(firstName, lastName));
         } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
+    @Secured({"ROLE_ADMIN", "ROLE_BANK_WORKER"})
+    @GetMapping("/all")
+    public ResponseEntity<Object> getDonorsAll(@RequestParam Integer resultsPerPage, @RequestParam Integer page) {
+        try {
+            return ResponseEntity.ok(donorService.getDonorsAll(resultsPerPage, page));
+        } catch(Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
+    @Secured({"ROLE_ADMIN", "ROLE_BANK_WORKER"})
+    @GetMapping
+    public ResponseEntity<Object> getDonorsByAny(@RequestParam String query) {
+        try {
+            return ResponseEntity.ok(donorService.getDonorsByAny(query));
+        } catch(Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
     }

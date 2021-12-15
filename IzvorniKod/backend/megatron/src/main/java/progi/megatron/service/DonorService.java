@@ -12,7 +12,11 @@ import progi.megatron.util.Role;
 import progi.megatron.validation.DonorValidator;
 import progi.megatron.validation.IdValidator;
 import progi.megatron.validation.OibValidator;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -85,6 +89,24 @@ public class DonorService {
     public List<String> getOibsByFirstNameAndLastName(String firstName, String lastName){
         List<Donor> donors = donorRepository.getDonorByFirstNameAndLastName(firstName, lastName);
         return donors.stream().map(donor -> donor.getOib()).collect(Collectors.toList());
+    }
+
+    // page numbering starts from 1
+    public List<Donor> getDonorsAll(Integer resultsPerPage, Integer page) {
+        List<Donor> donors = donorRepository.findAll();
+        if(donors.size() < resultsPerPage) {
+            return donors;
+        }
+        int startIndex = resultsPerPage * (page - 1);
+        return donors.subList(startIndex, startIndex + resultsPerPage);
+    }
+
+    public List<Donor> getDonorsByAny(String query) {
+        Set<Donor> donorSet = new HashSet<>();
+        donorSet.addAll(donorRepository.getDonorsByOibIsContaining(query));
+        donorSet.addAll(donorRepository.getDonorsByFirstNameIsContaining(query));
+        donorSet.addAll(donorRepository.getDonorsByLastNameIsContaining(query));
+        return donorSet.stream().collect(Collectors.toList());
     }
 
 }
