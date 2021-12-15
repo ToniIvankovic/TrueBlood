@@ -7,6 +7,7 @@ import Faq from "./Faq";
 import Kontakt from "./Kontakt";
 import './index.css'
 import StvoriDonora from "./StvoriDonora";
+import StvoriDjelatnika from "./StvoriDjelatnika";
 import KreiranDonor from "./KreiranDonor";
 import Home from "./Home";
 import Profil from "./Profil";
@@ -15,8 +16,9 @@ import PokusajDoniranja from "./PokusajDoniranja";
 import TraziDonora from "./TraziDonora";
 import RacunNeaktiviran from "./RacunNeaktiviran";
 
-import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, roleNone, userNone, userPublic, donorNone } from "./Util";
+import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, roleNone, userNone, userPublic, donorNone, workerNone } from "./Util";
 import _ from 'lodash';
+import KreiranDjelatnik from "./KreiranDjelatnik";
 
 // TODO: global context for role and user data
 
@@ -50,6 +52,7 @@ const App = () => {
     
     //Uzimanje donora iz localStoragea (makar ga i nema)
     const [donor, setDonor] = useState(donorNone);
+    const [worker, setWorker] = useState(workerNone);
     
     // useEffect(() => {
     //     let donorFromStorage = JSON.parse(window.localStorage.getItem('donor'));
@@ -118,8 +121,14 @@ const App = () => {
                     <Route path='/stvori_donora' exact>
                         <StvoriDonora user={user} token={token} donor={donor} setDonor={setDonor} existing={existing} setExisting={setExisting} />
                     </Route>
+                    <Route path='/stvori_djelatnika' exact>
+                        <StvoriDjelatnika user={user} token={token} worker={worker} setWorker={setWorker} existing={existing} setExisting={setExisting} />
+                    </Route>
                     <Route path='/kreiran_donor' exact>
                         <KreiranDonor user={user} />
+                    </Route>
+                    <Route path='/kreiran_djelatnik' exact>
+                        <KreiranDjelatnik />
                     </Route>
                     <Route path='/pokusaj_doniranja' exact>
                         <PokusajDoniranja user={user} donor={donor} />

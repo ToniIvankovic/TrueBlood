@@ -4,6 +4,7 @@ import axios from './util/axios-instance';
 
 //globalne varijable za aplikaciju
 const roleNone = 'JAVNO';
+const workerNone = {};
 const donorNone = {};
 const userNone = {};
 const userPublic = {
@@ -75,6 +76,37 @@ const getDonorById = async (donorId, setDonor) => {
         })
 }
 
+const getWorkerById = async (workerId, setWorker) => {
+
+    const url = '/api/v1/bank-worker/id/' + workerId;
+    const token = window.localStorage.getItem('token');
+    if (!token) {
+        console.log("Greska u getWorkerById - nema tokena")
+        return;
+    }
+
+    const bearerAuth = 'Bearer ' + token;
+    await axios.get(url, {
+        headers: { 'Authorization': bearerAuth }
+    })
+        .then((response) => {
+            if (response.data != null) {
+                if(response.data.bankWorkerId != workerId){
+                    console.log("Greška - id u odgovoru poslužitelja se ne podudara s trenutnim donorIdjem " + donorId);
+                    return;
+                }
+
+                setWorker(response.data);
+            } else {
+                //Sto ovdje napraviti?
+                console.log("Prazan odgovor poslužitelja")
+            }
+        })
+        .catch((error) => {
+            console.log('Error retrieving user info: ' + error);
+        })
+}
+
 const getAccActivated = async (userId, setActivated) => {
 
     const url = '/api/v1/user/activated'; //potencijalna promjena
@@ -135,9 +167,11 @@ const isEqualWithNull = (v1, v2) =>{
 
 export { getCurrentUserIdAndRole };
 export { getDonorById };
+export { getWorkerById };
 export { getAccActivated };
 export { isEqualWithNull };
 export { roleNone };
 export { userNone };
 export { userPublic };
 export { donorNone };
+export { workerNone };

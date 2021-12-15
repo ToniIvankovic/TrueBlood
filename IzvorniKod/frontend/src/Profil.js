@@ -46,6 +46,11 @@ const Profil = (props) => {
                         <button className="registracija">Uredi podatke</button>
                     </Link>
                     : ''}
+                {props.user.role == 'BANK_WORKER' ?
+                    <Link to='/stvori_djelatnika'>
+                        <button className="registracija">Uredi podatke</button>
+                    </Link>
+                    : ''}
                 <button onClick={(event) => logout(event)} className="submit">Odjava</button>
                 {props.user.role == 'BANK_WORKER' ?
                 [
@@ -58,6 +63,11 @@ const Profil = (props) => {
                 ]
                     
                     : ''}
+                {props.user.role == 'ADMIN' ?
+                <Link to='/stvori_djelatnika'>
+                    <button className="registracija">Stvori djelatnika</button>
+                </Link>
+                : ''}
             </div>
             {props.user.role == 'DONOR' ?
                 <div className="donacije">
