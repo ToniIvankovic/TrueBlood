@@ -34,6 +34,9 @@ const PokusajDoniranja = (props) => {
                 <Link to='/trazi_donora'>
                     <button className='kreiraj'>Pronađi donora</button>
                 </Link>
+                <Link to='/stvori_donora'>
+                    <button className='kreiraj'>Uredi donora</button>
+                </Link>
                 <div className="label">
                     <label>Osobni podaci</label>
                 </div>

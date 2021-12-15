@@ -116,7 +116,7 @@ const App = () => {
                         <Kontakt />
                     </Route>
                     <Route path='/stvori_donora' exact>
-                        <StvoriDonora user={user} token={token} setDonor={setDonor} existing={existing} setExisting={setExisting} />
+                        <StvoriDonora user={user} token={token} donor={donor} setDonor={setDonor} existing={existing} setExisting={setExisting} />
                     </Route>
                     <Route path='/kreiran_donor' exact>
                         <KreiranDonor user={user} />

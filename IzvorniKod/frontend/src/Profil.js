@@ -41,9 +41,11 @@ const Profil = (props) => {
                 <div>{props.user.role}</div>
             </div>
             <div className="uredi">
-                <Link to='/stvori_donora'>
-                    <button className="registracija">Uredi podatke</button>
-                </Link>
+                {props.user.role == 'DONOR' ?
+                    <Link to='/stvori_donora'>
+                        <button className="registracija">Uredi podatke</button>
+                    </Link>
+                    : ''}
                 <button onClick={(event) => logout(event)} className="submit">Odjava</button>
                 {props.user.role == 'BANK_WORKER' ?
                 [

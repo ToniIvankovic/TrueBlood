@@ -27,8 +27,12 @@ const StvoriDonora = (props) => {
     useEffect(()=>{
         if(!props.user.userId) 
             return;
-        getDonorById(props.user.userId,setDonorInfo);
+        if(props.donor.donorId){
+            getDonorById(props.donor.donorId,setDonorInfo);
+            props.setExisting(true);
+        }
         if (props.user.role == 'DONOR') {
+            getDonorById(props.user.userId,setDonorInfo);
             props.setExisting(true);
         }
     },[props.user.userId])

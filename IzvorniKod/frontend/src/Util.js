@@ -61,7 +61,6 @@ const getDonorById = async (donorId, setDonor) => {
             if (response.data != null) {
                 if(response.data.donorId != donorId){
                     console.log("Greška - id u odgovoru poslužitelja se ne podudara s trenutnim donorIdjem " + donorId);
-                    console.log(response.data)
                     return;
                 }
 
