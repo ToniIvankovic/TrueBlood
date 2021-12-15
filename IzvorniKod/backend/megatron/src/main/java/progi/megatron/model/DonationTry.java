@@ -17,8 +17,6 @@ public class DonationTry {
 
     private String rejectReason;
 
-    private String bloodType;
-
     @ManyToOne
     @JoinColumn(name = "donor_id")
     private Donor donor;
@@ -30,10 +28,9 @@ public class DonationTry {
     public DonationTry() {
     }
 
-    public DonationTry(Long donationId, String rejectReason, String bloodType, Donor donor, BankWorker bankWorker) {
+    public DonationTry(Long donationId, String rejectReason, Donor donor, BankWorker bankWorker) {
         this.donationId = donationId;
         this.rejectReason = rejectReason;
-        this.bloodType = bloodType;
         this.donor = donor;
         this.bankWorker = bankWorker;
     }
