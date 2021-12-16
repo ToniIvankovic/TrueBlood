@@ -9,6 +9,7 @@ import progi.megatron.model.dto.BankWorkerDTO;
 import progi.megatron.service.BankWorkerService;
 
 @Controller
+@CrossOrigin
 @RequestMapping("/api/v1/bank-worker")
 public class BankWorkerController {
 
@@ -38,7 +39,8 @@ public class BankWorkerController {
         }
     }
 
-    @Secured({"ROLE_ADMIN"})
+    //Preimenovati metodu?
+    @Secured({"ROLE_ADMIN","ROLE_BANK_WORKER"})
     @GetMapping("/id/{bankWorkerId}")
     public ResponseEntity<Object> getDonorByDonorId(@PathVariable String bankWorkerId) {
         try {

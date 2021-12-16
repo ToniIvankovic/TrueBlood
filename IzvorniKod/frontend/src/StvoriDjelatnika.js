@@ -3,14 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { useHistory } from 'react-router';
 import ErrorCard from './ErrorCard';
-import { getDonorById } from './Util';
+import { getWorkerById } from './Util';
 
-const StvoriDonora = (props) => {
+const StvoriDjelatnika = (props) => {
 
     const history = useHistory();
     const ref = useRef();
 
-    const [donorInfo, setDonorInfo] = useState({
+    const [workerInfo, setWorkerInfo] = useState({
         firstName: '',
         lastName: '',
         oib: '',
@@ -27,13 +27,11 @@ const StvoriDonora = (props) => {
     useEffect(()=>{
         if(!props.user.userId) 
             return;
-        if(props.donor.donorId){
+        if (props.user.role == 'BANK_WORKER') {
             props.setExisting(true);
-            getDonorById(props.donor.donorId,setDonorInfo);
-        }
-        if (props.user.role == 'DONOR') {
-            props.setExisting(true);
-            getDonorById(props.user.userId,setDonorInfo);
+            getWorkerById(props.user.userId,setWorkerInfo);
+        } else if(props.user.role == 'ADMIN'){
+            props.setExisting(false);
         }
     },[props.user.userId])
 
@@ -56,8 +54,8 @@ const StvoriDonora = (props) => {
     const handleChange = (event) => {
         let name = event.target.name;
         let value = event.target.value;
-        setDonorInfo({
-            ...donorInfo,
+        setWorkerInfo({
+            ...workerInfo,
             [name]: value
         });
     }
@@ -65,31 +63,27 @@ const StvoriDonora = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log('Submitting!');
-        console.log(donorInfo);
+        console.log(workerInfo);
 
         var url
         if(props.existing){
-            // url='/api/v1/donor/update-donor';
+            // url='/api/v1/donor/update-worker';
             console.log("Doesnt work yet :(")
             return;
         } else{
-            if (props.user.role == 'BANK_WORKER') {
-                url = '/api/v1/donor/add-donor'
-            } else {
-                url = '/api/v1/donor/registration'
-            }
+            url = '/api/v1/bank-worker'
         }
 
-        axios.post(url, donorInfo, { headers: { "Authorization": `Bearer ${props.token}` } })
+        axios.post(url, workerInfo, { headers: { "Authorization": `Bearer ${props.token}`} })
             .then((response) => {
-                console.log('Donor successfully created:');
+                console.log('Worker successfully created:');
                 console.log(response.data)
 
-                props.setDonor(response.data)
-                history.push('/kreiran_donor');
+                props.setWorker(response.data)
+                history.push('/kreiran_djelatnik');
             })
             .catch((error) => {
-                console.log('Error while creating donor. Response: ' + error.response);
+                console.log('Error while creating worker. Response: ' + error.response);
                 console.log(error.response);
                 if (error.response) {
                     if (error.response.status == 400) {
@@ -100,9 +94,7 @@ const StvoriDonora = (props) => {
                             } else {
                                 setErrorMessage('Greška! Pogrešan format OIB-a.');
                             }
-                        } else if (message.includes('blood')) {
-                            setErrorMessage('Greška! Krvna grupa mora se postaviti.');
-                        }
+                        } 
                         console.log(error.response.data);
                     } else {
                         setErrorMessage('Greška pri registraciji!');
@@ -140,14 +132,14 @@ const StvoriDonora = (props) => {
                         name='firstName'
                         type="text"
                         placeholder="Ime *"
-                        defaultValue={donorInfo.firstName}
+                        defaultValue={workerInfo.firstName}
                         required></input>
                     <input
                         onChange={(event) => handleChange(event)}
                         name='lastName'
                         type="text"
                         placeholder="Prezime *"
-                        defaultValue={donorInfo.lastName}
+                        defaultValue={workerInfo.lastName}
                         required></input>
                 </div>
                 <div className="single">
@@ -158,7 +150,7 @@ const StvoriDonora = (props) => {
                         placeholder="OIB *"
                         minLength='11'
                         maxLength='11'
-                        defaultValue={donorInfo.oib}
+                        defaultValue={workerInfo.oib}
                         required></input>
                 </div>
                 <div className="dupli">
@@ -170,14 +162,14 @@ const StvoriDonora = (props) => {
                         onFocus={() => (ref.current.type = 'date')}
                         onBlur={() => (ref.current.type = 'text')}
                         placeholder="Datum rođenja *"
-                        defaultValue={donorInfo.birthDate}
+                        defaultValue={workerInfo.birthDate}
                         required></input>
                     <input
                         onChange={(event) => handleChange(event)}
                         name='birthPlace'
                         type="text"
                         placeholder="Mjesto rođenja *"
-                        defaultValue={donorInfo.birthPlace}
+                        defaultValue={workerInfo.birthPlace}
                         required></input>
                 </div>
                 <div className="single">
@@ -186,7 +178,7 @@ const StvoriDonora = (props) => {
                         name='address'
                         type="text"
                         placeholder="Adresa stanovanja *"
-                        defaultValue={donorInfo.address}
+                        defaultValue={workerInfo.address}
                         required></input>
                 </div>
                 <div className="label">
@@ -198,7 +190,7 @@ const StvoriDonora = (props) => {
                         name='email'
                         type="text"
                         placeholder="Email *"
-                        defaultValue={donorInfo.email}
+                        defaultValue={workerInfo.email}
                         required></input>
                 </div>
                 <div className="single">
@@ -207,7 +199,7 @@ const StvoriDonora = (props) => {
                         name='privateContact'
                         type="text"
                         placeholder="Kontakt (osobni) *"
-                        defaultValue={donorInfo.privateContact}
+                        defaultValue={workerInfo.privateContact}
                         maxLength='10'
                         required></input>
                 </div>
@@ -216,41 +208,17 @@ const StvoriDonora = (props) => {
                         onChange={(event) => handleChange(event)}
                         name='workPlace'
                         type="text"
-                        defaultValue={donorInfo.workPlace}
-                        placeholder="Mjesto zaposlenja (firma)"></input>
+                        defaultValue={workerInfo.workPlace}
+                        placeholder="Mjesto zaposlenja (firma)*"
+                        required></input>
                     <input
                         onChange={(event) => handleChange(event)}
                         name='workContact'
                         type="text"
-                        placeholder="Kontakt (poslovni)"
-                        defaultValue={donorInfo.workContact}
-                        maxLength='10'></input>
-                </div>
-                <div className="label">
-                    <label>Zdravstveni podaci*</label>
-                </div>
-                <div className="krgrupe">
-                    <label>Krvna grupa</label>
-                    <select defaultValue="---"
-                        disabled={props.user.role != "BANK_WORKER"}
-                        defaultValue={donorInfo.bloodType}
-                        onChange={(event) => {
-                            event.target.name = "bloodType";
-                            handleChange(event);
-                        }}>
-                        <option value="---">Nema</option>
-                        <option value="A+">A+</option>
-                        <option value="A-">A-</option>
-                        <option value="B+">B+</option>
-                        <option value="B-">B-</option>
-                        <option value="AB+">AB+</option>
-                        <option value="AB-">AB-</option>
-                        <option value="0+">0+</option>
-                        <option value="0-">0-</option>
-                    </select>
-                </div>
-                <div className="napomena">
-                    <p>*Vašu krvnu grupu popunjava djelatnik pri prvom doniranju krvi.</p>
+                        placeholder="Kontakt (poslovni)*"
+                        defaultValue={workerInfo.workContact}
+                        maxLength='10'
+                        required></input>
                 </div>
                 {errorHidden ? null : <ErrorCard message={errorMessage} />}
                 <div className="gumbi">
@@ -261,4 +229,4 @@ const StvoriDonora = (props) => {
     )
 }
 
-export default StvoriDonora;
+export default StvoriDjelatnika;
