@@ -92,7 +92,7 @@ const getWorkerById = async (workerId, setWorker) => {
         .then((response) => {
             if (response.data != null) {
                 if(response.data.bankWorkerId != workerId){
-                    console.log("Greška - id u odgovoru poslužitelja se ne podudara s trenutnim donorIdjem " + donorId);
+                    console.log("Greška - id u odgovoru poslužitelja se ne podudara s trenutnim donorIdjem " + workerId);
                     return;
                 }
 

@@ -48,7 +48,9 @@ const App = () => {
         }
     }, [user]);
 
-    const [existing, setExisting] = useState(false);
+    const [existingDonor, setExistingDonor] = useState(false);
+    const [existingWorker, setExistingWorker] = useState(false);
+    
     
     //Uzimanje donora iz localStoragea (makar ga i nema)
     const [donor, setDonor] = useState(donorNone);
@@ -104,10 +106,13 @@ const App = () => {
                         <Profil onLogout={() => {
                             setToken(null);
                             setDonor({});
+                            setExistingDonor(false);
+                            setExistingWorker(false);
                         }}
                             accActivated={accActivated}
                             user={user}
-                            setExisting={setExisting} />
+                            setExistingDonor={setExistingDonor}
+                            setExistingWorker={setExistingWorker} />
                     </Route>
                     <Route path="/update" exact>
                         <Update />
@@ -119,10 +124,10 @@ const App = () => {
                         <Kontakt />
                     </Route>
                     <Route path='/stvori_donora' exact>
-                        <StvoriDonora user={user} token={token} donor={donor} setDonor={setDonor} existing={existing} setExisting={setExisting} />
+                        <StvoriDonora user={user} token={token} donor={donor} setDonor={setDonor} existing={existingDonor} setExisting={setExistingDonor} />
                     </Route>
                     <Route path='/stvori_djelatnika' exact>
-                        <StvoriDjelatnika user={user} token={token} worker={worker} setWorker={setWorker} existing={existing} setExisting={setExisting} />
+                        <StvoriDjelatnika user={user} token={token} worker={worker} setWorker={setWorker} existing={existingWorker} setExisting={setExistingWorker} />
                     </Route>
                     <Route path='/kreiran_donor' exact>
                         <KreiranDonor user={user} />
@@ -134,7 +139,7 @@ const App = () => {
                         <PokusajDoniranja user={user} donor={donor} />
                     </Route>
                     <Route path='/trazi_donora' exact>
-                        <TraziDonora user={user} setDonor={setDonor} />
+                        <TraziDonora user={user} setDonor={setDonor} setExisting={setExistingDonor} />
                     </Route>
                 </Switch>
             </Router>

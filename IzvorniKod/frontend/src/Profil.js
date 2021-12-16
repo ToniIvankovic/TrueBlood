@@ -43,12 +43,12 @@ const Profil = (props) => {
             <div className="uredi">
                 {props.user.role == 'DONOR' ?
                     <Link to='/stvori_donora'>
-                        <button className="registracija">Uredi podatke</button>
+                        <button className="registracija"  onClick={(event) => {props.setExistingDonor(false)}}>Uredi podatke</button>
                     </Link>
                     : ''}
                 {props.user.role == 'BANK_WORKER' ?
                     <Link to='/stvori_djelatnika'>
-                        <button className="registracija">Uredi podatke</button>
+                        <button className="registracija" onClick={(event) => {props.setExistingWorker(true)}}>Uredi podatke</button>
                     </Link>
                     : ''}
                 <button onClick={(event) => logout(event)} className="submit">Odjava</button>
@@ -58,14 +58,14 @@ const Profil = (props) => {
                         <button className="registracija">Stvori pokušaj doniranja</button>
                     </Link>,
                     <Link key={1} to='/stvori_donora'>
-                        <button className="registracija">Stvori račun donora</button>
+                        <button className="registracija" onClick={(event) => {props.setExistingDonor(false)}}>Stvori račun donora</button>
                     </Link>
                 ]
                     
                     : ''}
                 {props.user.role == 'ADMIN' ?
                 <Link to='/stvori_djelatnika'>
-                    <button className="registracija">Stvori djelatnika</button>
+                    <button className="registracija" onClick={(event) => {props.setExistingWorker(false)}}>Stvori djelatnika</button>
                 </Link>
                 : ''}
             </div>

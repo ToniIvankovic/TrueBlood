@@ -25,10 +25,10 @@ const StvoriDonora = (props) => {
     });
 
     useEffect(()=>{
+        console.log(props.existing)
         if(!props.user.userId) 
             return;
-        if(props.donor.donorId){
-            props.setExisting(true);
+        if(props.existing){
             getDonorById(props.donor.donorId,setDonorInfo);
         }
         if (props.user.role == 'DONOR') {

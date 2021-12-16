@@ -26,6 +26,7 @@ const TraziDonora = (props) => {
         event.preventDefault();
         // window.localStorage.setItem('foundDonor', JSON.stringify(foundDonor));
         props.setDonor(foundDonor)   //Dojavljuje app.js-u da je foundDonor postavljen u localstorage
+        props.setExisting(true)
         history.push('/pokusaj_doniranja');
     }
 
