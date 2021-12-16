@@ -22,7 +22,7 @@ const getCurrentUserIdAndRole = async (user, setUser) => {
 
     const bearerAuth = 'Bearer ' + token;
     await axios.get(url, {
-        headers: { 'Authorization': bearerAuth, 'Access-Control-Allow-Origin': '*' }
+        headers: { 'Authorization': bearerAuth }
     })
         .then((response) => {
             if (response.data != null) {
@@ -55,7 +55,7 @@ const getDonorById = async (donorId, setDonor) => {
 
     const bearerAuth = 'Bearer ' + token;
     await axios.get(url, {
-        headers: { 'Authorization': bearerAuth, 'Access-Control-Allow-Origin': '*' }
+        headers: { 'Authorization': bearerAuth }
     })
         .then((response) => {
             if (response.data != null) {
