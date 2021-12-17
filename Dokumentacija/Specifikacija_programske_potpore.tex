@@ -383,13 +383,13 @@
 						\item  \textbf{Opis mogućih odstupanja:}
 						\item[] \begin{packed_enum}
 						
-	                        \item[3.a] Korisnik nema aktiviran račun
+	                        \item[4.a] Korisnik nema aktiviran račun
 	                        \item[] \begin{packed_enum}
     	                        \item Sustav na ekran ispisuje poruku o nemogućnosti prijave zbog neaktiviranog računa
     	                        \item Proces se prekida
 					    	\end{packed_enum}
 					    	
-	                        \item[3.b] Korisnik je unio neki od pogrešnih podataka za prijavu
+	                        \item[4.b] Korisnik je unio neki od pogrešnih podataka za prijavu
 	                        \item[] \begin{packed_enum}
     	                        \item Sustav na ekran ispisuje poruku o nemogućnosti prijave zbog neispravnih podataka za prijavu
     	                        \item Proces se nastavlja na koraku 2 osnovnog tijeka
@@ -913,30 +913,33 @@
 						\item \textbf{Glavni sudionik: }djelatnik banke
 						\item  \textbf{Cilj:} Upozoriti djelatnike banke u slučaju prekoračenja optimalnih granica zaliha krvi te upozoriti donore u slučaju prekoračenja donje optimalne granice
 						\item  \textbf{Sudionici:} donor
-						\item  \textbf{Preduvjet:} U sustavu postoje definirane optimalne granice zaliha krvi; dogodio se bar jedna od tri okidača u alternativnim slijedovima sljedećih obrazaca uporabe:
+						\item  \textbf{Preduvjet:} U sustavu postoje definirane optimalne granice zaliha krvi; dogodio se bar jedan od tri okidača u alternativnim slijedovima sljedećih obrazaca uporabe:
 						\begin{packed_enum}
 						    \item Evidentiranje slanja krvi u bolnicu (vidi \hyperref[UC13]{UC13})
 						     \item Redefiniranje optimalnih granica (vidi \hyperref[UC9]{UC9})
 						     \item Dodavanje nove doze krvi u sustav (vidi \hyperref[UC6]{UC6})
 						\end{packed_enum}
+						U osnovnom slijedu, pretpostavlja se da je zaliha krvi pala ispod donje optimalne granice:
 						\item  \textbf{Opis osnovnog tijeka:}
-						\\ Dva su osnovna slijeda, ovisno je li zaliha krvi neke krvne grupe pala ispod donje optimalne granice ili je narasla iznad gornje optimalne granice:
 						\item[] \begin{packed_enum}
-	
-    						\item Pad zalihe ispod donje optimalne granice 
-    						\begin{packed_enum}
-    	                        \item Sustav dohvaća e-adresu iz baze podataka i izdaje e-mail upozorenje o nedovoljnom stanju zaliha te krvne grupe svim djelatnicima banke 
-    	                        \item Sustav dohvaća e-adresu iz baze podataka i izdaje e-mail upozorenje o nedovoljnom stanju zaliha te krvne grupe s poticajem na doniranje svim donorima te krvne grupe
-    						\end{packed_enum}
+
+	                        \item Sustav dohvaća e-adrese svih djelatnika banke iz baze podataka i izdaje im e-mail upozorenje o nedovoljnom stanju zaliha te krvne grupe 
+	                        \item Sustav dohvaća e-adresu svih donora te krvne grupe iz baze podataka i izdaje e-mail upozorenje o nedovoljnom stanju zaliha te krvne grupe s poticajem na doniranje 
 	                       
-	                       \item Rast zalihe iznad gornje optimalne granice 
-    						\begin{packed_enum}
-    	                        \item Sustav dohvaća e-adresu iz baze podataka i izdaje e-mail upozorenje o prevelikom stanju zaliha te krvne grupe svim djelatnicima banke 
-    						\end{packed_enum}
     						
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+						
+							\item[] Zaliha krvi nije pala ispod donje optimalne granice nego je narasla iznad gornje optimalne granice
+							\item[] \begin{packed_enum} 
+    	                        \item Sustav dohvaća e-adrese svih djelatnika banke iz baze podataka i izdaje im e-mail upozorenje o prevelikom stanju zaliha te krvne grupe 
+    	                        \item Proces završava
+							\end{packed_enum}
+
+						\end{packed_item}
 						
 					\end{packed_item}
 					
@@ -944,9 +947,9 @@
 					\noindent \underbar{\textbf{UC15 - Izdaj obavijest o isteku perioda nemogućnosti doniranja}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }donor
+						\item \textbf{Glavni sudionik: }baza podataka
 						\item  \textbf{Cilj:} Obavijestiti donora o ponovnoj mogućnosti doniranja krvi
-						\item  \textbf{Sudionici:} 
+						\item  \textbf{Sudionici:} donor
 						\item  \textbf{Preduvjet:} Donor je već darivao krv, započinje dan na datum na koji donoru istječe period nemogućnosti doniranja
 						\item  \textbf{Opis osnovnog tijeka:}
 						
