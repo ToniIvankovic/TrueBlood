@@ -170,7 +170,6 @@ export { getDonorById };
 export { getWorkerById };
 export { getAccActivated };
 export { isEqualWithNull };
-export { roleNone };
 export { userNone };
 export { userPublic };
 export { donorNone };

@@ -16,12 +16,11 @@ import PokusajDoniranja from "./PokusajDoniranja";
 import TraziDonora from "./TraziDonora";
 import RacunNeaktiviran from "./RacunNeaktiviran";
 
-import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, roleNone, userNone, userPublic, donorNone, workerNone } from "./Util";
+import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, userNone, userPublic, donorNone, workerNone } from "./Util";
 import _ from 'lodash';
 import KreiranDjelatnik from "./KreiranDjelatnik";
 
-// TODO: global context for role and user data
-
+// TODO: global context for role and user data - done?
 
 const App = () => {
 
@@ -56,34 +55,7 @@ const App = () => {
     const [donor, setDonor] = useState(donorNone);
     const [worker, setWorker] = useState(workerNone);
     
-    // useEffect(() => {
-    //     let donorFromStorage = JSON.parse(window.localStorage.getItem('donor'));
-    //     if(donor == undefined || ! isEqualWithNull(donor, donorFromStorage) ){
-    //         setDonor(donorFromStorage ? donorFromStorage : {});
-    //     }
-    // },[donor]);
-
-
-
-    //Samo ako su sva stanja postavljena, stranica se može renderirati - sprječava preuranjeni history.push i slično
-    // const[pageReady, setPageReady] = useState(false);
     
-    // useEffect(()=>{
-    //     if( !isEqualWithNull(user, userNone) && accActivated != null){
-    //         setPageReady(true);
-    //     }
-    // },[user, accActivated]);
-    
-    
-    // if(!pageReady){
-    //     return(<div className='app'>
-    //     <Router>
-    //         <Navbar showProfile={token != null} />
-    //         <Home loggedIn={token != null} />
-    //     </Router>
-    // </div>)
-    // }
-
     //page ready
     return (
         <div className='app'>
@@ -97,7 +69,8 @@ const App = () => {
                         <Login onLogin={() => {
                             getCurrentUserIdAndRole(user, setUser);
                             setToken(window.localStorage.getItem('token'));
-                        }} />
+                        }}
+                        setExistingDonor={setExistingDonor} />
                     </Route>
                     <Route path='/racun_neaktiviran' exact>
                         <RacunNeaktiviran user={user} accActivated={accActivated}/>
@@ -136,7 +109,7 @@ const App = () => {
                         <KreiranDjelatnik />
                     </Route>
                     <Route path='/pokusaj_doniranja' exact>
-                        <PokusajDoniranja user={user} donor={donor} />
+                        <PokusajDoniranja user={user} donor={donor} existingDonor={existingDonor} setExistingDonor={setExistingDonor} setDonor={setDonor}/>
                     </Route>
                     <Route path='/trazi_donora' exact>
                         <TraziDonora user={user} setDonor={setDonor} setExisting={setExistingDonor} />

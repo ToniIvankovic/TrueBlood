@@ -32,11 +32,14 @@ const PokusajDoniranja = (props) => {
                 </div>
                 <br />
                 <Link to='/trazi_donora'>
-                    <button className='kreiraj'>Pronađi donora</button>
+                    <button className='kreiraj' onClick={(event) => {props.setExistingDonor(false); props.setDonor(false)}}>Pronađi donora</button>
                 </Link>
+                {props.existingDonor?
                 <Link to='/stvori_donora'>
-                    <button className='kreiraj'>Uredi donora</button>
+                    <button className='kreiraj' onClick={(event) => {props.setExistingDonor(true)}}>Uredi donora</button>
                 </Link>
+                :''
+                }
                 <div className="label">
                     <label>Osobni podaci</label>
                 </div>
