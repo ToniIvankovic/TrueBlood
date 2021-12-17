@@ -551,6 +551,21 @@
     }
 }
 
+@media screen and (max-height: 650px) {
+    .epruvete {
+        position: absolute;
+        left: 50%;
+        right: 50%;
+        top: 35%;
+        display: grid;
+        grid-template-rows: auto;
+        justify-content: center;
+        text-align: center;
+        margin: 20px;
+        transform: rotate(-90deg);
+    }
+}
+
 @media screen and (max-width: 550px) {
     .epruvete {
         position: absolute;
@@ -593,6 +608,68 @@
         left: 50%;
         right: 50%;
         top: 60%;
+        display: grid;
+        grid-template-rows: auto;
+        justify-content: center;
+        text-align: center;
+        margin: 0;
+        transform: rotate(0deg);
+    }
+
+    .progress {
+        background-color: #d8d8d8;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        position: relative;
+        margin: 10px 0 10px 20px;
+        height: 40px;
+        width: 250px;
+    }
+    .grupa{
+        font-size: 20px;
+        margin: 15px 0;
+        width: 80px;
+    }
+}
+@media screen and (max-height: 650px) and (max-width: 845px) {
+    .epruvete {
+        position: absolute;
+        left: 50%;
+        right: 50%;
+        top: 70%;
+        display: grid;
+        grid-template-rows: auto;
+        justify-content: center;
+        text-align: center;
+        margin: 0;
+        transform: rotate(0deg);
+    }
+
+    .progress {
+        background-color: #d8d8d8;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        position: relative;
+        margin: 10px 0 10px 20px;
+        height: 40px;
+        width: 250px;
+    }
+    .grupa{
+        font-size: 20px;
+        margin: 15px 0;
+        width: 80px;
+    }
+}
+@media screen and (max-height: 650px) and (max-width: 427px) {
+    .epruvete {
+        position: absolute;
+        left: 50%;
+        right: 50%;
+        top: 85%;
         display: grid;
         grid-template-rows: auto;
         justify-content: center;
