@@ -2,7 +2,6 @@ package progi.megatron.service;
 
 import org.springframework.stereotype.Service;
 import progi.megatron.exception.WrongBankWorkerException;
-import progi.megatron.exception.WrongDonationTryException;
 import progi.megatron.exception.WrongDonorException;
 import progi.megatron.model.BankWorker;
 import progi.megatron.model.DonationTry;
@@ -29,21 +28,17 @@ public class DonationTryService {
 
         boolean donated = false;
 
-        String bloodType = donationTryDTO.getBloodType();
-
         Donor donor = donorService.getDonorByDonorId(donationTryDTO.getDonorId());
         if (donor == null) throw new WrongDonorException("There is no donor with that id.");
 
         BankWorker bankWorker = bankWorkerService.getBankWorkerByBankWorkerId(donationTryDTO.getBankWorkerId());
         if (bankWorker == null) throw new WrongBankWorkerException("There is no bank worker with that id.");
 
-        if (!bloodType.trim().equals(donor.getBloodType().trim())) throw new WrongDonationTryException("Given blood type does not match donor's blood type.");
-
         if (donationTryDTO.getRejectReason() == null) {
-            if (donor.getPermRejectedReason() == null) {
+            if (donor.getPermRejectedReason() != null) {
                 donationTryDTO.setRejectReason("Donor is permanently rejected.");
             } else {
-                bloodSupplyService.donateBlood(bloodType);
+                bloodSupplyService.donateBlood(donor.getBloodType());
                 donated = true;
             }
         }
@@ -51,7 +46,6 @@ public class DonationTryService {
         DonationTry donationTry = new DonationTry (
                 null,
                 donationTryDTO.getRejectReason(),
-                bloodType,
                 donor,
                 bankWorker
         );

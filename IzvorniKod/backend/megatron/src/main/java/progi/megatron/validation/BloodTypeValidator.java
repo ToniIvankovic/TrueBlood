@@ -9,7 +9,7 @@ public class BloodTypeValidator {
 
     public boolean validateBloodType(String bloodType) {
         List<String> list = List.of("A+", "A-", "B+", "B-", "0+", "0-", "AB+", "AB-");
-        if (!list.contains(bloodType)) throw new WrongBloodTypeException("Blood type does not exist, existing bloodtypes are: A+, A-, B+, B-, 0+, 0-, AB+, AB-");
+        if (!list.contains(bloodType.trim())) throw new WrongBloodTypeException("Blood type does not exist, existing bloodtypes are: A+, A-, B+, B-, 0+, 0-, AB+, AB-");
         return true;
     }
 

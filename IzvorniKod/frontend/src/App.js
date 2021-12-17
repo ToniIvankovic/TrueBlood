@@ -7,6 +7,7 @@ import Faq from "./Faq";
 import Kontakt from "./Kontakt";
 import './index.css'
 import StvoriDonora from "./StvoriDonora";
+import StvoriDjelatnika from "./StvoriDjelatnika";
 import KreiranDonor from "./KreiranDonor";
 import Home from "./Home";
 import Profil from "./Profil";
@@ -15,11 +16,11 @@ import PokusajDoniranja from "./PokusajDoniranja";
 import TraziDonora from "./TraziDonora";
 import RacunNeaktiviran from "./RacunNeaktiviran";
 
-import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, roleNone, userNone, userPublic, donorNone } from "./Util";
+import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, userNone, userPublic, donorNone, workerNone } from "./Util";
 import _ from 'lodash';
+import KreiranDjelatnik from "./KreiranDjelatnik";
 
-// TODO: global context for role and user data
-
+// TODO: global context for role and user data - done?
 
 const App = () => {
 
@@ -46,39 +47,15 @@ const App = () => {
         }
     }, [user]);
 
-    const [existing, setExisting] = useState(false);
+    const [existingDonor, setExistingDonor] = useState(false);
+    const [existingWorker, setExistingWorker] = useState(false);
+    
     
     //Uzimanje donora iz localStoragea (makar ga i nema)
     const [donor, setDonor] = useState(donorNone);
-    
-    // useEffect(() => {
-    //     let donorFromStorage = JSON.parse(window.localStorage.getItem('donor'));
-    //     if(donor == undefined || ! isEqualWithNull(donor, donorFromStorage) ){
-    //         setDonor(donorFromStorage ? donorFromStorage : {});
-    //     }
-    // },[donor]);
-
-
-
-    //Samo ako su sva stanja postavljena, stranica se može renderirati - sprječava preuranjeni history.push i slično
-    // const[pageReady, setPageReady] = useState(false);
-    
-    // useEffect(()=>{
-    //     if( !isEqualWithNull(user, userNone) && accActivated != null){
-    //         setPageReady(true);
-    //     }
-    // },[user, accActivated]);
+    const [worker, setWorker] = useState(workerNone);
     
     
-    // if(!pageReady){
-    //     return(<div className='app'>
-    //     <Router>
-    //         <Navbar showProfile={token != null} />
-    //         <Home loggedIn={token != null} />
-    //     </Router>
-    // </div>)
-    // }
-
     //page ready
     return (
         <div className='app'>
@@ -92,7 +69,8 @@ const App = () => {
                         <Login onLogin={() => {
                             getCurrentUserIdAndRole(user, setUser);
                             setToken(window.localStorage.getItem('token'));
-                        }} />
+                        }}
+                        setExistingDonor={setExistingDonor} />
                     </Route>
                     <Route path='/racun_neaktiviran' exact>
                         <RacunNeaktiviran user={user} accActivated={accActivated}/>
@@ -101,10 +79,13 @@ const App = () => {
                         <Profil onLogout={() => {
                             setToken(null);
                             setDonor({});
+                            setExistingDonor(false);
+                            setExistingWorker(false);
                         }}
                             accActivated={accActivated}
                             user={user}
-                            setExisting={setExisting} />
+                            setExistingDonor={setExistingDonor}
+                            setExistingWorker={setExistingWorker} />
                     </Route>
                     <Route path="/update" exact>
                         <Update />
@@ -116,16 +97,22 @@ const App = () => {
                         <Kontakt />
                     </Route>
                     <Route path='/stvori_donora' exact>
-                        <StvoriDonora user={user} token={token} donor={donor} setDonor={setDonor} existing={existing} setExisting={setExisting} />
+                        <StvoriDonora user={user} token={token} donor={donor} setDonor={setDonor} existing={existingDonor} setExisting={setExistingDonor} />
+                    </Route>
+                    <Route path='/stvori_djelatnika' exact>
+                        <StvoriDjelatnika user={user} token={token} worker={worker} setWorker={setWorker} existing={existingWorker} setExisting={setExistingWorker} />
                     </Route>
                     <Route path='/kreiran_donor' exact>
                         <KreiranDonor user={user} />
                     </Route>
+                    <Route path='/kreiran_djelatnik' exact>
+                        <KreiranDjelatnik />
+                    </Route>
                     <Route path='/pokusaj_doniranja' exact>
-                        <PokusajDoniranja user={user} donor={donor} />
+                        <PokusajDoniranja user={user} donor={donor} existingDonor={existingDonor} setExistingDonor={setExistingDonor} setDonor={setDonor}/>
                     </Route>
                     <Route path='/trazi_donora' exact>
-                        <TraziDonora user={user} setDonor={setDonor} />
+                        <TraziDonora user={user} setDonor={setDonor} setExisting={setExistingDonor} />
                     </Route>
                 </Switch>
             </Router>
