@@ -2,10 +2,11 @@ package progi.megatron.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import progi.megatron.model.dto.BloodSupplyDTO;
+import progi.megatron.model.dto.DonationTryDTO;
 import progi.megatron.service.BloodSupplyService;
 
 @Controller
@@ -36,4 +37,15 @@ public class BloodSupplyController {
         }
     }
 
+    @Secured({"ROLE_BANK_WORKER"})
+    @PostMapping("/decrease")
+    public ResponseEntity<Object> decreaseBloodSupply(@RequestBody BloodSupplyDTO bloodSupplyDTO) {
+        try {
+            boolean decreased = bloodSupplyService.decreaseBloodSupply(bloodSupplyDTO.getBloodType(), bloodSupplyDTO.getNumberOfUnits());
+            if (decreased) return ResponseEntity.ok("Successfully decreased blood supply.");
+            else return ResponseEntity.ok("Could not decrease blood supply.");
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
 }

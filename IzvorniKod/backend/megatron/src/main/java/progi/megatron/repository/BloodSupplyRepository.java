@@ -19,6 +19,11 @@ public interface BloodSupplyRepository extends JpaRepository<BloodSupply, String
     BloodSupply getBloodSupplyByBloodType(String bloodType);
 
     // todo: send blood to hospital
+    // ispada isto kao donateBlood()
+//    @Transactional
+//    @Modifying
+//    @Query("UPDATE BloodSupply b SET b.numberOfUnits = ?2 WHERE b.bloodType = ?1")
+//    void decreaseBlood(String bloodType, int numberOfUnits);
 
     // todo: set blood limits - max and min
 

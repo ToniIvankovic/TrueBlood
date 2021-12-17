@@ -41,4 +41,12 @@ public class BloodSupplyService {
         }
         return bloodSupplies;
     }
+
+    // jesu li argumenti String bloodType, int numberOfUnits ili BloodSupplyDTO?
+    public boolean decreaseBloodSupply(String bloodType, int numberOfUnits) {
+        bloodTypeValidator.validateBloodType(bloodType);
+        int oldNumberOfUnits = bloodSupplyRepository.getBloodSupplyByBloodType(bloodType).getNumberOfUnits();
+        bloodSupplyRepository.donateBlood(bloodType, oldNumberOfUnits + numberOfUnits);
+        return true;
+    }
 }
