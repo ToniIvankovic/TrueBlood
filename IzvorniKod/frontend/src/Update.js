@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useRef } from "react";
 
 const Update = () => {
-    const ref = useRef();
+    const ref = useRef();;
     return (
         <div className="reg">
             <form className='formular'>
