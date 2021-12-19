@@ -7,16 +7,16 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-public class DonationTryDTO {
+public class DonationTryRequestDTO {
 
     private String rejectReason;
     private String donorId;
     private String bankWorkerId;
 
-    public DonationTryDTO() {
+    public DonationTryRequestDTO() {
     }
 
-    public DonationTryDTO(String rejectReason, String donorId, String bankWorkerId) {
+    public DonationTryRequestDTO(String rejectReason, String donorId, String bankWorkerId) {
         this.rejectReason = rejectReason;
         this.donorId = donorId;
         this.bankWorkerId = bankWorkerId;

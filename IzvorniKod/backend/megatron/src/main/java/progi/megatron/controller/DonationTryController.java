@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import progi.megatron.model.dto.DonationTryDTO;
+import progi.megatron.model.dto.DonationTryRequestDTO;
 import progi.megatron.service.DonationTryService;
 
 @Controller
@@ -20,11 +20,19 @@ public class DonationTryController {
 
     @Secured({"ROLE_BANK_WORKER"})
     @PostMapping
-    public ResponseEntity<Object> createDonationTry(@RequestBody DonationTryDTO donationTryDTO){
+    public ResponseEntity<Object> createDonationTry(@RequestBody DonationTryRequestDTO donationTryRequestDTO){
         try {
-            boolean donated = donationTryService.createDonationTry(donationTryDTO);
-            if (donated) return ResponseEntity.ok("Successfully donated blood.");
-            else return ResponseEntity.ok("Could not donate blood.");
+            return ResponseEntity.ok(donationTryService.createDonationTry(donationTryRequestDTO));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
+    @Secured({"ROLE_DONOR"})
+    @GetMapping("/{donorId}")
+    public ResponseEntity<Object> getDonationTryHistory(@PathVariable String donorId) {
+        try {
+            return ResponseEntity.ok(donationTryService.getDonationTryHistory(donorId));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }

@@ -27,7 +27,7 @@ public class BloodSupplyController {
         }
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<Object> getBloodSupply() {
         try {
             return ResponseEntity.ok(bloodSupplyService.getBloodSupply());
@@ -37,7 +37,7 @@ public class BloodSupplyController {
     }
 
     @Secured({"ROLE_ADMIN"})
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Object> setMinMax(@RequestBody BloodSupplyRequestDTO bloodSupplyRequestDTO) {
         try {
             return ResponseEntity.ok(bloodSupplyService.setMinMax(bloodSupplyRequestDTO));

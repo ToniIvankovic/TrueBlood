@@ -3,7 +3,6 @@ package progi.megatron.model.dto;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
-import progi.megatron.model.User;
 
 @Getter
 @Setter
