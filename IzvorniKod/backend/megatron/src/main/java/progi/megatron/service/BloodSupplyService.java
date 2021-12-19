@@ -26,7 +26,7 @@ public class BloodSupplyService {
     public BloodSupplyResponseDTO getBloodSupplyByBloodType(String bloodType) {
         bloodSupplyValidator.validateBloodType(bloodType);
         BloodSupply bloodSupply = bloodSupplyRepository.getBloodSupplyByBloodType(bloodType);
-        return new BloodSupplyResponseDTO(bloodSupply.getBloodType(), bloodSupply.getNumberOfUnits(), getReview(bloodSupply));
+        return new BloodSupplyResponseDTO(bloodSupply.getBloodType(), bloodSupply.getNumberOfUnits(), getReview(bloodSupply), bloodSupply.getMaxUnits(), bloodSupply.getMinUnits());
     }
 
     public String donateBlood(String bloodType) {

@@ -13,4 +13,6 @@ public interface DonationTryRepository extends JpaRepository<DonationTry, Long> 
 
     List<DonationTry> getDonationTryByDonor(Donor donor);
 
+    DonationTry getDonationTryByDonationId(Long donationId);
+
 }

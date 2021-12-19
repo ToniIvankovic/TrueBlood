@@ -10,10 +10,9 @@ import progi.megatron.model.dto.DonationTryRequestDTO;
 import progi.megatron.model.dto.DonationTryResponseDTO;
 import progi.megatron.repository.DonationTryRepository;
 import progi.megatron.validation.IdValidator;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class DonationTryService {
@@ -54,6 +53,8 @@ public class DonationTryService {
         DonationTry donationTry = new DonationTry (
                 null,
                 donationTryRequestDTO.getRejectReason(),
+                LocalDate.now(),
+                donationTryRequestDTO.getDonationPlace(),
                 donor,
                 bankWorker
         );
@@ -61,18 +62,24 @@ public class DonationTryService {
 
         donationTry = donationTryRepository.save(donationTry);
 
-        return new DonationTryResponseDTO(donationTry.getDonationId(), donated, donationTry.getRejectReason(), donationTry.getDonor().getDonorId());
+        return new DonationTryResponseDTO(donationTry.getDonationId(), donated, donationTry.getRejectReason(), donationTry.getDonationDate(), donationTry.getDonationPlace(), donationTry.getDonor().getDonorId());
     }
 
+    // todo: for current user
     public List<DonationTryResponseDTO> getDonationTryHistory(String donorId) {
         idValidator.validateId(donorId);
         Donor donor = donorService.getDonorByDonorId(donorId);
         List<DonationTry> donationTries = donationTryRepository.getDonationTryByDonor(donor);
         List<DonationTryResponseDTO> donationTryResponseDTOS = new ArrayList<>();
         for (DonationTry donationTry : donationTries) {
-            donationTryResponseDTOS.add(new DonationTryResponseDTO(donationTry.getDonationId(), donationTry.getRejectReason() == null, donationTry.getRejectReason(), donationTry.getDonor().getDonorId()));
+            donationTryResponseDTOS.add(new DonationTryResponseDTO(donationTry.getDonationId(), donationTry.getRejectReason() == null, donationTry.getRejectReason(), donationTry.getDonationDate(), donationTry.getDonationPlace(), donationTry.getDonor().getDonorId()));
         }
         return donationTryResponseDTOS;
+    }
+
+    public DonationTry getDonationTryByDonationId(String donationId) {
+        idValidator.validateId(donationId);
+        return donationTryRepository.getDonationTryByDonationId(Long.valueOf(donationId));
     }
 
 }
