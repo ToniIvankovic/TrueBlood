@@ -238,7 +238,7 @@ const StvoriDonora = (props) => {
                             event.target.name = "bloodType";
                             handleChange(event);
                         }}>
-                        <option value="---">Nema</option>
+                        <option value="---">---</option>
                         <option value="A+">A+</option>
                         <option value="A-">A-</option>
                         <option value="B+">B+</option>
