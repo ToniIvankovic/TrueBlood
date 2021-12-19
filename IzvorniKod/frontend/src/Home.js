@@ -1,8 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import Epruvete from './Epruvete';
+import { getBloodSupply, isEqualWithNull } from "./Util";
 
 const Home = (props) => {
+
+    const [bloodSupply, setBloodSupply] = useState({});
+    const [groups, setGroups] = useState({
+        '0+ ': 0,
+        '0- ': 0,
+        'A+ ': 0,
+        'A- ': 0,
+        'B+ ': 0,
+        'B- ': 0,
+        'AB+': 0,
+        'AB-': 0,
+    });
+
+    useEffect(() => {
+        getBloodSupply(setBloodSupply);
+    }, [])
+    
+    //Extracting supply from array to a JSON
+    useEffect(() => {
+        if(isEqualWithNull(bloodSupply,{})) return; 
+        console.log(bloodSupply);
+        let localGroups = {};
+
+        //S obzirom na buggy prikaz pri niskim razinama, razmisliti o postavljanju minimalne razine na 5
+        for(let i = 0; i < 8; i++){
+            let group = bloodSupply[i];
+            let amount = group.numberOfUnits;
+            if(amount > 98) amount = 98;
+            //if(amount < 5) amount = 5;
+            localGroups = {
+                ...localGroups,
+                [group.bloodType.trim()]: amount
+            }
+        }
+        setGroups(localGroups);
+    }, [bloodSupply])
+ 
+
     return (
         <div className="str">
             <div className="content">
@@ -29,35 +68,35 @@ const Home = (props) => {
             </div>
             <div className="epruvete">
                 <div className="sample">
-                    <Epruvete done = "10"/>
+                    <Epruvete done = {groups['A-']}/>
                     <div className="grupa">A-</div>
                 </div>
                 <div className="sample">
-                    <Epruvete done = "20"/>
+                    <Epruvete done = {groups['A+']}/>
                     <div className="grupa">A+</div>
                 </div>
                 <div className="sample">
-                    <Epruvete done = "30"/>
+                    <Epruvete done = {groups['B-']}/>
                     <div className="grupa">B-</div>
                 </div>
                 <div className="sample">
-                    <Epruvete done = "40"/>
+                    <Epruvete done = {groups['B+']}/>
                     <div className="grupa">B+</div>
                 </div>
                 <div className="sample">
-                    <Epruvete done = "50"/>
+                    <Epruvete done = {groups['AB-']}/>
                     <div className="grupa">AB-</div>
                 </div>
                 <div className="sample">
-                    <Epruvete done = "60"/>
+                    <Epruvete done = {groups['AB+']}/>
                     <div className="grupa">AB+</div>
                 </div>
                 <div className="sample">
-                    <Epruvete done = "70"/>
+                    <Epruvete done = {groups['0-']}/>
                     <div className="grupa">0-</div>
                 </div>
                 <div className="sample">
-                    <Epruvete done = "80"/>
+                    <Epruvete done = {groups['0+']}/>
                     <div className="grupa">0+</div>
                 </div>
             </div>
