@@ -61,6 +61,8 @@ CREATE TABLE IF NOT EXISTS donation_try
 (
   donation_id BIGINT NOT NULL,
   reject_reason VARCHAR(100),
+  donation_date DATE NOT NULL,
+  donation_place VARCHAR(100) NOT NULL,
   donor_id BIGINT NOT NULL,
   bank_worker_id BIGINT NOT NULL,
   PRIMARY KEY (donation_id),

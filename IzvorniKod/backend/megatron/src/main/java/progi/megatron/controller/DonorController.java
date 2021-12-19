@@ -96,9 +96,9 @@ public class DonorController {
 
     @Secured({"ROLE_BANK_WORKER"})
     @PostMapping("/update")
-    public ResponseEntity<Object> updateDonor(@RequestBody Donor donor) {
+    public ResponseEntity<Object> updateDonorByDonor(@RequestBody Donor donor) {
         try {
-            return ResponseEntity.ok(donorService.updateDonor(donor));
+            return ResponseEntity.ok(donorService.updateDonorByBankWorker(donor));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
