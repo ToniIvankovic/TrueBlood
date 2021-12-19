@@ -38,10 +38,4 @@ public class BankWorkerDTO {
         this.email = email;
     }
 
-    public BankWorker bankWorkerDTOToBankWorker(BankWorkerDTO bankWorkerDTO, Long userId) {
-        return new BankWorker(userId, bankWorkerDTO.firstName, bankWorkerDTO.lastName, bankWorkerDTO.oib,
-                bankWorkerDTO.birthDate, bankWorkerDTO.birthPlace, bankWorkerDTO.address, bankWorkerDTO.workPlace,
-                bankWorkerDTO.privateContact, bankWorkerDTO.workContact, bankWorkerDTO.email);
-    }
-
 }

@@ -37,10 +37,4 @@ public class DonorByDonorDTO {
         this.email = email;
     }
 
-    public Donor DonorByDonorDTOToDonor(DonorByDonorDTO donorByDonorDTO, Long userId) {
-        return new Donor(userId, donorByDonorDTO.firstName, donorByDonorDTO.lastName, donorByDonorDTO.oib,
-                donorByDonorDTO.birthDate, donorByDonorDTO.birthPlace, donorByDonorDTO.address, donorByDonorDTO.workPlace,
-                donorByDonorDTO.workContact, donorByDonorDTO.privateContact, donorByDonorDTO.email, null, null);
-    }
-
 }

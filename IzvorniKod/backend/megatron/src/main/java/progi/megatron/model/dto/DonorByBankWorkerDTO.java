@@ -41,12 +41,5 @@ public class DonorByBankWorkerDTO {
         this.bloodType = bloodType;
         this.permRejectedReason = permRejectedReason;
     }
-
-    public Donor DonorByBankWorkerDTOToDonor(DonorByBankWorkerDTO donorByBankWorkerDTO, Long userId) {
-        return new Donor(userId, donorByBankWorkerDTO.firstName, donorByBankWorkerDTO.lastName, donorByBankWorkerDTO.oib,
-                donorByBankWorkerDTO.birthDate, donorByBankWorkerDTO.birthPlace, donorByBankWorkerDTO.address,
-                donorByBankWorkerDTO.workPlace, donorByBankWorkerDTO.privateContact, donorByBankWorkerDTO.workContact,
-                donorByBankWorkerDTO.email, donorByBankWorkerDTO.bloodType, donorByBankWorkerDTO.permRejectedReason);
-    }
     
 }
