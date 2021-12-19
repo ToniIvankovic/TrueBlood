@@ -50,8 +50,6 @@ const App = () => {
     const [existingDonor, setExistingDonor] = useState(false);
     const [existingWorker, setExistingWorker] = useState(false);
     
-    
-    //Uzimanje donora iz localStoragea (makar ga i nema)
     const [donor, setDonor] = useState(donorNone);
     const [worker, setWorker] = useState(workerNone);
     

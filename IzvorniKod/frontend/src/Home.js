@@ -24,15 +24,11 @@ const Home = (props) => {
     //Extracting supply from array to a JSON
     useEffect(() => {
         if(isEqualWithNull(bloodSupply,{})) return; 
-        console.log(bloodSupply);
+        
         let localGroups = {};
-
-        //S obzirom na buggy prikaz pri niskim razinama, razmisliti o postavljanju minimalne razine na 5
         for(let i = 0; i < 8; i++){
             let group = bloodSupply[i];
             let amount = group.numberOfUnits;
-            if(amount > 98) amount = 98;
-            //if(amount < 5) amount = 5;
             localGroups = {
                 ...localGroups,
                 [group.bloodType.trim()]: amount
