@@ -47,20 +47,20 @@ public class DonorController {
     }
 
     @GetMapping("/verify")
-    public String verifyDonor(@RequestParam(required = false) String token, final Model model, RedirectAttributes redirAttr){
+    public ResponseEntity verifyDonor(@RequestParam(required = false) String token, final Model model, RedirectAttributes redirAttr){
         if(StringUtils.isEmpty(token)){
             redirAttr.addFlashAttribute("tokenError", messageSource.getMessage("user.registration.verification.missing.token", null, LocaleContextHolder.getLocale()));
-            return REDIRECT_LOGIN;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageSource.getMessage("user.registration.verification.missing.token", null, LocaleContextHolder.getLocale()));
         }
         try {
             userService.verifyUser(token);
         } catch (InvalidTokenException e) {
             redirAttr.addFlashAttribute("tokenError", messageSource.getMessage("user.registration.verification.invalid.token", null,LocaleContextHolder.getLocale()));
-            return REDIRECT_LOGIN;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
         redirAttr.addFlashAttribute("verifiedAccountMsg", messageSource.getMessage("user.registration.verification.success", null,LocaleContextHolder.getLocale()));
-        return REDIRECT_LOGIN;
+        return ResponseEntity.ok(token);
     }
 
     //@Secured({"ROLE_BANK_WORKER"})
