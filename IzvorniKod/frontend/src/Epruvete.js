@@ -13,8 +13,11 @@ const Epruvete = ({done}) => {
         }, [done]);
         
         return (
-            <div className="progress">
-                <div className="progress-done" style={style}></div>
+            <div>
+                <div className="progress">
+                    <div className="progress-done" style={style}></div>
+                </div>
+                <div>{done}</div>
             </div>
         )
 }
