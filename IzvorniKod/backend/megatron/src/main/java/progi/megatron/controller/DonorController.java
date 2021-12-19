@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import progi.megatron.model.Donor;
 import progi.megatron.model.dto.DonorByBankWorkerDTO;
 import progi.megatron.model.dto.DonorByDonorDTO;
 import progi.megatron.service.DonorService;
@@ -27,10 +28,9 @@ public class DonorController {
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
-
     }
 
-    //@Secured({"ROLE_BANK_WORKER"})
+    @Secured({"ROLE_BANK_WORKER"})
     @PostMapping("/add-donor")
     public ResponseEntity<Object> createDonorByBankWorker(@RequestBody DonorByBankWorkerDTO donorByBankWorkerDTO) {
         try {
@@ -44,7 +44,9 @@ public class DonorController {
     @GetMapping("/oib/{oib}")
     public ResponseEntity<Object> getDonorByOib(@PathVariable String oib) {
         try {
-            return ResponseEntity.ok(donorService.getDonorByOib(oib));
+            Donor donor = donorService.getDonorByOib(oib);
+            if (donor == null) return ResponseEntity.ok("No donor with that oib found.");
+            else return ResponseEntity.ok(donor);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
@@ -54,7 +56,9 @@ public class DonorController {
     @GetMapping("/id/{donorId}")
     public ResponseEntity<Object> getDonorByDonorId(@PathVariable String donorId) {
         try {
-            return ResponseEntity.ok(donorService.getDonorByDonorId(donorId));
+            Donor donor = donorService.getDonorByDonorId(donorId);
+            if (donor == null) return ResponseEntity.ok("No donor with that id found.");
+            else return ResponseEntity.ok(donor);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
@@ -86,6 +90,16 @@ public class DonorController {
         try {
             return ResponseEntity.ok(donorService.getDonorsByAny(query));
         } catch(Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
+    @Secured({"ROLE_BANK_WORKER"})
+    @PostMapping("/update")
+    public ResponseEntity<Object> updateDonor(@RequestBody Donor donor) {
+        try {
+            return ResponseEntity.ok(donorService.updateDonor(donor));
+        } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
     }

@@ -5,7 +5,6 @@ import progi.megatron.model.BloodSupply;
 import progi.megatron.model.dto.BloodSupplyDTO;
 import progi.megatron.repository.BloodSupplyRepository;
 import progi.megatron.validation.BloodTypeValidator;
-
 import java.util.ArrayList;
 import java.util.List;
 

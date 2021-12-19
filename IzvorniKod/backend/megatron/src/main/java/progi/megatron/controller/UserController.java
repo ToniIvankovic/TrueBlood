@@ -1,5 +1,6 @@
 package progi.megatron.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,12 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
 
     private final UserService userService;
-    private final UserDTO userDTO;
+    private final ModelMapper modelMapper;
     private final JwtTokenUtil jwtTokenUtil;
 
-    public UserController(UserService userService, UserDTO userDTO, JwtTokenUtil jwtTokenUtil) {
+    public UserController(UserService userService, ModelMapper modelMapper, JwtTokenUtil jwtTokenUtil) {
         this.userService = userService;
-        this.userDTO = userDTO;
+        this.modelMapper = modelMapper;
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
@@ -38,7 +39,7 @@ public class UserController {
             final String token = header.split(" ")[1].trim();
             String userId = jwtTokenUtil.getUserId(token);
             User user = userService.findById(userId);
-            return ResponseEntity.ok(userDTO.userToUserDTO(user));
+            return ResponseEntity.ok(modelMapper.map(user, UserDTO.class));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
