@@ -1,16 +1,24 @@
 package progi.megatron.service;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import progi.megatron.exception.InvalidTokenException;
 import progi.megatron.exception.WrongUserException;
+import progi.megatron.model.SecureToken;
 import progi.megatron.model.User;
 import progi.megatron.repository.UserRepository;
 import java.security.SecureRandom;
+import java.util.Objects;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+
+    @Autowired
+    private SecureTokenService secureTokenService;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -66,6 +74,22 @@ public class UserService {
         }
 
         return sb.toString();
+    }
+
+    public boolean verifyUser(String token) throws InvalidTokenException {
+        SecureToken secureToken = secureTokenService.findByToken(token);
+        if (Objects.isNull(secureToken) || !StringUtils.equals(token, secureToken.getToken()) || secureToken.isExpired()) {
+            throw new InvalidTokenException("Token is not valid");
+        }
+        User user = userRepository.getUserByUserId(secureToken.getUser().getDonorId()).orElseThrow(() -> new UsernameNotFoundException("No user found"));
+        if (Objects.isNull(user)) {
+            return false;
+        }
+        user.setAccActivated(1);
+        userRepository.activateUserAccount(user.getUserId()); // let’s same user details
+
+        secureTokenService.removeToken(secureToken);
+        return true;
     }
 
 }

@@ -5,6 +5,26 @@ spring:
     username: admin
   jpa:
     open-in-view: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: truebloodfer@gmail.com
+    password: mandarine69
+    properties:
+      mail:
+        smpt:
+          auth: true
+          starttls:
+            enable: true
+jdj:
+  secure:
+    token:
+      validity: 28800
 
+site:
+  base:
+    url:
+    http: http://localhost:8080
+    https: http://localhost:8080
 
 debug: false

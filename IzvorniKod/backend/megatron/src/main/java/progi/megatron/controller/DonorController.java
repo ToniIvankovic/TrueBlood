@@ -1,17 +1,33 @@
 package progi.megatron.controller;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import progi.megatron.exception.InvalidTokenException;
 import progi.megatron.model.dto.DonorByBankWorkerDTO;
 import progi.megatron.model.dto.DonorByDonorDTO;
 import progi.megatron.service.DonorService;
+import progi.megatron.service.UserService;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v1/donor")
 public class DonorController {
+
+    private static final String REDIRECT_LOGIN= "redirect:/login";
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private MessageSource messageSource;
 
     private final DonorService donorService;
 
@@ -28,6 +44,23 @@ public class DonorController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
 
+    }
+
+    @GetMapping("/verify")
+    public String verifyDonor(@RequestParam(required = false) String token, final Model model, RedirectAttributes redirAttr){
+        if(StringUtils.isEmpty(token)){
+            redirAttr.addFlashAttribute("tokenError", messageSource.getMessage("user.registration.verification.missing.token", null, LocaleContextHolder.getLocale()));
+            return REDIRECT_LOGIN;
+        }
+        try {
+            userService.verifyUser(token);
+        } catch (InvalidTokenException e) {
+            redirAttr.addFlashAttribute("tokenError", messageSource.getMessage("user.registration.verification.invalid.token", null,LocaleContextHolder.getLocale()));
+            return REDIRECT_LOGIN;
+        }
+
+        redirAttr.addFlashAttribute("verifiedAccountMsg", messageSource.getMessage("user.registration.verification.success", null,LocaleContextHolder.getLocale()));
+        return REDIRECT_LOGIN;
     }
 
     //@Secured({"ROLE_BANK_WORKER"})

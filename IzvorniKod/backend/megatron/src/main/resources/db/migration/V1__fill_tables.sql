@@ -68,8 +68,20 @@ CREATE TABLE IF NOT EXISTS donation_try
   FOREIGN KEY (bank_worker_id) REFERENCES bank_worker(bank_worker_id)
 );
 
+CREATE TABLE IF NOT EXISTS secure_token
+(
+ token_id BIGINT NOT NULL,
+ token VARCHAR(100) NOT NULL,
+ time_stamp TIMESTAMP NOT NULL,
+ expire_at DATE NOT NULL,
+ user_id BIGINT NOT NULL,
+ PRIMARY KEY (token_id),
+ FOREIGN KEY (user_id) REFERENCES user_account(user_id)
+);
+
 CREATE SEQUENCE IF NOT EXISTS USER_SEQ START WITH 1000001;
 CREATE SEQUENCE IF NOT EXISTS DONATION_SEQ;
+CREATE SEQUENCE IF NOT EXISTS TOKEN_SEQ START WITH 81728;
 
 INSERT INTO user_account (user_id, user_role, password, acc_activated, perm_deactivated, opt_out)
     VALUES (1000000, 'ADMIN', '$2a$10$jBBLYlPInYB.SvgIzenJge6TQLX3vAmBJA.j2C08rQCMeVJpBBvmC', 1, 0, 0);   -- password is adminpass
