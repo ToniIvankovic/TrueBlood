@@ -1,5 +1,6 @@
 package progi.megatron.service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jmx.export.notification.UnableToSendNotificationException;
@@ -35,6 +36,7 @@ public class DonorService {
     private final OibValidator oibValidator;
     private final PasswordEncoder passwordEncoder;
     private final SecureTokenRepository secureTokenRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
     private EmailService emailService;
@@ -45,7 +47,7 @@ public class DonorService {
     @Value("http://localhost:8080/api/v1/donor/")
     private String baseURL;
 
-    public DonorService(DonorRepository donorRepository, UserService userService, DonorValidator donorValidator, IdValidator idValidator, OibValidator oibValidator, PasswordEncoder passwordEncoder, SecureTokenRepository secureTokenRepository) {
+    public DonorService(DonorRepository donorRepository, UserService userService, DonorValidator donorValidator, IdValidator idValidator, OibValidator oibValidator, PasswordEncoder passwordEncoder, SecureTokenRepository secureTokenRepository, ModelMapper modelMapper) {
         this.donorRepository = donorRepository;
         this.userService = userService;
         this.donorValidator = donorValidator;
@@ -53,6 +55,7 @@ public class DonorService {
         this.oibValidator = oibValidator;
         this.passwordEncoder = passwordEncoder;
         this.secureTokenRepository = secureTokenRepository;
+        this.modelMapper = modelMapper;
     }
 
     java.util.logging.Logger logger =  java.util.logging.Logger.getLogger(this.getClass().getName());
@@ -61,7 +64,8 @@ public class DonorService {
         String password = userService.randomPassword();
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
         user = userService.createUser(user);
-        Donor donor = donorByDonorDTO.DonorByDonorDTOToDonor(donorByDonorDTO, user.getUserId());
+        Donor donor =  modelMapper.map(donorByDonorDTO, Donor.class);
+        donor.setDonorId(user.getUserId());
 
         donorValidator.validateDonor(donor);
         if (getDonorByOib(donor.getOib()) != null) {
@@ -84,7 +88,9 @@ public class DonorService {
         String password = userService.randomPassword();
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
         userService.createUser(user);
-        Donor donor = donorByBankWorkerDTO.DonorByBankWorkerDTOToDonor(donorByBankWorkerDTO, user.getUserId());
+        Donor donor = modelMapper.map(donorByBankWorkerDTO, Donor.class);
+        donor.setDonorId(user.getUserId());
+
 
         donorValidator.validateDonor(donor);
         if (getDonorByOib(donor.getOib()) != null) {
