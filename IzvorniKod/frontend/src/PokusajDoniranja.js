@@ -92,7 +92,7 @@ const PokusajDoniranja = (props) => {
                 
                 <div className="redak">
                     <div className="pitanje">
-                        Tjelesna težina ispod 55 kg?
+                        Tjelesna masa ispod 55 kg?
                     </div>
                     <div className="odgovor">
                         <label>Da</label>
