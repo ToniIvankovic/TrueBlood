@@ -30,7 +30,7 @@ public class DonorController {
         }
     }
 
-    //@Secured({"ROLE_BANK_WORKER"})
+    @Secured({"ROLE_BANK_WORKER"})
     @PostMapping("/add-donor")
     public ResponseEntity<Object> createDonorByBankWorker(@RequestBody DonorByBankWorkerDTO donorByBankWorkerDTO) {
         try {
@@ -94,6 +94,7 @@ public class DonorController {
         }
     }
 
+    @Secured({"ROLE_BANK_WORKER"})
     @PostMapping("/update")
     public ResponseEntity<Object> updateDonor(@RequestBody Donor donor) {
         try {
