@@ -4,7 +4,7 @@ var baseURL = '';
 
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
     // dev code
-    baseURL = 'http://localhost:8080';
+    baseURL = 'https://trueblood-be-dev.herokuapp.com';
 } else {
     // production code
     baseURL = 'https://trueblood-be.herokuapp.com';

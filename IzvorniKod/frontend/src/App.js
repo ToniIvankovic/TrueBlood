@@ -17,6 +17,7 @@ import RacunNeaktiviran from "./RacunNeaktiviran";
 
 import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, roleNone, userNone, userPublic } from "./Util";
 import _ from 'lodash';
+import DonationTry from "./components/DonationTry";
 
 // TODO: global context for role and user data
 
@@ -112,7 +113,8 @@ const App = () => {
                         <KreiranDonor user={user} />
                     </Route>
                     <Route path='/pokusaj_doniranja' exact>
-                        <PokusajDoniranja user={user} donor={donor} />
+                        {/* <PokusajDoniranja user={user} donor={donor} /> */}
+                        <DonationTry></DonationTry>
                     </Route>
                     <Route path='/trazi_donora' exact>
                         <TraziDonora user={user} setDonor={setDonor} />
