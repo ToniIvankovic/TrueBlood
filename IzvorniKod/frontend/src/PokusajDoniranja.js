@@ -93,29 +93,29 @@ const PokusajDoniranja = (props) => {
                         <label>Zdravstveni podaci</label>
                     </div>
                     
-                    <ZdravstveniPodaci question={"Tjelesna masa ispod 55 kg?"}/>
-                    <ZdravstveniPodaci question={"Tjelesna temperatura iznad 37°C?"}/>
-                    <ZdravstveniPodaci question={"Povišen ili nizak krvni tlak?"}/>
-                    <ZdravstveniPodaci question={"Osoba ima ubrzan rad srca?"}/>
-                    <ZdravstveniPodaci question={"Osoba ima povišenu razinu hemoglobina u krvi?"}/>
-                    <ZdravstveniPodaci question={"Osoba trenutno uzima antibiotike ili druge lijekove?"}/>
-                    <ZdravstveniPodaci question={"Osoba je konzumirala alkoholna pića unutar 8 sati prije darivanja krvi?"}/>
-                    <ZdravstveniPodaci question={"Osoba boluje od lakše aktune bolesti?"}/>
-                    <ZdravstveniPodaci question={"Osoba (žena) je trudna, doji ili ima menstruaciju?"}/>
-                    <ZdravstveniPodaci question={"Osoba tog dana obavlja opasne poslove (visinski / dubinski radovi)?"}/>
+                    <ZdravstveniPodaci question={"Tjelesna masa ispod 55 kg?"} id="q1"/>
+                    <ZdravstveniPodaci question={"Tjelesna temperatura iznad 37°C?"} id="q2"/>
+                    <ZdravstveniPodaci question={"Povišen ili nizak krvni tlak?"} id="q3"/>
+                    <ZdravstveniPodaci question={"Osoba ima ubrzan rad srca?"} id="q4"/>
+                    <ZdravstveniPodaci question={"Osoba ima povišenu razinu hemoglobina u krvi?"} id="q5"/>
+                    <ZdravstveniPodaci question={"Osoba trenutno uzima antibiotike ili druge lijekove?"} id="q6"/>
+                    <ZdravstveniPodaci question={"Osoba je konzumirala alkoholna pića unutar 8 sati prije darivanja krvi?"} id="q7"/>
+                    <ZdravstveniPodaci question={"Osoba boluje od lakše aktune bolesti?"} id="q8"/>
+                    <ZdravstveniPodaci question={"Osoba (žena) je trudna, doji ili ima menstruaciju?"} id="q9"/>
+                    <ZdravstveniPodaci question={"Osoba tog dana obavlja opasne poslove (visinski / dubinski radovi)?"} id="q10"/>
 
                     <hr className='label' />
 
-                    <ZdravstveniPodaci question={"Osoba je bolovala ili boluje od teških kroničnih bolesti dišnog i/ili probavnog sustava?"}/>
-                    <ZdravstveniPodaci question={"Osoba boluje od bolesti srca i krvnih žila, zloćudnih bolesti, bolesti jetre, AIDS-a, šećerne bolesti te živčanih i duševnih bolesti?"}/>
-                    <ZdravstveniPodaci question={"Osoba je ovisnik o alkoholu ili drogama?"}/>
-                    <ZdravstveniPodaci question={"Osoba (muškarac) je u životu imala spolni odnos s drugim muškarcima?"}/>
-                    <ZdravstveniPodaci question={"Osoba je imala spolni odnos s prostitutkama?"}/>
-                    <ZdravstveniPodaci question={"Osoba često mijenja seksualne partnere (promiskuitetna osoba)?"}/>
-                    <ZdravstveniPodaci question={"Osoba je uzimala drogu intravenskim putem?"}/>
-                    <ZdravstveniPodaci question={"Osoba je liječana od spolno prenosivih bolesti?"}/>
-                    <ZdravstveniPodaci question={"Osoba je HIV-pozitivna?"}/>
-                    <ZdravstveniPodaci question={"Osoba je seksualni partner gore navedenih osoba?"}/>
+                    <ZdravstveniPodaci question={"Osoba je bolovala ili boluje od teških kroničnih bolesti dišnog i/ili probavnog sustava?"} id="q11"/>
+                    <ZdravstveniPodaci question={"Osoba boluje od bolesti srca i krvnih žila, zloćudnih bolesti, bolesti jetre, AIDS-a, šećerne bolesti te živčanih i duševnih bolesti?"} id="q12"/>
+                    <ZdravstveniPodaci question={"Osoba je ovisnik o alkoholu ili drogama?"} id="q13"/>
+                    <ZdravstveniPodaci question={"Osoba (muškarac) je u životu imala spolni odnos s drugim muškarcima?"} id="q14"/>
+                    <ZdravstveniPodaci question={"Osoba je imala spolni odnos s prostitutkama?"} id="q15"/>
+                    <ZdravstveniPodaci question={"Osoba često mijenja seksualne partnere (promiskuitetna osoba)?"} id="q16"/>
+                    <ZdravstveniPodaci question={"Osoba je uzimala drogu intravenskim putem?"} id="q17"/>
+                    <ZdravstveniPodaci question={"Osoba je liječana od spolno prenosivih bolesti?"} id="q18"/>
+                    <ZdravstveniPodaci question={"Osoba je HIV-pozitivna?"} id="q19"/>
+                    <ZdravstveniPodaci question={"Osoba je seksualni partner gore navedenih osoba?"} id="q20"/>
 
                     {errorHidden ? null : <ErrorCard message={errorMessage} />}
                     <div className="gumbi">
