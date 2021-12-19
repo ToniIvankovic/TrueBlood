@@ -29,13 +29,13 @@ const App = () => {
     const [token, setToken] = useState("");
 
     useEffect(() => {
-        console.log(token)
         setToken(window.localStorage.getItem('token'));
         if (token) {
             getCurrentUserIdAndRole(user, setUser);
         } else{
             setUser(userPublic);
         }
+        console.log(user)
     }, [token]);
 
 

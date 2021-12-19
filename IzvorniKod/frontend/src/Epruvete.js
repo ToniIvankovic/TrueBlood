@@ -1,20 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const Epruvete = ({done}) => {
         const [style, setStyle] = React.useState({});
         
-        setTimeout(() => {
+        useEffect(() => {
             const newStyle = {
                 opacity: 1,
                 width: `${done}%`
             }
             
             setStyle(newStyle);
-        }, 200);
+        }, [done]);
         
         return (
-            <div className="progress">
-                <div className="progress-done" style={style}></div>
+            <div>
+                <div className="progress">
+                    <div className="progress-done" style={style}></div>
+                </div>
+                <div>{done}</div>
             </div>
         )
 }
