@@ -3,6 +3,7 @@ package progi.megatron.model;
 import lombok.Getter;
 import lombok.Setter;
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -17,6 +18,10 @@ public class DonationTry {
 
     private String rejectReason;
 
+    private LocalDate donationDate;
+
+    private String donationPlace;
+
     @ManyToOne
     @JoinColumn(name = "donor_id")
     private Donor donor;
@@ -28,9 +33,11 @@ public class DonationTry {
     public DonationTry() {
     }
 
-    public DonationTry(Long donationId, String rejectReason, Donor donor, BankWorker bankWorker) {
+    public DonationTry(Long donationId, String rejectReason, LocalDate donationDate, String donationPlace, Donor donor, BankWorker bankWorker) {
         this.donationId = donationId;
         this.rejectReason = rejectReason;
+        this.donationDate = donationDate;
+        this.donationPlace = donationPlace;
         this.donor = donor;
         this.bankWorker = bankWorker;
     }
