@@ -60,9 +60,13 @@ const StvoriDonora = (props) => {
 
         var url
         if(props.existing){
-            // url='/api/v1/donor/update-donor';
-            console.log("Doesnt work yet :(")
-            return;
+            if(props.user.userRole == 'DONOR'){
+                console.log("Doesnt work yet :(")
+                return;
+            }
+            else{
+                url='/api/v1/donor/update';
+            }
         } else{
             if (props.user.role == 'BANK_WORKER') {
                 url = '/api/v1/donor/add-donor'
@@ -77,7 +81,11 @@ const StvoriDonora = (props) => {
                 console.log(response.data)
 
                 props.setDonor(response.data)
-                history.push('/kreiran_donor');
+                if(props.existing){
+                    history.goBack();
+                }
+                else
+                    history.push('/kreiran_donor');
             })
             .catch((error) => {
                 console.log('Error while creating donor. Response: ' + error.response);
@@ -222,9 +230,9 @@ const StvoriDonora = (props) => {
                 </div>
                 <div className="krgrupe">
                     <label>Krvna grupa</label>
-                    <select defaultValue="---"
+                    <select
                         disabled={props.user.role != "BANK_WORKER"}
-                        defaultValue={donorInfo.bloodType}
+                        value={donorInfo.bloodType.trim()}
                         onChange={(event) => {
                             event.target.name = "bloodType";
                             handleChange(event);
