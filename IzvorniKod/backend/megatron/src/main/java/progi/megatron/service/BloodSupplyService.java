@@ -25,11 +25,14 @@ public class BloodSupplyService {
         return new BloodSupplyDTO(bloodSupply.getBloodType(), bloodSupply.getNumberOfUnits());
     }
 
-    public String donateBlood(String bloodType) {
+    public int manageBloodSupply(String bloodType, int numberOfUnits, boolean increase) {
         bloodTypeValidator.validateBloodType(bloodType);
         int oldNumberOfUnits = bloodSupplyRepository.getBloodSupplyByBloodType(bloodType).getNumberOfUnits();
-        bloodSupplyRepository.donateBlood(bloodType, oldNumberOfUnits + 1);
-        return bloodType;
+        if(increase)
+            bloodSupplyRepository.manageBloodSupply(bloodType, oldNumberOfUnits + 1);
+        else
+            bloodSupplyRepository.manageBloodSupply(bloodType, oldNumberOfUnits - numberOfUnits);
+        return bloodSupplyRepository.getBloodSupplyByBloodType(bloodType).getNumberOfUnits();
     }
 
     public List<BloodSupplyDTO> getBloodSupply() {
@@ -41,11 +44,5 @@ public class BloodSupplyService {
         return bloodSupplies;
     }
 
-    // jesu li argumenti String bloodType, int numberOfUnits ili BloodSupplyDTO?
-    public boolean decreaseBloodSupply(String bloodType, int numberOfUnits) {
-        bloodTypeValidator.validateBloodType(bloodType);
-        int oldNumberOfUnits = bloodSupplyRepository.getBloodSupplyByBloodType(bloodType).getNumberOfUnits();
-        bloodSupplyRepository.donateBlood(bloodType, oldNumberOfUnits + numberOfUnits);
-        return true;
-    }
+
 }

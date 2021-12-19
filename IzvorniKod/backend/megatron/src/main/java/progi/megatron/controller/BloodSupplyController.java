@@ -39,11 +39,9 @@ public class BloodSupplyController {
 
     @Secured({"ROLE_BANK_WORKER"})
     @PostMapping("/decrease")
-    public ResponseEntity<Object> decreaseBloodSupply(@RequestBody BloodSupplyDTO bloodSupplyDTO) {
+    public ResponseEntity<Object> decreaseBloodSupply(@RequestBody String bloodType, int numberOfUnits) {
         try {
-            boolean decreased = bloodSupplyService.decreaseBloodSupply(bloodSupplyDTO.getBloodType(), bloodSupplyDTO.getNumberOfUnits());
-            if (decreased) return ResponseEntity.ok("Successfully decreased blood supply.");
-            else return ResponseEntity.ok("Could not decrease blood supply.");
+            return ResponseEntity.ok(bloodSupplyService.manageBloodSupply(bloodType, numberOfUnits, false));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
