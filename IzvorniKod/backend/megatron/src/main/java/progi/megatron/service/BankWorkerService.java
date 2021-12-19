@@ -1,5 +1,6 @@
 package progi.megatron.service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import progi.megatron.exception.WrongDonorException;
@@ -21,14 +22,16 @@ public class BankWorkerService {
     private final IdValidator idValidator;
     private final OibValidator oibValidator;
     private final BankWorkerValidator bankWorkerValidator;
+    private final ModelMapper modelMapper;
 
-    public BankWorkerService(BankWorkerRepository bankWorkerRepository, UserService userService, PasswordEncoder passwordEncoder, IdValidator idValidator, OibValidator oibValidator, BankWorkerValidator bankWorkerValidator) {
+    public BankWorkerService(BankWorkerRepository bankWorkerRepository, UserService userService, PasswordEncoder passwordEncoder, IdValidator idValidator, OibValidator oibValidator, BankWorkerValidator bankWorkerValidator, ModelMapper modelMapper) {
         this.bankWorkerRepository = bankWorkerRepository;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.idValidator = idValidator;
         this.oibValidator = oibValidator;
         this.bankWorkerValidator = bankWorkerValidator;
+        this.modelMapper = modelMapper;
     }
 
     java.util.logging.Logger logger =  java.util.logging.Logger.getLogger(this.getClass().getName());
@@ -48,7 +51,8 @@ public class BankWorkerService {
         String password = userService.randomPassword();
         User user = new User(Role.BANK_WORKER, passwordEncoder.encode(password));
         user = userService.createUser(user);
-        BankWorker bankWorker = bankWorkerDTO.bankWorkerDTOToBankWorker(bankWorkerDTO, user.getUserId());
+        BankWorker bankWorker = modelMapper.map(bankWorkerDTO, BankWorker.class);
+        bankWorker.setBankWorkerId(user.getUserId());
 
         bankWorkerValidator.validateBankWorker(bankWorker);
 

@@ -1,5 +1,6 @@
 package progi.megatron.service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import progi.megatron.exception.WrongDonorException;
@@ -7,6 +8,7 @@ import progi.megatron.model.Donor;
 import progi.megatron.model.User;
 import progi.megatron.model.dto.DonorByBankWorkerDTO;
 import progi.megatron.model.dto.DonorByDonorDTO;
+import progi.megatron.model.dto.UserDTO;
 import progi.megatron.repository.DonorRepository;
 import progi.megatron.util.Role;
 import progi.megatron.validation.DonorValidator;
@@ -24,14 +26,16 @@ public class DonorService {
     private final IdValidator idValidator;
     private final OibValidator oibValidator;
     private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
 
-    public DonorService(DonorRepository donorRepository, UserService userService, DonorValidator donorValidator, IdValidator idValidator, OibValidator oibValidator, PasswordEncoder passwordEncoder) {
+    public DonorService(DonorRepository donorRepository, UserService userService, DonorValidator donorValidator, IdValidator idValidator, OibValidator oibValidator, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
         this.donorRepository = donorRepository;
         this.userService = userService;
         this.donorValidator = donorValidator;
         this.idValidator = idValidator;
         this.oibValidator = oibValidator;
         this.passwordEncoder = passwordEncoder;
+        this.modelMapper = modelMapper;
     }
 
     java.util.logging.Logger logger =  java.util.logging.Logger.getLogger(this.getClass().getName());
@@ -40,7 +44,8 @@ public class DonorService {
         String password = userService.randomPassword();
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
         user = userService.createUser(user);
-        Donor donor = donorByDonorDTO.DonorByDonorDTOToDonor(donorByDonorDTO, user.getUserId());
+        Donor donor = modelMapper.map(donorByDonorDTO, Donor.class);
+        donor.setDonorId(user.getUserId());
 
         donorValidator.validateDonor(donor);
         if (getDonorByOib(donor.getOib()) != null) {
@@ -58,7 +63,8 @@ public class DonorService {
         String password = userService.randomPassword();
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
         userService.createUser(user);
-        Donor donor = donorByBankWorkerDTO.DonorByBankWorkerDTOToDonor(donorByBankWorkerDTO, user.getUserId());
+        Donor donor = modelMapper.map(donorByBankWorkerDTO, Donor.class);
+        donor.setDonorId(user.getUserId());
 
         donorValidator.validateDonor(donor);
         if (getDonorByOib(donor.getOib()) != null) {
