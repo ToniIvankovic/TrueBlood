@@ -3,22 +3,23 @@ package progi.megatron.model.dto;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
-import progi.megatron.model.BloodSupply;
 
 @Getter
 @Setter
 @Component
-public class BloodSupplyDTO {
+public class BloodSupplyResponseDTO {
 
     private String bloodType;
     private int numberOfUnits;
+    private String review;
 
-    public BloodSupplyDTO() {
+    public BloodSupplyResponseDTO() {
     }
 
-    public BloodSupplyDTO(String bloodType, int numberOfUnits) {
+    public BloodSupplyResponseDTO(String bloodType, int numberOfUnits, String review) {
         this.bloodType = bloodType;
         this.numberOfUnits = numberOfUnits;
+        this.review = review;
     }
 
 }
