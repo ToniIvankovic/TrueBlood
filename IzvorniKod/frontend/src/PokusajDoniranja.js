@@ -27,7 +27,9 @@ const PokusajDoniranja = (props) => {
     return (
         <div className="reg">
             <form onSubmit={(event) => handleSubmit(event)} className='formular'>
-                ({props.user.role})
+                <div className='roledesplay'>
+                    ({props.user.role})
+                </div>
                 <div className="tekst">
                     <p>Nova donacija </p>
                 </div>
@@ -43,8 +45,8 @@ const PokusajDoniranja = (props) => {
                     :''
                     }
                 </div>
-                {props.existingDonor? 
-                <div>
+                {/* {props.existingDonor?  */}
+                <div className='podaci'>
                     <div className="label">
                         <label>Osobni podaci</label>
                     </div>
@@ -52,26 +54,26 @@ const PokusajDoniranja = (props) => {
                         <input
                             name='donorId'
                             type="text"
-                            placeholder={"donorId: " + props.donor.donorId}
+                            defaultValue={"donorId: " + props.donor.donorId}
                             ></input>
                     </div>
                     <div className="dupli">
                         <input
                             name='firstName'
                             type="text"
-                            placeholder={"ime: " + props.donor.firstName}
+                            defaultValue={"ime: " + props.donor.firstName}
                             ></input>
                         <input
                             name='lastName'
                             type="text"
-                            placeholder={"prezime: " + props.donor.lastName}
+                            defaultValue={"prezime: " + props.donor.lastName}
                             ></input>
                     </div>
                     <div className="single">
                         <input
                             name='oib'
                             type="text"
-                            placeholder={"OIB: " + props.donor.oib}
+                            defaultValue={"OIB: " + props.donor.oib}
                             ></input>
                     </div>
                     <div className="krgrupe">
@@ -122,7 +124,7 @@ const PokusajDoniranja = (props) => {
                         <button className='kreiraj'>Doniraj</button>
                     </div>
                 </div>
-                :''}
+                {/* :''} */}
                 
             </form>
         </div>

@@ -116,7 +116,7 @@ const StvoriDonora = (props) => {
 
     return (
         <div className="reg">
-            ({props.user.role})
+            <div className="roledesplay">({props.user.role})</div>
             <form onSubmit={(event) => handleSubmit(event)} className='formular'>
                 <div className="tekst">
                     <p>{props.existing?"Uredi ":"Kreiraj "}korisnički račun!</p>
@@ -126,12 +126,12 @@ const StvoriDonora = (props) => {
                 </div>
                 {props.existing? //OVO POLJE AKO SE MOŽE ZASIVITI
                 <div className="single">
-                <input
-                    onChange={(event) => handleChange(event)}
-                    name='donorId'
-                    type="text"
-                    defaultValue={"ID: " + props.user.userId}
-                    disabled></input>
+                    <input
+                        onChange={(event) => handleChange(event)}
+                        name='donorId'
+                        type="text"
+                        defaultValue={"ID: " + props.user.userId}
+                        disabled></input>
                 </div>    
                 :""}
                 <div className="dupli">
