@@ -11,6 +11,7 @@ const StvoriDonora = (props) => {
     const ref = useRef();
 
     const [donorInfo, setDonorInfo] = useState({
+        donorId: '',
         firstName: '',
         lastName: '',
         oib: '',
@@ -24,33 +25,23 @@ const StvoriDonora = (props) => {
         bloodType: ''
     });
 
+    //Razmisliti o unificiranju dohvata podataka sa backenda i da existing služi samo za naslov
     useEffect(()=>{
-        console.log(props.existing)
+        console.log('Existing:' + props.existing)
         if(!props.user.userId) 
             return;
         if(props.existing){
             getDonorById(props.donor.donorId,setDonorInfo);
         }
-        if (props.user.role == 'DONOR') {
+        else if (props.user.role == 'DONOR') {
             props.setExisting(true);
             getDonorById(props.user.userId,setDonorInfo);
         }
     },[props.user.userId])
 
-    // useEffect(()=>{
-    //     console.log("donorinfo u stvoridonora")
-    //     console.log(donorInfo)
-    // },[donorInfo])
     
     const [errorMessage, setErrorMessage] = useState('Greška');
     const [errorHidden, setErrorHidden] = useState(true);
-
-
-    // useEffect(() => {
-    //     if (props.user.role == 'DONOR') {
-    //         history.push('/profil');
-    //     }
-    // }, [props.user.role]);
 
 
     const handleChange = (event) => {
@@ -130,7 +121,7 @@ const StvoriDonora = (props) => {
                     onChange={(event) => handleChange(event)}
                     name='donorId'
                     type="text"
-                    defaultValue={"ID: " + props.user.userId}
+                    defaultValue={donorInfo.donorId}
                     disabled></input>
                 </div>    
                 :""}
