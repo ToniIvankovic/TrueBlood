@@ -1,7 +1,6 @@
 package progi.megatron.service;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import progi.megatron.exception.InvalidTokenException;
@@ -17,7 +16,6 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    @Autowired
     private SecureTokenService secureTokenService;
 
     public UserService(UserRepository userRepository) {
@@ -81,7 +79,7 @@ public class UserService {
         if (Objects.isNull(secureToken) || !StringUtils.equals(token, secureToken.getToken()) || secureToken.isExpired()) {
             throw new InvalidTokenException("Token is not valid");
         }
-        User user = userRepository.getUserByUserId(secureToken.getUser().getDonorId()).orElseThrow(() -> new UsernameNotFoundException("No user found"));
+        User user = userRepository.getUserByUserId(secureToken.getUserId()).orElseThrow(() -> new UsernameNotFoundException("No user found"));
         if (Objects.isNull(user)) {
             return false;
         }

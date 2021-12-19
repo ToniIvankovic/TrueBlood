@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS secure_token
  token VARCHAR(100) NOT NULL,
  time_stamp TIMESTAMP NOT NULL,
  expire_at DATE NOT NULL,
- user_id BIGINT NOT NULL,
+ user_id BIGINT,
  PRIMARY KEY (token_id),
  FOREIGN KEY (user_id) REFERENCES user_account(user_id)
 );

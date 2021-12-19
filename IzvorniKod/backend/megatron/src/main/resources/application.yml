@@ -10,12 +10,17 @@ spring:
     port: 587
     username: truebloodfer@gmail.com
     password: mandarine69
+    tls: true
     properties:
       mail:
         smpt:
           auth: true
           starttls:
             enable: true
+          ssl:
+            trust: smtp.gmail.com
+    protocol: smtp
+    test-connection: false
 jdj:
   secure:
     token:

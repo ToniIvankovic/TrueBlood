@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class SecureToken{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TOKEN_SEQ")
+    @SequenceGenerator(name = "TOKEN_SEQ", sequenceName = "TOKEN_SEQ", initialValue = 81728, allocationSize = 1)
     private Long tokenId;
 
     @Column(unique = true)
@@ -24,9 +25,8 @@ public class SecureToken{
     @Basic(optional = false)
     private LocalDateTime expireAt;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id", referencedColumnName ="id")
-    private Donor user;
+
+    private Long userId;
 
     @Transient
     private boolean isExpired;
@@ -61,11 +61,11 @@ public class SecureToken{
         return getExpireAt().isBefore(LocalDateTime.now()); // this is generic implementation, you can always make it timezone specific
     }
 
-    public Donor getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(Donor user) {
-        this.user = user;
+    public void setUser(Long userId) {
+        this.userId = userId;
     }
 }

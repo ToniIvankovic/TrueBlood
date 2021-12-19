@@ -2,6 +2,7 @@ package progi.megatron.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jmx.export.notification.UnableToSendNotificationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import progi.megatron.email.AccountVerificationEmailContext;
@@ -69,7 +70,11 @@ public class DonorService {
         donor = donorRepository.save(donor);
 
 
-        sendRegistrationConfirmationEmail(donor);
+        try {
+            sendRegistrationConfirmationEmail(donor);
+        }catch (UnableToSendNotificationException e){
+            e.printStackTrace();
+        }
         logger.info("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
 
         return donor;
@@ -128,7 +133,7 @@ public class DonorService {
 
     public void sendRegistrationConfirmationEmail(Donor user) {
         SecureToken secureToken = secureTokenService.createSecureToken();
-        secureToken.setUser(user);
+        secureToken.setUser(user.getDonorId());
         secureTokenRepository.save(secureToken);
         AccountVerificationEmailContext emailContext = new AccountVerificationEmailContext();
         emailContext.init(user);
