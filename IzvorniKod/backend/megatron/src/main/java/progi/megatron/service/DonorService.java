@@ -115,4 +115,16 @@ public class DonorService {
         return donorSet.stream().collect(Collectors.toList());
     }
 
+    public Donor updateDonor(Donor donorNew) {
+        Donor donor = donorRepository.getDonorByDonorId(donorNew.getDonorId());
+        String oibOld = donor.getOib();
+        donor = modelMapper.map(donorNew, Donor.class);
+        donorValidator.validateDonor(donor);
+        if (getDonorByOib(donor.getOib()) != null && !donor.getOib().equals(oibOld)) {
+            throw new WrongDonorException("Donor with that oib already exists. ");
+        }
+        donorRepository.save(donor);
+        return donor;
+    }
+
 }

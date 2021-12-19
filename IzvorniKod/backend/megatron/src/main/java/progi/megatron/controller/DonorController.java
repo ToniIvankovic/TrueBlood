@@ -28,7 +28,6 @@ public class DonorController {
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
-
     }
 
     //@Secured({"ROLE_BANK_WORKER"})
@@ -91,6 +90,15 @@ public class DonorController {
         try {
             return ResponseEntity.ok(donorService.getDonorsByAny(query));
         } catch(Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<Object> updateDonor(@RequestBody Donor donor) {
+        try {
+            return ResponseEntity.ok(donorService.updateDonor(donor));
+        } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
     }
