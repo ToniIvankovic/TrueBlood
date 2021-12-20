@@ -1,14 +1,20 @@
 package progi.megatron.controller;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import progi.megatron.exception.InvalidTokenException;
 import progi.megatron.model.Donor;
 import progi.megatron.model.dto.DonorByBankWorkerDTOWithoutId;
 import progi.megatron.model.dto.DonorByDonorDTOWithId;
 import progi.megatron.model.dto.DonorByDonorDTOWithoutId;
-import progi.megatron.security.JwtTokenUtil;
 import progi.megatron.service.DonorService;
 import progi.megatron.service.UserService;
 import progi.megatron.util.CurrentUserUtil;
@@ -19,6 +25,14 @@ import javax.servlet.http.HttpServletRequest;
 @CrossOrigin
 @RequestMapping("/api/v1/donor")
 public class DonorController {
+
+    private static final String REDIRECT_LOGIN = "redirect:/login";
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private MessageSource messageSource;
 
     private final DonorService donorService;
     private final CurrentUserUtil currentUserUtil;
@@ -36,9 +50,28 @@ public class DonorController {
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
+
     }
 
-    @Secured({"ROLE_BANK_WORKER"})
+    @GetMapping("/verify")
+    public ResponseEntity verifyDonor(@RequestParam(name = "token") String token, final Model model, RedirectAttributes redirAttr) {
+        if (StringUtils.isEmpty(token)) {
+            redirAttr.addFlashAttribute("tokenError", messageSource.getMessage("user.registration.verification.missing.token", null, LocaleContextHolder.getLocale()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageSource.getMessage("user.registration.verification.missing.token", null, LocaleContextHolder.getLocale()));
+        }
+        try {
+            System.out.println(token);
+            userService.verifyUser(token);
+        } catch (InvalidTokenException e) {
+            redirAttr.addFlashAttribute("tokenError", messageSource.getMessage("user.registration.verification.invalid.token", null, LocaleContextHolder.getLocale()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
+        redirAttr.addFlashAttribute("verifiedAccountMsg", messageSource.getMessage("user.registration.verification.success", null, LocaleContextHolder.getLocale()));
+        return ResponseEntity.ok(token);
+    }
+
+    //@Secured({"ROLE_BANK_WORKER"})
     @PostMapping("/add-donor")
     public ResponseEntity<Object> createDonorByBankWorker(@RequestBody DonorByBankWorkerDTOWithoutId donorByBankWorkerDTOWithoutId) {
         try {
@@ -90,7 +123,7 @@ public class DonorController {
     public ResponseEntity<Object> getDonorsAll(@RequestParam Integer resultsPerPage, @RequestParam Integer page) {
         try {
             return ResponseEntity.ok(donorService.getDonorsAll(resultsPerPage, page));
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
     }
@@ -100,7 +133,7 @@ public class DonorController {
     public ResponseEntity<Object> getDonorsByAny(@RequestParam String query) {
         try {
             return ResponseEntity.ok(donorService.getDonorsByAny(query));
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
     }
