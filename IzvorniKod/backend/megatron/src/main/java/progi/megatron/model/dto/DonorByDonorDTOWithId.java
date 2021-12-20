@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
+
 import java.time.LocalDate;
 
 @Getter
@@ -12,8 +13,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class DonorByBankWorkerDTO {
+public class DonorByDonorDTOWithId {
 
+    private Long donorId;
     private String firstName;
     private String lastName;
     private String oib;
@@ -24,7 +26,5 @@ public class DonorByBankWorkerDTO {
     private String privateContact;
     private String workContact;
     private String email;
-    private String bloodType;
-    private String permRejectedReason;
-    
+
 }

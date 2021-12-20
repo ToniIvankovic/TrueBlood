@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.BankWorker;
 import progi.megatron.model.dto.BankWorkerDTO;
 import progi.megatron.service.BankWorkerService;
+import progi.megatron.util.CurrentUserUtil;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @CrossOrigin
@@ -15,9 +17,11 @@ import progi.megatron.service.BankWorkerService;
 public class BankWorkerController {
 
     private final BankWorkerService bankWorkerService;
+    private final CurrentUserUtil currentUserUtil;
 
-    public BankWorkerController(BankWorkerService bankWorkerService) {
+    public BankWorkerController(BankWorkerService bankWorkerService, CurrentUserUtil currentUserUtil) {
         this.bankWorkerService = bankWorkerService;
+        this.currentUserUtil = currentUserUtil;
     }
 
     @Secured({"ROLE_ADMIN"})
@@ -49,6 +53,19 @@ public class BankWorkerController {
             BankWorker bankWorker = bankWorkerService.getBankWorkerByBankWorkerId(bankWorkerId);
             if (bankWorker == null) return ResponseEntity.ok("No bank worker with that id found.");
             return ResponseEntity.ok(bankWorker);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
+    @Secured({"ROLE_BANK_WORKER"})
+    @PostMapping("/update")
+    public ResponseEntity<Object> updateBankWorkerByBankWorker(@RequestBody BankWorker bankWorker, HttpServletRequest request) {
+        try {
+            if (!currentUserUtil.checkIfCurrentUser(request, bankWorker.getBankWorkerId().toString())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bank worker can not update other bank workers.");
+            }
+            return ResponseEntity.ok(bankWorkerService.updateBankWorkerByBankWorker(bankWorker));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
