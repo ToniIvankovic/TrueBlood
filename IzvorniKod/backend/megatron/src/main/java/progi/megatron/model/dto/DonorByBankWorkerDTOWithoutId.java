@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class DonorByDonorDTO {
+public class DonorByBankWorkerDTOWithoutId {
 
     private String firstName;
     private String lastName;
@@ -24,5 +24,7 @@ public class DonorByDonorDTO {
     private String privateContact;
     private String workContact;
     private String email;
-
+    private String bloodType;
+    private String permRejectedReason;
+    
 }

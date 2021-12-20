@@ -6,6 +6,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.BankWorker;
+import progi.megatron.model.Donor;
 import progi.megatron.model.dto.BankWorkerDTO;
 import progi.megatron.service.BankWorkerService;
 
@@ -49,6 +50,17 @@ public class BankWorkerController {
             BankWorker bankWorker = bankWorkerService.getBankWorkerByBankWorkerId(bankWorkerId);
             if (bankWorker == null) return ResponseEntity.ok("No bank worker with that id found.");
             return ResponseEntity.ok(bankWorker);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
+    // todo: for current user
+    @Secured({"ROLE_BANK_WORKER"})
+    @PostMapping("/update")
+    public ResponseEntity<Object> updateBankWorkerrByBankWorker(@RequestBody BankWorker bankWorker) {
+        try {
+            return ResponseEntity.ok(bankWorkerService.updateBankWorkerByBankWorker(bankWorker));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }

@@ -5,8 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.Donor;
-import progi.megatron.model.dto.DonorByBankWorkerDTO;
-import progi.megatron.model.dto.DonorByDonorDTO;
+import progi.megatron.model.dto.DonorByBankWorkerDTOWithoutId;
+import progi.megatron.model.dto.DonorByDonorDTOWithId;
+import progi.megatron.model.dto.DonorByDonorDTOWithoutId;
 import progi.megatron.service.DonorService;
 
 @RestController
@@ -22,9 +23,9 @@ public class DonorController {
 
     // todo: secured (no role)
     @PostMapping("/registration")
-    public ResponseEntity<Object> createDonorByDonor(@RequestBody DonorByDonorDTO donorByDonorDTO) {
+    public ResponseEntity<Object> createDonorByDonor(@RequestBody DonorByDonorDTOWithoutId donorByDonorDTOWithoutId) {
         try {
-            return ResponseEntity.ok(donorService.createDonorByDonor(donorByDonorDTO));
+            return ResponseEntity.ok(donorService.createDonorByDonor(donorByDonorDTOWithoutId));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
@@ -32,9 +33,9 @@ public class DonorController {
 
     @Secured({"ROLE_BANK_WORKER"})
     @PostMapping("/add-donor")
-    public ResponseEntity<Object> createDonorByBankWorker(@RequestBody DonorByBankWorkerDTO donorByBankWorkerDTO) {
+    public ResponseEntity<Object> createDonorByBankWorker(@RequestBody DonorByBankWorkerDTOWithoutId donorByBankWorkerDTOWithoutId) {
         try {
-            return ResponseEntity.ok(donorService.createDonorByBankWorker(donorByBankWorkerDTO));
+            return ResponseEntity.ok(donorService.createDonorByBankWorker(donorByBankWorkerDTOWithoutId));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
@@ -52,6 +53,7 @@ public class DonorController {
         }
     }
 
+    // todo: donor only for current user
     @Secured({"ROLE_ADMIN", "ROLE_BANK_WORKER", "ROLE_DONOR"})
     @GetMapping("/id/{donorId}")
     public ResponseEntity<Object> getDonorByDonorId(@PathVariable String donorId) {
@@ -94,11 +96,12 @@ public class DonorController {
         }
     }
 
-    @Secured({"ROLE_BANK_WORKER"})
+    // todo: for current user
+    @Secured({"ROLE_DONOR"})
     @PostMapping("/update")
-    public ResponseEntity<Object> updateDonorByBankWorker(@RequestBody Donor donor) {
+    public ResponseEntity<Object> updateDonorByDonor(@RequestBody DonorByDonorDTOWithId donorByDonorDTOWithId) {
         try {
-            return ResponseEntity.ok(donorService.updateDonorByBankWorker(donor));
+            return ResponseEntity.ok(donorService.updateDonorByDonor(donorByDonorDTOWithId));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }

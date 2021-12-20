@@ -3,19 +3,19 @@ package progi.megatron.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import progi.megatron.exception.WrongBankWorkerException;
 import progi.megatron.exception.WrongDonorException;
 import progi.megatron.model.Donor;
 import progi.megatron.model.User;
-import progi.megatron.model.dto.DonorByBankWorkerDTO;
-import progi.megatron.model.dto.DonorByDonorDTO;
-import progi.megatron.model.dto.UserDTO;
+import progi.megatron.model.dto.DonorByBankWorkerDTOWithoutId;
+import progi.megatron.model.dto.DonorByDonorDTOWithId;
+import progi.megatron.model.dto.DonorByDonorDTOWithoutId;
 import progi.megatron.repository.DonorRepository;
 import progi.megatron.util.Role;
 import progi.megatron.validation.DonorValidator;
 import progi.megatron.validation.IdValidator;
 import progi.megatron.validation.OibValidator;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,11 +44,11 @@ public class DonorService {
 
     java.util.logging.Logger logger =  java.util.logging.Logger.getLogger(this.getClass().getName());
 
-    public Donor createDonorByDonor(DonorByDonorDTO donorByDonorDTO){
+    public Donor createDonorByDonor(DonorByDonorDTOWithoutId donorByDonorDTOWithoutId){
         String password = userService.randomPassword();
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
         user = userService.createUser(user);
-        Donor donor = modelMapper.map(donorByDonorDTO, Donor.class);
+        Donor donor = modelMapper.map(donorByDonorDTOWithoutId, Donor.class);
         donor.setDonorId(user.getUserId());
 
         donorValidator.validateDonor(donor);
@@ -63,11 +63,11 @@ public class DonorService {
         return donor;
     }
 
-    public Donor createDonorByBankWorker(DonorByBankWorkerDTO donorByBankWorkerDTO){
+    public Donor createDonorByBankWorker(DonorByBankWorkerDTOWithoutId donorByBankWorkerDTOWithoutId){
         String password = userService.randomPassword();
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
         userService.createUser(user);
-        Donor donor = modelMapper.map(donorByBankWorkerDTO, Donor.class);
+        Donor donor = modelMapper.map(donorByBankWorkerDTOWithoutId, Donor.class);
         donor.setDonorId(user.getUserId());
 
         donorValidator.validateDonor(donor);
@@ -115,12 +115,32 @@ public class DonorService {
         return donorSet.stream().collect(Collectors.toList());
     }
 
-    public Donor updateDonorByBankWorker(Donor donorNew) {
-        Donor donor = donorRepository.getDonorByDonorId(donorNew.getDonorId());
+    public Donor updateDonorByDonor(DonorByDonorDTOWithId donorNew) {
+        Long donorId = donorNew.getDonorId();
+        if (donorId == null) throw new WrongDonorException("Donor id is not given. ");
+        Donor donor = donorRepository.getDonorByDonorId(donorId);
+        if (donor == null) throw new WrongDonorException("There is no donor with that id.");
         String oibOld = donor.getOib();
         donor = modelMapper.map(donorNew, Donor.class);
+        String oibNew = donor.getOib();
         donorValidator.validateDonor(donor);
-        if (getDonorByOib(donor.getOib()) != null && !donor.getOib().equals(oibOld)) {
+        if (getDonorByOib(oibNew) != null && !oibNew.equals(oibOld)) {
+            throw new WrongDonorException("Donor with that oib already exists. ");
+        }
+        donorRepository.save(donor);
+        return donor;
+    }
+
+    public Donor updateDonorByBankWorker(Donor donorNew) {
+        Long donorId = donorNew.getDonorId();
+        if (donorId == null) throw new WrongDonorException("Donor id is not given. ");
+        Donor donor = donorRepository.getDonorByDonorId(donorId);
+        if (donor == null) throw new WrongDonorException("There is no donor with that id.");
+        String oibOld = donor.getOib();
+        donor = modelMapper.map(donorNew, Donor.class);
+        String oibNew = donor.getOib();
+        donorValidator.validateDonor(donor);
+        if (getDonorByOib(oibNew) != null && !oibNew.equals(oibOld)) {
             throw new WrongDonorException("Donor with that oib already exists. ");
         }
         donorRepository.save(donor);

@@ -65,7 +65,6 @@ public class DonationTryService {
         return new DonationTryResponseDTO(donationTry.getDonationId(), donated, donationTry.getRejectReason(), donationTry.getDonationDate(), donationTry.getDonationPlace(), donationTry.getDonor().getDonorId());
     }
 
-    // todo: for current user
     public List<DonationTryResponseDTO> getDonationTryHistory(String donorId) {
         idValidator.validateId(donorId);
         Donor donor = donorService.getDonorByDonorId(donorId);
@@ -77,9 +76,12 @@ public class DonationTryService {
         return donationTryResponseDTOS;
     }
 
-    public DonationTry getDonationTryByDonationId(String donationId) {
+    public void getDonationTryByDonationId(String donationId) {
         idValidator.validateId(donationId);
-        return donationTryRepository.getDonationTryByDonationId(Long.valueOf(donationId));
+        DonationTry donationTry = donationTryRepository.getDonationTryByDonationId(Long.valueOf(donationId));
+        if (donationTry.getRejectReason() == null) {
+            // todo: download certificate
+        }
     }
 
 }

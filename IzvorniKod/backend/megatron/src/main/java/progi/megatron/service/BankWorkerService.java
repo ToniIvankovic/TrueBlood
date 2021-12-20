@@ -3,6 +3,7 @@ package progi.megatron.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import progi.megatron.exception.WrongBankWorkerException;
 import progi.megatron.exception.WrongDonorException;
 import progi.megatron.model.BankWorker;
 import progi.megatron.model.User;
@@ -66,4 +67,19 @@ public class BankWorkerService {
         return bankWorkerRepository.save(bankWorker);
     }
 
+    public BankWorker updateBankWorkerByBankWorker(BankWorker bankWorkerNew) {
+        Long bankWorkerId = bankWorkerNew.getBankWorkerId();
+        if (bankWorkerId == null) throw new WrongBankWorkerException("Bank worker id is not given.");
+        BankWorker bankWorker = bankWorkerRepository.getBankWorkerByBankWorkerId(bankWorkerId);
+        if (bankWorker == null) throw new WrongBankWorkerException("There is no bank worker with that id.");
+        String oibOld = bankWorker.getOib();
+        bankWorker = modelMapper.map(bankWorkerNew, BankWorker.class);
+        String oibNew = bankWorker.getOib();
+        bankWorkerValidator.validateBankWorker(bankWorker);
+        if (getBankWorkerByOib(oibNew) != null && !oibNew.equals(oibOld)) {
+            throw new WrongBankWorkerException("Bank worker with that oib already exists.");
+        }
+        bankWorkerRepository.save(bankWorker);
+        return bankWorker;
+    }
 }

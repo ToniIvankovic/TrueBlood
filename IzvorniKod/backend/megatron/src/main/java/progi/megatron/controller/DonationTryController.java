@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import progi.megatron.model.DonationTry;
 import progi.megatron.model.dto.DonationTryRequestDTO;
 import progi.megatron.service.DonationTryService;
 
@@ -29,6 +28,7 @@ public class DonationTryController {
         }
     }
 
+    // todo: for current user
     @Secured({"ROLE_DONOR"})
     @GetMapping("/{donorId}")
     public ResponseEntity<Object> getDonationTryHistory(@PathVariable String donorId) {
@@ -39,15 +39,13 @@ public class DonationTryController {
         }
     }
 
+    // todo: for current user
     @Secured({"ROLE_DONOR"})
     @GetMapping("/pdf/{donationId}")
     public ResponseEntity<Object> getSuccessfulDonationPdfCert(@PathVariable String donationId) {
         try {
-            DonationTry donationTry = donationTryService.getDonationTryByDonationId(donationId);
-            if (donationTry.getRejectReason() == null) {
-
-            }
-            return ResponseEntity.ok(donationTry);
+            donationTryService.getDonationTryByDonationId(donationId);
+            return ResponseEntity.ok("Successfully downloaded PDF certificate.");
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
