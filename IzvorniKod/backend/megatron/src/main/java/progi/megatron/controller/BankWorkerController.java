@@ -6,7 +6,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.BankWorker;
-import progi.megatron.model.Donor;
 import progi.megatron.model.dto.BankWorkerDTO;
 import progi.megatron.service.BankWorkerService;
 
