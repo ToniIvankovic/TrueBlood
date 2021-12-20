@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.dto.BloodSupplyRequestDTO;
+import org.springframework.web.bind.annotation.*;
+import progi.megatron.model.dto.BloodSupplyDTO;
+import progi.megatron.model.dto.DonationTryDTO;
 import progi.megatron.service.BloodSupplyService;
 
 @Controller
@@ -51,4 +54,13 @@ public class BloodSupplyController {
         }
     }
 
+    @Secured({"ROLE_BANK_WORKER"})
+    @PostMapping("/decrease")
+    public ResponseEntity<Object> decreaseBloodSupply(@RequestBody String bloodType, int numberOfUnits) {
+        try {
+            return ResponseEntity.ok(bloodSupplyService.manageBloodSupply(bloodType, numberOfUnits, false));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
 }

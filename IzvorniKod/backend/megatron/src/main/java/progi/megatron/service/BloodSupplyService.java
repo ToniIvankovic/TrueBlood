@@ -29,11 +29,14 @@ public class BloodSupplyService {
         return new BloodSupplyResponseDTO(bloodSupply.getBloodType(), bloodSupply.getNumberOfUnits(), getReview(bloodSupply), bloodSupply.getMaxUnits(), bloodSupply.getMinUnits());
     }
 
-    public String donateBlood(String bloodType) {
-        bloodSupplyValidator.validateBloodType(bloodType);
+    public int manageBloodSupply(String bloodType, int numberOfUnits, boolean increase) {
+        bloodTypeValidator.validateBloodType(bloodType);
         int oldNumberOfUnits = bloodSupplyRepository.getBloodSupplyByBloodType(bloodType).getNumberOfUnits();
-        bloodSupplyRepository.donateBlood(bloodType, oldNumberOfUnits + 1);
-        return bloodType;
+        if(increase)
+            bloodSupplyRepository.manageBloodSupply(bloodType, oldNumberOfUnits + 1);
+        else
+            bloodSupplyRepository.manageBloodSupply(bloodType, oldNumberOfUnits - numberOfUnits);
+        return bloodSupplyRepository.getBloodSupplyByBloodType(bloodType).getNumberOfUnits();
     }
 
     public List<BloodSupplyResponseDTO> getBloodSupply() {
