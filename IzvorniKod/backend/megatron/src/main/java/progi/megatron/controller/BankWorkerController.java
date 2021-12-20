@@ -39,10 +39,10 @@ public class BankWorkerController {
         }
     }
 
-    //Preimenovati metodu?
+
     @Secured({"ROLE_ADMIN","ROLE_BANK_WORKER"})
     @GetMapping("/id/{bankWorkerId}")
-    public ResponseEntity<Object> getDonorByDonorId(@PathVariable String bankWorkerId) {
+    public ResponseEntity<Object> getBankWorkerByBankWorkerId(@PathVariable String bankWorkerId) {
         try {
             return ResponseEntity.ok(bankWorkerService.getBankWorkerByBankWorkerId(bankWorkerId));
         } catch (Exception ex) {
