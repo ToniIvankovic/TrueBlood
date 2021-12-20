@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.dto.BloodSupplyRequestDTO;
-import org.springframework.web.bind.annotation.*;
-import progi.megatron.model.dto.BloodSupplyDTO;
-import progi.megatron.model.dto.DonationTryDTO;
 import progi.megatron.service.BloodSupplyService;
 
 @Controller

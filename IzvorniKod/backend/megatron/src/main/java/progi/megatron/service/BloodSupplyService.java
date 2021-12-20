@@ -30,7 +30,7 @@ public class BloodSupplyService {
     }
 
     public int manageBloodSupply(String bloodType, int numberOfUnits, boolean increase) {
-        bloodTypeValidator.validateBloodType(bloodType);
+        bloodSupplyValidator.validateBloodType(bloodType);
         int oldNumberOfUnits = bloodSupplyRepository.getBloodSupplyByBloodType(bloodType).getNumberOfUnits();
         if(increase)
             bloodSupplyRepository.manageBloodSupply(bloodType, oldNumberOfUnits + 1);
