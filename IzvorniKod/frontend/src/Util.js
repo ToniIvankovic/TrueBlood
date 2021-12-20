@@ -28,8 +28,8 @@ const getCurrentUserIdAndRole = async (user, setUser) => {
         .then((response) => {
             if (response.data != null) {
                 setUser({
-                    userId: response.data.id,
-                    role: response.data.role
+                    userId: response.data.userId,
+                    role: response.data.userRole
                 });
             } else {
                 //Sto ovdje napraviti?
@@ -107,6 +107,25 @@ const getWorkerById = async (workerId, setWorker) => {
         })
 }
 
+
+const getBloodSupply = async (setBloodSupply) => {
+
+    const url = '/api/v1/blood-supply';
+
+    await axios.get(url)
+        .then((response) => {
+            if (response.data != null) {
+                setBloodSupply(response.data);
+            } else {
+                console.log("Prazan odgovor poslužitelja")
+            }
+        })
+        .catch((error) => {
+            console.log("Greška - nije moguće dohvatiti stanja krvnih grupa:");
+            console.log(error);
+        })
+}
+
 const getAccActivated = async (userId, setActivated) => {
 
     const url = '/api/v1/user/activated'; //potencijalna promjena
@@ -170,6 +189,7 @@ export { getDonorById };
 export { getWorkerById };
 export { getAccActivated };
 export { isEqualWithNull };
+export { getBloodSupply };
 export { userNone };
 export { userPublic };
 export { donorNone };

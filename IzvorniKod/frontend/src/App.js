@@ -29,13 +29,13 @@ const App = () => {
     const [token, setToken] = useState("");
 
     useEffect(() => {
-        console.log(token)
         setToken(window.localStorage.getItem('token'));
         if (token) {
             getCurrentUserIdAndRole(user, setUser);
         } else{
             setUser(userPublic);
         }
+        console.log(user)
     }, [token]);
 
 
@@ -50,8 +50,6 @@ const App = () => {
     const [existingDonor, setExistingDonor] = useState(false);
     const [existingWorker, setExistingWorker] = useState(false);
     
-    
-    //Uzimanje donora iz localStoragea (makar ga i nema)
     const [donor, setDonor] = useState(donorNone);
     const [worker, setWorker] = useState(workerNone);
     
@@ -109,10 +107,10 @@ const App = () => {
                         <KreiranDjelatnik />
                     </Route>
                     <Route path='/pokusaj_doniranja' exact>
-                        <PokusajDoniranja user={user} donor={donor} existingDonor={existingDonor} setExistingDonor={setExistingDonor} setDonor={setDonor}/>
+                        <PokusajDoniranja token={token} user={user} donor={donor} existingDonor={existingDonor} setExistingDonor={setExistingDonor} setDonor={setDonor}/>
                     </Route>
                     <Route path='/trazi_donora' exact>
-                        <TraziDonora user={user} setDonor={setDonor} setExisting={setExistingDonor} />
+                        <TraziDonora token={token} user={user} setDonor={setDonor} setExisting={setExistingDonor} />
                     </Route>
                 </Switch>
             </Router>

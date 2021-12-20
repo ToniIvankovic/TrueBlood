@@ -11,6 +11,7 @@ const StvoriDonora = (props) => {
     const ref = useRef();
 
     const [donorInfo, setDonorInfo] = useState({
+        donorId: '',
         firstName: '',
         lastName: '',
         oib: '',
@@ -24,33 +25,23 @@ const StvoriDonora = (props) => {
         bloodType: ''
     });
 
+    //Razmisliti o unificiranju dohvata podataka sa backenda i da existing služi samo za naslov
     useEffect(()=>{
-        console.log(props.existing)
+        console.log('Existing:' + props.existing)
         if(!props.user.userId) 
             return;
         if(props.existing){
             getDonorById(props.donor.donorId,setDonorInfo);
         }
-        if (props.user.role == 'DONOR') {
+        else if (props.user.role == 'DONOR') {
             props.setExisting(true);
             getDonorById(props.user.userId,setDonorInfo);
         }
     },[props.user.userId])
 
-    // useEffect(()=>{
-    //     console.log("donorinfo u stvoridonora")
-    //     console.log(donorInfo)
-    // },[donorInfo])
     
     const [errorMessage, setErrorMessage] = useState('Greška');
     const [errorHidden, setErrorHidden] = useState(true);
-
-
-    // useEffect(() => {
-    //     if (props.user.role == 'DONOR') {
-    //         history.push('/profil');
-    //     }
-    // }, [props.user.role]);
 
 
     const handleChange = (event) => {
@@ -69,9 +60,13 @@ const StvoriDonora = (props) => {
 
         var url
         if(props.existing){
-            // url='/api/v1/donor/update-donor';
-            console.log("Doesnt work yet :(")
-            return;
+            if(props.user.userRole == 'DONOR'){
+                console.log("Doesnt work yet :(")
+                return;
+            }
+            else{
+                url='/api/v1/donor/update';
+            }
         } else{
             if (props.user.role == 'BANK_WORKER') {
                 url = '/api/v1/donor/add-donor'
@@ -86,7 +81,11 @@ const StvoriDonora = (props) => {
                 console.log(response.data)
 
                 props.setDonor(response.data)
-                history.push('/kreiran_donor');
+                if(props.existing){
+                    history.goBack();
+                }
+                else
+                    history.push('/kreiran_donor');
             })
             .catch((error) => {
                 console.log('Error while creating donor. Response: ' + error.response);
@@ -116,7 +115,7 @@ const StvoriDonora = (props) => {
 
     return (
         <div className="reg">
-            ({props.user.role})
+            <div className="roledesplay">({props.user.role})</div>
             <form onSubmit={(event) => handleSubmit(event)} className='formular'>
                 <div className="tekst">
                     <p>{props.existing?"Uredi ":"Kreiraj "}korisnički račun!</p>
@@ -126,12 +125,12 @@ const StvoriDonora = (props) => {
                 </div>
                 {props.existing? //OVO POLJE AKO SE MOŽE ZASIVITI
                 <div className="single">
-                <input
-                    onChange={(event) => handleChange(event)}
-                    name='donorId'
-                    type="text"
-                    defaultValue={"ID: " + props.user.userId}
-                    disabled></input>
+                    <input
+                        onChange={(event) => handleChange(event)}
+                        name='donorId'
+                        type="text"
+                        defaultValue={"ID: " + props.user.userId}
+                        disabled></input>
                 </div>    
                 :""}
                 <div className="dupli">
@@ -231,14 +230,14 @@ const StvoriDonora = (props) => {
                 </div>
                 <div className="krgrupe">
                     <label>Krvna grupa</label>
-                    <select defaultValue="---"
+                    <select
                         disabled={props.user.role != "BANK_WORKER"}
-                        defaultValue={donorInfo.bloodType}
+                        value={donorInfo.bloodType.trim()}
                         onChange={(event) => {
                             event.target.name = "bloodType";
                             handleChange(event);
                         }}>
-                        <option value="---">Nema</option>
+                        <option value="---">---</option>
                         <option value="A+">A+</option>
                         <option value="A-">A-</option>
                         <option value="B+">B+</option>

@@ -11,10 +11,9 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class UserDTO {
+public class UserActivationDTO {
 
-    private String userId;
-    private String userRole;
+    private Long userId;
     private int accActivated;
     private int permDeactivated;
 

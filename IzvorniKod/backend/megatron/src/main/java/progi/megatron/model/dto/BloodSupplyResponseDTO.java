@@ -1,28 +1,22 @@
-package progi.megatron.model;
+package progi.megatron.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "blood_supply")
-public class BloodSupply {
+@Component
+public class BloodSupplyResponseDTO {
 
-    @Id
     private String bloodType;
-
     private int numberOfUnits;
-
+    private String review;
     private int maxUnits;
-
     private int minUnits;
 
 }

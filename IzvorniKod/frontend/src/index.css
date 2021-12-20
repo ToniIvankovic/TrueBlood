@@ -116,8 +116,8 @@
     color: #1e396f;
     transition: all 0.5s ease;
     font-style: normal;
-    outline: none;
-    border: 1px solid #1e396f;
+    outline: 1px solid #d65d5c;
+    border: none;
 }
 .submit{
     width: 150px;
@@ -262,6 +262,11 @@
     }
 }
 
+.roledesplay {
+    color: #d8d8d8;
+    font-size: 10px;
+}
+
 
 /* Sign up page css //////////////////////////////////////////////////*/
 
@@ -276,7 +281,6 @@
     border-radius: 100px;
     padding: 10px 30px;
     width: 100%;
-    outline: none !important;
     border: none;
     background-color: #f6f5fa;
     font-size: 25px;
@@ -288,8 +292,8 @@
     color: #1e396f;
     transition: all 0.5s ease;
     font-style: normal;
-    outline: none;
-    border: 1px solid #d65d5c;
+    border: none;
+    outline: 1px solid #d65d5c;
 }
 
 .reg ::placeholder{
@@ -319,11 +323,13 @@
     grid-template-columns: 1fr 1fr;
     margin: 0 auto 20px auto;
     column-gap: 10px;
+    width: auto;
 
 }
 
 .single{
     margin: 20px auto;
+    width: auto;
 }
 
 .krgrupe{
@@ -332,7 +338,7 @@
 
 .krgrupe select{
     border-radius: 100px;
-    font-size: 25px;
+    font-size: 20px;
     padding-left: 5px;
     outline: none !important;
     border: 1px solid #1e396f;
@@ -361,6 +367,7 @@
     color: #f6f5fa;
     border: none;
     padding: 10px 30px;
+    margin: 20px 0;
 }
 
 .kreiraj:hover{
@@ -371,7 +378,63 @@
     cursor: pointer;
 }
 
-@media screen and (max-width: 700px){
+.maligumb{
+    font-size: 20px;
+    border-radius: 100px;
+    background-color: #d65d5c;
+    color: #f6f5fa;
+    border: none;
+    padding: 10px 30px;
+}
+
+.maligumb:hover{
+    background-color: #f6f5fa;
+    color: #1e396f;
+    transition: all 0.5s ease;
+    outline: none !important;
+    cursor: pointer;
+}
+
+/* Pokusaj_doniranja css ////////////////////////////////////////////////*/
+
+.formular {
+    width: 800px;
+}
+
+.redak {
+    display: grid;
+    grid-template-columns: 6fr 1fr 1fr;
+    justify-content: center;
+    text-align: center;
+}
+
+.pitanje {
+    font-size: 25px;
+    text-align: left;
+    margin: 14px 10px;
+
+}
+
+.odgovor{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 20px 10px;
+    width: 50%;
+    justify-content: center;
+}
+
+.odgovor label {
+    font-size: 20px;
+    color: #1e396f;
+}
+
+.odgovor input[type=radio]{
+    margin: 8px;
+    width: 50%;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 830px){
     .tekst{
         font-size: 40px;
     }
@@ -380,7 +443,10 @@
     }
     .reg input::placeholder{
         font-size: 20px;
-    }  
+    }
+    .formular{
+        width: 100%;
+    }
 }
 @media screen and (max-width: 545px){
     .dupli{
@@ -397,6 +463,9 @@
     .label{
         font-size: 20px;
         margin: 20px auto 0 30px;  
+    }
+    .pitanje {
+        font-size: 20px;
     }
     
 }
@@ -729,3 +798,5 @@
     box-sizing: border-box;
     border-radius: 50px;
 }
+
+

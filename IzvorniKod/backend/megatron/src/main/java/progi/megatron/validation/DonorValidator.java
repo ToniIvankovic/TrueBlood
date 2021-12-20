@@ -7,11 +7,11 @@ import progi.megatron.model.Donor;
 @Component
 public class DonorValidator {
 
-    public final BloodTypeValidator bloodTypeValidator;
+    public final BloodSupplyValidator bloodSUpplyValidator;
     public final OibValidator oibValidator;
 
-    public DonorValidator(BloodTypeValidator bloodTypeValidator, OibValidator oibValidator) {
-        this.bloodTypeValidator = bloodTypeValidator;
+    public DonorValidator(BloodSupplyValidator bloodSUpplyValidator, OibValidator oibValidator) {
+        this.bloodSUpplyValidator = bloodSUpplyValidator;
         this.oibValidator = oibValidator;
     }
 
@@ -19,7 +19,7 @@ public class DonorValidator {
         if (oibValidator.validateOib(donor.getOib()) == false) return false;
         if (!donor.getEmail().contains("@")) throw new WrongDonorException("Donor email is not correct. ");
         if (donor.getBloodType() != null) {
-            bloodTypeValidator.validateBloodType(donor.getBloodType());
+            bloodSUpplyValidator.validateBloodType(donor.getBloodType());
         }
         return true;
     }

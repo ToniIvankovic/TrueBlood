@@ -24,8 +24,6 @@ public interface DonorRepository extends JpaRepository<Donor, Long> {
 
     List<Donor> getDonorsByLastNameIsContaining(String lastName);
 
-    // todo: update donor
-
     // todo: check if donor permanently rejected
 
 }
