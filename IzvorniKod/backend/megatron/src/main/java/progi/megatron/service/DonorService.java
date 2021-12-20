@@ -7,13 +7,10 @@ import org.springframework.jmx.export.notification.UnableToSendNotificationExcep
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import progi.megatron.email.AccountVerificationEmailContext;
-import progi.megatron.exception.WrongBankWorkerException;
 import progi.megatron.exception.WrongDonorException;
 import progi.megatron.model.Donor;
 import progi.megatron.model.SecureToken;
 import progi.megatron.model.User;
-import progi.megatron.model.dto.DonorByBankWorkerDTO;
-import progi.megatron.model.dto.DonorByDonorDTO;
 import progi.megatron.model.dto.DonorByBankWorkerDTOWithoutId;
 import progi.megatron.model.dto.DonorByDonorDTOWithId;
 import progi.megatron.model.dto.DonorByDonorDTOWithoutId;
@@ -40,6 +37,7 @@ public class DonorService {
     private final OibValidator oibValidator;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
+    private final SecureTokenRepository secureTokenRepository;
 
     @Autowired
     private EmailService emailService;
@@ -47,10 +45,12 @@ public class DonorService {
     @Autowired
     private SecureTokenService secureTokenService;
 
+    ;
+
     @Value("http://localhost:8080/api/v1/donor/")
     private String baseURL;
 
-    public DonorService(DonorRepository donorRepository, UserService userService, DonorValidator donorValidator, IdValidator idValidator, OibValidator oibValidator, PasswordEncoder passwordEncoder, SecureTokenRepository secureTokenRepository, ModelMapper modelMapper) {
+    public DonorService(DonorRepository donorRepository, UserService userService, DonorValidator donorValidator, IdValidator idValidator, OibValidator oibValidator, PasswordEncoder passwordEncoder, SecureTokenRepository secureTokenRepository, ModelMapper modelMapper, SecureTokenRepository secureTokenRepository1) {
         this.donorRepository = donorRepository;
         this.userService = userService;
         this.donorValidator = donorValidator;
@@ -58,15 +58,16 @@ public class DonorService {
         this.oibValidator = oibValidator;
         this.passwordEncoder = passwordEncoder;
         this.modelMapper = modelMapper;
+        this.secureTokenRepository = secureTokenRepository1;
     }
 
-    java.util.logging.Logger logger =  java.util.logging.Logger.getLogger(this.getClass().getName());
+    java.util.logging.Logger logger = java.util.logging.Logger.getLogger(this.getClass().getName());
 
-    public Donor createDonorByDonor(DonorByDonorDTOWithoutId donorByDonorDTOWithoutId){
+    public Donor createDonorByDonor(DonorByDonorDTOWithoutId donorByDonorDTOWithoutId) {
         String password = userService.randomPassword();
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
         user = userService.createUser(user);
-        Donor donor = modelMapper.map(donorByDonorDTO, Donor.class);
+        Donor donor = modelMapper.map(donorByDonorDTOWithoutId, Donor.class);
         donor.setDonorId(user.getUserId());
 
         donorValidator.validateDonor(donor);
@@ -78,7 +79,7 @@ public class DonorService {
 
         try {
             sendRegistrationConfirmationEmail(donor);
-        }catch (UnableToSendNotificationException e){
+        } catch (UnableToSendNotificationException e) {
             e.printStackTrace();
         }
         logger.info("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
@@ -86,7 +87,7 @@ public class DonorService {
         return donor;
     }
 
-    public Donor createDonorByBankWorker(DonorByBankWorkerDTOWithoutId donorByBankWorkerDTOWithoutId){
+    public Donor createDonorByBankWorker(DonorByBankWorkerDTOWithoutId donorByBankWorkerDTOWithoutId) {
         String password = userService.randomPassword();
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
         userService.createUser(user);
@@ -105,17 +106,17 @@ public class DonorService {
         return donor;
     }
 
-    public Donor getDonorByOib(String oib){
+    public Donor getDonorByOib(String oib) {
         oibValidator.validateOib(oib);
         return donorRepository.getDonorByOib(oib);
     }
 
-    public Donor getDonorByDonorId(String donorId){
+    public Donor getDonorByDonorId(String donorId) {
         idValidator.validateId(donorId);
         return donorRepository.getDonorByDonorId(Long.valueOf(donorId));
     }
 
-    public List<String> getOibsByFirstNameAndLastName(String firstName, String lastName){
+    public List<String> getOibsByFirstNameAndLastName(String firstName, String lastName) {
         List<Donor> donors = donorRepository.getDonorByFirstNameAndLastName(firstName, lastName);
         return donors.stream().map(donor -> donor.getOib()).collect(Collectors.toList());
     }
@@ -123,7 +124,7 @@ public class DonorService {
     // page numbering starts from 1
     public List<Donor> getDonorsAll(Integer resultsPerPage, Integer page) {
         List<Donor> donors = donorRepository.findAll();
-        if(donors.size() < resultsPerPage) {
+        if (donors.size() < resultsPerPage) {
             return donors;
         }
         int startIndex = resultsPerPage * (page - 1);
@@ -150,6 +151,9 @@ public class DonorService {
             emailService.sendMail(emailContext);
         } catch (MessagingException e) {
             e.printStackTrace();
+        }
+    }
+
     public Donor updateDonorByDonor(DonorByDonorDTOWithId donorNew) {
         Long donorId = donorNew.getDonorId();
         if (donorId == null) throw new WrongDonorException("Donor id is not given. ");

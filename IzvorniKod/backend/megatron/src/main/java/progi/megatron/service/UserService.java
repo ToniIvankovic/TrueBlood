@@ -18,13 +18,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final SecureTokenService secureTokenService;
 
-    private SecureTokenService secureTokenService;
 
-    public UserService(UserRepository userRepository) {
-    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper, SecureTokenService secureTokenService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+        this.secureTokenService = secureTokenService;
     }
 
     public User createUser(User user) {

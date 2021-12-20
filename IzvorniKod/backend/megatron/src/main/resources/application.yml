@@ -13,7 +13,7 @@ spring:
     tls: true
     properties:
       mail:
-        smpt:
+        smtp:
           auth: true
           starttls:
             enable: true
@@ -21,10 +21,6 @@ spring:
             trust: smtp.gmail.com
     protocol: smtp
     test-connection: false
-jdj:
-  secure:
-    token:
-      validity: 28800
 
 site:
   base:
