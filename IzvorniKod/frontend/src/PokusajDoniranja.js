@@ -131,11 +131,12 @@ const PokusajDoniranja = (props) => {
                 if (error.response) {
                     if (error.response.status == 400) {
                         const message = error.response.data;
-                        console.log(error.response.data);
                         if (message.includes('SQL') && message.includes('place')) {
                             setErrorMessage('Neispravno mjesto donacije');
                         } else if (message.includes('blood')) {
                             setErrorMessage('Greška! Krvna grupa mora se postaviti.');
+                        } else if(message.includes('no donor')){
+                            setErrorMessage('Greška! Nepostojeći donorId!');
                         }
                     } else {
                         setErrorMessage('Greška u autorizaciji!');
