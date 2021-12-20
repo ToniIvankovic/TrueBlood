@@ -1,5 +1,6 @@
 package progi.megatron.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,12 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
 
     private final UserService userService;
-    private final UserDTO userDTO;
+    private final ModelMapper modelMapper;
     private final JwtTokenUtil jwtTokenUtil;
 
-    public UserController(UserService userService, UserDTO userDTO, JwtTokenUtil jwtTokenUtil) {
+    public UserController(UserService userService, ModelMapper modelMapper, JwtTokenUtil jwtTokenUtil) {
         this.userService = userService;
-        this.userDTO = userDTO;
+        this.modelMapper = modelMapper;
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
@@ -38,7 +39,7 @@ public class UserController {
             final String token = header.split(" ")[1].trim();
             String userId = jwtTokenUtil.getUserId(token);
             User user = userService.findById(userId);
-            return ResponseEntity.ok(userDTO.userToUserDTO(user));
+            return ResponseEntity.ok(modelMapper.map(user, UserDTO.class));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
@@ -46,9 +47,8 @@ public class UserController {
     }
 
     @Secured({"ROLE_DONOR", "ROLE_BANK_WORKER", "ROLE_ADMIN"})
-    @GetMapping("/activated")
+    @GetMapping("/activate")
     public ResponseEntity<Object> activateCurrentUser(HttpServletRequest request) {
-
         // todo: examine if there is a more apt method of passing current userId to this method than getting token from request header
         try {
             // This assumes header and token were both validated by passing through the JwtTokenFilter
@@ -61,16 +61,25 @@ public class UserController {
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
-
     }
 
     @Secured({"ROLE_ADMIN"})
-    @GetMapping("/deactivated/{userId}")
+    @GetMapping("/deactivate/{userId}")
     public ResponseEntity<Object> permDeactivateUser(@PathVariable String userId) {
         try {
             Long longUserId = userService.permDeactivateUserAccount(userId);
             if (longUserId == null) return ResponseEntity.ok("This user is already permanently deactivated.");
             return ResponseEntity.ok(longUserId);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
+    @Secured({"ROLE_ADMIN"})
+    @GetMapping("/activated/{userId}")
+    public ResponseEntity<Object> checkIfUserActivated(@PathVariable String userId) {
+        try {
+            return ResponseEntity.ok(userService.checkIfUserActivated(userId));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }

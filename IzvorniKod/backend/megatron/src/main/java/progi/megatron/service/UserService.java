@@ -1,9 +1,11 @@
 package progi.megatron.service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import progi.megatron.exception.WrongUserException;
 import progi.megatron.model.User;
+import progi.megatron.model.dto.UserActivationDTO;
 import progi.megatron.repository.UserRepository;
 import java.security.SecureRandom;
 
@@ -11,9 +13,11 @@ import java.security.SecureRandom;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
     }
 
     public User createUser(User user) {
@@ -68,4 +72,8 @@ public class UserService {
         return sb.toString();
     }
 
+    public UserActivationDTO checkIfUserActivated(String userId) {
+        User user = findById(userId);
+        return modelMapper.map(user, UserActivationDTO.class);
+    }
 }

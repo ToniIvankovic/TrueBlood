@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class UserDTO {
+public class DonationTryRequestDTO {
 
-    private String userId;
-    private String userRole;
-    private int accActivated;
-    private int permDeactivated;
+    private String rejectReason;
+    private String donationPlace;
+    private String donorId;
+    private String bankWorkerId;
 
 }

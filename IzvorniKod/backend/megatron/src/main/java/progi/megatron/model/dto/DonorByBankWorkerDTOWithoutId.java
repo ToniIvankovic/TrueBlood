@@ -1,43 +1,30 @@
-package progi.megatron.model;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.time.LocalDate;
+package progi.megatron.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "bank_worker")
-public class BankWorker implements Serializable {
-
-    @Id
-    private Long bankWorkerId;
+@Component
+public class DonorByBankWorkerDTOWithoutId {
 
     private String firstName;
-
     private String lastName;
-
     private String oib;
-
     private LocalDate birthDate;
-
     private String birthPlace;
-
     private String address;
-
     private String workPlace;
-
     private String privateContact;
-
     private String workContact;
-
     private String email;
-
+    private String bloodType;
+    private String permRejectedReason;
+    
 }
