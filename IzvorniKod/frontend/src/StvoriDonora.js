@@ -30,12 +30,12 @@ const StvoriDonora = (props) => {
         console.log('Existing:' + props.existing)
         if(!props.user.userId) 
             return;
-        if(props.existing){
-            getDonorById(props.donor.donorId,setDonorInfo);
-        }
-        else if (props.user.role == 'DONOR') {
+        if (props.user.role == 'DONOR') {
             props.setExisting(true);
             getDonorById(props.user.userId,setDonorInfo);
+        }
+        else if(props.existing){
+            getDonorById(props.donor.donorId,setDonorInfo);
         }
     },[props.user.userId])
 
@@ -84,8 +84,10 @@ const StvoriDonora = (props) => {
                 if(props.existing){
                     history.goBack();
                 }
-                else
+                else{
+                    props.setExisting(true);
                     history.push('/kreiran_donor');
+                }
             })
             .catch((error) => {
                 console.log('Error while creating donor. Response: ' + error.response);
@@ -129,7 +131,7 @@ const StvoriDonora = (props) => {
                         onChange={(event) => handleChange(event)}
                         name='donorId'
                         type="text"
-                        defaultValue={"ID: " + props.user.userId}
+                        defaultValue={donorInfo.donorId? "ID: " + donorInfo.donorId : ''}
                         disabled></input>
                 </div>    
                 :""}
@@ -232,7 +234,7 @@ const StvoriDonora = (props) => {
                     <label>Krvna grupa</label>
                     <select
                         disabled={props.user.role != "BANK_WORKER"}
-                        value={donorInfo.bloodType.trim()}
+                        value={donorInfo.bloodType? donorInfo.bloodType.trim() : '---'}
                         onChange={(event) => {
                             event.target.name = "bloodType";
                             handleChange(event);

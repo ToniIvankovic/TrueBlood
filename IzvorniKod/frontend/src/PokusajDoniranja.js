@@ -5,6 +5,7 @@ import { useHistory } from 'react-router';
 import ErrorCard from './ErrorCard';
 import { Link } from 'react-router-dom';
 import ZdravstveniPodaci from './ZdravstveniPodaci';
+import { donorNone } from './Util';
 
 const PokusajDoniranja = (props) => {
 
@@ -50,8 +51,9 @@ const PokusajDoniranja = (props) => {
     //     }
     // }, [props.role]);
 
-    const [donationTryInfo, setDonationTryInfo] = useState({});
-    const [yesFields, setYesFields] = useState({});
+    const [donationTryInfo, setDonationTryInfo] = useState({
+        donationPlace: props.donationPlace
+    });
 
     useEffect(()=>{
         setDonationTryInfo({
@@ -77,8 +79,9 @@ const PokusajDoniranja = (props) => {
         for(let key in donationTryInfo){
             if(donationTryInfo[key] == 'da'){
                 let number = key.substring(1);
-                if(number >= 10)
+                if(number >= 10){
                     permRejectedReasons += questions[number] + "; ";
+                }
                 if(rejectedReasons == "") //Radi evidentiranja samo jednoga
                     rejectedReasons += questions[number] + "; ";
             }
@@ -87,21 +90,40 @@ const PokusajDoniranja = (props) => {
             rejectedReasons = permRejectedReasons.split(";")[0];
         
         console.log(rejectedReasons);
+        props.setDonationPlace(donationTryInfo.donationPlace); //Čuva mjesto za nova doniranja
+        props.setDonor(donorNone);
+        props.setExistingDonor(false);
 
-        const retVal = {
-            permRejectReason: permRejectedReasons,
-            rejectReason: rejectedReasons,
+        let retVal = {
             donorId: donationTryInfo.donorId,
-            bankWorkerId: props.user.userId
+            bankWorkerId: props.user.userId,
+            donationPlace: donationTryInfo.donationPlace
         }
+
+        if(permRejectedReasons != ''){
+            props.setPermRejected(true);
+            retVal['permRejectReason'] = permRejectedReasons;
+        } else{
+            props.setPermRejected(false);
+        }
+        if(rejectedReasons != ''){
+            retVal['rejectReason'] = rejectedReasons;
+            props.setRejectReason(rejectedReasons.split('?')[0]); //Pazi na ovo
+        }
+
+        if(permRejectedReasons == '' && rejectedReasons == ''){
+            props.setRejectReason(undefined);
+        }
+        
         console.log(retVal)
         const url = "/api/v1/donation-try";
         axios.post(url, retVal, { headers: { "Authorization": `Bearer ${props.token}` } })
             .then((response) => {
                 console.log('Donation try successfully created:');
                 console.log(response.data)
+                props.setSuccessfulDonation(response.data.successful)
 
-                history.push('/profil');
+                history.push('/donirano');
             })
             .catch((error) => {
                 console.log('Error while creating donor. Response: ' + error.response);
@@ -110,8 +132,8 @@ const PokusajDoniranja = (props) => {
                     if (error.response.status == 400) {
                         const message = error.response.data;
                         console.log(error.response.data);
-                        if (message.includes('SQL')) {
-                            setErrorMessage('Predug razlog odbijanja!');
+                        if (message.includes('SQL') && message.includes('place')) {
+                            setErrorMessage('Neispravno mjesto donacije');
                         } else if (message.includes('blood')) {
                             setErrorMessage('Greška! Krvna grupa mora se postaviti.');
                         }
@@ -148,6 +170,15 @@ const PokusajDoniranja = (props) => {
                 </div>
                 { props.existingDonor? 
                 <div>
+                    <div className="single">
+                        <input
+                        name='donationPlace'
+                        type='text'
+                        defaultValue={props.donationPlace}
+                        placeholder='Mjesto doniranja'
+                        onChange={(event) => handleChange(event)}
+                        required></input>
+                    </div>
                     <div className="label">
                         <label>Osobni podaci</label>
                     </div>

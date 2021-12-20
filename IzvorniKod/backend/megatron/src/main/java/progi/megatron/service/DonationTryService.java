@@ -58,7 +58,7 @@ public class DonationTryService {
                 donor,
                 bankWorker
         );
-        if (!donated) donationTry.setRejectReason("Donor is permanently rejected.");
+        //if (!donated) donationTry.setRejectReason("Donor is permanently rejected.");
 
         donationTry = donationTryRepository.save(donationTry);
 
