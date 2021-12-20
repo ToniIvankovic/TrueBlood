@@ -11,6 +11,7 @@ import progi.megatron.util.CurrentUserUtil;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
+@CrossOrigin
 @RequestMapping("/api/v1/donation-try")
 public class DonationTryController {
 
