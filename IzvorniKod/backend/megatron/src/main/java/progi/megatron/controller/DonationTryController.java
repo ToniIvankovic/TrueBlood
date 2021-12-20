@@ -9,6 +9,7 @@ import progi.megatron.model.dto.DonationTryDTO;
 import progi.megatron.service.DonationTryService;
 
 @Controller
+@CrossOrigin
 @RequestMapping("/api/v1/donation-try")
 public class DonationTryController {
 

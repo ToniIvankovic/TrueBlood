@@ -1,18 +1,29 @@
 import React from 'react';
 
-const ZdravstveniPodaci = ({question, id}) => {
+const ZdravstveniPodaci = ({question, id, handleChange}) => {
     return (
         <div className="redak">
             <div className="pitanje">
                 {question}
             </div>
             <div className="odgovor">
-                <label for={id + "yes"}>Da</label>
-                <input id={id + "yes"} type="radio" name = {id} value = 'da'/>
+                <label htmlFor={id + "yes"}>Da</label>
+                <input 
+                id={id + "yes"} 
+                type="radio" 
+                name = {id} 
+                value = 'da' 
+                onChange={(event) => handleChange(event)}
+                required/>
             </div>
             <div className="odgovor">
-                <label for={id + "no"}>Ne</label>
-                <input id={id + "no"} type="radio" name = {id} value = 'ne'/>
+                <label htmlFor={id + "no"}>Ne</label>
+                <input 
+                id={id + "no"} 
+                type="radio" 
+                name = {id} 
+                onChange={(event) => handleChange(event)}
+                value = 'ne'/>
             </div>
     </div>        
     )

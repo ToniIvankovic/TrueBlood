@@ -8,20 +8,121 @@ import ZdravstveniPodaci from './ZdravstveniPodaci';
 
 const PokusajDoniranja = (props) => {
 
+    const questions = [
+        "Tjelesna masa ispod 55 kg?",
+        "Tjelesna temperatura iznad 37°C?",
+        "Povišen ili nizak krvni tlak?",
+        "Osoba ima ubrzan rad srca?",
+        "Osoba ima povišenu razinu hemoglobina u krvi?",
+        "Osoba trenutno uzima antibiotike ili druge lijekove?",
+        "Osoba je konzumirala alkoholna pića unutar 8 sati prije darivanja krvi?",
+        "Osoba boluje od lakše aktune bolesti?",
+        "Osoba (žena) je trudna, doji ili ima menstruaciju?",
+        "Osoba tog dana obavlja opasne poslove (visinski / dubinski radovi)?",
+
+        "Osoba je bolovala ili boluje od teških kroničnih bolesti dišnog i/ili probavnog sustava?",
+        "Osoba boluje od bolesti srca i krvnih žila, zloćudnih bolesti, bolesti jetre, AIDS-a, šećerne bolesti te živčanih i duševnih bolesti?",
+        "Osoba je ovisnik o alkoholu ili drogama?",
+        "Osoba (muškarac) je u životu imala spolni odnos s drugim muškarcima?",
+        "Osoba je imala spolni odnos s prostitutkama?",
+        "Osoba često mijenja seksualne partnere (promiskuitetna osoba)?",
+        "Osoba je uzimala drogu intravenskim putem?",
+        "Osoba je liječana od spolno prenosivih bolesti?",
+        "Osoba je HIV-pozitivna?",
+        "Osoba je seksualni partner gore navedenih osoba?"
+    ]
+
+    const questionInputs = [];
+    useEffect(()=>{
+        for(let i = 0; i < questions.length; i++){
+            questionInputs.push()
+        }
+    },[])
     const history = useHistory();
     const ref = useRef();
 
     const [errorMessage, setErrorMessage] = useState('Greška');
     const [errorHidden, setErrorHidden] = useState(true);
 
-    useEffect(() => {
-        if (props.user.role && props.user.role != 'BANK_WORKER' && props.user.role != 'ADMIN') {
-            history.push('/profil');
-        }
-    }, [props.role]);
+    // useEffect(() => {
+    //     if (props.user.role && props.user.role != 'BANK_WORKER' && props.user.role != 'ADMIN') {
+    //         history.push('/profil');
+    //     }
+    // }, [props.role]);
+
+    const [donationTryInfo, setDonationTryInfo] = useState({});
+    const [yesFields, setYesFields] = useState({});
+
+    useEffect(()=>{
+        setDonationTryInfo({
+            ...donationTryInfo,
+            donorId: props.donor.donorId
+        });
+    },[props.donor.donorId])
+
+    const handleChange = (event) => {
+        let name = event.target.name;
+        let value = event.target.value;
+        // console.log(name, value);
+        setDonationTryInfo({
+            ...donationTryInfo,
+            [name]: value
+        });
+    }
 
     const handleSubmit = (event) => {
-        console.log("submit")
+        event.preventDefault();
+        let rejectedReasons = "";
+        let permRejectedReasons = "";
+        for(let key in donationTryInfo){
+            if(donationTryInfo[key] == 'da'){
+                let number = key.substring(1);
+                if(number >= 10)
+                    permRejectedReasons += questions[number] + "; ";
+                if(rejectedReasons == "") //Radi evidentiranja samo jednoga
+                    rejectedReasons += questions[number] + "; ";
+            }
+        }
+        if(permRejectedReasons != "")   //Ako se evidentira samo jedan razlog, onda perm pobjeđuje temp
+            rejectedReasons = permRejectedReasons.split(";")[0];
+        
+        console.log(rejectedReasons);
+
+        const retVal = {
+            permRejectReason: permRejectedReasons,
+            rejectReason: rejectedReasons,
+            donorId: donationTryInfo.donorId,
+            bankWorkerId: props.user.userId
+        }
+        console.log(retVal)
+        const url = "/api/v1/donation-try";
+        axios.post(url, retVal, { headers: { "Authorization": `Bearer ${props.token}` } })
+            .then((response) => {
+                console.log('Donation try successfully created:');
+                console.log(response.data)
+
+                history.push('/profil');
+            })
+            .catch((error) => {
+                console.log('Error while creating donor. Response: ' + error.response);
+                console.log(error.response);
+                if (error.response) {
+                    if (error.response.status == 400) {
+                        const message = error.response.data;
+                        console.log(error.response.data);
+                        if (message.includes('SQL')) {
+                            setErrorMessage('Predug razlog odbijanja!');
+                        } else if (message.includes('blood')) {
+                            setErrorMessage('Greška! Krvna grupa mora se postaviti.');
+                        }
+                    } else {
+                        setErrorMessage('Greška u autorizaciji!');
+                    }
+                } else{
+                    setErrorMessage('Unutarnja greška');
+                }
+                setErrorHidden(false);
+            });
     }
 
     return (
@@ -45,8 +146,8 @@ const PokusajDoniranja = (props) => {
                     :''
                     }
                 </div>
-                {/* {props.existingDonor?  */}
-                <div className='podaci'>
+                { props.existingDonor? 
+                <div>
                     <div className="label">
                         <label>Osobni podaci</label>
                     </div>
@@ -54,31 +155,31 @@ const PokusajDoniranja = (props) => {
                         <input
                             name='donorId'
                             type="text"
-                            defaultValue={"donorId: " + props.donor.donorId}
-                            ></input>
+                            defaultValue={"donorId: " + ((props.donor.donorId)? props.donor.donorId:'')}
+                            disabled></input>
                     </div>
                     <div className="dupli">
                         <input
                             name='firstName'
                             type="text"
-                            defaultValue={"ime: " + props.donor.firstName}
-                            ></input>
+                            defaultValue={"Ime: " + ((props.donor.firstName)? props.donor.firstName:'')}
+                            disabled></input>
                         <input
                             name='lastName'
                             type="text"
-                            defaultValue={"prezime: " + props.donor.lastName}
-                            ></input>
+                            defaultValue={"Prezime: " + ((props.donor.lastName)? props.donor.lastName:'')}
+                            disabled></input>
                     </div>
                     <div className="single">
                         <input
                             name='oib'
                             type="text"
-                            defaultValue={"OIB: " + props.donor.oib}
-                            ></input>
+                            defaultValue={"OIB: " + ((props.donor.oib)? props.donor.oib:'')}
+                            disabled></input>
                     </div>
                     <div className="krgrupe">
                         <label>Krvna grupa</label>
-                        <select value={props.donor.bloodType}>
+                        <select value={props.donor.bloodType} disabled> {/*Možda treba trimmati bloodtype ako postoji*/ }
                             <option value="---">---</option>
                             <option value="A+">A+</option>
                             <option value="A-">A-</option>
@@ -94,37 +195,23 @@ const PokusajDoniranja = (props) => {
                     <div className="label">
                         <label>Zdravstveni podaci</label>
                     </div>
+
+                    {questions.map((question, i) => {
+                        if(i==10) {
+                            return <div  key={i}>
+                                <hr className='label' />
+                                <ZdravstveniPodaci question={question}  key={i} id={"q"+i} handleChange={handleChange} />
+                            </div>
+                        }
+                        return <ZdravstveniPodaci question={question} key={i} id={"q"+i} handleChange={handleChange} />
+                    })}
                     
-                    <ZdravstveniPodaci question={"Tjelesna masa ispod 55 kg?"} id="q1"/>
-                    <ZdravstveniPodaci question={"Tjelesna temperatura iznad 37°C?"} id="q2"/>
-                    <ZdravstveniPodaci question={"Povišen ili nizak krvni tlak?"} id="q3"/>
-                    <ZdravstveniPodaci question={"Osoba ima ubrzan rad srca?"} id="q4"/>
-                    <ZdravstveniPodaci question={"Osoba ima povišenu razinu hemoglobina u krvi?"} id="q5"/>
-                    <ZdravstveniPodaci question={"Osoba trenutno uzima antibiotike ili druge lijekove?"} id="q6"/>
-                    <ZdravstveniPodaci question={"Osoba je konzumirala alkoholna pića unutar 8 sati prije darivanja krvi?"} id="q7"/>
-                    <ZdravstveniPodaci question={"Osoba boluje od lakše aktune bolesti?"} id="q8"/>
-                    <ZdravstveniPodaci question={"Osoba (žena) je trudna, doji ili ima menstruaciju?"} id="q9"/>
-                    <ZdravstveniPodaci question={"Osoba tog dana obavlja opasne poslove (visinski / dubinski radovi)?"} id="q10"/>
-
-                    <hr className='label' />
-
-                    <ZdravstveniPodaci question={"Osoba je bolovala ili boluje od teških kroničnih bolesti dišnog i/ili probavnog sustava?"} id="q11"/>
-                    <ZdravstveniPodaci question={"Osoba boluje od bolesti srca i krvnih žila, zloćudnih bolesti, bolesti jetre, AIDS-a, šećerne bolesti te živčanih i duševnih bolesti?"} id="q12"/>
-                    <ZdravstveniPodaci question={"Osoba je ovisnik o alkoholu ili drogama?"} id="q13"/>
-                    <ZdravstveniPodaci question={"Osoba (muškarac) je u životu imala spolni odnos s drugim muškarcima?"} id="q14"/>
-                    <ZdravstveniPodaci question={"Osoba je imala spolni odnos s prostitutkama?"} id="q15"/>
-                    <ZdravstveniPodaci question={"Osoba često mijenja seksualne partnere (promiskuitetna osoba)?"} id="q16"/>
-                    <ZdravstveniPodaci question={"Osoba je uzimala drogu intravenskim putem?"} id="q17"/>
-                    <ZdravstveniPodaci question={"Osoba je liječana od spolno prenosivih bolesti?"} id="q18"/>
-                    <ZdravstveniPodaci question={"Osoba je HIV-pozitivna?"} id="q19"/>
-                    <ZdravstveniPodaci question={"Osoba je seksualni partner gore navedenih osoba?"} id="q20"/>
-
                     {errorHidden ? null : <ErrorCard message={errorMessage} />}
                     <div className="gumbi">
                         <button className='kreiraj'>Doniraj</button>
                     </div>
                 </div>
-                {/* :''} */}
+                :''}
                 
             </form>
         </div>
