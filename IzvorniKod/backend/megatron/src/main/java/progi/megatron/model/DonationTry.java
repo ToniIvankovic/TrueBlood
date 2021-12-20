@@ -1,12 +1,16 @@
 package progi.megatron.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "donation_try")
 public class DonationTry {
@@ -29,17 +33,5 @@ public class DonationTry {
     @ManyToOne
     @JoinColumn(name = "bank_worker_id")
     private BankWorker bankWorker;
-
-    public DonationTry() {
-    }
-
-    public DonationTry(Long donationId, String rejectReason, LocalDate donationDate, String donationPlace, Donor donor, BankWorker bankWorker) {
-        this.donationId = donationId;
-        this.rejectReason = rejectReason;
-        this.donationDate = donationDate;
-        this.donationPlace = donationPlace;
-        this.donor = donor;
-        this.bankWorker = bankWorker;
-    }
 
 }

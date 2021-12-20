@@ -1,13 +1,16 @@
 package progi.megatron.model.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
-import progi.megatron.model.Donor;
 import java.time.LocalDate;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Component
 public class DonorByBankWorkerDTO {
 
@@ -23,23 +26,5 @@ public class DonorByBankWorkerDTO {
     private String email;
     private String bloodType;
     private String permRejectedReason;
-
-
-    public DonorByBankWorkerDTO() {}
-
-    public DonorByBankWorkerDTO(String firstName, String lastName, String oib, LocalDate birthDate, String birthPlace, String address, String workPlace, String privateContact, String workContact, String email, String bloodType, String permRejectedReason) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.oib = oib;
-        this.birthDate = birthDate;
-        this.birthPlace = birthPlace;
-        this.address = address;
-        this.workPlace = workPlace;
-        this.privateContact = privateContact;
-        this.workContact = workContact;
-        this.email = email;
-        this.bloodType = bloodType;
-        this.permRejectedReason = permRejectedReason;
-    }
     
 }

@@ -22,6 +22,4 @@ public interface BloodSupplyRepository extends JpaRepository<BloodSupply, String
 
     // todo: send blood to hospital
 
-    // todo: set blood limits - max and min
-
 }

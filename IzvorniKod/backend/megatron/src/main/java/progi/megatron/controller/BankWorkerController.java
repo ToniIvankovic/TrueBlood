@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import progi.megatron.model.BankWorker;
 import progi.megatron.model.dto.BankWorkerDTO;
 import progi.megatron.service.BankWorkerService;
 
@@ -33,18 +34,21 @@ public class BankWorkerController {
     @GetMapping("/oib/{oib}")
     public ResponseEntity<Object> getBankWorkerByOib(@PathVariable String oib) {
         try {
-            return ResponseEntity.ok(bankWorkerService.getBankWorkerByOib(oib));
+            BankWorker bankWorker = bankWorkerService.getBankWorkerByOib(oib);
+            if (bankWorker == null) return ResponseEntity.ok("No bank worker with that oib found.");
+            return ResponseEntity.ok(bankWorker);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
     }
 
-
     @Secured({"ROLE_ADMIN","ROLE_BANK_WORKER"})
     @GetMapping("/id/{bankWorkerId}")
     public ResponseEntity<Object> getBankWorkerByBankWorkerId(@PathVariable String bankWorkerId) {
         try {
-            return ResponseEntity.ok(bankWorkerService.getBankWorkerByBankWorkerId(bankWorkerId));
+            BankWorker bankWorker = bankWorkerService.getBankWorkerByBankWorkerId(bankWorkerId);
+            if (bankWorker == null) return ResponseEntity.ok("No bank worker with that id found.");
+            return ResponseEntity.ok(bankWorker);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
