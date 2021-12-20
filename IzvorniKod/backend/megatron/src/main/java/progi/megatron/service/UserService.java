@@ -1,12 +1,14 @@
 package progi.megatron.service;
 
 import org.apache.commons.lang3.StringUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import progi.megatron.exception.InvalidTokenException;
 import progi.megatron.exception.WrongUserException;
 import progi.megatron.model.SecureToken;
 import progi.megatron.model.User;
+import progi.megatron.model.dto.UserActivationDTO;
 import progi.megatron.repository.UserRepository;
 import java.security.SecureRandom;
 import java.util.Objects;
@@ -15,11 +17,14 @@ import java.util.Objects;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     private SecureTokenService secureTokenService;
 
     public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
     }
 
     public User createUser(User user) {
@@ -90,4 +95,8 @@ public class UserService {
         return true;
     }
 
+    public UserActivationDTO checkIfUserActivated(String userId) {
+        User user = findById(userId);
+        return modelMapper.map(user, UserActivationDTO.class);
+    }
 }

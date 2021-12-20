@@ -5,20 +5,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
-import java.time.LocalDate;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class DonationTryResponseDTO {
+public class UserActivationDTO {
 
-    private Long donationId;
-    private boolean successful;
-    private String rejectedReason;
-    private LocalDate donationDate;
-    private String donationPlace;
-    private Long donorId;
+    private Long userId;
+    private int accActivated;
+    private int permDeactivated;
 
 }

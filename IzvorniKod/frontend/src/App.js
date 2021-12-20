@@ -19,6 +19,7 @@ import RacunNeaktiviran from "./RacunNeaktiviran";
 import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, userNone, userPublic, donorNone, workerNone } from "./Util";
 import _ from 'lodash';
 import KreiranDjelatnik from "./KreiranDjelatnik";
+import PostPokusajDoniranja from "./PostPokusajDoniranja";
 
 // TODO: global context for role and user data - done?
 
@@ -50,11 +51,14 @@ const App = () => {
     const [existingDonor, setExistingDonor] = useState(false);
     const [existingWorker, setExistingWorker] = useState(false);
     
-    
-    //Uzimanje donora iz localStoragea (makar ga i nema)
     const [donor, setDonor] = useState(donorNone);
     const [worker, setWorker] = useState(workerNone);
+
     
+    const [donationPlace, setDonationPlace] = useState(undefined);
+    const [successfulDonation, setSuccessfulDonation] = useState(false);
+    const [rejectReason, setRejectReason] = useState(undefined);    
+    const [permRejected, setPermRejected] = useState(false);    
     
     //page ready
     return (
@@ -97,10 +101,22 @@ const App = () => {
                         <Kontakt />
                     </Route>
                     <Route path='/stvori_donora' exact>
-                        <StvoriDonora user={user} token={token} donor={donor} setDonor={setDonor} existing={existingDonor} setExisting={setExistingDonor} />
+                        <StvoriDonora 
+                        user={user} 
+                        token={token} 
+                        donor={donor} 
+                        setDonor={setDonor} 
+                        existing={existingDonor} 
+                        setExisting={setExistingDonor} />
                     </Route>
                     <Route path='/stvori_djelatnika' exact>
-                        <StvoriDjelatnika user={user} token={token} worker={worker} setWorker={setWorker} existing={existingWorker} setExisting={setExistingWorker} />
+                        <StvoriDjelatnika 
+                        user={user} 
+                        token={token} 
+                        worker={worker} 
+                        setWorker={setWorker} 
+                        existing={existingWorker} 
+                        setExisting={setExistingWorker} />
                     </Route>
                     <Route path='/kreiran_donor' exact>
                         <KreiranDonor user={user} />
@@ -109,10 +125,31 @@ const App = () => {
                         <KreiranDjelatnik />
                     </Route>
                     <Route path='/pokusaj_doniranja' exact>
-                        <PokusajDoniranja user={user} donor={donor} existingDonor={existingDonor} setExistingDonor={setExistingDonor} setDonor={setDonor}/>
+                        <PokusajDoniranja 
+                        donationPlace={donationPlace} 
+                        setDonationPlace={setDonationPlace} 
+                        token={token} 
+                        user={user} 
+                        donor={donor} 
+                        existingDonor={existingDonor} 
+                        setExistingDonor={setExistingDonor} 
+                        setDonor={setDonor}
+                        setRejectReason={setRejectReason}
+                        setPermRejected={setPermRejected}
+                        setSuccessfulDonation={setSuccessfulDonation}/>
                     </Route>
                     <Route path='/trazi_donora' exact>
-                        <TraziDonora user={user} setDonor={setDonor} setExisting={setExistingDonor} />
+                        <TraziDonora 
+                        token={token} 
+                        user={user} 
+                        setDonor={setDonor} 
+                        setExisting={setExistingDonor} />
+                    </Route>
+                    <Route path='/donirano' exact>
+                        <PostPokusajDoniranja 
+                        rejectReason={rejectReason}
+                        permRejected={permRejected}
+                        successfulDonation={successfulDonation} />
                     </Route>
                 </Switch>
             </Router>

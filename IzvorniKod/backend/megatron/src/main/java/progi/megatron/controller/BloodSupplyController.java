@@ -51,4 +51,13 @@ public class BloodSupplyController {
         }
     }
 
+    @Secured({"ROLE_BANK_WORKER"})
+    @PostMapping("/decrease")
+    public ResponseEntity<Object> decreaseBloodSupply(@RequestBody String bloodType, int numberOfUnits) {
+        try {
+            return ResponseEntity.ok(bloodSupplyService.manageBloodSupply(bloodType, numberOfUnits, false));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
 }

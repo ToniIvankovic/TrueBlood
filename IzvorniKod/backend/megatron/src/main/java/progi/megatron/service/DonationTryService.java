@@ -45,7 +45,7 @@ public class DonationTryService {
             if (donor.getPermRejectedReason() != null) {
                 donationTryRequestDTO.setRejectReason("Donor is permanently rejected.");
             } else {
-                bloodSupplyService.donateBlood(donor.getBloodType());
+                bloodSupplyService.manageBloodSupply(donor.getBloodType(), 1, true);
                 donated = true;
             }
         }
@@ -58,14 +58,13 @@ public class DonationTryService {
                 donor,
                 bankWorker
         );
-        if (!donated) donationTry.setRejectReason("Donor is permanently rejected.");
+        //if (!donated) donationTry.setRejectReason("Donor is permanently rejected.");
 
         donationTry = donationTryRepository.save(donationTry);
 
         return new DonationTryResponseDTO(donationTry.getDonationId(), donated, donationTry.getRejectReason(), donationTry.getDonationDate(), donationTry.getDonationPlace(), donationTry.getDonor().getDonorId());
     }
 
-    // todo: for current user
     public List<DonationTryResponseDTO> getDonationTryHistory(String donorId) {
         idValidator.validateId(donorId);
         Donor donor = donorService.getDonorByDonorId(donorId);
@@ -77,9 +76,12 @@ public class DonationTryService {
         return donationTryResponseDTOS;
     }
 
-    public DonationTry getDonationTryByDonationId(String donationId) {
+    public void getDonationTryByDonationId(String donationId) {
         idValidator.validateId(donationId);
-        return donationTryRepository.getDonationTryByDonationId(Long.valueOf(donationId));
+        DonationTry donationTry = donationTryRepository.getDonationTryByDonationId(Long.valueOf(donationId));
+        if (donationTry.getRejectReason() == null) {
+            // todo: download certificate
+        }
     }
 
 }

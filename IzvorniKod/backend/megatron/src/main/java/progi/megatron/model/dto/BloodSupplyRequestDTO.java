@@ -1,25 +1,20 @@
 package progi.megatron.model.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Component
 public class BloodSupplyRequestDTO {
 
     private String bloodType;
     private int maxUnits;
     private int minUnits;
-
-    public BloodSupplyRequestDTO() {
-    }
-
-    public BloodSupplyRequestDTO(String bloodType, int maxUnits, int minUnits) {
-        this.bloodType = bloodType;
-        this.maxUnits = maxUnits;
-        this.minUnits = minUnits;
-    }
 
 }

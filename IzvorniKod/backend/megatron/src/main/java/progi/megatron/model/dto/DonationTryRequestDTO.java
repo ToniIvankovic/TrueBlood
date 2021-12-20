@@ -1,13 +1,15 @@
 package progi.megatron.model.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Component
 public class DonationTryRequestDTO {
 
@@ -15,15 +17,5 @@ public class DonationTryRequestDTO {
     private String donationPlace;
     private String donorId;
     private String bankWorkerId;
-
-    public DonationTryRequestDTO() {
-    }
-
-    public DonationTryRequestDTO(String rejectReason, String donationPlace, String donorId, String bankWorkerId) {
-        this.rejectReason = rejectReason;
-        this.donationPlace = donationPlace;
-        this.donorId = donorId;
-        this.bankWorkerId = bankWorkerId;
-    }
 
 }

@@ -1,22 +1,21 @@
 package progi.megatron.model.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Component
 public class UserDTO {
 
     private String userId;
     private String userRole;
-
-    public UserDTO() {}
-
-    public UserDTO(String userId, String userRole) {
-        this.userId = userId;
-        this.userRole = userRole;
-    }
+    private int accActivated;
+    private int permDeactivated;
 
 }
