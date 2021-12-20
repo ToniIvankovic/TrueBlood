@@ -15,5 +15,7 @@ public class UserDTO {
 
     private String userId;
     private String userRole;
+    private int accActivated;
+    private int permDeactivated;
 
 }
