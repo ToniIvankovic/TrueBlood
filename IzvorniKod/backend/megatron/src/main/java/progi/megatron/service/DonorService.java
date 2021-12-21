@@ -180,7 +180,7 @@ public class DonorService {
         String oibNew = donor.getOib();
         donorValidator.validateDonor(donor);
         if (getDonorByOib(oibNew) != null && !oibNew.equals(oibOld)) {
-            throw new WrongDonorException("Donor with that oib already exists. ");
+            throw new WrongDonorException("Donor with that oib already exists. "); //Je li ovo dobra poruka?
         }
         donorRepository.save(donor);
         return donor;
