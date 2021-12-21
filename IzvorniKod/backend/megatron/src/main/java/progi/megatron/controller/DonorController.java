@@ -42,17 +42,6 @@ public class DonorController {
         this.currentUserUtil = currentUserUtil;
     }
 
-    // todo: secured (no role)
-    @PostMapping("/registration")
-    public ResponseEntity<Object> createDonorByDonor(@RequestBody DonorByDonorDTOWithoutId donorByDonorDTOWithoutId, HttpServletRequest request) {
-        try {
-            return ResponseEntity.ok(donorService.createDonorByDonor(donorByDonorDTOWithoutId));
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-        }
-
-    }
-
     @GetMapping("/verify")
     public ResponseEntity verifyDonor(@RequestParam(name = "token") String token, final Model model, RedirectAttributes redirAttr) {
         if (StringUtils.isEmpty(token)) {
@@ -71,7 +60,17 @@ public class DonorController {
         return ResponseEntity.ok(token);
     }
 
-    //@Secured({"ROLE_BANK_WORKER"})
+    // todo: secured (no role)
+    @PostMapping("/registration")
+    public ResponseEntity<Object> createDonorByDonor(@RequestBody DonorByDonorDTOWithoutId donorByDonorDTOWithoutId, HttpServletRequest request) {
+        try {
+            return ResponseEntity.ok(donorService.createDonorByDonor(donorByDonorDTOWithoutId));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
+    @Secured({"ROLE_BANK_WORKER"})
     @PostMapping("/add-donor")
     public ResponseEntity<Object> createDonorByBankWorker(@RequestBody DonorByBankWorkerDTOWithoutId donorByBankWorkerDTOWithoutId) {
         try {
@@ -146,6 +145,16 @@ public class DonorController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not update other donors.");
             }
             return ResponseEntity.ok(donorService.updateDonorByDonor(donorByDonorDTOWithId));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
+    @Secured({"ROLE_BANK_WORKER"})
+    @PostMapping("/update-donor")
+    public ResponseEntity<Object> updateDonorByBankWorker(@RequestBody Donor donor) {
+        try {
+            return ResponseEntity.ok(donorService.updateDonorByBankWorker(donor));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
