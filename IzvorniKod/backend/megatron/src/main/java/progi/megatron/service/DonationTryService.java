@@ -1,5 +1,6 @@
 package progi.megatron.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import progi.megatron.exception.WrongBankWorkerException;
 import progi.megatron.exception.WrongDonorException;
@@ -10,6 +11,9 @@ import progi.megatron.model.dto.DonationTryRequestDTO;
 import progi.megatron.model.dto.DonationTryResponseDTO;
 import progi.megatron.repository.DonationTryRepository;
 import progi.megatron.validation.IdValidator;
+
+import javax.mail.MessagingException;
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +26,9 @@ public class DonationTryService {
     private final BankWorkerService bankWorkerService;
     private final BloodSupplyService bloodSupplyService;
     private final IdValidator idValidator;
+
+    @Autowired
+    private EmailService emailService;
 
     public DonationTryService(DonationTryRepository donationTryRepository, DonorService donorService, BankWorkerService bankWorkerService, BloodSupplyService bloodSupplyService, IdValidator idValidator) {
         this.donationTryRepository = donationTryRepository;
@@ -61,7 +68,11 @@ public class DonationTryService {
         //if (!donated) donationTry.setRejectReason("Donor is permanently rejected.");
 
         donationTry = donationTryRepository.save(donationTry);
-
+        try {
+            emailService.sendEmailWithAttachment(donor.getEmail(),"PDF Potvrda", "Poštovani, \n Potvrda se nalazi u prilogu. \n Srdačno,\n Vaš Trueblood", "templates/emails/pdf.html", donationTry);
+        } catch (MessagingException | FileNotFoundException e) {
+            e.printStackTrace();
+        }
         return new DonationTryResponseDTO(donationTry.getDonationId(), donated, donationTry.getRejectReason(), donationTry.getDonationDate(), donationTry.getDonationPlace(), donationTry.getDonor().getDonorId());
     }
 
