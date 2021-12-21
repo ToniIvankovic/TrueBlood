@@ -52,7 +52,7 @@ public class LoginController {
             String userId = authenticate.getPrincipal().toString();
             User user = userService.findById(userId);
 
-            if(user.getAccActivated() != 1) throw new UserNotAcctivatedException("Acoount not activated");
+            //if(user.getAccActivated() != 1) throw new UserNotAcctivatedException("Acoount not activated");
 
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.AUTHORIZATION);
@@ -61,7 +61,7 @@ public class LoginController {
             return ResponseEntity.ok()
                     .headers(responseHeaders)
                     .body(user.getUserId());
-        } catch (BadCredentialsException | UserNotAcctivatedException ex) {
+        } catch (BadCredentialsException ex){//| UserNotAcctivatedException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }

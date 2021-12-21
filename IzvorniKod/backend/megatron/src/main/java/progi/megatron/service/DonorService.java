@@ -77,11 +77,11 @@ public class DonorService {
         donor = donorRepository.save(donor);
 
 
-        try {
-            sendRegistrationConfirmationEmail(donor);
-        } catch (UnableToSendNotificationException e) {
-            e.printStackTrace();
-        }
+        //try {
+        //    sendRegistrationConfirmationEmail(donor);
+        //} catch (UnableToSendNotificationException e) {
+        //    e.printStackTrace();
+        //}
         logger.info("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
 
         return donor;
@@ -100,7 +100,7 @@ public class DonorService {
         }
         donor = donorRepository.save(donor);
 
-        sendRegistrationConfirmationEmail(donor);
+        //sendRegistrationConfirmationEmail(donor);
         logger.info("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
 
         return donor;
