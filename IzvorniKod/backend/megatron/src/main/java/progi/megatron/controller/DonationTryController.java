@@ -46,6 +46,7 @@ public class DonationTryController {
         }
     }
 
+    // todo: not done
     // todo: for current user
     @Secured({"ROLE_DONOR"})
     @GetMapping("/pdf/{donationId}")
