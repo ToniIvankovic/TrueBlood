@@ -39,6 +39,7 @@ public class BloodSupplyService {
         return bloodSupplyRepository.getBloodSupplyByBloodType(bloodType).getNumberOfUnits();
     }
 
+    // todo mozda se treba pozabaviti krvnim grupama, potencijalno trim
     public List<BloodSupplyResponseDTO> getBloodSupply() {
         List<String> bloodTypes = List.of("A+", "A-", "B+", "B-", "0+", "0-", "AB+", "AB-");
         List<BloodSupplyResponseDTO> bloodSupplies = new ArrayList<>();
