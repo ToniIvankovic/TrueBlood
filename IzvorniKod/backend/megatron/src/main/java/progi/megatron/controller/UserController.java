@@ -56,6 +56,8 @@ public class UserController {
             final String token = header.split(" ")[1].trim();
             String userId = jwtTokenUtil.getUserId(token);
             Long longUserId = userService.activateUserAccount(userId);
+            User user = userService.findById(userId);
+            if (user.getPermDeactivated() == 1) return ResponseEntity.ok("This user is permanently deactivated.");
             if (longUserId == null) return ResponseEntity.ok("This user is already activated.");
             return ResponseEntity.ok(longUserId);
         } catch (Exception ex) {

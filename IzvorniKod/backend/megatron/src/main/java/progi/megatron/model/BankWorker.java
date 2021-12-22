@@ -3,7 +3,6 @@ package progi.megatron.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

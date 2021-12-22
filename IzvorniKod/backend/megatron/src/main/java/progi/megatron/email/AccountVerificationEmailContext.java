@@ -1,14 +1,11 @@
 package progi.megatron.email;
 
-import org.springframework.web.util.UriBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 import progi.megatron.model.Donor;
-import progi.megatron.model.User;
 
 public class AccountVerificationEmailContext extends AbstractEmailContext {
 
     private String token;
-
 
     @Override
     public <T> void init(T context){
@@ -32,4 +29,5 @@ public class AccountVerificationEmailContext extends AbstractEmailContext {
                 .path("/verify").queryParam("token", token).toUriString();
         put("verificationURL", url);
     }
+
 }

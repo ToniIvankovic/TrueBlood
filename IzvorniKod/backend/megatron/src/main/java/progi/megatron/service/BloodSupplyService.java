@@ -30,6 +30,7 @@ public class BloodSupplyService {
     }
 
     public int manageBloodSupply(String bloodType, int numberOfUnits, boolean increase) {
+        // todo: make it so that final number of units can not be negative
         bloodSupplyValidator.validateBloodType(bloodType);
         int oldNumberOfUnits = bloodSupplyRepository.getBloodSupplyByBloodType(bloodType).getNumberOfUnits();
         if(increase)
