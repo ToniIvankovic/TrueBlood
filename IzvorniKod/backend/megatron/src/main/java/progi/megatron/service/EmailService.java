@@ -70,15 +70,15 @@ public class EmailService{
         FileSystemResource file = new FileSystemResource(ResourceUtils.getFile(attachment));
 
         Context context = new Context();
-        context.setVariable("donationTry.donationId",donationTry.getDonationId());
-        context.setVariable("donationTry.donationDate",donationTry.getDonationDate());
-        context.setVariable("donationTry.donor.firstName",donationTry.getDonor().getFirstName());
-        context.setVariable("donationTry.donor.LastName",donationTry.getDonor().getLastName());
-        context.setVariable("donationTry.donor.address",donationTry.getDonor().getAddress());
-        context.setVariable("donationTry.donor.workPlace",donationTry.getDonor().getWorkPlace());
-        context.setVariable("donationTry.bankWorker.firstName",donationTry.getBankWorker().getFirstName());
-        context.setVariable("donationTry.bankWorker.lastName",donationTry.getBankWorker().getLastName());
-        context.setVariable("donationTry.bankWorker.workContact",donationTry.getBankWorker().getWorkContact());
+        context.setVariable("donationId",donationTry.getDonationId());
+        context.setVariable("donationDate",donationTry.getDonationDate());
+        context.setVariable("donorFirstName",donationTry.getDonor().getFirstName());
+        context.setVariable("donorLastName",donationTry.getDonor().getLastName());
+        context.setVariable("donorAddress",donationTry.getDonor().getAddress());
+        context.setVariable("donorWorkPlace",donationTry.getDonor().getWorkPlace());
+        context.setVariable("bankWorkerFirstName",donationTry.getBankWorker().getFirstName());
+        context.setVariable("bankWorkerLastName",donationTry.getBankWorker().getLastName());
+        context.setVariable("bankWorkerWorkContact",donationTry.getBankWorker().getWorkContact());
 
         String emailContent = templateEngine.process("emails/pdf.html",context);
 

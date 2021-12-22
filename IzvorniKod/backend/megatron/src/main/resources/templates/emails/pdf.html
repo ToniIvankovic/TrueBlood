@@ -6,17 +6,17 @@
           name="viewport">
     <meta content="ie=edge" http-equiv="X-UA-Compatible">
     <title>Spring Boot - Thymeleaf</title>
-    <link th:href="@{/main.css}" rel="stylesheet"/>
+    <link th:href="@{../static/main.css}" href="../static/main.css" rel="stylesheet"/>
 </head>
 <body class="flex items-center justify-center h-screen">
 <div class="rounded-lg border shadow-lg p-10 w-3/5">
     <div class="flex flex-row justify-between pb-4">
         <div>
-            <h2 class="text-xl font-bold">Donacija #<span class="text-green-600" th:text="${donationTry.donationId}"></span>
+            <h2 class="text-xl font-bold">Donacija #<span class="text-green-600" th:text="${donationId}"></span>
             </h2>
         </div>
         <div>
-            <div class="text-xl font-bold" th:text="${donationTry.donationDate}"></div>
+            <div class="text-xl font-bold" th:text="${donationDate}"></div>
         </div>
     </div>
     <table class="table-fixed w-full text-right border rounded">
@@ -30,10 +30,10 @@
         </thead>
         <tbody>
         <tr>
-            <td class="pl-4 text-left" th:text="${donationTry.donor.firstName}"></td>
-            <td th:text="${donationTry.donor.LastName}"></td>
-            <td th:text="${donationTry.donor.address}"></td>
-            <td class="pr-4" th:text="${donationTry.donor.workPlace}"></td>
+            <td class="pl-4 text-left" th:text="${donorFirstName}"></td>
+            <td th:text="${donorLastName}"></td>
+            <td th:text="${donorAddress}"></td>
+            <td class="pr-4" th:text="${donorWorkPlace}"></td>
         </tr>
         </tbody>
     </table>
@@ -42,15 +42,15 @@
     <table class="table-fixed text-left w-2/6 border">
         <tr>
             <th class="text-green-600">Ime</th>
-            <td th:text="${donationTry.bankWorker.firstName}"></td>
+            <td th:text="${bankWorkerFirstName}"></td>
         </tr>
         <tr>
             <th class="text-green-600">Prezime</th>
-            <td th:text="${donationTry.bankWorker.lastName}"></td>
+            <td th:text="${bankWorkerLastName}"></td>
         </tr>
         <tr>
             <th class="text-green-600">Kontakt:</th>
-            <td th:text="${donationTry.bankWorker.workContact}"></td>
+            <td th:text="${bankWorkerWorkContact}"></td>
         </tr>
     </table>
 </div>

@@ -52,7 +52,7 @@ public class LoginController {
             String userId = authenticate.getPrincipal().toString();
             User user = userService.findById(userId);
 
-            if(user.getAccActivated() != 1) throw new UserNotAcctivatedException("Acoount not activated");
+            if(user.getAccActivated() >5) throw new UserNotAcctivatedException("Acoount not activated");
 
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.AUTHORIZATION);
