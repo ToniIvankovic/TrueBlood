@@ -131,7 +131,7 @@ const PokusajDoniranja = (props) => {
                     </div>
                     <div className="krgrupe">
                         <label>Krvna grupa</label>
-                        <select value={selectedDonor?.bloodType} disabled={selectedDonor == null}>
+                        <select value={selectedDonor?.bloodType} disabled>
                             <option value="---">Nema</option>
                             <option value="A+">A+</option>
                             <option value="A-">A-</option>
