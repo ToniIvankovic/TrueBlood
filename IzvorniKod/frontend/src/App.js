@@ -88,6 +88,7 @@ const App = () => {
                         }}
                             accActivated={accActivated}
                             user={user}
+                            setUser={setUser}
                             setExistingDonor={setExistingDonor}
                             setExistingWorker={setExistingWorker} />
                     </Route>

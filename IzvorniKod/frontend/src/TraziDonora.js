@@ -16,11 +16,11 @@ const TraziDonora = (props) => {
     const donorNone = {};
     const [foundDonor, setFoundDonor] = useState(donorNone);
 
-    useEffect(() => {
-        if (props.user.role && props.user.role != 'BANK_WORKER' && props.user.role != 'ADMIN') {
-            history.push('/profil');
-        }
-    }, [props.role]);
+    // useEffect(() => {
+    //     if (props.user.role && props.user.role != 'BANK_WORKER' && props.user.role != 'ADMIN') {
+    //         history.push('/profil');
+    //     }
+    // }, [props.role]);
 
     const handleSubmit = (event) => {
         event.preventDefault();

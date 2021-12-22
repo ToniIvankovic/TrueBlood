@@ -18,9 +18,8 @@ const Epruvete = ({done}) => {
         return (
             <div>
                 <div className="progress">
-                    <div className="progress-done" style={style}></div>
+                    <div className="progress-done" style={style}>{done}</div>
                 </div>
-                <div>{done}</div>
             </div>
         )
 }
