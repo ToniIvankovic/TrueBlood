@@ -33,13 +33,15 @@ public class EmailService{
     @Autowired
     private SpringTemplateEngine templateEngine;
 
-    public void sendMail(AbstractEmailContext email) throws MessagingException {
+    public void sendMail(AbstractEmailContext email, Long id, String password) throws MessagingException {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message,
                 MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                 StandardCharsets.UTF_8.name());
         Context context = new Context();
         context.setVariables(email.getContext());
+        context.setVariable("username", id);
+        context.setVariable("password", password);
         String emailContent = templateEngine.process(email.getTemplateLocation(), context);
 
         mimeMessageHelper.setTo(email.getTo());
