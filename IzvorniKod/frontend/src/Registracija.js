@@ -39,8 +39,6 @@ const Registracija = (props) => {
     const handleChange = (event) => {
         let name = event.target.name;
         let value = event.target.value;
-        //console.log(name)
-        //console.log(value)
         setDonorInfo({
             ...donorInfo,
             [name]: value
@@ -59,7 +57,7 @@ const Registracija = (props) => {
             url = '/api/v1/donor/registration'
         }
 
-        axios.post(url, donorInfo, { headers: { "Authorization": `Bearer ${props.token}` } })
+        axios.post(url, donorInfo)
             .then((response) => {
                 console.log('User successfully created:');
                 console.log(response.data)
@@ -70,7 +68,7 @@ const Registracija = (props) => {
             })
             .catch((error) => {
                 console.log('Error while creating user. Response: ' + error.response);
-                console.log(error.response);
+                console.log(error);
                 if (error.response) {
                     if (error.response.status == 400) {
                         const message = error.response.data;

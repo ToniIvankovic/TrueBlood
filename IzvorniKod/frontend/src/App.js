@@ -17,7 +17,6 @@ import RacunNeaktiviran from "./RacunNeaktiviran";
 
 import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, roleNone, userNone, userPublic } from "./Util";
 import _ from 'lodash';
-import DonationTry from "./components/DonationTry";
 
 // TODO: global context for role and user data
 
@@ -60,12 +59,12 @@ const App = () => {
 
 
     //Samo ako su sva stanja postavljena, stranica se može renderirati - sprječava preuranjeni history.push i slično
-    const[pageReady, setPageReady] = useState(false);
+    const[pageReady, setPageReady] = useState(true);
     
     useEffect(()=>{
-        if( !isEqualWithNull(user, userNone) && accActivated != null && donor != undefined){
-            setPageReady(true);
-        }
+        // if( !isEqualWithNull(user, userNone) && accActivated != null && donor != undefined){
+        //     setPageReady(true);
+        // }
     },[user, accActivated, donor]);
     
     
@@ -113,11 +112,10 @@ const App = () => {
                         <KreiranDonor user={user} />
                     </Route>
                     <Route path='/pokusaj_doniranja' exact>
-                        {/* <PokusajDoniranja user={user} donor={donor} /> */}
-                        <DonationTry></DonationTry>
+                        <PokusajDoniranja user={user} donor={donor} setDonor={setDonor} />
                     </Route>
                     <Route path='/trazi_donora' exact>
-                        <TraziDonora user={user} setDonor={setDonor} />
+                        <TraziDonora user={user} donor={donor} setDonor={setDonor} />
                     </Route>
                 </Switch>
             </Router>
