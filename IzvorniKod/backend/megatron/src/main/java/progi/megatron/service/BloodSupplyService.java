@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import progi.megatron.exception.tooManyBloodUnitsException;
 import progi.megatron.model.BloodSupply;
+import progi.megatron.model.dto.BloodSupplyDecreaseDTO;
 import progi.megatron.model.dto.BloodSupplyRequestDTO;
 import progi.megatron.model.dto.BloodSupplyResponseDTO;
 import progi.megatron.repository.BloodSupplyRepository;
@@ -30,18 +31,26 @@ public class BloodSupplyService {
         return new BloodSupplyResponseDTO(bloodSupply.getBloodType(), bloodSupply.getNumberOfUnits(), getReview(bloodSupply), bloodSupply.getMaxUnits(), bloodSupply.getMinUnits());
     }
 
-    public int manageBloodSupply(String bloodType, int numberOfUnits, boolean increase) {
-        bloodSupplyValidator.validateBloodType(bloodType);
-        int oldNumberOfUnits = bloodSupplyRepository.getBloodSupplyByBloodType(bloodType).getNumberOfUnits();
-        if(increase) {
-            bloodSupplyRepository.manageBloodSupply(bloodType, oldNumberOfUnits + 1);
+    public int[] manageBloodSupply(String[] bloodTypes, int[] bloodSupplies, boolean increase) {
+        int i = 0;
+        int[] newStates = new int[8];
+        System.out.println(bloodSupplies);
+        for(String bloodType : bloodTypes){
+            int numberOfUnits = bloodSupplies[i];
+            bloodSupplyValidator.validateBloodType(bloodType);
+            int oldNumberOfUnits = bloodSupplyRepository.getBloodSupplyByBloodType(bloodType).getNumberOfUnits();
+            if(increase) {
+                bloodSupplyRepository.manageBloodSupply(bloodType, oldNumberOfUnits + 1);
+            }
+            else if(oldNumberOfUnits < numberOfUnits)
+                throw new tooManyBloodUnitsException("Broj jedinica krvi za slanje veći je od dostupnog broja jedinica u banci.");
+            else {
+                bloodSupplyRepository.manageBloodSupply(bloodType, oldNumberOfUnits - numberOfUnits);
+            }
+            newStates[i] = bloodSupplyRepository.getBloodSupplyByBloodType(bloodType).getNumberOfUnits();
+            i++;
         }
-        else if(oldNumberOfUnits < numberOfUnits)
-            throw new tooManyBloodUnitsException("Broj jedinica krvi za slanje veći je od dostupnog broja jedinica u banci.");
-        else {
-            bloodSupplyRepository.manageBloodSupply(bloodType, oldNumberOfUnits - numberOfUnits);
-        }
-        return bloodSupplyRepository.getBloodSupplyByBloodType(bloodType).getNumberOfUnits();
+        return newStates;
     }
 
     public List<BloodSupplyResponseDTO> getBloodSupply() {
