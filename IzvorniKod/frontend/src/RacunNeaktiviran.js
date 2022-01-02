@@ -9,17 +9,17 @@ const RacunNeaktiviran = (props) => {
 
     const [pageReady, setPageReady] = useState(false);
     let history = useHistory();
-    useEffect(()=>{
-        //Pusha sve osim prijavljenog usera koji nije aktiviran
-        if(! ( !isEqualWithNull(props.user, userPublic) && props.accActivated == false)){
-            history.push('/');
-        }
-        setPageReady(true);
-    });
+    // useEffect(()=>{
+    //     //Pusha sve osim prijavljenog usera koji nije aktiviran
+    //     if(! ( !isEqualWithNull(props.user, userPublic) && props.accActivated == false)){
+    //         history.push('/');
+    //     }
+    //     setPageReady(true);
+    // });
 
-    if(!pageReady){
-        return <div></div>
-    }
+    // if(!pageReady){
+    //     return <div></div>
+    // }
     return (
         <div className="sent">
             <div className="smile">

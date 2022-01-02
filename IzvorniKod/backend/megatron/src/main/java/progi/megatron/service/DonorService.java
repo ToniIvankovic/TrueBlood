@@ -45,7 +45,9 @@ public class DonorService {
     @Autowired
     private SecureTokenService secureTokenService;
 
-    @Value("http://localhost:8080/api/v1/donor/")
+    ;
+
+    @Value("https://trueblood-be-dev.herokuapp.com/api/v1/donor/")
     private String baseURL;
 
     public DonorService(DonorRepository donorRepository, UserService userService, DonorValidator donorValidator, IdValidator idValidator, OibValidator oibValidator, PasswordEncoder passwordEncoder, SecureTokenRepository secureTokenRepository, ModelMapper modelMapper, SecureTokenRepository secureTokenRepository1) {
@@ -178,7 +180,7 @@ public class DonorService {
         String oibNew = donor.getOib();
         donorValidator.validateDonor(donor);
         if (getDonorByOib(oibNew) != null && !oibNew.equals(oibOld)) {
-            throw new WrongDonorException("Donor with that oib already exists. ");
+            throw new WrongDonorException("Donor with that oib already exists. "); //Je li ovo dobra poruka?
         }
         donorRepository.save(donor);
         return donor;

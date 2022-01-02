@@ -60,12 +60,11 @@ const StvoriDonora = (props) => {
 
         var url
         if(props.existing){
-            if(props.user.userRole == 'DONOR'){
-                console.log("Doesnt work yet :(")
-                return;
+            if(props.user.role == 'DONOR'){
+                url='/api/v1/donor/update';
             }
             else{
-                url='/api/v1/donor/update';
+                url='/api/v1/donor/update-donor';
             }
         } else{
             if (props.user.role == 'BANK_WORKER') {
@@ -75,6 +74,7 @@ const StvoriDonora = (props) => {
             }
         }
 
+        //Zabraniti workeru da updatea donora bez da postavi krvnu grupu (ako ju ne dira) 
         axios.post(url, donorInfo, { headers: { "Authorization": `Bearer ${props.token}` } })
             .then((response) => {
                 console.log('Donor successfully created:');
@@ -109,7 +109,7 @@ const StvoriDonora = (props) => {
                         setErrorMessage('Greška pri registraciji!');
                     }
                 } else{
-                    setErrorMessage('Unutarnja greška');s
+                    setErrorMessage('Unutarnja greška');
                 }
                 setErrorHidden(false);
             });

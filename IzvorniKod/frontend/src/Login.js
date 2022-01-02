@@ -11,12 +11,12 @@ const Login = (props) => {
 
     let history = useHistory();
 
-    useEffect(() => {
-        const token = window.localStorage.getItem('token');
-        if (token != null) {
-            history.push('/');
-        }
-    }, []);
+    // useEffect(() => {
+    //     const token = window.localStorage.getItem('token');
+    //     if (token != null) {
+    //         history.push('/');
+    //     }
+    // }, []);
 
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');

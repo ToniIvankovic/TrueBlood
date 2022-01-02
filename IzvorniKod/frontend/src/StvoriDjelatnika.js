@@ -67,9 +67,7 @@ const StvoriDjelatnika = (props) => {
 
         var url
         if(props.existing){
-            // url='/api/v1/donor/update-worker';
-            console.log("Doesnt work yet :(")
-            return;
+            url='/api/v1/bank-worker/update';
         } else{
             url = '/api/v1/bank-worker'
         }
@@ -79,8 +77,14 @@ const StvoriDjelatnika = (props) => {
                 console.log('Worker successfully created:');
                 console.log(response.data)
 
-                props.setWorker(response.data)
-                history.push('/kreiran_djelatnik');
+                props.setWorker(response.data) //Upitna potreba za stanjem worker
+                if(props.existing){
+                    history.goBack();
+                }
+                else{
+                    props.setExisting(true);
+                    history.push('/kreiran_djelatnik');
+                }
             })
             .catch((error) => {
                 console.log('Error while creating worker. Response: ' + error.response);

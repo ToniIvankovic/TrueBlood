@@ -8,12 +8,12 @@ const Profil = (props) => {
 
     const history = useHistory();
 
-    useEffect(() => {
-        const token = window.localStorage.getItem('token');
-        if (token == null) {
-            history.push('/');
-        }
-    }, []);
+    // useEffect(() => {
+    //     const token = window.localStorage.getItem('token');
+    //     if (token == null) {
+    //         history.push('/');
+    //     }
+    // }, []);
 
     const logout = (event) => {
         const url = '/api/v1/logout';
@@ -76,18 +76,20 @@ const Profil = (props) => {
                 </div>
                 : ''}
             
-            {
-            //privremeni indikator je li račun aktiviran i vodi na stranicu za neaktivirane
-            }
-            {props.accActivated ? 
-            '' :
-            <div>
-                <Link to='/racun_neaktiviran'>
-                    <button className="registracija">neaktiviran</button>
-                </Link>
-            </div>
-            }
-            
+            <button onClick={() => props.setUser({
+                    ...props.user,
+                    role: 'DONOR'
+                })}>Sad sam donor</button>
+                
+            <button onClick={() => props.setUser({
+                    ...props.user,
+                    role: 'BANK_WORKER'
+                })}>Sad sam worker</button>
+                
+            <button onClick={() => props.setUser({
+                    ...props.user,
+                    role: 'ADMIN'
+                })}>Sad sam admin</button>
         </div>
     )
 }

@@ -36,8 +36,8 @@ const App = () => {
         } else{
             setUser(userPublic);
         }
-        console.log(user)
     }, [token]);
+    console.log(user)
 
 
     //Kada se nađe user, provjeriti je li aktiviran i postaviti njegov role
@@ -88,6 +88,7 @@ const App = () => {
                         }}
                             accActivated={accActivated}
                             user={user}
+                            setUser={setUser}
                             setExistingDonor={setExistingDonor}
                             setExistingWorker={setExistingWorker} />
                     </Route>

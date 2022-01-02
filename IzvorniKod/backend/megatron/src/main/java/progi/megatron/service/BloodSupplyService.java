@@ -2,6 +2,7 @@ package progi.megatron.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import progi.megatron.exception.tooManyBloodUnitsException;
 import progi.megatron.model.BloodSupply;
 import progi.megatron.model.dto.BloodSupplyRequestDTO;
 import progi.megatron.model.dto.BloodSupplyResponseDTO;
@@ -32,10 +33,14 @@ public class BloodSupplyService {
     public int manageBloodSupply(String bloodType, int numberOfUnits, boolean increase) {
         bloodSupplyValidator.validateBloodType(bloodType);
         int oldNumberOfUnits = bloodSupplyRepository.getBloodSupplyByBloodType(bloodType).getNumberOfUnits();
-        if(increase)
+        if(increase) {
             bloodSupplyRepository.manageBloodSupply(bloodType, oldNumberOfUnits + 1);
-        else
+        }
+        else if(oldNumberOfUnits < numberOfUnits)
+            throw new tooManyBloodUnitsException("Broj jedinica krvi za slanje veći je od dostupnog broja jedinica u banci.");
+        else {
             bloodSupplyRepository.manageBloodSupply(bloodType, oldNumberOfUnits - numberOfUnits);
+        }
         return bloodSupplyRepository.getBloodSupplyByBloodType(bloodType).getNumberOfUnits();
     }
 

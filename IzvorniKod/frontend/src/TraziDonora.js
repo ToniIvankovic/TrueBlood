@@ -16,11 +16,11 @@ const TraziDonora = (props) => {
     const donorNone = {};
     const [foundDonor, setFoundDonor] = useState(donorNone);
 
-    useEffect(() => {
-        if (props.user.role && props.user.role != 'BANK_WORKER' && props.user.role != 'ADMIN') {
-            history.push('/profil');
-        }
-    }, [props.role]);
+    // useEffect(() => {
+    //     if (props.user.role && props.user.role != 'BANK_WORKER' && props.user.role != 'ADMIN') {
+    //         history.push('/profil');
+    //     }
+    // }, [props.role]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -34,7 +34,7 @@ const TraziDonora = (props) => {
         //treba slati upit na endpoint i dohvatiti preostale podatke - ovo je samo fake placeholder
         //TODO: u tražilici napraviti onchange koji će mijenjati neke stateove i oni se šalju u requestu
         setFoundDonor({
-            donorId: 1000004,
+            donorId: 1000003,
             firstName: "toni",
             lastName: "ivankovic",
             oib: "24144225112",
