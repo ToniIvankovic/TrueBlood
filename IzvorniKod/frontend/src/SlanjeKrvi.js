@@ -37,10 +37,8 @@ const SlanjeKrvi = (props) => {
         event.preventDefault();
         let bloodTypes = ['0+', '0-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-']
         let bloodSupplies = []
-        let i = 0
         for(let bloodType of bloodTypes){
-            bloodSupplies[i] = bloodSupplyInfo[bloodType];
-            i++;
+            bloodSupplies.push(bloodSupplyInfo[bloodType]);
         }
         let arrayBloodSupplyInfo = {'bloodTypes': bloodTypes, 'numbersOfUnits': bloodSupplies}
         console.log('Submitting!');

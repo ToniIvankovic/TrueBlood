@@ -21,6 +21,7 @@ import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, userNone, us
 import _ from 'lodash';
 import KreiranDjelatnik from "./KreiranDjelatnik";
 import PostPokusajDoniranja from "./PostPokusajDoniranja";
+import OptimalneGranice from "./OptimalneGranice";
 
 // TODO: global context for role and user data - done?
 
@@ -155,6 +156,11 @@ const App = () => {
                     </Route>
                     <Route path='/slanje_krvi' exact>
                         <SlanjeKrvi 
+                        user={user}
+                        token={token} />
+                    </Route>
+                    <Route path='/optimalne_granice' exact>
+                        <OptimalneGranice
                         user={user}
                         token={token} />
                     </Route>

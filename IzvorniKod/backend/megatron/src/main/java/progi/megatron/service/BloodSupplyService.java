@@ -62,13 +62,21 @@ public class BloodSupplyService {
         return bloodSupplies;
     }
 
-    public BloodSupply setMinMax(BloodSupplyRequestDTO bloodSupplyRequestDTO) {
-        bloodSupplyValidator.validateBloodType(bloodSupplyRequestDTO.getBloodType());
-        BloodSupply bloodSupply = bloodSupplyRepository.getBloodSupplyByBloodType(bloodSupplyRequestDTO.getBloodType());
-        bloodSupply = modelMapper.map(bloodSupplyRequestDTO, BloodSupply.class);
-        bloodSupplyValidator.validateBloodSupply(bloodSupply);
-        bloodSupplyRepository.save(bloodSupply);
-        return bloodSupply;
+    public BloodSupply[] setMinMax(BloodSupplyRequestDTO bloodSupplyRequestDTO) {
+        int i = 0;
+        BloodSupply[] supplies = new BloodSupply[bloodSupplyRequestDTO.getBloodTypes().length];
+        for(String bloodType : bloodSupplyRequestDTO.getBloodTypes()){
+            bloodSupplyValidator.validateBloodType(bloodType);
+            //BloodSupply bloodSupply = bloodSupplyRepository.getBloodSupplyByBloodType(bloodSupplyRequestDTO.getBloodType());
+            BloodSupply bloodSupply = bloodSupplyRepository.getBloodSupplyByBloodType(bloodType);
+            bloodSupply.setMaxUnits(bloodSupplyRequestDTO.getMaxUnits()[i]);
+            bloodSupply.setMinUnits(bloodSupplyRequestDTO.getMinUnits()[i]);
+            bloodSupplyValidator.validateBloodSupply(bloodSupply);
+            bloodSupplyRepository.save(bloodSupply);
+            supplies[i] = bloodSupply;
+            i++;
+        }
+        return supplies;
     }
 
     public String getReview(BloodSupply bloodSupply) {
