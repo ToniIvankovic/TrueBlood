@@ -126,6 +126,20 @@ const getBloodSupply = async (setBloodSupply) => {
         })
 }
 
+const downloadPDF = async (donationId) => {
+
+    const url = '/api/v1/donation-try/pdf/' + donationId;
+
+    await axios.get(url)
+        .then((response) => {
+            console.log(response.data)
+        })
+        .catch((error) => {
+            console.log("Greška - nije moguće preuzeti PDF potvrdu");
+            console.log(error);
+        })
+}
+
 const getAccActivated = async (userId, setActivated) => {
 
     const url = '/api/v1/user/activated'; //potencijalna promjena
@@ -190,6 +204,7 @@ export { getWorkerById };
 export { getAccActivated };
 export { isEqualWithNull };
 export { getBloodSupply };
+export { downloadPDF };
 export { userNone };
 export { userPublic };
 export { donorNone };

@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { Route, Link } from "react-router-dom";
 import SearchBar from "./components/SearchBar";
 import { searchDonorColumns } from "./model/SearchDonorColumns";
-import TraziDonora from "./TraziKorisnika";
+import Trazilica from "./Trazilica";
 import DonorSearchIntegrated from "./components/DonorSearchIntegrated";
 import { Box, Button, Divider, Grid } from "@mui/material";
 import { useHistory } from 'react-router';

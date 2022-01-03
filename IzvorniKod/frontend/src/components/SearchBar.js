@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
     Box,
     debounce,
@@ -33,8 +33,16 @@ const SearchBar = (props) => {
         () => debounce(handleQueryChange, 300)
     , []);
 
+    useEffect(() => {
+        if(props.userClass == 'history' && props.user.userId){
+            props.queryFunction(null);
+        }
+    }, [props.user.userId])
+
     return (
         <>
+            {(props.userClass == 'history') ? '' : 
+            
             <Box sx={{ marginBottom: 2 }}>
                 <TextField
                     sx={{ width: "100%" }}
@@ -50,8 +58,10 @@ const SearchBar = (props) => {
                     }}
                     color="primary"
                     variant="outlined"
-                />
+                    />
             </Box>
+            
+            }
 
             <Box
                 // sx={{ height: props.donorList.length > 0 ? 300 : "auto" }}

@@ -9,8 +9,9 @@ import { Grid, Box, Button, Divider } from "@mui/material";
 import CustomizedAccordion from "./components/CustomizedAccordion";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 import { searchBankWorkerColumns } from "./model/SearchBankWorkerColumns";
+import { searchDonationHistoryColumns } from "./model/SearchDonationHistoryCollumns";
 
-const TraziDonora = (props) => {
+const Trazilica = (props) => {
     const history = useHistory();
     const ref = useRef();
     let location = useLocation();
@@ -24,9 +25,14 @@ const TraziDonora = (props) => {
     const [loading, setLoading] = useState(false);
 
 
-    const queryDonors = async (query) => {
+    const getRows = async (query) => {
         setLoading(true);
-        const url = `/api/v1/${props.userClass}?query=` + query;
+        let url = ""
+        if(props.userClass == 'history'){
+            url = '/api/v1/donation-try/' + props.user.userId;
+        } else{
+            url = `/api/v1/${props.userClass}?query=` + query;
+        }
         await axios
             .get(url, {
                 //headers: { Authorization: bearerAuth },
@@ -40,7 +46,15 @@ const TraziDonora = (props) => {
                     let newUserList = response.data.map((el) => {
                         // id has to be set for datagrid to work
 
-                        if(el) el.id = (props.userClass == 'donor') ? el.donorId : el.bankWorkerId;
+                        if(el){
+                            if(props.userClass == 'donor'){
+                                el.id = el.donorId;
+                            } else if(props.userClass == 'bank-worker'){
+                                el.id = el.bankWorkerId;
+                            } else{
+                                el.id = el.donationId;
+                            }
+                        } 
                         else return {id:9999999};
                         return el;
                     });
@@ -60,17 +74,21 @@ const TraziDonora = (props) => {
                 <Grid item xs={11} sm={10} md={8}>
                     <Box>
                         <SearchBar
-                            columns={(props.userClass == 'donor') ? searchDonorColumns : searchBankWorkerColumns}
+                            columns={(props.userClass == 'donor') ? searchDonorColumns :
+                            (props.userClass == 'bank-worker') ? searchBankWorkerColumns : searchDonationHistoryColumns}
                             data={userList}
-                            queryFunction={queryDonors}
+                            queryFunction={getRows}
                             loading={loading}
                             onSelect={setExpanded}
                             setSelection={(selectedUser) => {
-                                props.setFoundUser(selectedUser)
-                                props.setExisting(true)
-                                history.goBack();
+                                if(props.userClass != 'history'){
+                                    props.setFoundUser(selectedUser)
+                                    props.setExisting(true)
+                                    history.goBack();
+                                }
                             }}
                             userClass={props.userClass}
+                            user={props.user}
                         />
                     </Box>
                 </Grid>
@@ -79,4 +97,4 @@ const TraziDonora = (props) => {
     );
 };
 
-export default TraziDonora;
+export default Trazilica;

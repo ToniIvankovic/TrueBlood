@@ -13,7 +13,7 @@ import Home from "./Home";
 import Profil from "./Profil";
 import Update from "./Update";
 import PokusajDoniranja from "./PokusajDoniranja";
-import TraziKorisnika from "./TraziKorisnika";
+import Trazilica from "./Trazilica";
 import RacunNeaktiviran from "./RacunNeaktiviran";
 import SlanjeKrvi from "./SlanjeKrvi";
 
@@ -143,7 +143,7 @@ const App = () => {
                         setSuccessfulDonation={setSuccessfulDonation}/>
                     </Route>
                     <Route path='/trazi_donora' exact>
-                        <TraziKorisnika 
+                        <Trazilica 
                         token={token} 
                         user={user} 
                         setFoundUser={setDonor} 
@@ -151,7 +151,7 @@ const App = () => {
                         userClass={'donor'} />
                     </Route>
                     <Route path='/trazi_djelatnika' exact>
-                        <TraziKorisnika 
+                        <Trazilica 
                         token={token} 
                         user={user} 
                         setFoundUser={setDonor} 
@@ -173,6 +173,14 @@ const App = () => {
                         <OptimalneGranice
                         user={user}
                         token={token} />
+                    </Route>
+                    <Route path='/povijest_doniranja' exact>
+                        <Trazilica 
+                        token={token} 
+                        user={user} 
+                        setFoundUser={()=>{}} 
+                        setExisting={()=>{}}
+                        userClass={'history'} />
                     </Route>
                 </Switch>
             </Router>
