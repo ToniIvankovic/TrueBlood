@@ -13,7 +13,7 @@ import Home from "./Home";
 import Profil from "./Profil";
 import Update from "./Update";
 import PokusajDoniranja from "./PokusajDoniranja";
-import TraziDonora from "./TraziDonora";
+import TraziKorisnika from "./TraziKorisnika";
 import RacunNeaktiviran from "./RacunNeaktiviran";
 import SlanjeKrvi from "./SlanjeKrvi";
 
@@ -92,7 +92,8 @@ const App = () => {
                             user={user}
                             setUser={setUser}
                             setExistingDonor={setExistingDonor}
-                            setExistingWorker={setExistingWorker} />
+                            setExistingWorker={setExistingWorker}
+                            worker={worker} />
                     </Route>
                     <Route path="/update" exact>
                         <Update />
@@ -142,19 +143,19 @@ const App = () => {
                         setSuccessfulDonation={setSuccessfulDonation}/>
                     </Route>
                     <Route path='/trazi_donora' exact>
-                        <TraziDonora 
+                        <TraziKorisnika 
                         token={token} 
                         user={user} 
-                        setDonor={setDonor} 
+                        setFoundUser={setDonor} 
                         setExisting={setExistingDonor}
                         userClass={'donor'} />
                     </Route>
                     <Route path='/trazi_djelatnika' exact>
-                        <TraziDonora 
+                        <TraziKorisnika 
                         token={token} 
                         user={user} 
-                        setDonor={setDonor} 
-                        setExisting={setExistingDonor}
+                        setFoundUser={setDonor} 
+                        setExisting={setExistingWorker}
                         userClass={'bank-worker'} />
                     </Route>
                     <Route path='/donirano' exact>

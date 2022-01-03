@@ -18,19 +18,11 @@ const TraziDonora = (props) => {
     const [errorMessage, setErrorMessage] = useState("Greška");
     const [errorHidden, setErrorHidden] = useState(true);
 
-    const donorNone = {};
-    const [donor, setDonor] = useState(donorNone);
-    const [donorList, setDonorList] = useState([]);
+    const [userList, setUserList] = useState([]);
 
     const [expanded, setExpanded] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     window.localStorage.setItem("donor", JSON.stringify(donor));
-    //     props.setDonor(donor); //Dojavljuje app.js-u da je donor postavljen u localstorage
-    //     history.goBack();
-    // };
 
     const queryDonors = async (query) => {
         setLoading(true);
@@ -42,10 +34,10 @@ const TraziDonora = (props) => {
             .then((response) => {
                 if(!response.data ||
                     response.data.length == 1 && response.data[0] == null){
-                        setDonorList([]);
+                        setUserList([]);
                     }
                 else{
-                    let newDonorList = response.data.map((el) => {
+                    let newUserList = response.data.map((el) => {
                         // id has to be set for datagrid to work
 
                         if(el) el.id = (props.userClass == 'donor') ? el.donorId : el.bankWorkerId;
@@ -54,7 +46,7 @@ const TraziDonora = (props) => {
                     });
                     
                     console.log("query response");
-                    setDonorList(newDonorList);
+                    setUserList(newUserList);
                 }
             })
             .finally(() => {
@@ -68,16 +60,13 @@ const TraziDonora = (props) => {
                 <Grid item xs={11} sm={10} md={8}>
                     <Box>
                         <SearchBar
-                            donorList={donorList}
                             columns={(props.userClass == 'donor') ? searchDonorColumns : searchBankWorkerColumns}
-                            data={donorList}
+                            data={userList}
                             queryFunction={queryDonors}
                             loading={loading}
-                            selectedDonor={props.donor}
-                            setSelectedDonor={props.setDonor}
                             onSelect={setExpanded}
-                            setSelection={(donor) => {
-                                props.setDonor(donor)
+                            setSelection={(selectedUser) => {
+                                props.setFoundUser(selectedUser)
                                 props.setExisting(true)
                                 history.goBack();
                             }}
