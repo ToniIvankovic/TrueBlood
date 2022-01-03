@@ -97,9 +97,6 @@ const PokusajDoniranja = (props) => {
             rejectedReasons = permRejectedReasons.split(";")[0];
         
         console.log(rejectedReasons);
-        props.setDonationPlace(donationTryInfo.donationPlace); //Čuva mjesto za nova doniranja
-        props.setDonor(donorNone);
-        props.setExistingDonor(false);
 
         let retVal = {
             donorId: donationTryInfo.donorId,
@@ -126,6 +123,9 @@ const PokusajDoniranja = (props) => {
         const url = "/api/v1/donation-try";
         axios.post(url, retVal, { headers: { "Authorization": `Bearer ${props.token}` } })
             .then((response) => {
+                props.setDonationPlace(donationTryInfo.donationPlace); //Čuva mjesto za nova doniranja
+                props.setDonor(donorNone);
+                props.setExistingDonor(false);
                 console.log('Donation try successfully created:');
                 console.log(response.data)
                 props.setSuccessfulDonation(response.data.successful)
@@ -144,6 +144,8 @@ const PokusajDoniranja = (props) => {
                             setErrorMessage('Greška! Krvna grupa mora se postaviti.');
                         } else if(message.includes('no donor')){
                             setErrorMessage('Greška! Nepostojeći donorId!');
+                        } else if(message.includes('Blood type')){
+                            setErrorMessage('Greška! Donoru se mora odrediti krvna grupa prije donacije!');
                         }
                     } else {
                         setErrorMessage('Greška u autorizaciji!');
