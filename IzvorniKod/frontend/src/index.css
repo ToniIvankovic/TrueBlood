@@ -116,8 +116,8 @@
     color: #1e396f;
     transition: all 0.5s ease;
     font-style: normal;
-    outline: none;
-    border: 1px solid #1e396f;
+    outline: 1px solid #d65d5c;
+    border: none;
 }
 .submit{
     width: 150px;
@@ -262,6 +262,11 @@
     }
 }
 
+.roledesplay {
+    color: #d8d8d8;
+    font-size: 10px;
+}
+
 
 /* Sign up page css //////////////////////////////////////////////////*/
 
@@ -276,7 +281,6 @@
     border-radius: 100px;
     padding: 10px 30px;
     width: 100%;
-    outline: none !important;
     border: none;
     background-color: #f6f5fa;
     font-size: 25px;
@@ -288,8 +292,8 @@
     color: #1e396f;
     transition: all 0.5s ease;
     font-style: normal;
-    outline: none;
-    border: 1px solid #d65d5c;
+    border: none;
+    outline: 1px solid #d65d5c;
 }
 
 .reg ::placeholder{
@@ -319,11 +323,13 @@
     grid-template-columns: 1fr 1fr;
     margin: 0 auto 20px auto;
     column-gap: 10px;
+    width: auto;
 
 }
 
 .single{
     margin: 20px auto;
+    width: auto;
 }
 
 .krgrupe{
@@ -332,7 +338,7 @@
 
 .krgrupe select{
     border-radius: 100px;
-    font-size: 25px;
+    font-size: 20px;
     padding-left: 5px;
     outline: none !important;
     border: 1px solid #1e396f;
@@ -361,6 +367,7 @@
     color: #f6f5fa;
     border: none;
     padding: 10px 30px;
+    margin: 20px 0;
 }
 
 .kreiraj:hover{
@@ -371,7 +378,63 @@
     cursor: pointer;
 }
 
-@media screen and (max-width: 700px){
+.maligumb{
+    font-size: 20px;
+    border-radius: 100px;
+    background-color: #d65d5c;
+    color: #f6f5fa;
+    border: none;
+    padding: 10px 30px;
+}
+
+.maligumb:hover{
+    background-color: #f6f5fa;
+    color: #1e396f;
+    transition: all 0.5s ease;
+    outline: none !important;
+    cursor: pointer;
+}
+
+/* Pokusaj_doniranja css ////////////////////////////////////////////////*/
+
+.formular {
+    width: 800px;
+}
+
+.redak {
+    display: grid;
+    grid-template-columns: 6fr 1fr 1fr;
+    justify-content: center;
+    text-align: center;
+}
+
+.pitanje {
+    font-size: 25px;
+    text-align: left;
+    margin: 14px 10px;
+
+}
+
+.odgovor{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 20px 10px;
+    width: 50%;
+    justify-content: center;
+}
+
+.odgovor label {
+    font-size: 20px;
+    color: #1e396f;
+}
+
+.odgovor input[type=radio]{
+    margin: 8px;
+    width: 50%;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 830px){
     .tekst{
         font-size: 40px;
     }
@@ -380,7 +443,10 @@
     }
     .reg input::placeholder{
         font-size: 20px;
-    }  
+    }
+    .formular{
+        width: 100%;
+    }
 }
 @media screen and (max-width: 545px){
     .dupli{
@@ -397,6 +463,9 @@
     .label{
         font-size: 20px;
         margin: 20px auto 0 30px;  
+    }
+    .pitanje {
+        font-size: 20px;
     }
     
 }
@@ -436,12 +505,17 @@
 
 /* Homepage css ///////////////////////////////////////////////////////*/
 
-.naslovna{
+.content {
     display: grid;
     grid-template-rows: auto;
     justify-content: center;
     text-align: center;
-    margin: 0 20px 10px;
+    margin: 0 20px;
+}
+.naslovna{
+    display: grid;
+    grid-template-rows: auto;
+
 }
 
 .pitanje p{
@@ -449,85 +523,250 @@
     margin-top: 20px;
 }
 
-.akt{
-    margin: 50px auto 20px auto;
-}
-
-.akt p{
+.akt {
+    margin: 40px 20px 20px;
     font-size: 40px;
 }
 
-/* .epruvete{
+.epruvete {
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    top: 25%;
     display: grid;
-    grid-template-columns: auto;
-    justify-content: center;
-    transform: rotate(90deg);
-    max-width: 470px;
-    max-height: 400px;
-    margin: 0;
-}
-
-.sample{
-    display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-rows: auto;
     justify-content: center;
     text-align: center;
-    margin: 20px 0;
-}
-.sample p{
-    font-size: 30px;
+    margin: 20px;
     transform: rotate(-90deg);
 }
-.bar{
-    width: 350px;
-    height: 55px;
-    border-radius: 100px;
-    background-color: #f6f5fa;
-    box-sizing: border-box;
-} */
 
-.info{
+.sample {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
     text-align: center;
-    margin: 50px auto 10px;
-    font-size: 15px;
+    justify-content: center;
 }
-/* @media  screen and (max-width: 770px) {
-    .epruvete{
+
+.grupa{
+    font-size: 25px;
+    margin: 30px 0;
+    width: 100px;
+    transform: rotate(90deg);
+}
+
+.progress {
+	background-color: #d8d8d8;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+    border-top-left-radius: 20px;
+	border-bottom-left-radius: 20px;
+	position: relative;
+	margin: 30px 0 30px 20px;
+	height: 40px;
+	width: 350px;
+}
+
+.progress-done {
+	background-color: #d65d5c;
+	border-top-left-radius: 20px;
+	border-bottom-left-radius: 20px;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	width: 0;
+	opacity: 0;
+	transition: 1s ease 0.3s;
+}
+
+@media screen and (max-width: 840px) {
+    .str {
         display: grid;
-        grid-template-columns: auto;
-        justify-content: center;
-        transform: rotate(180deg);
-        margin: 0 -170px;
+        grid-template-rows: auto;
+        justify-self: center;
+        text-align: center;
+        margin: 20px 10px;
     }
-    
-    .sample{
+    .epruvete {
+        position: absolute;
+        left: 50%;
+        right: 50%;
+        top: 47%;
         display: grid;
-        grid-template-columns: 1fr 3fr;
+        grid-template-rows: auto;
         justify-content: center;
         text-align: center;
-        margin: 10px 0;
+        margin: 0;
+        transform: rotate(0deg);
     }
-    .sample p{
-        font-size: 30px;
-        transform: rotate(180deg);
-        text-align: center;
-    }
-    .bar{
+    .progress {
+        background-color: #d8d8d8;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        position: relative;
+        margin: 10px 0 10px 20px;
+        height: 40px;
         width: 350px;
-        height: 55px;
-        border-radius: 100px;
-        background-color: #f6f5fa;
-        box-sizing: border-box;
-        margin-left: -20px;
     }
-    
-} */
-@media screen and (max-width:500px) {
+    .grupa{
+        font-size: 25px;
+        margin: 10px 0;
+        width: 100px;
+        transform: rotate(0deg);
+    }
+}
+
+@media screen and (max-height: 650px) {
+    .epruvete {
+        position: absolute;
+        left: 50%;
+        right: 50%;
+        top: 35%;
+        display: grid;
+        grid-template-rows: auto;
+        justify-content: center;
+        text-align: center;
+        margin: 20px;
+        transform: rotate(-90deg);
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .epruvete {
+        position: absolute;
+        left: 50%;
+        right: 50%;
+        top: 45%;
+        display: grid;
+        grid-template-rows: auto;
+        justify-content: center;
+        text-align: center;
+        margin: 0;
+        transform: rotate(0deg);
+    }
     .pitanje p{
         font-size: 50px;
+        margin-top: 20px;
     }
-    
+    .progress {
+        background-color: #d8d8d8;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        position: relative;
+        margin: 10px 0 10px 20px;
+        height: 40px;
+        width: 350px;
+    }
+    .grupa{
+        font-size: 25px;
+        margin: 10px 0;
+        width: 100px;
+    }
+
 }
+
+@media screen and (max-width: 445px) {
+    .epruvete {
+        position: absolute;
+        left: 50%;
+        right: 50%;
+        top: 60%;
+        display: grid;
+        grid-template-rows: auto;
+        justify-content: center;
+        text-align: center;
+        margin: 0;
+        transform: rotate(0deg);
+    }
+
+    .progress {
+        background-color: #d8d8d8;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        position: relative;
+        margin: 10px 0 10px 20px;
+        height: 40px;
+        width: 250px;
+    }
+    .grupa{
+        font-size: 20px;
+        margin: 15px 0;
+        width: 80px;
+    }
+}
+@media screen and (max-height: 650px) and (max-width: 845px) {
+    .epruvete {
+        position: absolute;
+        left: 50%;
+        right: 50%;
+        top: 70%;
+        display: grid;
+        grid-template-rows: auto;
+        justify-content: center;
+        text-align: center;
+        margin: 0;
+        transform: rotate(0deg);
+    }
+
+    .progress {
+        background-color: #d8d8d8;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        position: relative;
+        margin: 10px 0 10px 20px;
+        height: 40px;
+        width: 250px;
+    }
+    .grupa{
+        font-size: 20px;
+        margin: 15px 0;
+        width: 80px;
+    }
+}
+@media screen and (max-height: 650px) and (max-width: 427px) {
+    .epruvete {
+        position: absolute;
+        left: 50%;
+        right: 50%;
+        top: 85%;
+        display: grid;
+        grid-template-rows: auto;
+        justify-content: center;
+        text-align: center;
+        margin: 0;
+        transform: rotate(0deg);
+    }
+
+    .progress {
+        background-color: #d8d8d8;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        position: relative;
+        margin: 10px 0 10px 20px;
+        height: 40px;
+        width: 250px;
+    }
+    .grupa{
+        font-size: 20px;
+        margin: 15px 0;
+        width: 80px;
+    }
+}
+
+
+
 
 /* Profil css ////////////////////////////////////////////////////////*/
 
@@ -559,3 +798,5 @@
     box-sizing: border-box;
     border-radius: 50px;
 }
+
+

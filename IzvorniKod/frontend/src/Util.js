@@ -4,6 +4,8 @@ import axios from './util/axios-instance';
 
 //globalne varijable za aplikaciju
 const roleNone = 'JAVNO';
+const workerNone = {};
+const donorNone = {};
 const userNone = {};
 const userPublic = {
     userId: null,
@@ -26,8 +28,8 @@ const getCurrentUserIdAndRole = async (user, setUser) => {
         .then((response) => {
             if (response.data != null) {
                 setUser({
-                    userId: response.data.id,
-                    role: response.data.role
+                    userId: response.data.userId,
+                    role: response.data.userRole
                 });
             } else {
                 //Sto ovdje napraviti?
@@ -40,6 +42,87 @@ const getCurrentUserIdAndRole = async (user, setUser) => {
             console.log('Error retrieving user info: ' + error);
             //let history = useHistory();
             //history.push('/');
+        })
+}
+
+const getDonorById = async (donorId, setDonor) => {
+
+    const url = '/api/v1/donor/id/' + donorId;
+    const token = window.localStorage.getItem('token');
+    if (!token) {
+        console.log("Greska u getDonorById - nema tokena")
+        return;
+    }
+
+    const bearerAuth = 'Bearer ' + token;
+    await axios.get(url, {
+        headers: { 'Authorization': bearerAuth }
+    })
+        .then((response) => {
+            if (response.data != null) {
+                if(response.data.donorId != donorId){
+                    console.log("Greška - id u odgovoru poslužitelja se ne podudara s trenutnim donorIdjem " + donorId);
+                    return;
+                }
+
+                setDonor(response.data);
+            } else {
+                //Sto ovdje napraviti?
+                console.log("Prazan odgovor poslužitelja")
+            }
+        })
+        .catch((error) => {
+            console.log('Error retrieving user info: ' + error);
+        })
+}
+
+const getWorkerById = async (workerId, setWorker) => {
+
+    const url = '/api/v1/bank-worker/id/' + workerId;
+    const token = window.localStorage.getItem('token');
+    if (!token) {
+        console.log("Greska u getWorkerById - nema tokena")
+        return;
+    }
+
+    const bearerAuth = 'Bearer ' + token;
+    await axios.get(url, {
+        headers: { 'Authorization': bearerAuth }
+    })
+        .then((response) => {
+            if (response.data != null) {
+                if(response.data.bankWorkerId != workerId){
+                    console.log("Greška - id u odgovoru poslužitelja se ne podudara s trenutnim donorIdjem " + workerId);
+                    return;
+                }
+
+                setWorker(response.data);
+            } else {
+                //Sto ovdje napraviti?
+                console.log("Prazan odgovor poslužitelja")
+            }
+        })
+        .catch((error) => {
+            console.log('Error retrieving user info: ' + error);
+        })
+}
+
+
+const getBloodSupply = async (setBloodSupply) => {
+
+    const url = '/api/v1/blood-supply';
+
+    await axios.get(url)
+        .then((response) => {
+            if (response.data != null) {
+                setBloodSupply(response.data);
+            } else {
+                console.log("Prazan odgovor poslužitelja")
+            }
+        })
+        .catch((error) => {
+            console.log("Greška - nije moguće dohvatiti stanja krvnih grupa:");
+            console.log(error);
         })
 }
 
@@ -102,8 +185,12 @@ const isEqualWithNull = (v1, v2) =>{
 
 
 export { getCurrentUserIdAndRole };
+export { getDonorById };
+export { getWorkerById };
 export { getAccActivated };
 export { isEqualWithNull };
-export { roleNone };
+export { getBloodSupply };
 export { userNone };
 export { userPublic };
+export { donorNone };
+export { workerNone };

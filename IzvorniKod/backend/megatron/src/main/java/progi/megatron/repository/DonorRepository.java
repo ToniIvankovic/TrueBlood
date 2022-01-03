@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import progi.megatron.model.Donor;
-
 import java.util.List;
 
 @Repository
@@ -19,7 +18,11 @@ public interface DonorRepository extends JpaRepository<Donor, Long> {
 
     List<Donor> getDonorByFirstNameAndLastName(String firstName, String lastName);
 
-    // todo: update donor
+    List<Donor> getDonorsByOibIsContaining(String oib);
+
+    List<Donor> getDonorsByFirstNameIsContaining(String firstName);
+
+    List<Donor> getDonorsByLastNameIsContaining(String lastName);
 
     // todo: check if donor permanently rejected
 

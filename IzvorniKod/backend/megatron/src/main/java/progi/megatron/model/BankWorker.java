@@ -3,11 +3,15 @@ package progi.megatron.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "bank_worker")
 public class BankWorker implements Serializable {
@@ -34,22 +38,5 @@ public class BankWorker implements Serializable {
     private String workContact;
 
     private String email;
-
-    public BankWorker() {
-    }
-
-    public BankWorker(Long bankWorkerId, String firstName, String lastName, String oib, LocalDate birthDate, String birthPlace, String address, String workPlace, String privateContact, String workContact, String email) {
-        this.bankWorkerId = bankWorkerId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.oib = oib;
-        this.birthDate = birthDate;
-        this.birthPlace = birthPlace;
-        this.address = address;
-        this.workPlace = workPlace;
-        this.privateContact = privateContact;
-        this.workContact = workContact;
-        this.email = email;
-    }
 
 }

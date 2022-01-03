@@ -8,12 +8,12 @@ const Profil = (props) => {
 
     const history = useHistory();
 
-    useEffect(() => {
-        const token = window.localStorage.getItem('token');
-        if (token == null) {
-            history.push('/');
-        }
-    }, []);
+    // useEffect(() => {
+    //     const token = window.localStorage.getItem('token');
+    //     if (token == null) {
+    //         history.push('/');
+    //     }
+    // }, []);
 
     const logout = (event) => {
         const url = '/api/v1/logout';
@@ -41,9 +41,16 @@ const Profil = (props) => {
                 <div>{props.user.role}</div>
             </div>
             <div className="uredi">
-                <Link to='/update'>
-                    <button className="registracija">Uredi podatke</button>
-                </Link>
+                {props.user.role == 'DONOR' ?
+                    <Link to='/stvori_donora'>
+                        <button className="registracija"  onClick={(event) => {props.setExistingDonor(true)}}>Uredi podatke</button>
+                    </Link>
+                    : ''}
+                {props.user.role == 'BANK_WORKER' ?
+                    <Link to='/stvori_djelatnika'>
+                        <button className="registracija" >Uredi podatke</button>
+                    </Link>
+                    : ''}
                 <button onClick={(event) => logout(event)} className="submit">Odjava</button>
                 {props.user.role == 'BANK_WORKER' ?
                 [
@@ -51,11 +58,16 @@ const Profil = (props) => {
                         <button className="registracija">Stvori pokušaj doniranja</button>
                     </Link>,
                     <Link key={1} to='/stvori_donora'>
-                        <button className="registracija">Stvori račun donora</button>
+                        <button className="registracija" onClick={(event) => {props.setExistingDonor(false)}}>Stvori račun donora</button>
                     </Link>
                 ]
                     
                     : ''}
+                {props.user.role == 'ADMIN' ?
+                <Link to='/stvori_djelatnika'>
+                    <button className="registracija">Stvori djelatnika</button>
+                </Link>
+                : ''}
             </div>
             {props.user.role == 'DONOR' ?
                 <div className="donacije">
@@ -64,18 +76,20 @@ const Profil = (props) => {
                 </div>
                 : ''}
             
-            {
-            //privremeni indikator je li račun aktiviran i vodi na stranicu za neaktivirane
-            }
-            {props.accActivated ? 
-            '' :
-            <div>
-                <Link to='/racun_neaktiviran'>
-                    <button className="registracija">neaktiviran</button>
-                </Link>
-            </div>
-            }
-            
+            <button onClick={() => props.setUser({
+                    ...props.user,
+                    role: 'DONOR'
+                })}>Sad sam donor</button>
+                
+            <button onClick={() => props.setUser({
+                    ...props.user,
+                    role: 'BANK_WORKER'
+                })}>Sad sam worker</button>
+                
+            <button onClick={() => props.setUser({
+                    ...props.user,
+                    role: 'ADMIN'
+                })}>Sad sam admin</button>
         </div>
     )
 }

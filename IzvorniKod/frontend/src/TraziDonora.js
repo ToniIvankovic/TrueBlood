@@ -65,8 +65,8 @@ const TraziDonora = (props) => {
     const findDonor = (event) => {
         //treba slati upit na endpoint i dohvatiti preostale podatke - ovo je samo fake placeholder
         //TODO: u tražilici napraviti onchange koji će mijenjati neke stateove i oni se šalju u requestu
-        setDonor({
-            donorId: 1234567,
+        setFoundDonor({
+            donorId: 1000003,
             firstName: "toni",
             lastName: "ivankovic",
             oib: "24144225112",

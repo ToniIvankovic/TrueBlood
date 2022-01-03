@@ -3,13 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { useHistory } from 'react-router';
 import ErrorCard from './ErrorCard';
+import { getWorkerById } from './Util';
 
-const Registracija = (props) => {
+const StvoriDjelatnika = (props) => {
 
     const history = useHistory();
     const ref = useRef();
 
-    const [donorInfo, setDonorInfo] = useState({
+    const [workerInfo, setWorkerInfo] = useState({
         firstName: '',
         lastName: '',
         oib: '',
@@ -23,24 +24,38 @@ const Registracija = (props) => {
         bloodType: ''
     });
 
+    useEffect(()=>{
+        if(!props.user.userId) 
+            return;
+        if (props.user.role == 'BANK_WORKER') {
+            props.setExisting(true);
+            getWorkerById(props.user.userId,setWorkerInfo);
+        } else if(props.user.role == 'ADMIN'){
+            props.setExisting(false);
+        }
+    },[props.user.userId])
+
+    // useEffect(()=>{
+    //     console.log("donorinfo u stvoridonora")
+    //     console.log(donorInfo)
+    // },[donorInfo])
+    
     const [errorMessage, setErrorMessage] = useState('Greška');
     const [errorHidden, setErrorHidden] = useState(true);
 
-    const [user, setUser] = useState({});
 
-    useEffect(() => {
-        if (props.role === 'DONOR') {
-            history.push('/profil');
-        }
-    }, [props.role]);
-
+    // useEffect(() => {
+    //     if (props.user.role == 'DONOR') {
+    //         history.push('/profil');
+    //     }
+    // }, [props.user.role]);
 
 
     const handleChange = (event) => {
         let name = event.target.name;
         let value = event.target.value;
-        setDonorInfo({
-            ...donorInfo,
+        setWorkerInfo({
+            ...workerInfo,
             [name]: value
         });
     }
@@ -48,27 +63,32 @@ const Registracija = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log('Submitting!');
-        console.log(donorInfo);
+        console.log(workerInfo);
 
         var url
-        if (props.role == 'BANK_WORKER') {
-            url = '/api/v1/donor/add-donor'
-        } else {
-            url = '/api/v1/donor/registration'
+        if(props.existing){
+            url='/api/v1/bank-worker/update';
+        } else{
+            url = '/api/v1/bank-worker'
         }
 
-        axios.post(url, donorInfo)
+        axios.post(url, workerInfo, { headers: { "Authorization": `Bearer ${props.token}`} })
             .then((response) => {
-                console.log('User successfully created:');
+                console.log('Worker successfully created:');
                 console.log(response.data)
 
-                window.localStorage.setItem('donor', JSON.stringify(response.data));
-                props.setDonor(response.data)
-                history.push('/kreiran_donor');
+                props.setWorker(response.data) //Upitna potreba za stanjem worker
+                if(props.existing){
+                    history.goBack();
+                }
+                else{
+                    props.setExisting(true);
+                    history.push('/kreiran_djelatnik');
+                }
             })
             .catch((error) => {
-                console.log('Error while creating user. Response: ' + error.response);
-                console.log(error);
+                console.log('Error while creating worker. Response: ' + error.response);
+                console.log(error.response);
                 if (error.response) {
                     if (error.response.status == 400) {
                         const message = error.response.data;
@@ -78,13 +98,13 @@ const Registracija = (props) => {
                             } else {
                                 setErrorMessage('Greška! Pogrešan format OIB-a.');
                             }
-                        } else if (message.includes('blood')) {
-                            setErrorMessage('Greška! Krvna grupa mora se postaviti.');
-                        }
+                        } 
                         console.log(error.response.data);
                     } else {
                         setErrorMessage('Greška pri registraciji!');
                     }
+                } else{
+                    setErrorMessage('Unutarnja greška');s
                 }
                 setErrorHidden(false);
             });
@@ -92,25 +112,38 @@ const Registracija = (props) => {
 
     return (
         <div className="reg">
+            ({props.user.role})
             <form onSubmit={(event) => handleSubmit(event)} className='formular'>
                 <div className="tekst">
-                    <p>Kreiraj korisnički račun! ({props.role})</p>
+                    <p>{props.existing?"Uredi ":"Kreiraj "}korisnički račun!</p>
                 </div>
                 <div className="label">
                     <label>Osobni podaci</label>
                 </div>
+                {props.existing? //OVO POLJE AKO SE MOŽE ZASIVITI
+                <div className="single">
+                <input
+                    onChange={(event) => handleChange(event)}
+                    name='donorId'
+                    type="text"
+                    defaultValue={"ID: " + props.user.userId}
+                    disabled></input>
+                </div>    
+                :""}
                 <div className="dupli">
                     <input
                         onChange={(event) => handleChange(event)}
                         name='firstName'
                         type="text"
                         placeholder="Ime *"
+                        defaultValue={workerInfo.firstName}
                         required></input>
                     <input
                         onChange={(event) => handleChange(event)}
                         name='lastName'
                         type="text"
                         placeholder="Prezime *"
+                        defaultValue={workerInfo.lastName}
                         required></input>
                 </div>
                 <div className="single">
@@ -121,6 +154,7 @@ const Registracija = (props) => {
                         placeholder="OIB *"
                         minLength='11'
                         maxLength='11'
+                        defaultValue={workerInfo.oib}
                         required></input>
                 </div>
                 <div className="dupli">
@@ -132,12 +166,14 @@ const Registracija = (props) => {
                         onFocus={() => (ref.current.type = 'date')}
                         onBlur={() => (ref.current.type = 'text')}
                         placeholder="Datum rođenja *"
+                        defaultValue={workerInfo.birthDate}
                         required></input>
                     <input
                         onChange={(event) => handleChange(event)}
                         name='birthPlace'
                         type="text"
                         placeholder="Mjesto rođenja *"
+                        defaultValue={workerInfo.birthPlace}
                         required></input>
                 </div>
                 <div className="single">
@@ -146,6 +182,7 @@ const Registracija = (props) => {
                         name='address'
                         type="text"
                         placeholder="Adresa stanovanja *"
+                        defaultValue={workerInfo.address}
                         required></input>
                 </div>
                 <div className="label">
@@ -157,6 +194,7 @@ const Registracija = (props) => {
                         name='email'
                         type="text"
                         placeholder="Email *"
+                        defaultValue={workerInfo.email}
                         required></input>
                 </div>
                 <div className="single">
@@ -165,54 +203,34 @@ const Registracija = (props) => {
                         name='privateContact'
                         type="text"
                         placeholder="Kontakt (osobni) *"
+                        defaultValue={workerInfo.privateContact}
                         maxLength='10'
                         required></input>
                 </div>
                 <div className="dupli">
                     <input
                         onChange={(event) => handleChange(event)}
-                        name='workplace'
+                        name='workPlace'
                         type="text"
-                        placeholder="Mjesto zaposlenja (firma)"></input>
+                        defaultValue={workerInfo.workPlace}
+                        placeholder="Mjesto zaposlenja (firma)*"
+                        required></input>
                     <input
                         onChange={(event) => handleChange(event)}
                         name='workContact'
                         type="text"
-                        placeholder="Kontakt (poslovni)"
-                        maxLength='10'></input>
-                </div>
-                <div className="label">
-                    <label>Zdravstveni podaci*</label>
-                </div>
-                <div className="krgrupe">
-                    <label>Krvna grupa</label>
-                    <select defaultValue="---"
-                        disabled={props.role != "BANK_WORKER"}
-                        onChange={(event) => {
-                            event.target.name = "bloodType";
-                            handleChange(event);
-                        }}>
-                        <option value="---">Nema</option>
-                        <option value="A+">A+</option>
-                        <option value="A-">A-</option>
-                        <option value="B+">B+</option>
-                        <option value="B-">B-</option>
-                        <option value="AB+">AB+</option>
-                        <option value="AB-">AB-</option>
-                        <option value="0+">0+</option>
-                        <option value="0-">0-</option>
-                    </select>
-                </div>
-                <div className="napomena">
-                    <p>*Vašu krvnu grupu popunjava djelatnik pri prvom doniranju krvi.</p>
+                        placeholder="Kontakt (poslovni)*"
+                        defaultValue={workerInfo.workContact}
+                        maxLength='10'
+                        required></input>
                 </div>
                 {errorHidden ? null : <ErrorCard message={errorMessage} />}
                 <div className="gumbi">
-                    <button className='kreiraj'>Kreiraj račun</button>
+                    <button className='kreiraj'>{props.existing? "Pohrani promjene":"Kreiraj račun"}</button>
                 </div>
             </form>
         </div>
     )
 }
 
-export default Registracija;
+export default StvoriDjelatnika;

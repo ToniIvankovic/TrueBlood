@@ -11,15 +11,15 @@ import progi.megatron.model.BloodSupply;
 @Transactional
 public interface BloodSupplyRepository extends JpaRepository<BloodSupply, String> {
 
+    BloodSupply save(BloodSupply bloodSupply);
+
     @Transactional
     @Modifying
     @Query("UPDATE BloodSupply b SET b.numberOfUnits = ?2 WHERE b.bloodType = ?1")
-    void donateBlood(String bloodType, int numberOfUnits);
+    void manageBloodSupply(String bloodType, int numberOfUnits);
 
     BloodSupply getBloodSupplyByBloodType(String bloodType);
 
-    // todo: send blood to hospital
 
-    // todo: set blood limits - max and min
 
 }
