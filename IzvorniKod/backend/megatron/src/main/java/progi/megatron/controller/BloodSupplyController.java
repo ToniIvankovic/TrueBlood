@@ -56,7 +56,7 @@ public class BloodSupplyController {
     @PostMapping("/decrease")
     public ResponseEntity<Object> decreaseBloodSupply(@RequestBody BloodSupplyDecreaseDTO bloodSupplyDecreaseDTO) {
         try {
-            return ResponseEntity.ok(bloodSupplyService.manageBloodSupply(bloodSupplyDecreaseDTO.getBloodType(), bloodSupplyDecreaseDTO.getNumberOfUnits(), false));
+            return ResponseEntity.ok(bloodSupplyService.manageBloodSupply(bloodSupplyDecreaseDTO.getBloodTypes(), bloodSupplyDecreaseDTO.getNumbersOfUnits(), false));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }

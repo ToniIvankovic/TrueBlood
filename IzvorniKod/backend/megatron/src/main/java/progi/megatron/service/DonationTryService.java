@@ -45,7 +45,7 @@ public class DonationTryService {
             if (donor.getPermRejectedReason() != null) {
                 donationTryRequestDTO.setRejectReason("Donor is permanently rejected.");
             } else {
-                bloodSupplyService.manageBloodSupply(donor.getBloodType(), 1, true);
+                bloodSupplyService.manageBloodSupply(new String[]{donor.getBloodType()}, new int[]{1}, true);
                 donated = true;
             }
         }

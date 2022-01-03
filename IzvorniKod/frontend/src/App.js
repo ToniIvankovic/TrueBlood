@@ -15,11 +15,13 @@ import Update from "./Update";
 import PokusajDoniranja from "./PokusajDoniranja";
 import TraziDonora from "./TraziDonora";
 import RacunNeaktiviran from "./RacunNeaktiviran";
+import SlanjeKrvi from "./SlanjeKrvi";
 
 import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, userNone, userPublic, donorNone, workerNone } from "./Util";
 import _ from 'lodash';
 import KreiranDjelatnik from "./KreiranDjelatnik";
 import PostPokusajDoniranja from "./PostPokusajDoniranja";
+import OptimalneGranice from "./OptimalneGranice";
 
 // TODO: global context for role and user data - done?
 
@@ -151,6 +153,16 @@ const App = () => {
                         rejectReason={rejectReason}
                         permRejected={permRejected}
                         successfulDonation={successfulDonation} />
+                    </Route>
+                    <Route path='/slanje_krvi' exact>
+                        <SlanjeKrvi 
+                        user={user}
+                        token={token} />
+                    </Route>
+                    <Route path='/optimalne_granice' exact>
+                        <OptimalneGranice
+                        user={user}
+                        token={token} />
                     </Route>
                 </Switch>
             </Router>
