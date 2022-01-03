@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import progi.megatron.exception.WrongBankWorkerException;
 import progi.megatron.exception.WrongDonorException;
 import progi.megatron.model.BankWorker;
+import progi.megatron.model.Donor;
 import progi.megatron.model.User;
 import progi.megatron.model.dto.BankWorkerDTO;
 import progi.megatron.repository.BankWorkerRepository;
@@ -13,6 +14,12 @@ import progi.megatron.util.Role;
 import progi.megatron.validation.BankWorkerValidator;
 import progi.megatron.validation.IdValidator;
 import progi.megatron.validation.OibValidator;
+
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class BankWorkerService {
@@ -45,6 +52,30 @@ public class BankWorkerService {
     public BankWorker getBankWorkerByOib(String oib){
         oibValidator.validateOib(oib);
         return bankWorkerRepository.getBankWorkerByOib(oib);
+    }
+
+    public List<BankWorker> getBankWorkersByAny(String query) {
+        if(query.isEmpty())
+            return new LinkedList<>();
+
+        Set<BankWorker> bankWorkerSet = new HashSet<>();
+        String[] querySplit = query.split(" ");
+        boolean firstPass = true;
+        for(String part : querySplit){
+            Set<BankWorker> localBankWorkerSet = new HashSet<>();
+            try{
+                BankWorker bankWorkerById = bankWorkerRepository.getBankWorkerByBankWorkerId(Long.valueOf(part));
+                if(bankWorkerById != null) localBankWorkerSet.add(bankWorkerById);
+            } catch (NumberFormatException e){
+            }
+            localBankWorkerSet.addAll(bankWorkerRepository.getBankWorkersByOibIsContaining(part));
+            localBankWorkerSet.addAll(bankWorkerRepository.getBankWorkerByFirstNameIsContainingIgnoreCase(part));
+            localBankWorkerSet.addAll(bankWorkerRepository.getBankWorkerByLastNameIsContainingIgnoreCase(part));
+            if(firstPass) bankWorkerSet.addAll(localBankWorkerSet);
+            else bankWorkerSet.retainAll(localBankWorkerSet);
+            firstPass = false;
+        }
+        return bankWorkerSet.stream().collect(Collectors.toList());
     }
 
     public BankWorker createBankWorker(BankWorkerDTO bankWorkerDTO) {

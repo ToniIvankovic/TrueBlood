@@ -20,6 +20,9 @@ public interface DonorRepository extends JpaRepository<Donor, Long> {
 
     List<Donor> getDonorsByOibIsContaining(String oib);
 
+    List<Donor> getDonorByFirstNameIsContainingIgnoreCase(String id);
+    List<Donor> getDonorByLastNameIsContainingIgnoreCase(String id);
+
     List<Donor> getDonorsByFirstNameIsContaining(String firstName);
 
     List<Donor> getDonorsByLastNameIsContaining(String lastName);
