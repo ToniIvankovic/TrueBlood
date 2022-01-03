@@ -133,9 +133,14 @@ public class DonorService {
 
     public List<Donor> getDonorsByAny(String query) {
         Set<Donor> donorSet = new HashSet<>();
+        try{
+            Donor donorById = donorRepository.getDonorByDonorId(Long.valueOf(query));
+            if(donorById != null) donorSet.add(donorById);
+        } catch (NumberFormatException e){
+        }
         donorSet.addAll(donorRepository.getDonorsByOibIsContaining(query));
-        donorSet.addAll(donorRepository.getDonorsByFirstNameIsContaining(query));
-        donorSet.addAll(donorRepository.getDonorsByLastNameIsContaining(query));
+        donorSet.addAll(donorRepository.getDonorByFirstNameIsContainingIgnoreCase(query));
+        donorSet.addAll(donorRepository.getDonorByLastNameIsContainingIgnoreCase(query));
         return donorSet.stream().collect(Collectors.toList());
     }
 

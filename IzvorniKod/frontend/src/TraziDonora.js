@@ -24,17 +24,12 @@ const TraziDonora = (props) => {
     const [expanded, setExpanded] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        window.localStorage.setItem("donor", JSON.stringify(donor));
-        props.setDonor(donor); //Dojavljuje app.js-u da je donor postavljen u localstorage
-        history.goBack();
-    };
-
-    useEffect(() => {
-        console.log("TraziDonora props");
-        console.log(props);
-    }, []);
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     window.localStorage.setItem("donor", JSON.stringify(donor));
+    //     props.setDonor(donor); //Dojavljuje app.js-u da je donor postavljen u localstorage
+    //     history.goBack();
+    // };
 
     const queryDonors = async (query) => {
         setLoading(true);
@@ -44,40 +39,26 @@ const TraziDonora = (props) => {
                 //headers: { Authorization: bearerAuth },
             })
             .then((response) => {
-                let newDonorList = response.data.map((el) => {
-                    // id has to be set for datagrid to work
-                    el.id = el.donorId;
-                    return el;
-                });
-
-                // if(newDonorList.length == 1) {
-                //     setSelectedDonor(newDonorList[0]);
-                // }
-                console.log("query response");
-
-                setDonorList(newDonorList);
+                if(!response.data ||
+                    response.data.length == 1 && response.data[0] == null){
+                        setDonorList([]);
+                    }
+                else{
+                    let newDonorList = response.data.map((el) => {
+                        // id has to be set for datagrid to work
+                        if(el) el.id = el.donorId;
+                        else return {id:9999999};
+                        return el;
+                    });
+                    
+                    console.log("query response");
+                    setDonorList(newDonorList);
+                }
             })
             .finally(() => {
                 setLoading(false);
             });
     };
-
-    const findDonor = (event) => {
-        //treba slati upit na endpoint i dohvatiti preostale podatke - ovo je samo fake placeholder
-        //TODO: u tražilici napraviti onchange koji će mijenjati neke stateove i oni se šalju u requestu
-        setFoundDonor({
-            donorId: 1000003,
-            firstName: "toni",
-            lastName: "ivankovic",
-            oib: "24144225112",
-            bloodType: "0+",
-        });
-    };
-
-    useEffect(() => {
-        console.log("Donor u trazidonora:");
-        console.log(donor);
-    }, [donor]);
 
     return (
         <>
@@ -85,6 +66,7 @@ const TraziDonora = (props) => {
                 <Grid item xs={11} sm={10} md={8}>
                     <Box>
                         <SearchBar
+                            donorList={donorList}
                             columns={searchDonorColumns}
                             data={donorList}
                             queryFunction={queryDonors}
@@ -92,58 +74,16 @@ const TraziDonora = (props) => {
                             selectedDonor={props.donor}
                             setSelectedDonor={props.setDonor}
                             onSelect={setExpanded}
+                            setSelection={(donor) => {
+                                props.setDonor(donor)
+                                props.setExisting(true)
+                                history.goBack();
+                            }}
                         />
                     </Box>
                 </Grid>
             </Grid>
         </>
-        // <div className="reg">
-        //     <form onSubmit={(event) => handleSubmit(event)} className='formular'>
-        //         ({props.user.role})
-        //         <div className="tekst">
-        //             <p>Pronađi donora</p>
-        //         </div>
-        //         <br />
-        //         <div className="label">
-        //             <label>Osobni podaci</label>
-        //         </div>
-        //         <div className="single">
-        //             <input
-        //                 name='donorId'
-        //                 type="text"
-        //                 placeholder={"donorId: " + donor.donorId}
-        //             ></input>
-        //         </div>
-        //         <div className="dupli">
-        //             <input
-        //                 name='firstName'
-        //                 type="text"
-        //                 placeholder={"ime: " + donor.firstName}
-        //             ></input>
-        //             <input
-        //                 name='lastName'
-        //                 type="text"
-        //                 placeholder={"prezime: " + donor.lastName}
-        //             ></input>
-        //         </div>
-        //         <div className="single">
-        //             <input
-        //                 name='oib'
-        //                 type="text"
-        //                 placeholder={"OIB: " + donor.oib}
-        //             ></input>
-        //         </div>
-
-        //         {errorHidden ? null : <ErrorCard message={errorMessage} />}
-        //         <div className="gumbi">
-        //             <button type="button" onClick={(event) => findDonor(event)} className='kreiraj'>Pronađi</button>
-        //         </div>
-        //         <br />
-        //         <div className="gumbi">
-        //             <button className='kreiraj'>Uzmi ovog donora</button>
-        //         </div>
-        //     </form>
-        // </div>
     );
 };
 

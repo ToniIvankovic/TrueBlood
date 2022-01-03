@@ -54,8 +54,8 @@ const SearchBar = (props) => {
             </Box>
 
             <Box
-                // sx={{ height: donorList.length > 0 ? 300 : "auto" }}
-                sx={{ height: 300 }}
+                // sx={{ height: props.donorList.length > 0 ? 300 : "auto" }}
+                sx={{ height: 400 }}
             >
                 <DataGrid
                     rows={props.data}
@@ -63,11 +63,11 @@ const SearchBar = (props) => {
                     columns={props.columns}
                     page={page}
                     pageSize={resultsPerPage}
-                    rowsPerPageOptions={[5]}
+                    rowsPerPageOptions={[20,10,5]}
                     onCellClick={(event) => handleCellClick(event)}
                     onPageSizeChange={(size) => setResultsPerPage(size)}
                     onPageChange={(page) => handlePageChange(page)}
-                    paginationMode="server"
+                    paginationMode="client"
                     disableSelectionOnClick
                     loading={props.loading}
                 />

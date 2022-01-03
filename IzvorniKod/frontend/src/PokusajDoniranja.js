@@ -218,7 +218,7 @@ const PokusajDoniranja = (props) => {
                     </div>
                     <div className="krgrupe">
                         <label>Krvna grupa</label>
-                        <select value={props.donor.bloodType} disabled> {/*Možda treba trimmati bloodtype ako postoji*/ }
+                        <select value={props.donor.bloodType?.trim()} disabled> {/*Možda treba trimmati bloodtype ako postoji*/ }
                             <option value="---">---</option>
                             <option value="A+">A+</option>
                             <option value="A-">A-</option>
