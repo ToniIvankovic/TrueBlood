@@ -39,7 +39,7 @@ const SearchBar = (props) => {
                 <TextField
                     sx={{ width: "100%" }}
                     name="search"
-                    label="Pretraži donore"
+                    label= {(props.userClass == 'donor') ? "Pretraži donore" : "Pretraži djelatnike"}
                     onChange={(event) => debouncedHandleQueryChange(event)}
                     InputProps={{
                         startAdornment: (

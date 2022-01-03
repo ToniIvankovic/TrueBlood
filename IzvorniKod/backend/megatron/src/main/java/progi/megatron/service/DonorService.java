@@ -23,6 +23,7 @@ import progi.megatron.validation.OibValidator;
 
 import javax.mail.MessagingException;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -132,15 +133,26 @@ public class DonorService {
     }
 
     public List<Donor> getDonorsByAny(String query) {
+        if(query.isEmpty())
+            return new LinkedList<>();
+        
         Set<Donor> donorSet = new HashSet<>();
-        try{
-            Donor donorById = donorRepository.getDonorByDonorId(Long.valueOf(query));
-            if(donorById != null) donorSet.add(donorById);
-        } catch (NumberFormatException e){
+        String[] querySplit = query.split(" ");
+        boolean firstPass = true;
+        for(String part : querySplit){
+            Set<Donor> localDonorSet = new HashSet<>();
+            try{
+                Donor donorById = donorRepository.getDonorByDonorId(Long.valueOf(part));
+                if(donorById != null) localDonorSet.add(donorById);
+            } catch (NumberFormatException e){
+            }
+            localDonorSet.addAll(donorRepository.getDonorsByOibIsContaining(part));
+            localDonorSet.addAll(donorRepository.getDonorByFirstNameIsContainingIgnoreCase(part));
+            localDonorSet.addAll(donorRepository.getDonorByLastNameIsContainingIgnoreCase(part));
+            if(firstPass) donorSet.addAll(localDonorSet);
+            else donorSet.retainAll(localDonorSet);
+            firstPass = false;
         }
-        donorSet.addAll(donorRepository.getDonorsByOibIsContaining(query));
-        donorSet.addAll(donorRepository.getDonorByFirstNameIsContainingIgnoreCase(query));
-        donorSet.addAll(donorRepository.getDonorByLastNameIsContainingIgnoreCase(query));
         return donorSet.stream().collect(Collectors.toList());
     }
 

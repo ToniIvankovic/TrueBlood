@@ -146,7 +146,16 @@ const App = () => {
                         token={token} 
                         user={user} 
                         setDonor={setDonor} 
-                        setExisting={setExistingDonor} />
+                        setExisting={setExistingDonor}
+                        userClass={'donor'} />
+                    </Route>
+                    <Route path='/trazi_djelatnika' exact>
+                        <TraziDonora 
+                        token={token} 
+                        user={user} 
+                        setDonor={setDonor} 
+                        setExisting={setExistingDonor}
+                        userClass={'bank-worker'} />
                     </Route>
                     <Route path='/donirano' exact>
                         <PostPokusajDoniranja 

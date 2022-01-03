@@ -8,6 +8,7 @@ import SearchBar from "./components/SearchBar";
 import { Grid, Box, Button, Divider } from "@mui/material";
 import CustomizedAccordion from "./components/CustomizedAccordion";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import { searchBankWorkerColumns } from "./model/SearchBankWorkerColumns";
 
 const TraziDonora = (props) => {
     const history = useHistory();
@@ -33,7 +34,7 @@ const TraziDonora = (props) => {
 
     const queryDonors = async (query) => {
         setLoading(true);
-        const url = "/api/v1/donor?query=" + query;
+        const url = `/api/v1/${props.userClass}?query=` + query;
         await axios
             .get(url, {
                 //headers: { Authorization: bearerAuth },
@@ -46,7 +47,8 @@ const TraziDonora = (props) => {
                 else{
                     let newDonorList = response.data.map((el) => {
                         // id has to be set for datagrid to work
-                        if(el) el.id = el.donorId;
+
+                        if(el) el.id = (props.userClass == 'donor') ? el.donorId : el.bankWorkerId;
                         else return {id:9999999};
                         return el;
                     });
@@ -67,7 +69,7 @@ const TraziDonora = (props) => {
                     <Box>
                         <SearchBar
                             donorList={donorList}
-                            columns={searchDonorColumns}
+                            columns={(props.userClass == 'donor') ? searchDonorColumns : searchBankWorkerColumns}
                             data={donorList}
                             queryFunction={queryDonors}
                             loading={loading}
@@ -79,6 +81,7 @@ const TraziDonora = (props) => {
                                 props.setExisting(true)
                                 history.goBack();
                             }}
+                            userClass={props.userClass}
                         />
                     </Box>
                 </Grid>
