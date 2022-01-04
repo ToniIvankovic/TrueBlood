@@ -1,7 +1,9 @@
 package progi.megatron.service;
 
 import org.springframework.stereotype.Service;
+import progi.megatron.exception.DonationWaitingPeriodNotOver;
 import progi.megatron.exception.WrongBankWorkerException;
+import progi.megatron.exception.WrongDonationTryException;
 import progi.megatron.exception.WrongDonorException;
 import progi.megatron.model.BankWorker;
 import progi.megatron.model.DonationTry;
@@ -13,6 +15,7 @@ import progi.megatron.validation.IdValidator;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DonationTryService {
@@ -31,7 +34,13 @@ public class DonationTryService {
         this.idValidator = idValidator;
     }
 
-    public DonationTryResponseDTO createDonationTry(DonationTryRequestDTO donationTryRequestDTO){
+    public DonationTryResponseDTO createDonationTry(DonationTryRequestDTO donationTryRequestDTO) {
+
+        LocalDate lastDonationDate = getLastDonationDateForDonor(donationTryRequestDTO.getDonorId());
+        if (lastDonationDate != null && lastDonationDate.plusMonths(3).isAfter(LocalDate.now())) {
+            throw new DonationWaitingPeriodNotOver("Donor must wait at least three months after last donation before a new blood donation.");
+        }
+
         boolean donated = false;
 
         Donor donor = donorService.getDonorByDonorId(donationTryRequestDTO.getDonorId());
@@ -50,6 +59,13 @@ public class DonationTryService {
             }
         }
 
+        if (donationTryRequestDTO.isReasonPerm()) {
+            String permRejectReason = donationTryRequestDTO.getRejectReason();
+            if (permRejectReason == null) throw new WrongDonationTryException("No reason for rejection given.");
+            donor.setPermRejectedReason(permRejectReason);
+            donorService.updateDonorByBankWorker(donor);
+        }
+
         DonationTry donationTry = new DonationTry (
                 null,
                 donationTryRequestDTO.getRejectReason(),
@@ -58,7 +74,6 @@ public class DonationTryService {
                 donor,
                 bankWorker
         );
-        //if (!donated) donationTry.setRejectReason("Donor is permanently rejected.");
 
         donationTry = donationTryRepository.save(donationTry);
 
@@ -76,12 +91,38 @@ public class DonationTryService {
         return donationTryResponseDTOS;
     }
 
-    public void getDonationTryByDonationId(String donationId) {
+    public DonationTry getDonationTryByDonationId(String donationId) {
         idValidator.validateId(donationId);
         DonationTry donationTry = donationTryRepository.getDonationTryByDonationId(Long.valueOf(donationId));
-        if (donationTry.getRejectReason() == null) {
-            // todo: download certificate
+        return donationTry;
+    }
+
+    public void generatePDFCertificateForSuccessfulDonation(String donationId) {
+        DonationTry donationTry = getDonationTryByDonationId(donationId);
+        if (donationTry != null && donationTry.getRejectReason() == null) {
+
         }
+    }
+
+    public List<Long> getIdsOfDonorsWhoDonatedToday() {
+        return donationTryRepository.getDonationTryByDonationDate(LocalDate.now()).stream().map(donationTry -> donationTry.getDonor().getDonorId()).collect(Collectors.toList());
+    }
+
+    public List<Long> getIdsOfDonorsWhoseWaitingPeriodIsOver() {
+        List<DonationTry> donationTriesThreeMonthsAgo = donationTryRepository.getDonationTryByDonationDate(LocalDate.now().minusMonths(3));
+        List<Long> idsOfDonorsWhoDonatedThreeMonthsAgo = donationTriesThreeMonthsAgo.stream().map(donationTry -> donationTry.getDonor().getDonorId()).collect(Collectors.toList());
+        return idsOfDonorsWhoDonatedThreeMonthsAgo;
+    }
+
+    public LocalDate getLastDonationDateForDonor(String donorId) {
+        List<DonationTryResponseDTO> donationTryHistory = getDonationTryHistory(donorId);
+        LocalDate lastDonationTry = null;
+        for (DonationTryResponseDTO donationTry : donationTryHistory) {
+            if (donationTry.getRejectedReason() == null && (lastDonationTry == null || lastDonationTry.isBefore(donationTry.getDonationDate()))) {
+                lastDonationTry = donationTry.getDonationDate();
+            }
+        }
+        return lastDonationTry;
     }
 
 }

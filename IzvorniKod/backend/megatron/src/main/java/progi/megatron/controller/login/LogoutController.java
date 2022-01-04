@@ -21,9 +21,6 @@ public class LogoutController {
 
     @GetMapping
     public ResponseEntity<? extends Object> logout(HttpServletRequest request) {
-//        if (userController.getCurrentUser().getStatusCode().isError()) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Already logged out.");
-//        }
         // todo: invalidate token
         return ResponseEntity.ok("Logged out.");
     }

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import progi.megatron.exception.WrongBankWorkerException;
 import progi.megatron.exception.WrongDonorException;
 import progi.megatron.model.BankWorker;
-import progi.megatron.model.Donor;
 import progi.megatron.model.User;
 import progi.megatron.model.dto.BankWorkerDTO;
 import progi.megatron.repository.BankWorkerRepository;
@@ -14,7 +13,6 @@ import progi.megatron.util.Role;
 import progi.megatron.validation.BankWorkerValidator;
 import progi.megatron.validation.IdValidator;
 import progi.megatron.validation.OibValidator;
-
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -113,4 +111,5 @@ public class BankWorkerService {
         bankWorkerRepository.save(bankWorker);
         return bankWorker;
     }
+
 }
