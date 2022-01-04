@@ -3,6 +3,7 @@ package progi.megatron.service;
 import org.springframework.stereotype.Service;
 import progi.megatron.exception.DonationWaitingPeriodNotOver;
 import progi.megatron.exception.WrongBankWorkerException;
+import progi.megatron.exception.WrongDonationTryException;
 import progi.megatron.exception.WrongDonorException;
 import progi.megatron.model.BankWorker;
 import progi.megatron.model.DonationTry;
@@ -56,6 +57,13 @@ public class DonationTryService {
                 bloodSupplyService.manageBloodSupply(new String[]{donor.getBloodType()}, new int[]{1}, true);
                 donated = true;
             }
+        }
+
+        if (donationTryRequestDTO.isReasonPerm()) {
+            String permRejectReason = donationTryRequestDTO.getRejectReason();
+            if (permRejectReason == null) throw new WrongDonationTryException("No reason for rejection given.");
+            donor.setPermRejectedReason(permRejectReason);
+            donorService.updateDonorByBankWorker(donor);
         }
 
         DonationTry donationTry = new DonationTry (
