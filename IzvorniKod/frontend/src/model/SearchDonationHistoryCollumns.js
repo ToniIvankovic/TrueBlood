@@ -28,7 +28,7 @@ export const searchDonationHistoryColumns = [
         headerName: "Preuzimanje",
         width: 150,
         renderCell: (params) => {
-            return <Button onClick={() => {downloadPDF(params.id)}}>Preuzmi</Button>;
+            return (params.row.rejectedReason == null) ? <Button onClick={() => {downloadPDF(params.id)}}>Preuzmi</Button> : "";
         }
     }
 ];
