@@ -95,4 +95,11 @@ public class DonationTryService {
         return idsOfDonorsWhoDonatedThreeMonthsAgo;
     }
 
+//    public LocalDate getLastDonationDateForDonor(String donorId) {
+//        idValidator.validateId(donorId);
+//        Donor donor = donorService.getDonorByDonorId(donorId);
+//        DonationTry lastDonationTry = donationTryRepository.getDonationTryOrderByDonorDesc(donor);
+//        return lastDonationTry.getDonationDate();
+//    }
+
 }
