@@ -67,7 +67,12 @@ const App = () => {
     return (
         <div className='app'>
             <Router>
-                <Navbar showProfile={token != null} />
+                <Navbar showProfile={token != null} onLogout={() => {
+                            setToken(null);
+                            setDonor({});
+                            setExistingDonor(false);
+                            setExistingWorker(false);
+                        }}/>
                 <Switch>
                     <Route path="/" exact>
                         <Home loggedIn={token != null} />

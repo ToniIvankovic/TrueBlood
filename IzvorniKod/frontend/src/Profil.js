@@ -1,35 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Profilimg from './Profile.png';
-import axios from './util/axios-instance';
-import { useHistory } from "react-router";
 
 const Profil = (props) => {
 
-    const history = useHistory();
-
-    // useEffect(() => {
-    //     const token = window.localStorage.getItem('token');
-    //     if (token == null) {
-    //         history.push('/');
-    //     }
-    // }, []);
-
-    const logout = (event) => {
-        const url = '/api/v1/logout';
-        axios.get(url)
-            .then((response) => {
-                console.log('LOGOUT SUCCESS');
-                history.push('/');
-            })
-            .catch((error) => {
-                console.log('LOGOUT ERROR: ' + error);
-            })
-            .finally(() => {
-                window.localStorage.clear();
-                props.onLogout();
-            });
-    }
 
     return (
         <div className="profile">
@@ -42,39 +16,39 @@ const Profil = (props) => {
             </div>
             <div className="uredi">
                 {props.user.role == 'DONOR' ?
-                    <Link to='/stvori_donora'>
+                    [
+                    <Link key={5} to='/stvori_donora'>
                         <button className="registracija"  onClick={(event) => {props.setExistingDonor(true)}}>Uredi podatke</button>
+                    </Link>,
+                    <Link key={6} to='/povijest_doniranja'>
+                        <button className="registracija">Prošle donacije</button>
                     </Link>
+                    ]
                     : ''}
                 {props.user.role == 'BANK_WORKER' ?
-                    <Link to='/stvori_djelatnika'>
+                    [
+                    <Link key={2} to='/stvori_djelatnika'>
                         <button className="registracija" >Uredi podatke</button>
-                    </Link>
-                    : ''}
-                <button onClick={(event) => logout(event)} className="submit">Odjava</button>
-                {props.user.role == 'BANK_WORKER' ?
-                [
+                    </Link>,
                     <Link key={0} to='/pokusaj_doniranja'>
                         <button className="registracija">Stvori pokušaj doniranja</button>
-                    </Link>,
-                    <Link key={1} to='/stvori_donora'>
-                        <button className="registracija" onClick={(event) => {props.setExistingDonor(false)}}>Stvori račun donora</button>
                     </Link>
-                ]
-                    
+                    ]
                     : ''}
                 {props.user.role == 'ADMIN' ?
-                <Link to='/stvori_djelatnika'>
-                    <button className="registracija">Stvori djelatnika</button>
-                </Link>
-                : ''}
+                    [
+                    <Link key={3} to='/stvori_djelatnika'>
+                        <button className="registracija">Stvori djelatnika</button>
+                    </Link>,
+                    <Link key={4} to='/deaktiviraj_racun'>
+                        <button className="registracija">Deaktiviraj račun</button>
+                    </Link>,
+                    <Link key={5} to='/optimalne_granice'>
+                        <button className="registracija">Postavi optimalne granice</button>
+                    </Link>
+                    ]
+                    : ''}
             </div>
-            {props.user.role == 'DONOR' ?
-                <div className="donacije">
-                    <p>Moje donacije</p>
-                    <div className="lista">...</div>
-                </div>
-                : ''}
             
             <button onClick={() => props.setUser({
                     ...props.user,
