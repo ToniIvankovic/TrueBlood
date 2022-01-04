@@ -185,6 +185,14 @@ const App = () => {
                         setExisting={()=>{}}
                         userClass={'history'} />
                     </Route>
+                    <Route path='/povijest_doniranja_donora' exact>
+                        <Trazilica 
+                        token={token} 
+                        user={{userId: donor.donorId, role:'DONOR'}} 
+                        setFoundUser={()=>{}} 
+                        setExisting={()=>{}}
+                        userClass={'history'} />
+                    </Route>
                     <Route path='/deaktiviraj_racun' exact>
                         <DeaktivirajRacun 
                         user={user} 

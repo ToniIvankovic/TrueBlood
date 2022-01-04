@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.dto.DonationTryRequestDTO;
 import progi.megatron.service.DonationTryService;
+import progi.megatron.service.UserService;
 import progi.megatron.util.CurrentUserUtil;
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,10 +18,12 @@ public class DonationTryController {
 
     private final DonationTryService donationTryService;
     private final CurrentUserUtil currentUserUtil;
+    private final UserService userService;
 
-    public DonationTryController(DonationTryService donationTryService, CurrentUserUtil currentUserUtil) {
+    public DonationTryController(UserService userService, DonationTryService donationTryService, CurrentUserUtil currentUserUtil) {
         this.donationTryService = donationTryService;
         this.currentUserUtil = currentUserUtil;
+        this.userService = userService;
     }
 
     @Secured({"ROLE_BANK_WORKER"})
@@ -33,11 +36,12 @@ public class DonationTryController {
         }
     }
 
-    @Secured({"ROLE_DONOR"})
+    @Secured({"ROLE_BANK_WORKER", "ROLE_DONOR"})
     @GetMapping("/{donorId}")
     public ResponseEntity<Object> getDonationTryHistory(@PathVariable String donorId, HttpServletRequest request) {
         try {
-            if (!currentUserUtil.checkIfCurrentUser(request, donorId)) {
+            String role = currentUserUtil.getCurrentUserRole(request);
+            if (!currentUserUtil.checkIfCurrentUser(request, donorId) && !role.equals("BANK_WORKER")) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not fetch other donor's donation history.");
             }
             return ResponseEntity.ok(donationTryService.getDonationTryHistory(donorId));

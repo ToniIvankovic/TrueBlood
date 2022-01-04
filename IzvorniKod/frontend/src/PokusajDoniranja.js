@@ -121,7 +121,7 @@ const PokusajDoniranja = (props) => {
         
         console.log(retVal)
         const url = "/api/v1/donation-try";
-        axios.post(url, retVal, { headers: { "Authorization": `Bearer ${props.token}` } })
+        axios.post(url, retVal)//, { headers: { "Authorization": `Bearer ${props.token}` } })
             .then((response) => {
                 props.setDonationPlace(donationTryInfo.donationPlace); //Čuva mjesto za nova doniranja
                 props.setDonor(donorNone);
@@ -176,9 +176,14 @@ const PokusajDoniranja = (props) => {
                     </Link>
                     <br/> <br/>
                     {props.existingDonor?
-                    <Link to='/stvori_donora'>
-                        <button className='maligumb' onClick={(event) => {props.setExistingDonor(true)}}>Uredi donora</button>
-                    </Link>
+                    [
+                        <Link key={1} to='/stvori_donora'>
+                            <button className='maligumb' onClick={(event) => {props.setExistingDonor(true)}}>Uredi donora</button>
+                        </Link>,
+                        <Link key={2} to='/povijest_doniranja_donora'>
+                            <button className='maligumb'>Prošle donacije</button>
+                        </Link>
+                    ]
                     :''
                     }
                 </div>
