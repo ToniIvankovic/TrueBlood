@@ -21,8 +21,6 @@ public interface BankWorkerRepository extends JpaRepository<BankWorker, Long> {
 
     List<BankWorker> getBankWorkerByLastNameIsContainingIgnoreCase(String oib);
 
-    BankWorker save(BankWorker bankWorker);
-
     // todo: delete bank worker
 
 }

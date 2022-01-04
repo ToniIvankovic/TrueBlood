@@ -11,8 +11,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    User save(User user);
-
     Optional<User> getUserByUserId(Long userId);
 
     @Transactional
