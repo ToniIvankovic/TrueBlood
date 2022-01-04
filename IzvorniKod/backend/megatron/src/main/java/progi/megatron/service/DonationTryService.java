@@ -1,6 +1,5 @@
 package progi.megatron.service;
 
-import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 import progi.megatron.exception.DonationWaitingPeriodNotOver;
 import progi.megatron.exception.WrongBankWorkerException;
@@ -11,7 +10,6 @@ import progi.megatron.model.Donor;
 import progi.megatron.model.dto.DonationTryRequestDTO;
 import progi.megatron.model.dto.DonationTryResponseDTO;
 import progi.megatron.repository.DonationTryRepository;
-import progi.megatron.util.Scheduler;
 import progi.megatron.validation.IdValidator;
 import java.time.LocalDate;
 import java.util.ArrayList;

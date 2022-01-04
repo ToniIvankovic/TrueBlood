@@ -18,6 +18,4 @@ public interface BloodSupplyRepository extends JpaRepository<BloodSupply, String
 
     BloodSupply getBloodSupplyByBloodType(String bloodType);
 
-
-
 }
