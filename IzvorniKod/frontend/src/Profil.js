@@ -1,9 +1,51 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Profilimg from './Profile.png';
+import { getBloodSupply, getDonorBloodType } from "./Util";
 
 const Profil = (props) => {
 
+    const [bloodType, setBloodType] = useState(undefined)
+    const [bloodSupply, setBloodSupply] = useState(undefined);
+    useEffect(()=>{
+
+        getBloodSupply(setBloodSupply);
+        
+        if(props.user.role == 'DONOR'){
+            getDonorBloodType(props.user.userId, setBloodType)
+        }
+    },[props.user.role])
+    
+    
+    const [warningMessage, setWarningMessage] = useState(undefined)
+    useEffect(()=>{
+        if(bloodSupply != undefined){
+            if(bloodType != undefined && props.user.role == 'DONOR'){
+                for (let supply of bloodSupply){
+                    if(supply.bloodType.trim() == bloodType.trim() && supply.review == 'TOO LITTLE'){
+                        setWarningMessage("Nedostaje krvi vaše krvne grupe (" + bloodType 
+                        + ")\nDonirajte ako ste u mogućnosti")
+                        break;
+                    }
+                }
+            } else if(props.user.role == 'BANK_WORKER'){
+                let anyOutOfBounds = false;
+                let warningString = "Krvne grupe izvan optimalnih granica: ";
+                for (let supply of bloodSupply){
+                    if(supply.review == 'TOO LITTLE'){
+                        anyOutOfBounds = true;
+                        warningString += supply.bloodType + " (premalo), ";
+                    } else if(supply.review == 'TOO MUCH'){
+                        anyOutOfBounds = true;
+                        warningString += supply.bloodType + " (previše), ";
+                    }
+                }
+                if(anyOutOfBounds){
+                    setWarningMessage(warningString)
+                }
+            }
+        }
+    },[bloodType, bloodSupply])
 
     return (
         <div className="profile">
@@ -22,7 +64,10 @@ const Profil = (props) => {
                     </Link>,
                     <Link key={6} to='/povijest_doniranja'>
                         <button className="registracija">Prošle donacije</button>
-                    </Link>
+                    </Link>,
+                    <div key={7} className="image-alert">
+                        {warningMessage? <p className="alert">{warningMessage}</p> : ''}
+                    </div>
                     ]
                     : ''}
                 {props.user.role == 'BANK_WORKER' ?
@@ -32,7 +77,10 @@ const Profil = (props) => {
                     </Link>,
                     <Link key={0} to='/pokusaj_doniranja'>
                         <button className="registracija">Stvori pokušaj doniranja</button>
-                    </Link>
+                    </Link>,
+                    <div key={8} className="image-alert">
+                        {warningMessage? <p className="alert">{warningMessage}</p> : ''}
+                    </div>
                     ]
                     : ''}
                 {props.user.role == 'ADMIN' ?

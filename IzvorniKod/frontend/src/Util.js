@@ -159,6 +159,23 @@ const getDonorPermRejected = async (userId, setPermDeactivated) => {
         })
 }
 
+const getDonorBloodType = async (donorId, setBloodType) => {
+    
+    const url = '/api/v1/donor/id/' + donorId;
+    
+    await axios.get(url)
+        .then((response) => {
+            if (response.data != null) {
+                setBloodType(response.data.bloodType);
+                return;
+            } else {
+                console.log("Server nije pronašao usera s id " + userId);
+            }
+        })
+        .catch((error) => {
+            console.log('Error retrieving user info: ' + error);
+        })
+}
 
 const isJSONEqual = (v1,v2) =>{
     if(JSON.stringify(v1) == JSON.stringify(v2))
@@ -187,6 +204,7 @@ export { getDonorPermRejected };
 export { isEqualWithNull };
 export { getBloodSupply };
 export { downloadPDF };
+export { getDonorBloodType };
 export { userNone };
 export { userPublic };
 export { donorNone };
