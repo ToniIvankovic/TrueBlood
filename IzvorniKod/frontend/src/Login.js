@@ -37,33 +37,32 @@ const Login = (props) => {
         })
             .then((response) => {
                 setErrorHidden(true);
-                // console.log(response.headers.authorization);
                 window.localStorage.setItem('token', response.headers.authorization);
                 props.onLogin();
                 history.push('/profil');
             })
             .catch((error) => {
                 if (!error.response) {
-                    setErrorMessage('Greška! Nije moguće dohvatiti server.');
+                    setErrorMessage('Greška! Nije moguće dohvatiti server. Molimo pričekajte nekoliko trenutaka...');
                     setErrorHidden(false);
                     console.log(error.statusText);
                     return;
                 }
                 const response = error.response;
-                if (range(300, 400).includes(response.status)) {
-                    console.log('300 error: ' + response.status);
-                } else if (range(400, 500).includes(response.status)) {
+                if (range(400, 500).includes(response.status)) {
                     if (response.status == 401) {
                         // authentication error, userid or password incorrect
                         console.log('userid and/or password incorrect');
                         setErrorMessage('Netočan ID ili lozinka!');
                         setErrorHidden(false);
-                    } else if (response.status == 404) {
-                        // hmm
-                        console.log('404 error: ' + response.status)
                     } else {
-                        //other 400-range errors
-                        console.log('400 error: ' + response.status)
+                        if(response.includes("not activated")){
+                            setErrorMessage('Račun nije aktiviran - molimo prije korištenja aktivirajte račun poveznicom u e-pošti');
+                            setErrorHidden(false);
+                        } else if (response.includes("permanently deactivated")){
+                            setErrorMessage('Račun je deaktiviran - ako mislite da je ovo greška, molimo kontaktirajte administratora sustava');
+                            setErrorHidden(false);
+                        }
                     }
                 } else if (range(500, 600).includes(response.status)) {
                     console.log('Internal server error: ' + response.statusText);

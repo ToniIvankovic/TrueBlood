@@ -13,6 +13,11 @@ import progi.megatron.util.Role;
 import progi.megatron.validation.BankWorkerValidator;
 import progi.megatron.validation.IdValidator;
 import progi.megatron.validation.OibValidator;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class BankWorkerService {
@@ -47,6 +52,30 @@ public class BankWorkerService {
         return bankWorkerRepository.getBankWorkerByOib(oib);
     }
 
+    public List<BankWorker> getBankWorkersByAny(String query) {
+        if(query.isEmpty())
+            return new LinkedList<>();
+
+        Set<BankWorker> bankWorkerSet = new HashSet<>();
+        String[] querySplit = query.split(" ");
+        boolean firstPass = true;
+        for(String part : querySplit){
+            Set<BankWorker> localBankWorkerSet = new HashSet<>();
+            try{
+                BankWorker bankWorkerById = bankWorkerRepository.getBankWorkerByBankWorkerId(Long.valueOf(part));
+                if(bankWorkerById != null) localBankWorkerSet.add(bankWorkerById);
+            } catch (NumberFormatException e){
+            }
+            localBankWorkerSet.addAll(bankWorkerRepository.getBankWorkersByOibIsContaining(part));
+            localBankWorkerSet.addAll(bankWorkerRepository.getBankWorkerByFirstNameIsContainingIgnoreCase(part));
+            localBankWorkerSet.addAll(bankWorkerRepository.getBankWorkerByLastNameIsContainingIgnoreCase(part));
+            if(firstPass) bankWorkerSet.addAll(localBankWorkerSet);
+            else bankWorkerSet.retainAll(localBankWorkerSet);
+            firstPass = false;
+        }
+        return bankWorkerSet.stream().collect(Collectors.toList());
+    }
+
     public BankWorker createBankWorker(BankWorkerDTO bankWorkerDTO) {
 
         String password = userService.randomPassword();
@@ -62,7 +91,8 @@ public class BankWorkerService {
         }
 
         // todo: send email
-        logger.info("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
+
+        System.out.println("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
 
         return bankWorkerRepository.save(bankWorker);
     }
@@ -82,4 +112,5 @@ public class BankWorkerService {
         bankWorkerRepository.save(bankWorker);
         return bankWorker;
     }
+
 }

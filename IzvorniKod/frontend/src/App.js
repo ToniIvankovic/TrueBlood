@@ -13,13 +13,16 @@ import Home from "./Home";
 import Profil from "./Profil";
 import Update from "./Update";
 import PokusajDoniranja from "./PokusajDoniranja";
-import TraziDonora from "./TraziDonora";
-import RacunNeaktiviran from "./RacunNeaktiviran";
+import Trazilica from "./Trazilica";
+import SlanjeKrvi from "./SlanjeKrvi";
 
-import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, userNone, userPublic, donorNone, workerNone } from "./Util";
+import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, userNone, userPublic, donorNone, workerNone, getDonorPermRejected } from "./Util";
 import _ from 'lodash';
 import KreiranDjelatnik from "./KreiranDjelatnik";
 import PostPokusajDoniranja from "./PostPokusajDoniranja";
+import OptimalneGranice from "./OptimalneGranice";
+import DeaktivirajRacun from "./DeaktivirajRacun";
+import RacunDeaktiviran from "./RacunDeaktiviran";
 
 // TODO: global context for role and user data - done?
 
@@ -41,10 +44,10 @@ const App = () => {
 
 
     //Kada se nađe user, provjeriti je li aktiviran i postaviti njegov role
-    const [accActivated, setAccActivated] = useState(null);
+    const [donorPermRejected, setDonorPermRejected] = useState(null);
     useEffect(() => {
         if(!isEqualWithNull(user,userNone)){
-            getAccActivated(user.userId, setAccActivated);
+            getDonorPermRejected(user.userId, setDonorPermRejected);
         }
     }, [user]);
 
@@ -64,7 +67,12 @@ const App = () => {
     return (
         <div className='app'>
             <Router>
-                <Navbar showProfile={token != null} />
+                <Navbar showProfile={token != null} onLogout={() => {
+                            setToken(null);
+                            setDonor({});
+                            setExistingDonor(false);
+                            setExistingWorker(false);
+                        }}/>
                 <Switch>
                     <Route path="/" exact>
                         <Home loggedIn={token != null} />
@@ -76,9 +84,6 @@ const App = () => {
                         }}
                         setExistingDonor={setExistingDonor} />
                     </Route>
-                    <Route path='/racun_neaktiviran' exact>
-                        <RacunNeaktiviran user={user} accActivated={accActivated}/>
-                    </Route>
                     <Route path="/profil" exact>
                         <Profil onLogout={() => {
                             setToken(null);
@@ -86,11 +91,12 @@ const App = () => {
                             setExistingDonor(false);
                             setExistingWorker(false);
                         }}
-                            accActivated={accActivated}
+                            donorPermRejected={donorPermRejected}
                             user={user}
                             setUser={setUser}
                             setExistingDonor={setExistingDonor}
-                            setExistingWorker={setExistingWorker} />
+                            setExistingWorker={setExistingWorker}
+                            worker={worker} />
                     </Route>
                     <Route path="/update" exact>
                         <Update />
@@ -140,17 +146,72 @@ const App = () => {
                         setSuccessfulDonation={setSuccessfulDonation}/>
                     </Route>
                     <Route path='/trazi_donora' exact>
-                        <TraziDonora 
+                        <Trazilica 
                         token={token} 
                         user={user} 
-                        setDonor={setDonor} 
-                        setExisting={setExistingDonor} />
+                        setFoundUser={setDonor} 
+                        setExisting={setExistingDonor}
+                        userClass={'donor'} />
+                    </Route>
+                    <Route path='/trazi_djelatnika' exact>
+                        <Trazilica 
+                        token={token} 
+                        user={user} 
+                        setFoundUser={setWorker} 
+                        setExisting={setExistingWorker}
+                        userClass={'bank-worker'} />
                     </Route>
                     <Route path='/donirano' exact>
                         <PostPokusajDoniranja 
                         rejectReason={rejectReason}
                         permRejected={permRejected}
                         successfulDonation={successfulDonation} />
+                    </Route>
+                    <Route path='/slanje_krvi' exact>
+                        <SlanjeKrvi 
+                        user={user}
+                        token={token} />
+                    </Route>
+                    <Route path='/optimalne_granice' exact>
+                        <OptimalneGranice
+                        user={user}
+                        token={token} />
+                    </Route>
+                    <Route path='/povijest_doniranja' exact>
+                        <Trazilica 
+                        token={token} 
+                        user={user} 
+                        setFoundUser={()=>{}} 
+                        setExisting={()=>{}}
+                        userClass={'history'} />
+                    </Route>
+                    <Route path='/povijest_doniranja_donora' exact>
+                        <Trazilica 
+                        token={token} 
+                        user={{userId: donor.donorId, role:'DONOR'}} 
+                        setFoundUser={()=>{}} 
+                        setExisting={()=>{}}
+                        userClass={'history'} />
+                    </Route>
+                    <Route path='/deaktiviraj_racun' exact>
+                        <DeaktivirajRacun 
+                        user={user} 
+                        donor={donor} 
+                        setDonor={setDonor}
+                        existingDonor={existingDonor} 
+                        setExistingDonor={setExistingDonor} 
+                        worker={worker} 
+                        setWorker={setWorker}
+                        existingWorker={existingWorker} 
+                        setExistingWorker={setExistingWorker} />
+                    </Route>
+                    <Route path='/racun_deaktiviran' exact>
+                        <RacunDeaktiviran 
+                        setDonor={setDonor}
+                        setExistingDonor={setExistingDonor} 
+                        setWorker={setWorker}
+                        setExistingWorker={setExistingWorker}
+                        />
                     </Route>
                 </Switch>
             </Router>

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class BloodSupplyDecreaseDTO {
 
-    private String bloodType;
-    private int numberOfUnits;
+    private String[] bloodTypes;
+    private int[] numbersOfUnits;
 
 }

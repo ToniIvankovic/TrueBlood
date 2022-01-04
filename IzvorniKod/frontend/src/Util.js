@@ -126,43 +126,56 @@ const getBloodSupply = async (setBloodSupply) => {
         })
 }
 
-const getAccActivated = async (userId, setActivated) => {
+const downloadPDF = async (donationId) => {
 
-    const url = '/api/v1/user/activated'; //potencijalna promjena
-    const token = window.localStorage.getItem('token');
-    if (!token) {
-        setActivated(false);
-        return;
-    }
+    const url = '/api/v1/donation-try/pdf/' + donationId;
 
-    const bearerAuth = 'Bearer ' + token;
-    if(!userId){
-        console.log("nema usera kod trazenja aktivacije");
-        return;
-    } else{
-        // console.log("Ima usera kod trazenja aktivacije")
-    }
-
-    setActivated(false);
-    //ODKOMENTIRATI KADA SE NAPRAVI ENDPOINT
-    /*
-    await axios.get(url, {
-        headers: { 'Authorization': bearerAuth },
-        userId: user.userId,
+    await axios.get(url)
+        .then((response) => {
+            console.log(response.data)
         })
+        .catch((error) => {
+            console.log("Greška - nije moguće preuzeti PDF potvrdu");
+            console.log(error);
+        })
+}
+
+const getDonorPermRejected = async (userId, setPermDeactivated) => {
+
+    return;
+
+    const url = '/api/v1/user/activated' + userId; //potencijalna promjena
+    
+    await axios.get(url)
         .then((response) => {
             if (response.data != null) {
-                setActivated(response.data.activated);
+                setPermDeactivated(response.data.permDeavtivated == 0 ? false : true);
             } else {
-                console.log("Server nije pronašao usera s id " + user.userId);
-                setActivated(false);
+                console.log("Server nije pronašao usera s id " + userId);
             }
         })
         .catch((error) => {
             console.log('Error retrieving user info: ' + error);
-        })*/
+        })
 }
 
+const getDonorBloodType = async (donorId, setBloodType) => {
+    
+    const url = '/api/v1/donor/id/' + donorId;
+    
+    await axios.get(url)
+        .then((response) => {
+            if (response.data != null) {
+                setBloodType(response.data.bloodType);
+                return;
+            } else {
+                console.log("Server nije pronašao usera s id " + userId);
+            }
+        })
+        .catch((error) => {
+            console.log('Error retrieving user info: ' + error);
+        })
+}
 
 const isJSONEqual = (v1,v2) =>{
     if(JSON.stringify(v1) == JSON.stringify(v2))
@@ -187,9 +200,11 @@ const isEqualWithNull = (v1, v2) =>{
 export { getCurrentUserIdAndRole };
 export { getDonorById };
 export { getWorkerById };
-export { getAccActivated };
+export { getDonorPermRejected };
 export { isEqualWithNull };
 export { getBloodSupply };
+export { downloadPDF };
+export { getDonorBloodType };
 export { userNone };
 export { userPublic };
 export { donorNone };

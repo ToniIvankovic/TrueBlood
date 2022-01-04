@@ -58,6 +58,16 @@ public class BankWorkerController {
         }
     }
 
+    @Secured({"ROLE_ADMIN"})
+    @GetMapping
+    public ResponseEntity<Object> getBankWorkersByAny(@RequestParam String query) {
+        try {
+            return ResponseEntity.ok(bankWorkerService.getBankWorkersByAny(query));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
     @Secured({"ROLE_BANK_WORKER"})
     @PostMapping("/update")
     public ResponseEntity<Object> updateBankWorkerByBankWorker(@RequestBody BankWorker bankWorker, HttpServletRequest request) {

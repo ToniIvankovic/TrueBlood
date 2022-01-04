@@ -1,9 +1,14 @@
-import axios from './util/axios-instance';
+import axios from "./util/axios-instance";
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
+import { Route, Link } from "react-router-dom";
+import SearchBar from "./components/SearchBar";
+import { searchDonorColumns } from "./model/SearchDonorColumns";
+import Trazilica from "./Trazilica";
+import DonorSearchIntegrated from "./components/DonorSearchIntegrated";
+import { Box, Button, Divider, Grid } from "@mui/material";
 import { useHistory } from 'react-router';
 import ErrorCard from './ErrorCard';
-import { Link } from 'react-router-dom';
 import ZdravstveniPodaci from './ZdravstveniPodaci';
 import { donorNone } from './Util';
 
@@ -42,18 +47,20 @@ const PokusajDoniranja = (props) => {
     const history = useHistory();
     const ref = useRef();
 
-    const [errorMessage, setErrorMessage] = useState('Greška');
+    const [errorMessage, setErrorMessage] = useState("Greška");
     const [errorHidden, setErrorHidden] = useState(true);
+    const [selectedDonor, setSelectedDonor] = useState(null);
+    const [shouldUpdateDonor, setShouldUpdateDonor] = useState(true);
 
-    // useEffect(() => {
-    //     if (props.user.role && props.user.role != 'BANK_WORKER' && props.user.role != 'ADMIN') {
-    //         history.push('/profil');
-    //     }
-    // }, [props.role]);
 
     const [donationTryInfo, setDonationTryInfo] = useState({
         donationPlace: props.donationPlace
     });
+
+    // hide error message on donor change
+    useEffect(() => {
+        setErrorHidden(true);
+    }, [selectedDonor]);
 
     useEffect(()=>{
         setDonationTryInfo({
@@ -90,9 +97,6 @@ const PokusajDoniranja = (props) => {
             rejectedReasons = permRejectedReasons.split(";")[0];
         
         console.log(rejectedReasons);
-        props.setDonationPlace(donationTryInfo.donationPlace); //Čuva mjesto za nova doniranja
-        props.setDonor(donorNone);
-        props.setExistingDonor(false);
 
         let retVal = {
             donorId: donationTryInfo.donorId,
@@ -117,8 +121,11 @@ const PokusajDoniranja = (props) => {
         
         console.log(retVal)
         const url = "/api/v1/donation-try";
-        axios.post(url, retVal, { headers: { "Authorization": `Bearer ${props.token}` } })
+        axios.post(url, retVal)//, { headers: { "Authorization": `Bearer ${props.token}` } })
             .then((response) => {
+                props.setDonationPlace(donationTryInfo.donationPlace); //Čuva mjesto za nova doniranja
+                props.setDonor(donorNone);
+                props.setExistingDonor(false);
                 console.log('Donation try successfully created:');
                 console.log(response.data)
                 props.setSuccessfulDonation(response.data.successful)
@@ -137,6 +144,8 @@ const PokusajDoniranja = (props) => {
                             setErrorMessage('Greška! Krvna grupa mora se postaviti.');
                         } else if(message.includes('no donor')){
                             setErrorMessage('Greška! Nepostojeći donorId!');
+                        } else if(message.includes('Blood type')){
+                            setErrorMessage('Greška! Donoru se mora odrediti krvna grupa prije donacije!');
                         }
                     } else {
                         setErrorMessage('Greška u autorizaciji!');
@@ -159,13 +168,22 @@ const PokusajDoniranja = (props) => {
                 </div>
                 <div className="gumbi">
                     <br />
-                    <Link to='/trazi_donora'>
-                        <button className='maligumb' onClick={(event) => {props.setExistingDonor(false); props.setDonor(false)}}>Pronađi donora</button>
-                    </Link>
-                    {props.existingDonor?
                     <Link to='/stvori_donora'>
-                        <button className='maligumb' onClick={(event) => {props.setExistingDonor(true)}}>Uredi donora</button>
+                        <button className='maligumb' onClick={(event) => {props.setExistingDonor(false); props.setDonor(donorNone)}}>Stvori donora</button>
                     </Link>
+                    <Link to='/trazi_donora'>
+                        <button className='maligumb' onClick={(event) => {props.setExistingDonor(false); props.setDonor(donorNone)}}>Pronađi donora</button>
+                    </Link>
+                    <br/> <br/>
+                    {props.existingDonor?
+                    [
+                        <Link key={1} to='/stvori_donora'>
+                            <button className='maligumb' onClick={(event) => {props.setExistingDonor(true)}}>Uredi donora</button>
+                        </Link>,
+                        <Link key={2} to='/povijest_doniranja_donora'>
+                            <button className='maligumb'>Prošle donacije</button>
+                        </Link>
+                    ]
                     :''
                     }
                 </div>
@@ -211,7 +229,7 @@ const PokusajDoniranja = (props) => {
                     </div>
                     <div className="krgrupe">
                         <label>Krvna grupa</label>
-                        <select value={props.donor.bloodType} disabled> {/*Možda treba trimmati bloodtype ako postoji*/ }
+                        <select value={props.donor.bloodType?.trim()} disabled> {/*Možda treba trimmati bloodtype ako postoji*/ }
                             <option value="---">---</option>
                             <option value="A+">A+</option>
                             <option value="A-">A-</option>
@@ -251,3 +269,140 @@ const PokusajDoniranja = (props) => {
 }
 
 export default PokusajDoniranja;
+
+/*
+useEffect(() => {
+        // if (props.user.userId && props.user.role != 'BANK_WORKER') {
+        //     history.push('/');
+        // }
+    }, []);
+
+    // hide error message on donor change
+    useEffect(() => {
+        setErrorHidden(true);
+    }, [selectedDonor]);
+
+    const handleEditDonor = () => {
+        // goto edit donor
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        if (!selectedDonor) {
+            return;
+        }
+
+        const donationTry = {
+            donorId: selectedDonor.donorId,
+            bloodType: selectedDonor.bloodType,
+        };
+
+        await submitDonationTry(donationTry);
+
+        console.log("submit");
+    };
+
+    const submitDonationTry = async (donationTry) => {
+        const url = "/api/v1/donation-try";
+
+        await axios
+            .post(url, donationTry)
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                if (error.response && error.response.data) {
+                    setErrorHidden(false);
+                    setErrorMessage(error.response.data);
+                }
+            });
+    };
+
+    return (
+        <>
+            <div className="tekst">
+                <p>Stvori pokušaj doniranja </p>
+            </div>
+            <br />
+            <Grid container justifyContent="center">
+                <Grid item xs={10} md={6}>
+                    <DonorSearchIntegrated
+                        selectedDonor={selectedDonor}
+                        setSelectedDonor={setSelectedDonor}
+                    />
+                </Grid>
+            </Grid>
+            <Box sx={{ marginTop: 2 }}s ></Box>
+            <Grid sx={{ display: ( selectedDonor ? 'flex' : 'none' ) }} container justifyContent="center">
+                <Button
+                    onClick={ () => handleEditDonor() }
+                    style={{ height: 50, marginLeft: 10 }}
+                    variant="contained"
+                >
+                    Uredi donora
+                </Button>
+            </Grid>
+            <div className="reg">
+                <form
+                    onSubmit={(event) => handleSubmit(event)}
+                    className="formular"
+                >
+                    <div className="label">
+                        <label>Osobni podaci</label>
+                    </div>
+                    <div className="single">
+                        <input
+                            name="donorId"
+                            type="text"
+                            placeholder={"donorId: " + selectedDonor?.donorId}
+                            disabled
+                        ></input>
+                    </div>
+                    <div className="dupli">
+                        <input
+                            name="firstName"
+                            type="text"
+                            placeholder={"ime: " + selectedDonor?.firstName}
+                            disabled
+                        ></input>
+                        <input
+                            name="lastName"
+                            type="text"
+                            placeholder={"prezime: " + selectedDonor?.lastName}
+                            disabled
+                        ></input>
+                    </div>
+                    <div className="single">
+                        <input
+                            name="oib"
+                            type="text"
+                            placeholder={"OIB: " + selectedDonor?.oib}
+                            disabled
+                        ></input>
+                    </div>
+                    <div className="krgrupe">
+                        <label>Krvna grupa</label>
+                        <select value={selectedDonor?.bloodType} disabled>
+                            <option value="---">Nema</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="0+">0+</option>
+                            <option value="0-">0-</option>
+                        </select>
+                    </div>
+                    <br />
+                    {errorHidden ? null : <ErrorCard message={errorMessage} />}
+                    <div className="gumbi">
+                        <button className="kreiraj">Doniraj</button>
+                    </div>
+                </form>
+            </div>
+        </>
+    );
+};
+*/

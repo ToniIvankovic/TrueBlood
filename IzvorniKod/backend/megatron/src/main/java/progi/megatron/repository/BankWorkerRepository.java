@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import progi.megatron.model.BankWorker;
 
+import java.util.List;
+
 @Repository
 @Transactional
 public interface BankWorkerRepository extends JpaRepository<BankWorker, Long> {
@@ -13,8 +15,10 @@ public interface BankWorkerRepository extends JpaRepository<BankWorker, Long> {
 
     BankWorker getBankWorkerByBankWorkerId(Long bankWorkerId);
 
-    BankWorker save(BankWorker bankWorker);
+    List<BankWorker> getBankWorkersByOibIsContaining(String oib);
 
-    // todo: delete bank worker
+    List<BankWorker> getBankWorkerByFirstNameIsContainingIgnoreCase(String oib);
+
+    List<BankWorker> getBankWorkerByLastNameIsContainingIgnoreCase(String oib);
 
 }

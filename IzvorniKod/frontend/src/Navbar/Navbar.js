@@ -1,11 +1,30 @@
 import React, { useState } from "react";
 import {Link} from "react-router-dom";
 import "./Navbar.css";
+import { useHistory } from "react-router";
+import axios from '../util/axios-instance';
 
 const Navbar = (props) => {
 
     const [isMob, setIsMob] = useState(false);
     const handleClick = () => setIsMob(!isMob)
+    const history = useHistory();
+
+    const logout = () => {
+        const url = '/api/v1/logout';
+        axios.get(url)
+            .then((response) => {
+                console.log('LOGOUT SUCCESS');
+                history.push('/');
+            })
+            .catch((error) => {
+                console.log('LOGOUT ERROR: ' + error);
+            })
+            .finally(() => {
+                window.localStorage.clear();
+                props.onLogout();
+            });
+    }
 
     return (
         <nav className="navbar">
@@ -15,15 +34,20 @@ const Navbar = (props) => {
             <ul className={isMob ? "links-mob" : "links"}>
                 { props.showProfile ?
                     <Link to="/profil" className="profil" onClick={()=>setIsMob(false)}>
-                        <li>Profil</li>
+                        <li key="1">Profil</li>
                     </Link>
                 : null }
                 <Link to="/faq" className="faq" onClick={()=>setIsMob(false)}>
-                    <li>FAQ</li>
+                    <li key="3">FAQ</li>
                 </Link>
                 <Link to="/kontakt" className="kontakt" onClick={()=>setIsMob(false)}>
-                    <li>Kontakt</li>
+                    <li key="4">Kontakt</li>
                 </Link>
+                { props.showProfile ?
+                    <Link to="/" className="profil" onClick={()=>{logout(); setIsMob(false); }}>
+                        <li key="2">Odjava</li>
+                    </Link>
+                : null }
             </ul>
             <button className = "mobile-menu" onClick={handleClick}>
                 {isMob ? <i className="fas fa-times"></i> : <i className="fas fa-bars"></i>}
