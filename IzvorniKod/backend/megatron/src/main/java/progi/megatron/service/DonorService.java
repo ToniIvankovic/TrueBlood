@@ -60,8 +60,6 @@ public class DonorService {
         this.secureTokenRepository = secureTokenRepository1;
     }
 
-    java.util.logging.Logger logger = java.util.logging.Logger.getLogger(this.getClass().getName());
-
     public Donor createDonorByDonor(DonorByDonorDTOWithoutId donorByDonorDTOWithoutId) {
         String password = userService.randomPassword();
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
@@ -75,12 +73,9 @@ public class DonorService {
         }
         donor = donorRepository.save(donor);
 
-//        try {
-//            sendRegistrationConfirmationEmail(donor);
-//        } catch (UnableToSendNotificationException e) {
-//            e.printStackTrace();
-//        }
-        logger.info("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
+//      sendRegistrationConfirmationEmail(donor);
+
+        System.out.println("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
 
         return donor;
     }
@@ -99,7 +94,8 @@ public class DonorService {
         donor = donorRepository.save(donor);
 
         //sendRegistrationConfirmationEmail(donor);
-        logger.info("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
+
+        System.out.println("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
 
         return donor;
     }
