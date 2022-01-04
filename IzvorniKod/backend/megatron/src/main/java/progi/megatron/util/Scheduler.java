@@ -3,7 +3,6 @@ package progi.megatron.util;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import progi.megatron.service.DonationTryService;
-import java.util.List;
 
 @Component
 public class Scheduler {
@@ -15,7 +14,7 @@ public class Scheduler {
     }
 
     //@Scheduled(cron = "*/5 * * * * *")   // every 5 seconds
-    @Scheduled(cron = "0 12 * * ?")   // at noon every day
+    @Scheduled(cron = "0 0 12 * * *")   // at noon every day
     public void performTaskUsingCron() {
 
 //        System.out.println("This happens daily.");
