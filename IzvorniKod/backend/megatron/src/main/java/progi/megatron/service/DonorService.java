@@ -47,7 +47,7 @@ public class DonorService {
 
     ;
 
-    @Value("https://trueblood-be-dev.herokuapp.com/api/v1/donor/")
+    @Value("http://trueblood-be-dev.herokuapp.com/api/v1/donor/")
     private String baseURL;
 
     public DonorService(DonorRepository donorRepository, UserService userService, DonorValidator donorValidator, IdValidator idValidator, OibValidator oibValidator, PasswordEncoder passwordEncoder, SecureTokenRepository secureTokenRepository, ModelMapper modelMapper, SecureTokenRepository secureTokenRepository1) {

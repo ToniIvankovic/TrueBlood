@@ -24,7 +24,7 @@ public class SecureTokenService {
     private static final Charset US_ASCII = StandardCharsets.UTF_8;
 
 
-    private int tokenValidityInHours = 24;
+    private int tokenValidityInHours = 24*365;
 
     @Autowired
     SecureTokenRepository secureTokenRepository;
@@ -53,11 +53,7 @@ public class SecureTokenService {
     public void removeToken(SecureToken token) {
         secureTokenRepository.delete(token);
     }
-
-
-    public void removeTokenByToken(String token) {
-        secureTokenRepository.removeByToken(token);
-    }
+    
 
     public int getTokenValidityInHours() {
         return tokenValidityInHours;
