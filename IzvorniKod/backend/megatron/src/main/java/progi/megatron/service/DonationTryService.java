@@ -1,10 +1,5 @@
 package progi.megatron.service;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.stereotype.Service;
 import progi.megatron.exception.DonationWaitingPeriodNotOver;
 import progi.megatron.exception.WrongBankWorkerException;
@@ -17,8 +12,6 @@ import progi.megatron.model.dto.DonationTryRequestDTO;
 import progi.megatron.model.dto.DonationTryResponseDTO;
 import progi.megatron.repository.DonationTryRepository;
 import progi.megatron.validation.IdValidator;
-
-import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +97,7 @@ public class DonationTryService {
         return donationTry;
     }
 
-    public void generatePDFCertificateForSuccessfulDonation(String donationId) throws IOException, DocumentException {
+    public void generatePDFCertificateForSuccessfulDonation(String donationId) {
         DonationTry donationTry = getDonationTryByDonationId(donationId);
         if (donationTry != null && donationTry.getRejectReason() == null) {
 
