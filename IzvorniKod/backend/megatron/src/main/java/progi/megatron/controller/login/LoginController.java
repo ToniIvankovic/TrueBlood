@@ -50,7 +50,8 @@ public class LoginController {
             User user = userService.findById(userId);
 
             // todo: uncomment this after activation link is finished
-            //if(user.getAccActivated() != 1) throw new UserNotActivatedException("Account not activated");
+            //if (user.getAccActivated() != 1) throw new UserNotActivatedException("Account not activated");
+            //if (user.getPermDeactivated() != 0) throw new UserNotActivatedException("Account is permanently deactivated.");
 
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.AUTHORIZATION);
