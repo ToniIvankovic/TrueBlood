@@ -17,6 +17,4 @@ public interface DonationTryRepository extends JpaRepository<DonationTry, Long> 
 
     List<DonationTry> getDonationTryByDonationDate(LocalDate localDate);
 
-    //DonationTry getDonationTryOrderByDonorDesc(Donor donor);
-
 }
