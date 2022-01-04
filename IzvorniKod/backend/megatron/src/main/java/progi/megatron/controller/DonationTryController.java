@@ -59,7 +59,8 @@ public class DonationTryController {
     }
 
     @Secured({"ROLE_BANK_WORKER", "ROLE_DONOR"})
-    public ResponseEntity<Object> getLastDonationDateForDonor(String donorId, HttpServletRequest request) {
+    @GetMapping("/last/{donorId}")
+    public ResponseEntity<Object> getLastDonationDateForDonor(@PathVariable String donorId, HttpServletRequest request) {
         try {
             String role = currentUserUtil.getCurrentUserRole(request);
             if (role.equals("DONOR") && !currentUserUtil.checkIfCurrentUser(request, donorId)) {
@@ -72,7 +73,8 @@ public class DonationTryController {
     }
 
     @Secured({"ROLE_BANK_WORKER", "ROLE_DONOR"})
-    public ResponseEntity<Object> getWhenIsWaitingPeriodOverForDonor(String donorId, HttpServletRequest request) {
+    @GetMapping("/days-until-next-donation/{donorId}")
+    public ResponseEntity<Object> getWhenIsWaitingPeriodOverForDonor(@PathVariable String donorId, HttpServletRequest request) {
         try {
             String role = currentUserUtil.getCurrentUserRole(request);
             if (role.equals("DONOR") && !currentUserUtil.checkIfCurrentUser(request, donorId)) {

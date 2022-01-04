@@ -131,7 +131,7 @@ public class DonationTryService {
         idValidator.validateId(donorId);
         LocalDate lastDonationDate = getLastDonationDateForDonor(donorId);
         if (lastDonationDate == null) return 0;
-        else return lastDonationDate.datesUntil(LocalDate.now()).count();
+        else return LocalDate.now().datesUntil(lastDonationDate.plusMonths(3)).count();
     }
 
 }
