@@ -82,7 +82,7 @@ public class DonorService {
         } catch (UnableToSendNotificationException e) {
             e.printStackTrace();
         }
-        logger.info("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
+        System.out.println("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
 
         return donor;
     }
@@ -101,7 +101,7 @@ public class DonorService {
         donor = donorRepository.save(donor);
 
         sendRegistrationConfirmationEmail(donor, user.getUserId(), password);
-        logger.info("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
+        System.out.println("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
 
         return donor;
     }
