@@ -46,13 +46,12 @@ public class DonationTryController {
         }
     }
 
-    // todo: finish
     // todo: for current user
     @Secured({"ROLE_DONOR"})
     @GetMapping("/pdf/{donationId}")
     public ResponseEntity<Object> getSuccessfulDonationPdfCert(@PathVariable String donationId) {
         try {
-            donationTryService.getDonationTryByDonationId(donationId);
+            donationTryService.generatePDFCertificateForSuccessfulDonation(donationId);
             return ResponseEntity.ok("Successfully downloaded PDF certificate.");
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());

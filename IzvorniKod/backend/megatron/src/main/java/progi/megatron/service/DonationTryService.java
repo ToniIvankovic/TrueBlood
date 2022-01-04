@@ -91,11 +91,16 @@ public class DonationTryService {
         return donationTryResponseDTOS;
     }
 
-    public void getDonationTryByDonationId(String donationId) {
+    public DonationTry getDonationTryByDonationId(String donationId) {
         idValidator.validateId(donationId);
         DonationTry donationTry = donationTryRepository.getDonationTryByDonationId(Long.valueOf(donationId));
-        if (donationTry.getRejectReason() == null) {
-            // todo: download certificate
+        return donationTry;
+    }
+
+    public void generatePDFCertificateForSuccessfulDonation(String donationId) {
+        DonationTry donationTry = getDonationTryByDonationId(donationId);
+        if (donationTry != null && donationTry.getRejectReason() == null) {
+
         }
     }
 
