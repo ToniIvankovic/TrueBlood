@@ -1,8 +1,6 @@
 package progi.megatron.controller;
 
-import com.itextpdf.text.DocumentException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -11,12 +9,6 @@ import progi.megatron.model.dto.DonationTryRequestDTO;
 import progi.megatron.service.DonationTryService;
 import progi.megatron.util.CurrentUserUtil;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
-
-import java.io.*;
 
 @Controller
 @CrossOrigin
@@ -57,7 +49,7 @@ public class DonationTryController {
     // todo: for current user
     @Secured({"ROLE_DONOR"})
     @GetMapping("/pdf/{donationId}")
-    public ResponseEntity<Object> getSuccessfulDonationPdfCert(@PathVariable String donationId, HttpServletResponse response) throws IOException, DocumentException {
+    public ResponseEntity<Object> getSuccessfulDonationPdfCert(@PathVariable String donationId) {
         try {
             donationTryService.generatePDFCertificateForSuccessfulDonation(donationId);
             return ResponseEntity.ok("Successfully downloaded PDF certificate.");
