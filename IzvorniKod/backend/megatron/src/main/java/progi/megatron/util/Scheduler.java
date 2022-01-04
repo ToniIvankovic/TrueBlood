@@ -14,6 +14,7 @@ public class Scheduler {
     }
 
     //@Scheduled(cron = "*/5 * * * * *")   // every 5 seconds
+    //@Scheduled(cron = "* */5 * * * *")   // every 5 minutes
     @Scheduled(cron = "0 0 12 * * *")   // at noon every day
     public void performTaskUsingCron() {
 
