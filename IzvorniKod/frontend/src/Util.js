@@ -140,41 +140,23 @@ const downloadPDF = async (donationId) => {
         })
 }
 
-const getAccActivated = async (userId, setActivated) => {
+const getDonorPermRejected = async (userId, setPermDeactivated) => {
 
-    const url = '/api/v1/user/activated'; //potencijalna promjena
-    const token = window.localStorage.getItem('token');
-    if (!token) {
-        setActivated(false);
-        return;
-    }
+    return;
 
-    const bearerAuth = 'Bearer ' + token;
-    if(!userId){
-        console.log("nema usera kod trazenja aktivacije");
-        return;
-    } else{
-        // console.log("Ima usera kod trazenja aktivacije")
-    }
-
-    setActivated(false);
-    //ODKOMENTIRATI KADA SE NAPRAVI ENDPOINT
-    /*
-    await axios.get(url, {
-        headers: { 'Authorization': bearerAuth },
-        userId: user.userId,
-        })
+    const url = '/api/v1/user/activated' + userId; //potencijalna promjena
+    
+    await axios.get(url)
         .then((response) => {
             if (response.data != null) {
-                setActivated(response.data.activated);
+                setPermDeactivated(response.data.permDeavtivated == 0 ? false : true);
             } else {
-                console.log("Server nije pronašao usera s id " + user.userId);
-                setActivated(false);
+                console.log("Server nije pronašao usera s id " + userId);
             }
         })
         .catch((error) => {
             console.log('Error retrieving user info: ' + error);
-        })*/
+        })
 }
 
 
@@ -201,7 +183,7 @@ const isEqualWithNull = (v1, v2) =>{
 export { getCurrentUserIdAndRole };
 export { getDonorById };
 export { getWorkerById };
-export { getAccActivated };
+export { getDonorPermRejected };
 export { isEqualWithNull };
 export { getBloodSupply };
 export { downloadPDF };

@@ -169,7 +169,7 @@ const PokusajDoniranja = (props) => {
                 <div className="gumbi">
                     <br />
                     <Link to='/trazi_donora'>
-                        <button className='maligumb' onClick={(event) => {props.setExistingDonor(false); props.setDonor(false)}}>Pronađi donora</button>
+                        <button className='maligumb' onClick={(event) => {props.setExistingDonor(false); props.setDonor(donorNone)}}>Pronađi donora</button>
                     </Link>
                     {props.existingDonor?
                     <Link to='/stvori_donora'>
