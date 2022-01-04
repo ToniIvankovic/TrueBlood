@@ -20,7 +20,7 @@ if (token) {
 
 const instance = axios.create({
     baseURL: baseURL,
-    timeout: 1000
+    timeout: 3000
 });
 
 export default instance;
