@@ -45,8 +45,6 @@ public class DonorService {
     @Autowired
     private SecureTokenService secureTokenService;
 
-    ;
-
     @Value("https://trueblood-be-dev.herokuapp.com/api/v1/donor/")
     private String baseURL;
 

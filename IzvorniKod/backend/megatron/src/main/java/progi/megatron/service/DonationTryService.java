@@ -9,6 +9,7 @@ import progi.megatron.model.Donor;
 import progi.megatron.model.dto.DonationTryRequestDTO;
 import progi.megatron.model.dto.DonationTryResponseDTO;
 import progi.megatron.repository.DonationTryRepository;
+import progi.megatron.util.Scheduler;
 import progi.megatron.validation.IdValidator;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,13 +23,15 @@ public class DonationTryService {
     private final BankWorkerService bankWorkerService;
     private final BloodSupplyService bloodSupplyService;
     private final IdValidator idValidator;
+    private final Scheduler scheduler;
 
-    public DonationTryService(DonationTryRepository donationTryRepository, DonorService donorService, BankWorkerService bankWorkerService, BloodSupplyService bloodSupplyService, IdValidator idValidator) {
+    public DonationTryService(DonationTryRepository donationTryRepository, DonorService donorService, BankWorkerService bankWorkerService, BloodSupplyService bloodSupplyService, IdValidator idValidator, Scheduler scheduler) {
         this.donationTryRepository = donationTryRepository;
         this.donorService = donorService;
         this.bankWorkerService = bankWorkerService;
         this.bloodSupplyService = bloodSupplyService;
         this.idValidator = idValidator;
+        this.scheduler = scheduler;
     }
 
     public DonationTryResponseDTO createDonationTry(DonationTryRequestDTO donationTryRequestDTO){
