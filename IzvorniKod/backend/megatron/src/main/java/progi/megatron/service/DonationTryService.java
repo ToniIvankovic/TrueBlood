@@ -9,10 +9,12 @@ import progi.megatron.model.Donor;
 import progi.megatron.model.dto.DonationTryRequestDTO;
 import progi.megatron.model.dto.DonationTryResponseDTO;
 import progi.megatron.repository.DonationTryRepository;
+import progi.megatron.util.Scheduler;
 import progi.megatron.validation.IdValidator;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DonationTryService {
@@ -58,7 +60,6 @@ public class DonationTryService {
                 donor,
                 bankWorker
         );
-        //if (!donated) donationTry.setRejectReason("Donor is permanently rejected.");
 
         donationTry = donationTryRepository.save(donationTry);
 
@@ -82,6 +83,16 @@ public class DonationTryService {
         if (donationTry.getRejectReason() == null) {
             // todo: download certificate
         }
+    }
+
+    public List<Long> getIdsOfDonorsWhoDonatedToday() {
+        return donationTryRepository.getDonationTryByDonationDate(LocalDate.now()).stream().map(donationTry -> donationTry.getDonor().getDonorId()).collect(Collectors.toList());
+    }
+
+    public List<Long> getIdsOfDonorsWhoseWaitingPeriodIsOver() {
+        List<DonationTry> donationTriesThreeMonthsAgo = donationTryRepository.getDonationTryByDonationDate(LocalDate.now().minusMonths(3));
+        List<Long> idsOfDonorsWhoDonatedThreeMonthsAgo = donationTriesThreeMonthsAgo.stream().map(donationTry -> donationTry.getDonor().getDonorId()).collect(Collectors.toList());
+        return idsOfDonorsWhoDonatedThreeMonthsAgo;
     }
 
 }

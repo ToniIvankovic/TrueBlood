@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "secure_token")
 public class SecureToken{
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TOKEN_SEQ")
     @SequenceGenerator(name = "TOKEN_SEQ", sequenceName = "TOKEN_SEQ", initialValue = 81728, allocationSize = 1)
@@ -57,7 +58,6 @@ public class SecureToken{
     }
 
     public boolean isExpired() {
-
         return getExpireAt().isBefore(LocalDateTime.now()); // this is generic implementation, you can always make it timezone specific
     }
 

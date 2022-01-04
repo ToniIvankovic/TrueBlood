@@ -46,8 +46,6 @@ public class DonorService {
     @Autowired
     private SecureTokenService secureTokenService;
 
-    ;
-
     @Value("https://trueblood-be-dev.herokuapp.com/api/v1/donor/")
     private String baseURL;
 
@@ -77,12 +75,11 @@ public class DonorService {
         }
         donor = donorRepository.save(donor);
 
-
-        //try {
-        //    sendRegistrationConfirmationEmail(donor);
-        //} catch (UnableToSendNotificationException e) {
-        //    e.printStackTrace();
-        //}
+//        try {
+//            sendRegistrationConfirmationEmail(donor);
+//        } catch (UnableToSendNotificationException e) {
+//            e.printStackTrace();
+//        }
         logger.info("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
 
         return donor;

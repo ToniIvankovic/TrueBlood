@@ -2,8 +2,8 @@ package progi.megatron.exception;
 
 public class WrongUserException extends RuntimeException {
 
-    public WrongUserException(String msg) {
-        super(msg);
+    public WrongUserException(String message) {
+        super(message);
     }
 
 }
