@@ -108,6 +108,8 @@ const StvoriDonora = (props) => {
                     } else {
                         setErrorMessage('Greška pri registraciji!');
                     }
+                } else if(error.request) {
+                    setErrorMessage('Nije primljen odgovor od poslužitelja')
                 } else{
                     setErrorMessage('Unutarnja greška');
                 }
