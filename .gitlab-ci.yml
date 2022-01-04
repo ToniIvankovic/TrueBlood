@@ -38,6 +38,7 @@ deploy-be-dev:
     - dpl --provider=heroku --app=$HEROKU_API_STAGING_BE --api_key=$HEROKU_API_KEY
   only:
     - develop
+  when: manual
 
 deploy-fe-dev:
   stage: deploy
@@ -50,3 +51,4 @@ deploy-fe-dev:
     - dpl --provider=heroku --app=$HEROKU_API_STAGING_FE --api_key=$HEROKU_API_KEY
   only:
     - develop
+  when: manual
