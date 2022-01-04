@@ -16,7 +16,9 @@ public class SecureTokenService {
 
     private static final BytesKeyGenerator DEFAULT_TOKEN_GENERATOR = KeyGenerators.secureRandom(15);
     private static final Charset US_ASCII = StandardCharsets.UTF_8;
-    private int tokenValidityInSeconds = 28800;
+
+
+    private int tokenValidityInHours = 24*365;
 
     @Autowired
     SecureTokenRepository secureTokenRepository;
@@ -25,7 +27,7 @@ public class SecureTokenService {
         String tokenValue = new String(Base64.encodeBase64URLSafe(DEFAULT_TOKEN_GENERATOR.generateKey()), US_ASCII); // this is a sample, you can adapt as per your security need
         SecureToken secureToken = new SecureToken();
         secureToken.setToken(tokenValue);
-        secureToken.setExpireAt(LocalDateTime.now().plusSeconds(getTokenValidityInSeconds()));
+        secureToken.setExpireAt(LocalDateTime.now().plusHours(getTokenValidityInHours()));
         this.saveSecureToken(secureToken);
         return secureToken;
     }
@@ -41,13 +43,10 @@ public class SecureTokenService {
     public void removeToken(SecureToken token) {
         secureTokenRepository.delete(token);
     }
+    
 
-    public void removeTokenByToken(String token) {
-        secureTokenRepository.removeByToken(token);
-    }
-
-    public int getTokenValidityInSeconds() {
-        return tokenValidityInSeconds;
+    public int getTokenValidityInHours() {
+        return tokenValidityInHours;
     }
 
 }
