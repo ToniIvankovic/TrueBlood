@@ -98,6 +98,7 @@ public class DonationTryService {
     }
 
     public void generatePDFCertificateForSuccessfulDonation(String donationId) {
+        idValidator.validateId(donationId);
         DonationTry donationTry = getDonationTryByDonationId(donationId);
         if (donationTry != null && donationTry.getRejectReason() == null) {
 
@@ -115,6 +116,7 @@ public class DonationTryService {
     }
 
     public LocalDate getLastDonationDateForDonor(String donorId) {
+        idValidator.validateId(donorId);
         List<DonationTryResponseDTO> donationTryHistory = getDonationTryHistory(donorId);
         LocalDate lastDonationTry = null;
         for (DonationTryResponseDTO donationTry : donationTryHistory) {
@@ -123,6 +125,13 @@ public class DonationTryService {
             }
         }
         return lastDonationTry;
+    }
+
+    public long getWhenIsWaitingPeriodOverForDonor(String donorId) {
+        idValidator.validateId(donorId);
+        LocalDate lastDonationDate = getLastDonationDateForDonor(donorId);
+        if (lastDonationDate == null) return 0;
+        else return LocalDate.now().datesUntil(lastDonationDate.plusMonths(3)).count();
     }
 
 }

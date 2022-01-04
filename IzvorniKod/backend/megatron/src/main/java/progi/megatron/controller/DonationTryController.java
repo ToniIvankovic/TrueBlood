@@ -62,4 +62,32 @@ public class DonationTryController {
         }
     }
 
+    @Secured({"ROLE_BANK_WORKER", "ROLE_DONOR"})
+    @GetMapping("/last/{donorId}")
+    public ResponseEntity<Object> getLastDonationDateForDonor(@PathVariable String donorId, HttpServletRequest request) {
+        try {
+            String role = currentUserUtil.getCurrentUserRole(request);
+            if (role.equals("DONOR") && !currentUserUtil.checkIfCurrentUser(request, donorId)) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not fetch other donor's data.");
+            }
+            return ResponseEntity.ok(donationTryService.getLastDonationDateForDonor(donorId));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
+    @Secured({"ROLE_BANK_WORKER", "ROLE_DONOR"})
+    @GetMapping("/days-until-next-donation/{donorId}")
+    public ResponseEntity<Object> getWhenIsWaitingPeriodOverForDonor(@PathVariable String donorId, HttpServletRequest request) {
+        try {
+            String role = currentUserUtil.getCurrentUserRole(request);
+            if (role.equals("DONOR") && !currentUserUtil.checkIfCurrentUser(request, donorId)) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not fetch other donor's data.");
+            }
+            return ResponseEntity.ok(donationTryService.getWhenIsWaitingPeriodOverForDonor(donorId));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
 }

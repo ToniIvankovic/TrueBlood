@@ -91,7 +91,8 @@ public class BankWorkerService {
         }
 
         // todo: send email
-        logger.info("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
+
+        System.out.println("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
 
         return bankWorkerRepository.save(bankWorker);
     }
