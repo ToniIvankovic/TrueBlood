@@ -10,8 +10,6 @@ import java.util.List;
 @Transactional
 public interface DonorRepository extends JpaRepository<Donor, Long> {
 
-    Donor save(Donor donor);
-
     Donor getDonorByOib(String oib);
 
     Donor getDonorByDonorId(Long donorId);
@@ -21,12 +19,11 @@ public interface DonorRepository extends JpaRepository<Donor, Long> {
     List<Donor> getDonorsByOibIsContaining(String oib);
 
     List<Donor> getDonorByFirstNameIsContainingIgnoreCase(String id);
+
     List<Donor> getDonorByLastNameIsContainingIgnoreCase(String id);
 
     List<Donor> getDonorsByFirstNameIsContaining(String firstName);
 
     List<Donor> getDonorsByLastNameIsContaining(String lastName);
-
-    // todo: check if donor permanently rejected
 
 }

@@ -8,6 +8,7 @@ import progi.megatron.model.SecureToken;
 public interface SecureTokenRepository extends JpaRepository<SecureToken, Long > {
 
     SecureToken findByToken(final String token);
+
     Long removeByToken(String token);
 
 }

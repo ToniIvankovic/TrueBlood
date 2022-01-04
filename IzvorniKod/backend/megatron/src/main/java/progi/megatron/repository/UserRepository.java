@@ -11,8 +11,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    User save(User user);
-
     Optional<User> getUserByUserId(Long userId);
 
     @Transactional
@@ -24,7 +22,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query("UPDATE User u SET u.permDeactivated = 1 WHERE u.userId = ?1")
     void deactivateUserAccount(Long userId);
-
-    // todo: change password
 
 }

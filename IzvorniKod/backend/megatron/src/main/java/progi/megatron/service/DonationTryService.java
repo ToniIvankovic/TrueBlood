@@ -1,6 +1,7 @@
 package progi.megatron.service;
 
 import org.springframework.stereotype.Service;
+import progi.megatron.exception.DonationWaitingPeriodNotOver;
 import progi.megatron.exception.WrongBankWorkerException;
 import progi.megatron.exception.WrongDonorException;
 import progi.megatron.model.BankWorker;
@@ -9,7 +10,6 @@ import progi.megatron.model.Donor;
 import progi.megatron.model.dto.DonationTryRequestDTO;
 import progi.megatron.model.dto.DonationTryResponseDTO;
 import progi.megatron.repository.DonationTryRepository;
-import progi.megatron.util.Scheduler;
 import progi.megatron.validation.IdValidator;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -33,7 +33,13 @@ public class DonationTryService {
         this.idValidator = idValidator;
     }
 
-    public DonationTryResponseDTO createDonationTry(DonationTryRequestDTO donationTryRequestDTO){
+    public DonationTryResponseDTO createDonationTry(DonationTryRequestDTO donationTryRequestDTO) {
+
+        LocalDate lastDonationDate = getLastDonationDateForDonor(donationTryRequestDTO.getDonorId());
+        if (lastDonationDate != null && lastDonationDate.plusMonths(3).isAfter(LocalDate.now())) {
+            throw new DonationWaitingPeriodNotOver("Donor must wait at least three months after last donation before a new blood donation.");
+        }
+
         boolean donated = false;
 
         Donor donor = donorService.getDonorByDonorId(donationTryRequestDTO.getDonorId());
@@ -93,6 +99,17 @@ public class DonationTryService {
         List<DonationTry> donationTriesThreeMonthsAgo = donationTryRepository.getDonationTryByDonationDate(LocalDate.now().minusMonths(3));
         List<Long> idsOfDonorsWhoDonatedThreeMonthsAgo = donationTriesThreeMonthsAgo.stream().map(donationTry -> donationTry.getDonor().getDonorId()).collect(Collectors.toList());
         return idsOfDonorsWhoDonatedThreeMonthsAgo;
+    }
+
+    public LocalDate getLastDonationDateForDonor(String donorId) {
+        List<DonationTryResponseDTO> donationTryHistory = getDonationTryHistory(donorId);
+        LocalDate lastDonationTry = null;
+        for (DonationTryResponseDTO donationTry : donationTryHistory) {
+            if (donationTry.getRejectedReason() == null && (lastDonationTry == null || lastDonationTry.isBefore(donationTry.getDonationDate()))) {
+                lastDonationTry = donationTry.getDonationDate();
+            }
+        }
+        return lastDonationTry;
     }
 
 }

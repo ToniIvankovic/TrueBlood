@@ -11,8 +11,6 @@ import java.util.List;
 @Repository
 public interface DonationTryRepository extends JpaRepository<DonationTry, Long> {
 
-    DonationTry save(DonationTry donationTry);
-
     List<DonationTry> getDonationTryByDonor(Donor donor);
 
     DonationTry getDonationTryByDonationId(Long donationId);
