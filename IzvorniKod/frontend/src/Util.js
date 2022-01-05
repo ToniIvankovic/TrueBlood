@@ -177,6 +177,25 @@ const getDonorBloodType = async (donorId, setBloodType) => {
         })
 }
 
+const getDonorNextDonation = async (donorId, setNextDonation) => {
+    
+    const url = '/api/v1/donation-try/days-until-next-donation/' + donorId;
+    
+    await axios.get(url)
+        .then((response) => {
+            if (response.data != null) {
+                console.log(response.data)
+                setNextDonation(response.data);
+                return;
+            } else {
+                console.log("Server nije pronašao usera s id " + userId);
+            }
+        })
+        .catch((error) => {
+            console.log('Error retrieving user info: ' + error);
+        })
+}
+
 const isJSONEqual = (v1,v2) =>{
     if(JSON.stringify(v1) == JSON.stringify(v2))
         return true;
@@ -205,6 +224,7 @@ export { isEqualWithNull };
 export { getBloodSupply };
 export { downloadPDF };
 export { getDonorBloodType };
+export { getDonorNextDonation };
 export { userNone };
 export { userPublic };
 export { donorNone };

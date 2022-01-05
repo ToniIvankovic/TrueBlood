@@ -140,6 +140,8 @@ const PokusajDoniranja = (props) => {
                         const message = error.response.data;
                         if (message.includes('SQL') && message.includes('place')) {
                             setErrorMessage('Neispravno mjesto donacije');
+                        } else if (message.includes('must wait')) {
+                            setErrorMessage('Greška! Donor je nedavno donirao krv (u zadnja 3 ili 4 mjeseca).');
                         } else if (message.includes('blood')) {
                             setErrorMessage('Greška! Krvna grupa mora se postaviti.');
                         } else if(message.includes('no donor')){

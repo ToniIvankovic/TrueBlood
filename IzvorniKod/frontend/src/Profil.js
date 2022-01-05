@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Profilimg from './Profile.png';
-import { getBloodSupply, getDonorBloodType } from "./Util";
+import { getBloodSupply, getDonorBloodType, getDonorNextDonation } from "./Util";
 
 const Profil = (props) => {
 
@@ -13,19 +13,25 @@ const Profil = (props) => {
         
         if(props.user.role == 'DONOR'){
             getDonorBloodType(props.user.userId, setBloodType)
+            getDonorNextDonation (props.user.userId, setDaysUntilDonation)
         }
-    },[props.user.role])
-    
+    },[props.user.role])    
     
     const [warningMessage, setWarningMessage] = useState(undefined)
+    const [daysUntilDonation, setDaysUntilDonation] = useState(undefined)
     useEffect(()=>{
         if(bloodSupply != undefined){
-            if(bloodType != undefined && props.user.role == 'DONOR'){
-                for (let supply of bloodSupply){
-                    if(supply.bloodType.trim() == bloodType.trim() && supply.review == 'TOO LITTLE'){
-                        setWarningMessage("Nedostaje krvi vaše krvne grupe (" + bloodType 
-                        + ")\nDonirajte ako ste u mogućnosti")
-                        break;
+            if(daysUntilDonation != undefined && bloodType != undefined && props.user.role == 'DONOR'){
+                if(daysUntilDonation != 0){
+                    setWarningMessage("Hvala na nedavnoj donaciji krvi - ponovno ćete moći donirati za " + daysUntilDonation + " dana")
+                }
+                else{
+                    for (let supply of bloodSupply){
+                        if(supply.bloodType.trim() == bloodType.trim() && supply.review == 'TOO LITTLE'){
+                            setWarningMessage("Nedostaje krvi vaše krvne grupe (" + bloodType 
+                            + ")\nDonirajte ako ste u mogućnosti")
+                            break;
+                        }
                     }
                 }
             } else if(props.user.role == 'BANK_WORKER'){
@@ -45,7 +51,9 @@ const Profil = (props) => {
                 }
             }
         }
-    },[bloodType, bloodSupply])
+    },[bloodType, bloodSupply, daysUntilDonation])
+
+    console.log(warningMessage)
 
     return (
         <div className="profile">
