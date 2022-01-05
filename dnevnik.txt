@@ -160,3 +160,19 @@
 	Sastanak nakon:
 		-Izvještavanje o napretku
 		-Raspodijeljen posao, dogovoreni prioriteti
+
+10. sastanak: (4.1.2022.)
+	Prisutni: Toni, Ana, Vukota, Marko, Jakov, Borna
+	-Prezentacija dosadašnjeg napretka
+	-Rješavanje problema oko autorizacije zahtjeva s frontenda
+	-Rješavanje problema vezanih za slanje maila i validaciju računa
+	
+11. sastanak: Sastanak s asistentom (5.1.2022.)
+	Prisutni: Dora, Marko, Toni, Jakov
+	-Razgovor o dosadašnjem napretku i očekivanim komponentama pri predaji
+	-Rasprava o mogućnsotima popravka dijagrama
+	-Popravci:
+		Urediti kontakt i FAQ
+		Informacije o krvnim grupama koje nedostaju da bude svaka u novi red
+		Tražilica treba po defaultu tražiti samo aktivne korisnike
+		Upute za puštanje u pogon su dosta dobro napisane kao naš readme pa možemo to iskoristiti
