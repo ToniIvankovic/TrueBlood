@@ -86,6 +86,9 @@ const Profil = (props) => {
                     <Link key={0} to='/pokusaj_doniranja'>
                         <button className="registracija">Stvori pokušaj doniranja</button>
                     </Link>,
+                    <Link key={9} to='/slanje_krvi'>
+                        <button className="registracija">Potrošnja krvi</button>
+                    </Link>,
                     <div key={8} className="image-alert">
                         {warningMessage? <p className="alert">{warningMessage}</p> : ''}
                     </div>
