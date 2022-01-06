@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.User;
@@ -20,12 +21,10 @@ public class UserController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
-    private final JwtTokenUtil jwtTokenUtil;
 
-    public UserController(UserService userService, ModelMapper modelMapper, JwtTokenUtil jwtTokenUtil) {
+    public UserController(UserService userService, ModelMapper modelMapper) {
         this.userService = userService;
         this.modelMapper = modelMapper;
-        this.jwtTokenUtil = jwtTokenUtil;
     }
 
     @Secured({"ROLE_DONOR", "ROLE_BANK_WORKER", "ROLE_ADMIN"})
@@ -34,10 +33,7 @@ public class UserController {
 
         // todo: examine if there is a more apt method of passing current userId to this method than getting token from request header
         try {
-            // This assumes header and token were both validated by passing through the JwtTokenFilter
-            final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-            final String token = header.split(" ")[1].trim();
-            String userId = jwtTokenUtil.getUserId(token);
+            String userId = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
             User user = userService.findById(userId);
             return ResponseEntity.ok(modelMapper.map(user, UserDTO.class));
         } catch (Exception ex) {
