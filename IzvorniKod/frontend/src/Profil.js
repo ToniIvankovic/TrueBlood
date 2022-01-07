@@ -57,21 +57,34 @@ const Profil = (props) => {
 
     return (
         <div className="profile">
-            <div className="ikona">
-                <img src={Profilimg} alt="profileimg" />
+
+            <div className="profile-card">
+                <div className="ikona-ID">
+                    <div className="ikona">
+                        <img src={Profilimg} alt="profileimg" />
+                    </div>
+                    <div className="ident">
+                        <div>ID: {props.user.userId}</div>
+                    </div>
+                </div>
+                <div className="podaci-role">
+                    <div>Uloga: {props.user.role}</div>
+                    <div></div>
+                    <div>Ime: {props.user.firstname}</div>
+                    <div>Prezime: {props.user.lastname}</div>
+                    <div>Datum rođenja: {props.user.dateofbirth}</div>
+                    <div>OIB: {props.user.oib}</div>
+                </div>
             </div>
-            <div className="basicInfo">
-                <div>{props.user.userId}</div>
-                <div>{props.user.role}</div>
-            </div>
-            <div className="uredi">
+
+            <div className="profile-akcije">
                 {props.user.role == 'DONOR' ?
                     [
                     <Link key={5} to='/stvori_donora'>
-                        <button className="registracija"  onClick={(event) => {props.setExistingDonor(true)}}>Uredi podatke</button>
+                        <button className="secondary"  onClick={(event) => {props.setExistingDonor(true)}}>Uredi podatke</button>
                     </Link>,
                     <Link key={6} to='/povijest_doniranja'>
-                        <button className="registracija">Prošle donacije</button>
+                        <button className="secondary">Moje donacije</button>
                     </Link>,
                     <div key={7} className="image-alert">
                         {warningMessage? <p className="alert">{warningMessage}</p> : ''}
@@ -81,13 +94,13 @@ const Profil = (props) => {
                 {props.user.role == 'BANK_WORKER' ?
                     [
                     <Link key={2} to='/stvori_djelatnika'>
-                        <button className="registracija" >Uredi podatke</button>
+                        <button className="secondary" >Uredi podatke</button>
                     </Link>,
                     <Link key={0} to='/pokusaj_doniranja'>
-                        <button className="registracija">Stvori pokušaj doniranja</button>
+                        <button className="secondary">Nova donacija</button>
                     </Link>,
                     <Link key={9} to='/slanje_krvi'>
-                        <button className="registracija">Potrošnja krvi</button>
+                        <button className="secondary">Slanje krvi</button>
                     </Link>,
                     <div key={8} className="image-alert">
                         {warningMessage? <p className="alert">{warningMessage}</p> : ''}
@@ -97,13 +110,13 @@ const Profil = (props) => {
                 {props.user.role == 'ADMIN' ?
                     [
                     <Link key={3} to='/stvori_djelatnika'>
-                        <button className="registracija">Stvori djelatnika</button>
+                        <button className="secondary">Novi djelatnik</button>
                     </Link>,
                     <Link key={4} to='/deaktiviraj_racun'>
-                        <button className="registracija">Deaktiviraj račun</button>
+                        <button className="secondary">Upravljaj računima</button>
                     </Link>,
                     <Link key={5} to='/optimalne_granice'>
-                        <button className="registracija">Postavi optimalne granice</button>
+                        <button className="secondary">Uredi granice</button>
                     </Link>
                     ]
                     : ''}

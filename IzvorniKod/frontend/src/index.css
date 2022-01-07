@@ -1,6 +1,56 @@
 @import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;1,400;1,500&family=Leckerli+One&display=swap');
 
+/* Profil css ////////////////////////////////////////////////////////*/
 
+.profile{
+    display: grid;
+    grid-template-rows: auto;
+    justify-content: center;
+    text-align: left;
+    margin: 20px auto;
+}
+
+.profile-card {
+    background-color: #f6f5fa;
+    border-radius: 50px;
+    width: 800px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    justify-content: center;
+}
+
+.ikona-ID {
+    margin: 30px 30px;
+    padding: 0 30px 0 0;
+    border-right: 1px solid #1e396f;
+    text-align: center;
+}
+.ikona img{
+    width: 230px;
+}
+
+.ident{
+    margin-top: 50px;
+    font-size: 25px;
+}
+
+.podaci-role {
+    margin: 60px 30px 30px 30px;
+    display: grid;
+    grid-template-rows: auto;
+    justify-content: left;
+    font-size: 25px;
+}
+.podaci-role label {
+    font-size: 25px;
+}
+.profile-akcije {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    justify-content: space-evenly;
+}
 /* Kontakt css //////////////////////////////////////////////////*/
 .kontaktpage {
     margin: 20px;
@@ -959,37 +1009,5 @@
 }
 
 
-
-
-/* Profil css ////////////////////////////////////////////////////////*/
-
-.profile{
-    display: grid;
-    grid-template-rows: auto;
-    justify-content: center;
-    text-align: center;
-    margin: 20px auto;
-}
-.uredi{
-    display: grid;
-    grid-template-rows: auto;
-}
-.ikona img{
-    max-width: 50%;
-}
-.donacije{
-    margin: 30px 10px;
-}
-.donacije p{
-    font-size: 40px;
-    margin-bottom: 10px;
-}
-.lista{
-    background-color: #f6f5fa;
-    text-align: center;
-    height: 300px;
-    box-sizing: border-box;
-    border-radius: 50px;
-}
 
 
