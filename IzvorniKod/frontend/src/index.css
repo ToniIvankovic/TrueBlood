@@ -1,5 +1,125 @@
 @import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;1,400;1,500&family=Leckerli+One&display=swap');
 
+
+/* Kontakt css //////////////////////////////////////////////////*/
+.kontaktpage {
+    margin: 20px;
+    padding: 10px;
+    text-align: center;
+    display: grid;
+    grid-template-rows: auto;
+    justify-content: center;
+}
+.kontakt-naslov h1 {
+    font-weight: lighter;
+    font-style: normal;
+    font-size: 60px;
+}
+.kontakt-info {
+    font-size: 35px;
+    padding: 10px;
+    margin: 20px 0;
+    text-align: center;
+    max-width: 1000px;
+}
+.kontakt-info a{
+    font-weight: lighter;
+    color: #d65d5c;
+}
+.kontakt-info span {
+    font-weight: lighter;
+    color: #d65d5c;
+}
+.kontakt-image {
+    max-width: 70%;
+}
+
+@media screen and (max-width: 620px) {
+    .kontakt-naslov h1 {
+        font-weight: lighter;
+        font-style: normal;
+        font-size: 45px;
+    }
+    .kontakt-info {
+        font-size: 25px;
+        padding: 10px;
+        margin: 20px 0;
+        text-align: center;
+        max-width: 1000px;
+    }
+}
+
+/* FAQ css ///////////////////////////////////////////////////////*/
+.faqpage {
+    margin: 20px;
+    padding: 10px;
+    text-align: center;
+    display: grid;
+    grid-template-rows: auto;
+    justify-content: center;
+    align-items: center;
+}
+.faqpage h1{
+    font-style: normal;
+    font-weight: lighter;
+    font-size: 60px;
+    padding-bottom: 20px;
+}
+.faq-pitanje h2{
+    font-style: normal;
+    font-weight: lighter;
+    color: #d65d5c;
+    font-size: 35px;
+    padding: 10px;
+    text-align: center;
+}
+.faq-pitanje{
+    margin: 10px 0 10px 0;
+    text-align: center;
+    justify-content: center;
+    max-width: 1000px;
+}
+.faq-odgovor p {
+    font-size: 25px;
+    text-align:justify;
+    padding: 10px;
+}
+.faq-odgovor {
+    margin: 10px 0 10px 0;
+    max-width: 1000px;
+}
+
+@media screen and (max-width: 440px) {
+    .faqpage h1{
+        font-style: normal;
+        font-weight: lighter;
+        font-size: 45px;
+        padding-bottom: 10px;
+    }
+    .faq-pitanje h2{
+        font-style: normal;
+        font-weight: lighter;
+        color: #d65d5c;
+        font-size: 25px;
+        padding: 0;
+        text-align: center;
+    }
+    .faq-odgovor p {
+        font-size: 20px;
+        text-align:justify;
+        padding: 10px;
+    }
+    .faqpage {
+        margin: 10px 20px 20px 20px;
+        padding: 0;
+        text-align: center;
+        display: grid;
+        grid-template-rows: auto;
+        justify-content: center;
+        align-items: center;
+    }
+
+}
 /* Login page css /////////////////////////////////////////////////////*/ 
 .homepage{
     margin:0;
@@ -27,7 +147,7 @@
 
 .errorcard {
     display: flex;
-    background-color: #ff3e3e;
+    background-color: #d65d5c;
     color: #ffffff;
     font-size: 20pt;
     border-radius: 20px;
@@ -253,18 +373,48 @@
     }
 
 }
-@media screen and (max-width: 630px) {
+@media screen and (max-width: 645px) {
     .text p{
         font-size: 40px;
     }
     .login p{
         font-size: 40px;
+        margin-bottom: 40px;
     }
+    .login{
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: -50px;
+        margin-bottom: auto;
+        justify-content: center;
+        max-width: 550px;
+        background-color: #ffffff;
+        padding: 20px 10px 20px 10px;
+    }
+    .alert {
+        font-size: 20px;
+        width: 100%;
+    }
+
 }
 
 .roledesplay {
     color: #d8d8d8;
     font-size: 10px;
+}
+
+.tekst-secondary {
+    font-size: 50px;
+    text-align: center;
+}
+.label-secondary {
+    font-size: 25px;
+    text-align: center;
+    margin: 20px;
+}
+.dupli label {
+    margin: 30px;
+    font-size: 20px;
 }
 
 
@@ -381,20 +531,45 @@
 .maligumb{
     font-size: 20px;
     border-radius: 100px;
-    background-color: #d65d5c;
-    color: #f6f5fa;
+    background-color: #f6f5fa;
+    color: #1e396f;
     border: none;
     padding: 10px 30px;
+    margin: 5px;
 }
 
 .maligumb:hover{
-    background-color: #f6f5fa;
-    color: #1e396f;
+    background-color: #d65d5c;
+    color: #f6f5fa;
     transition: all 0.5s ease;
     outline: none !important;
     cursor: pointer;
 }
 
+.gumb-traka {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    margin: 20px 10px;
+    justify-content: center;
+}
+
+.secondary {
+    font-size: 25px;
+    border-radius: 100px;
+    background-color: #f6f5fa;
+    color: #1e396f;
+    border: none;
+    padding: 10px 30px;
+    margin: 10px 0 0 0;
+}
+.secondary:hover{
+    background-color: #d65d5c;
+    color: #f6f5fa;
+    transition: all 0.5s ease;
+    outline: none !important;
+    cursor: pointer;
+}
 /* Pokusaj_doniranja css ////////////////////////////////////////////////*/
 
 .formular {
@@ -408,7 +583,7 @@
     text-align: center;
 }
 
-.pitanje {
+.question {
     font-size: 25px;
     text-align: left;
     margin: 14px 10px;
@@ -436,7 +611,7 @@
 
 @media screen and (max-width: 830px){
     .tekst{
-        font-size: 40px;
+        font-size: 50px;
     }
     .reg input{
         font-size: 20px;
@@ -446,6 +621,13 @@
     }
     .formular{
         width: 100%;
+    }
+    .gumb-traka {
+        flex-wrap: wrap;
+        flex-direction: row;
+        flex: 1;
+        margin: 20px 10px;
+        justify-content: center;
     }
 }
 @media screen and (max-width: 545px){
@@ -510,7 +692,7 @@
     grid-template-rows: auto;
     justify-content: center;
     text-align: center;
-    margin: 0 20px;
+    margin: 20px 20px;
 }
 .naslovna{
     display: grid;
@@ -520,7 +702,6 @@
 
 .pitanje p{
     font-size: 60px;
-    margin-top: 20px;
 }
 
 .akt {
@@ -537,7 +718,7 @@
     grid-template-rows: auto;
     justify-content: center;
     text-align: center;
-    margin: 20px;
+    margin: 0;
     transform: rotate(-90deg);
 }
 
@@ -593,7 +774,7 @@
         position: absolute;
         left: 50%;
         right: 50%;
-        top: 47%;
+        top: 50%;
         display: grid;
         grid-template-rows: auto;
         justify-content: center;
@@ -620,12 +801,12 @@
     }
 }
 
-@media screen and (max-height: 650px) {
+@media screen and (max-height: 770px) {
     .epruvete {
         position: absolute;
         left: 50%;
         right: 50%;
-        top: 35%;
+        top: 30%;
         display: grid;
         grid-template-rows: auto;
         justify-content: center;
@@ -640,7 +821,7 @@
         position: absolute;
         left: 50%;
         right: 50%;
-        top: 45%;
+        top: 47%;
         display: grid;
         grid-template-rows: auto;
         justify-content: center;
@@ -650,7 +831,7 @@
     }
     .pitanje p{
         font-size: 50px;
-        margin-top: 20px;
+        margin-top: 0;
     }
     .progress {
         background-color: #d8d8d8;
@@ -671,7 +852,7 @@
 
 }
 
-@media screen and (max-width: 445px) {
+@media screen and (max-width: 450px) {
     .epruvete {
         position: absolute;
         left: 50%;
@@ -707,7 +888,7 @@
         position: absolute;
         left: 50%;
         right: 50%;
-        top: 70%;
+        top: 90%;
         display: grid;
         grid-template-rows: auto;
         justify-content: center;
@@ -733,17 +914,17 @@
         width: 80px;
     }
 }
-@media screen and (max-height: 650px) and (max-width: 427px) {
+@media screen and (max-height: 850px) and (max-width: 450px) {
     .epruvete {
         position: absolute;
         left: 50%;
         right: 50%;
-        top: 85%;
+        top: 45%;
         display: grid;
         grid-template-rows: auto;
         justify-content: center;
         text-align: center;
-        margin: 0;
+        margin-bottom: 0;
         transform: rotate(0deg);
     }
 
@@ -762,6 +943,18 @@
         font-size: 20px;
         margin: 15px 0;
         width: 80px;
+    }
+    .str{
+        margin: 0;
+    }
+    .pitanje p{
+        font-size: 40px;
+    }
+    .content{
+        margin: 0;
+    }
+    .akt {
+        font-size: 30px;
     }
 }
 

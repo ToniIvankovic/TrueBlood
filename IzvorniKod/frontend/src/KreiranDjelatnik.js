@@ -17,14 +17,17 @@ const KreiranDjelatnik = (props) => {
                     Na e-adresu djelatnika poslani su <span>bankWorkerId</span>, inicijalna <span>lozinka</span> i poveznica za <span>aktivaciju</span> računa
                 </p>
             </div>
-            <div className="idi">
+            <div>
+                <Link to='/stvori_djelatnika'>
+                    <button className="secondary">Novi djelatnik</button>
+                </Link>
+            </div>
+            <div>
                 <Link to='/'>
                     <button className="registracija">Idi na naslovnicu</button>
                 </Link>
-                <Link to='/stvori_djelatnika'>
-                    <button className="registracija">Stvori još jednog djelatnika</button>
-                </Link>
             </div>
+
         </div>
     )
 }

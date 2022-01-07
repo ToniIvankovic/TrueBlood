@@ -95,11 +95,11 @@ const OptimalneGranice = (props) => {
         <div className="reg">
             <div className="roledesplay">({props.user.role})</div>
             <form onSubmit={(event) => handleSubmit(event)} className='formular'>
-                <div className="tekst">
-                    <p>Postavi optimalne granice zaliha</p>
+                <div className="tekst-secondary">
+                    <p>Postavi optimalne granice zaliha krvi</p>
                 </div>
-                <div className="label">
-                    <label>Osobni podaci</label>
+                <div className="label-secondary">
+                    Zadaj granice (broj jedinica od 450mL)
                 </div>
                 <div className="dupli">
                     <div>

@@ -77,11 +77,11 @@ const SlanjeKrvi = (props) => {
         <div className="reg">
             <div className="roledesplay">({props.user.role})</div>
             <form onSubmit={(event) => handleSubmit(event)} className='formular'>
-                <div className="tekst">
-                    <p>Evidentiraj slanje krvi</p>
+                <div className="tekst-secondary">
+                    <p>Evidencija slanja krvi</p>
                 </div>
-                <div className="label">
-                    <label>Osobni podaci</label>
+                <div className="label-secondary">
+                    Definiraj količine za slanje
                 </div>
                 <div className="dupli">
                     <div>
@@ -165,7 +165,7 @@ const SlanjeKrvi = (props) => {
                 </div>
                 {errorHidden ? null : <ErrorCard message={errorMessage} />}
                 <div className="gumbi">
-                    <button className='kreiraj'>Evidentiraj slanje</button>
+                    <button className='kreiraj'>Pošalji</button>
                 </div>
             </form>
         </div>

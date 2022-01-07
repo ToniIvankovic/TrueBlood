@@ -168,15 +168,15 @@ const PokusajDoniranja = (props) => {
                 <div className="tekst">
                     <p>Nova donacija </p>
                 </div>
-                <div className="gumbi">
-                    <br />
+                <div className="gumb-traka">
+                    
                     <Link to='/stvori_donora'>
                         <button className='maligumb' onClick={(event) => {props.setExistingDonor(false); props.setDonor(donorNone)}}>Stvori donora</button>
                     </Link>
                     <Link to='/trazi_donora'>
                         <button className='maligumb' onClick={(event) => {props.setExistingDonor(false); props.setDonor(donorNone)}}>Pronađi donora</button>
                     </Link>
-                    <br/> <br/>
+                    
                     {props.existingDonor?
                     [
                         <Link key={1} to='/stvori_donora'>

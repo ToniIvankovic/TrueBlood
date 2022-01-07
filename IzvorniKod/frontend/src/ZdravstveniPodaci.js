@@ -3,7 +3,7 @@ import React from 'react';
 const ZdravstveniPodaci = ({question, id, handleChange}) => {
     return (
         <div className="redak">
-            <div className="pitanje">
+            <div className="question">
                 {question}
             </div>
             <div className="odgovor">

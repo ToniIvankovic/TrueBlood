@@ -74,7 +74,7 @@ const Login = (props) => {
         <div className="homepage">
             <div className="text-login">
                 <div className="text">
-                    <div><p>Doniraj krv, spasi život!</p></div>
+                    <p>Doniraj krv, spasi život!</p>
                     <Link to='/stvori_donora'>
                         <button className="registracija" onClick={(event) => props.setExistingDonor(false)}> Registriraj se</button>
                     </Link>
