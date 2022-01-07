@@ -1,13 +1,9 @@
 package progi.megatron.util;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import progi.megatron.model.User;
-import progi.megatron.security.JwtTokenUtil;
-import progi.megatron.service.DonorService;
 import progi.megatron.service.UserService;
-import javax.servlet.http.HttpServletRequest;
 
 @Component
 public class CurrentUserUtil {
