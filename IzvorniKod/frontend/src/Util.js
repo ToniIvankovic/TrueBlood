@@ -1,5 +1,6 @@
 import React from "react";
-import axios from './util/axios-instance';
+import axios from 'axios';
+import { Buffer } from "buffer";
 //import { useHistory } from "react-router";
 
 //globalne varijable za aplikaciju
@@ -12,20 +13,29 @@ const userPublic = {
     role: roleNone
 };
 
+const generateBasicAuthHeader = (userId, password) => {
+    const credentials = userId + ":" + password;
+    const basicAuth = Buffer.from(credentials).toString('base64');
+    const basicAuthHeader = {
+        'Authorization': 'Basic ' + basicAuth
+    };
+    return basicAuthHeader;
+}
+
 const getCurrentUserIdAndRole = async (user, setUser) => {
 
     const url = '/api/v1/user';
-    const token = window.localStorage.getItem('token');
-    if (!token) {
-        setUser(userPublic);
-        return;
-    }
+    setUser(userPublic);
+    //const token = window.localStorage.getItem('token');
+    // if (!token) {
+    //     setUser(userPublic);
+    //     return;
+    // }
 
-    const bearerAuth = 'Bearer ' + token;
-    await axios.get(url, {
-        headers: { 'Authorization': bearerAuth }
-    })
+    //const bearerAuth = 'Bearer ' + token;
+    await axios.get(url)
         .then((response) => {
+            console.log('user queried success');
             if (response.data != null) {
                 setUser({
                     userId: response.data.userId,
@@ -34,7 +44,7 @@ const getCurrentUserIdAndRole = async (user, setUser) => {
             } else {
                 //Sto ovdje napraviti?
                 setUser(userPublic);
-                window.localStorage.removeItem('token');
+                //window.localStorage.removeItem('token');
                 console.log("Prazan odgovor poslužitelja")
             }
         })
@@ -48,16 +58,14 @@ const getCurrentUserIdAndRole = async (user, setUser) => {
 const getDonorById = async (donorId, setDonor) => {
 
     const url = '/api/v1/donor/id/' + donorId;
-    const token = window.localStorage.getItem('token');
-    if (!token) {
-        console.log("Greska u getDonorById - nema tokena")
-        return;
-    }
+    // const token = window.localStorage.getItem('token');
+    // if (!token) {
+    //     console.log("Greska u getDonorById - nema tokena")
+    //     return;
+    // }
 
-    const bearerAuth = 'Bearer ' + token;
-    await axios.get(url, {
-        headers: { 'Authorization': bearerAuth }
-    })
+    //const bearerAuth = 'Bearer ' + token;
+    await axios.get(url)
         .then((response) => {
             if (response.data != null) {
                 if(response.data.donorId != donorId){
@@ -79,16 +87,14 @@ const getDonorById = async (donorId, setDonor) => {
 const getWorkerById = async (workerId, setWorker) => {
 
     const url = '/api/v1/bank-worker/id/' + workerId;
-    const token = window.localStorage.getItem('token');
-    if (!token) {
-        console.log("Greska u getWorkerById - nema tokena")
-        return;
-    }
+    // const token = window.localStorage.getItem('token');
+    // if (!token) {
+    //     console.log("Greska u getWorkerById - nema tokena")
+    //     return;
+    // }
 
-    const bearerAuth = 'Bearer ' + token;
-    await axios.get(url, {
-        headers: { 'Authorization': bearerAuth }
-    })
+    //const bearerAuth = 'Bearer ' + token;
+    await axios.get(url)
         .then((response) => {
             if (response.data != null) {
                 if(response.data.bankWorkerId != workerId){
@@ -112,7 +118,7 @@ const getBloodSupply = async (setBloodSupply) => {
 
     const url = '/api/v1/blood-supply';
 
-    await axios.get(url)
+    await axios.get(url, { withCredentials: false })
         .then((response) => {
             if (response.data != null) {
                 setBloodSupply(response.data);
@@ -215,7 +221,7 @@ const isEqualWithNull = (v1, v2) =>{
     }
 }
 
-
+export { generateBasicAuthHeader };
 export { getCurrentUserIdAndRole };
 export { getDonorById };
 export { getWorkerById };

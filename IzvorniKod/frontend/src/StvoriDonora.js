@@ -75,7 +75,7 @@ const StvoriDonora = (props) => {
         }
 
         //Zabraniti workeru da updatea donora bez da postavi krvnu grupu (ako ju ne dira) 
-        axios.post(url, donorInfo, { headers: { "Authorization": `Bearer ${props.token}` } })
+        axios.post(url, donorInfo)
             .then((response) => {
                 console.log('Donor successfully created:');
                 console.log(response.data)

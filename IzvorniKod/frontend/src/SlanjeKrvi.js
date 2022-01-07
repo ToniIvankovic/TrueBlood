@@ -46,7 +46,7 @@ const SlanjeKrvi = (props) => {
 
         const url = '/api/v1/blood-supply/decrease'
 
-        axios.post(url, arrayBloodSupplyInfo, { headers: { "Authorization": `Bearer ${props.token}` } })
+        axios.post(url, arrayBloodSupplyInfo)
             .then((response) => {
                 console.log('Blood supply succesfully decreased:');
                 console.log(response.data)

@@ -11,16 +11,10 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
     baseURL = 'https://trueblood-be-dev.herokuapp.com'; //PROMIJENITI PRIJE PREDAJE
 }
 
-const token = localStorage.getItem('token');
-if (token) {
-    axios.defaults.headers.common['Authorization'] = "Bearer " + token;
-} else {
-    axios.defaults.headers.common['Authorization'] = null;
-}
-
 const instance = axios.create({
     baseURL: baseURL,
-    timeout: 5000
+    timeout: 5000,
+    withCredentials: true
 });
 
 export default instance;
