@@ -29,24 +29,13 @@ import axios from "axios";
 
 const App = () => {
 
-    //Provjeri je li itko logiran
+    //Provjeriti tko je user i postaviti njegov role
     const [user, setUser] = useState(userNone);
-    //const [token, setToken] = useState("");
-
-    // useEffect(() => {
-    //     setToken(window.localStorage.getItem('token'));
-    //     if (token) {
-    //         getCurrentUserIdAndRole(user, setUser);
-    //     } else{
-    //         setUser(userPublic);
-    //     }
-    // }, [token]);
     useEffect(() => {
         getCurrentUserIdAndRole(user, setUser);
     }, []);
     console.log(user)
 
-    //Kada se nađe user, provjeriti je li aktiviran i postaviti njegov role
     const [donorPermRejected, setDonorPermRejected] = useState(null);
     useEffect(() => {
         if(!isEqualWithNull(user,userNone)){

@@ -44,9 +44,10 @@ const Navbar = (props) => {
                     <li key="4">Kontakt</li>
                 </Link>
                 { props.showProfile ?
-                    <div className="profil" onClick={()=>{logout(); setIsMob(false); }}>
-                        <li key="2">Odjava</li>
-                    </div>
+                
+                <Link to='/' className="kontakt" onClick={()=>setIsMob(false)}>
+                    <li onClick={()=>{logout(); setIsMob(false); }} key="2">Odjava</li>
+                </Link>
                 : null }
             </ul>
             <button className = "mobile-menu" onClick={handleClick}>

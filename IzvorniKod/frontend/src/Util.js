@@ -26,13 +26,7 @@ const getCurrentUserIdAndRole = async (user, setUser) => {
 
     const url = '/api/v1/user';
     setUser(userPublic);
-    //const token = window.localStorage.getItem('token');
-    // if (!token) {
-    //     setUser(userPublic);
-    //     return;
-    // }
 
-    //const bearerAuth = 'Bearer ' + token;
     await axios.get(url)
         .then((response) => {
             console.log('user queried success');
@@ -42,29 +36,18 @@ const getCurrentUserIdAndRole = async (user, setUser) => {
                     role: response.data.userRole
                 });
             } else {
-                //Sto ovdje napraviti?
                 setUser(userPublic);
-                //window.localStorage.removeItem('token');
                 console.log("Prazan odgovor poslužitelja")
             }
         })
         .catch((error) => {
             console.log('Error retrieving user info: ' + error);
-            //let history = useHistory();
-            //history.push('/');
         })
 }
 
 const getDonorById = async (donorId, setDonor) => {
 
     const url = '/api/v1/donor/id/' + donorId;
-    // const token = window.localStorage.getItem('token');
-    // if (!token) {
-    //     console.log("Greska u getDonorById - nema tokena")
-    //     return;
-    // }
-
-    //const bearerAuth = 'Bearer ' + token;
     await axios.get(url)
         .then((response) => {
             if (response.data != null) {
@@ -75,7 +58,6 @@ const getDonorById = async (donorId, setDonor) => {
 
                 setDonor(response.data);
             } else {
-                //Sto ovdje napraviti?
                 console.log("Prazan odgovor poslužitelja")
             }
         })
@@ -87,13 +69,6 @@ const getDonorById = async (donorId, setDonor) => {
 const getWorkerById = async (workerId, setWorker) => {
 
     const url = '/api/v1/bank-worker/id/' + workerId;
-    // const token = window.localStorage.getItem('token');
-    // if (!token) {
-    //     console.log("Greska u getWorkerById - nema tokena")
-    //     return;
-    // }
-
-    //const bearerAuth = 'Bearer ' + token;
     await axios.get(url)
         .then((response) => {
             if (response.data != null) {
@@ -104,7 +79,6 @@ const getWorkerById = async (workerId, setWorker) => {
 
                 setWorker(response.data);
             } else {
-                //Sto ovdje napraviti?
                 console.log("Prazan odgovor poslužitelja")
             }
         })
