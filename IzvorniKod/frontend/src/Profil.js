@@ -58,6 +58,49 @@ const Profil = (props) => {
     return (
         <div className="profile">
 
+
+
+            <div className="profile-akcije">
+                {props.user.role == 'DONOR' ?
+                    [
+                    <Link key={5} to='/stvori_donora'>
+                        <button className="secondary"  onClick={(event) => {props.setExistingDonor(true)}}>Uredi podatke</button>
+                    </Link>,
+                    <Link key={6} to='/povijest_doniranja'>
+                        <button className="secondary">Moje donacije</button>
+                    </Link>,
+
+                    ]
+                    : ''}
+                {props.user.role == 'BANK_WORKER' ?
+                    [
+                    <Link key={2} to='/stvori_djelatnika'>
+                        <button className="secondary" >Uredi podatke</button>
+                    </Link>,
+                    <Link key={0} to='/pokusaj_doniranja'>
+                        <button className="secondary">Nova donacija</button>
+                    </Link>,
+                    <Link key={9} to='/slanje_krvi'>
+                        <button className="secondary">Slanje krvi</button>
+                    </Link>,
+
+                    ]
+                    : ''}
+                {props.user.role == 'ADMIN' ?
+                    [
+                    <Link key={3} to='/stvori_djelatnika'>
+                        <button className="secondary">Novi djelatnik</button>
+                    </Link>,
+                    <Link key={4} to='/deaktiviraj_racun'>
+                        <button className="secondary">Upravljaj računima</button>
+                    </Link>,
+                    <Link key={5} to='/optimalne_granice'>
+                        <button className="secondary">Uredi granice</button>
+                    </Link>
+                    ]
+                    : ''}
+            </div>
+
             <div className="profile-card">
                 <div className="ikona-ID">
                     <div className="ikona">
@@ -76,52 +119,23 @@ const Profil = (props) => {
                     <div>OIB: {props.user.oib}</div>
                 </div>
             </div>
-
-            <div className="profile-akcije">
-                {props.user.role == 'DONOR' ?
-                    [
-                    <Link key={5} to='/stvori_donora'>
-                        <button className="secondary"  onClick={(event) => {props.setExistingDonor(true)}}>Uredi podatke</button>
-                    </Link>,
-                    <Link key={6} to='/povijest_doniranja'>
-                        <button className="secondary">Moje donacije</button>
-                    </Link>,
-                    <div key={7} className="image-alert">
-                        {warningMessage? <p className="alert">{warningMessage}</p> : ''}
-                    </div>
-                    ]
-                    : ''}
-                {props.user.role == 'BANK_WORKER' ?
-                    [
-                    <Link key={2} to='/stvori_djelatnika'>
-                        <button className="secondary" >Uredi podatke</button>
-                    </Link>,
-                    <Link key={0} to='/pokusaj_doniranja'>
-                        <button className="secondary">Nova donacija</button>
-                    </Link>,
-                    <Link key={9} to='/slanje_krvi'>
-                        <button className="secondary">Slanje krvi</button>
-                    </Link>,
-                    <div key={8} className="image-alert">
-                        {warningMessage? <p className="alert">{warningMessage}</p> : ''}
-                    </div>
-                    ]
-                    : ''}
-                {props.user.role == 'ADMIN' ?
-                    [
-                    <Link key={3} to='/stvori_djelatnika'>
-                        <button className="secondary">Novi djelatnik</button>
-                    </Link>,
-                    <Link key={4} to='/deaktiviraj_racun'>
-                        <button className="secondary">Upravljaj računima</button>
-                    </Link>,
-                    <Link key={5} to='/optimalne_granice'>
-                        <button className="secondary">Uredi granice</button>
-                    </Link>
-                    ]
-                    : ''}
-            </div>
             
+            {props.user.role == 'BANK_WORKER' ? 
+                [
+                <div key={7} className="image-alert">
+                    {warningMessage? <p className="alert">{warningMessage}</p> : ''}
+                </div>
+                ]
+                : ''}
+
+            {props.user.role == 'DONOR' ? 
+                [
+                <div key={8} className="image-alert">
+                    {warningMessage? <p className="alert">{warningMessage}</p> : ''}
+                </div>
+                ]
+                : ''}    
+                
             <button onClick={() => props.setUser({
                     ...props.user,
                     role: 'DONOR'

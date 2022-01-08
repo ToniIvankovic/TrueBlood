@@ -7,16 +7,17 @@
     grid-template-rows: auto;
     justify-content: center;
     text-align: left;
-    margin: 20px auto;
+    margin: 10px auto;
 }
 
 .profile-card {
     background-color: #f6f5fa;
     border-radius: 50px;
-    width: 800px;
+    max-width: 800px;
     display: grid;
     grid-template-columns: 1fr 2fr;
     justify-content: center;
+    margin: 0 20px;
 }
 
 .ikona-ID {
@@ -41,15 +42,21 @@
     justify-content: left;
     font-size: 25px;
 }
-.podaci-role label {
-    font-size: 25px;
-}
+
 .profile-akcije {
-    margin: 20px 0;
+    margin: 20px;
     display: flex;
     flex-direction: row;
     flex: 1;
-    justify-content: space-evenly;
+    justify-content: flex-start;
+    column-gap: 10px;
+    
+}
+
+@media  screen and (max-width: 830px) {
+    .podaci-role{
+        font-size: 20px;
+    }
 }
 /* Kontakt css //////////////////////////////////////////////////*/
 .kontaktpage {
