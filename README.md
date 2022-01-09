@@ -1,3 +1,15 @@
+## Link to deployed application
+
+Frontend: https://trueblood-fe.herokuapp.com  
+Backend:  https://trueblood-be.herokuapp.com
+
+### Test users
+
+| userId  | password |
+| ---     | ---      |
+| 1000001 | D5JBc9C4 |
+| 1000002 | XWZr3hE8 |
+
 ## Documentation setup
 
 ### LATEX SETUP
