@@ -26,7 +26,7 @@ public class Donor implements Serializable {
 
     private String oib;
 
-    private char gender;
+    private String gender;
 
     private LocalDate birthDate;
 

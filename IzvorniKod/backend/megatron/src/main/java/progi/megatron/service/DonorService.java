@@ -202,4 +202,8 @@ public class DonorService {
         return donor;
     }
 
+    public List<Donor> getAllDonors() {
+        return donorRepository.findAll();
+    }
+
 }

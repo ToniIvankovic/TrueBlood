@@ -112,7 +112,7 @@ public class DonationTryService {
         idValidator.validateId(donationId);
         DonationTry donationTry = getDonationTryByDonationId(donationId);
         if (donationTry != null && donationTry.getRejectReason() == null) {
-
+            // todo: finish
         }
     }
 
@@ -121,9 +121,11 @@ public class DonationTryService {
     }
 
     public List<Long> getIdsOfDonorsWhoseWaitingPeriodIsOver() {
-        List<DonationTry> donationTriesThreeMonthsAgo = donationTryRepository.getDonationTryByDonationDate(LocalDate.now().minusMonths(3));
-        List<Long> idsOfDonorsWhoDonatedThreeMonthsAgo = donationTriesThreeMonthsAgo.stream().map(donationTry -> donationTry.getDonor().getDonorId()).collect(Collectors.toList());
-        return idsOfDonorsWhoDonatedThreeMonthsAgo;
+        List<Donor> donors = donorService.getAllDonors();
+        return donors.stream()
+                    .filter(donor -> getWhenIsWaitingPeriodOverForDonor(String.valueOf(donor.getDonorId())) == 0)
+                    .map(donor -> donor.getDonorId())
+                    .collect(Collectors.toList());
     }
 
     public LocalDate getLastDonationDateForDonor(String donorId) {
@@ -141,8 +143,14 @@ public class DonationTryService {
     public long getWhenIsWaitingPeriodOverForDonor(String donorId) {
         idValidator.validateId(donorId);
         LocalDate lastDonationDate = getLastDonationDateForDonor(donorId);
+        long daysUnitlWaitingPeriodOver;
         if (lastDonationDate == null) return 0;
-        else return LocalDate.now().datesUntil(lastDonationDate.plusMonths(3)).count();
+        else {
+            Donor donor = donorService.getDonorByDonorId(donorId);
+            if (donor.getGender().equals("M")) daysUnitlWaitingPeriodOver = LocalDate.now().datesUntil(lastDonationDate.plusMonths(3)).count();
+            else daysUnitlWaitingPeriodOver = LocalDate.now().datesUntil(lastDonationDate.plusMonths(4)).count();
+        }
+        return daysUnitlWaitingPeriodOver;
     }
 
 }

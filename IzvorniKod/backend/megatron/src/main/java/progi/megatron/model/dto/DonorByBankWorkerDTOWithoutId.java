@@ -17,7 +17,7 @@ public class DonorByBankWorkerDTOWithoutId {
     private String firstName;
     private String lastName;
     private String oib;
-    private char gender;
+    private String gender;
     private LocalDate birthDate;
     private String birthPlace;
     private String address;
