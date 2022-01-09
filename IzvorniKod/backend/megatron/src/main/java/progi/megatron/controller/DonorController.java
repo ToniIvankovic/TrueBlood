@@ -7,6 +7,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -63,6 +64,7 @@ public class DonorController {
     // todo: secured (no role)
     @PostMapping("/registration")
     public ResponseEntity<Object> createDonorByDonor(@RequestBody DonorByDonorDTOWithoutId donorByDonorDTOWithoutId, HttpServletRequest request) {
+        System.out.println("USO BRATE");
         try {
             return ResponseEntity.ok(donorService.createDonorByDonor(donorByDonorDTOWithoutId));
         } catch (Exception ex) {
@@ -96,7 +98,7 @@ public class DonorController {
     @GetMapping("/id/{donorId}")
     public ResponseEntity<Object> getDonorByDonorId(@PathVariable String donorId, HttpServletRequest request) {
         try {
-            if (currentUserUtil.getCurrentUserRole(request).equals("DONOR") && !currentUserUtil.checkIfCurrentUser(request, donorId)) {
+            if (currentUserUtil.getCurrentUserRole().equals("DONOR") && !currentUserUtil.checkIfCurrentUser(donorId)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not fetch other donors.");
             }
             Donor donor = donorService.getDonorByDonorId(donorId);
@@ -141,7 +143,8 @@ public class DonorController {
     @PostMapping("/update")
     public ResponseEntity<Object> updateDonorByDonor(@RequestBody DonorByDonorDTOWithId donorByDonorDTOWithId, HttpServletRequest request) {
         try {
-            if (!currentUserUtil.checkIfCurrentUser(request, donorByDonorDTOWithId.getDonorId().toString())) {
+            String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
+            if (!currentUserId.equals(donorByDonorDTOWithId.getDonorId().toString())) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not update other donors.");
             }
             return ResponseEntity.ok(donorService.updateDonorByDonor(donorByDonorDTOWithId));

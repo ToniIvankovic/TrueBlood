@@ -39,7 +39,7 @@ const Trazilica = (props) => {
             })
             .then((response) => {
                 if(!response.data ||
-                    response.data.length == 1 && response.data[0] == null){
+                    response.data.length == 1 && response.data[0] == null) {
                         setUserList([]);
                     }
                 else{

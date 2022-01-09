@@ -3,6 +3,8 @@ package progi.megatron.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.BankWorker;
@@ -72,7 +74,8 @@ public class BankWorkerController {
     @PostMapping("/update")
     public ResponseEntity<Object> updateBankWorkerByBankWorker(@RequestBody BankWorker bankWorker, HttpServletRequest request) {
         try {
-            if (!currentUserUtil.checkIfCurrentUser(request, bankWorker.getBankWorkerId().toString())) {
+            String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
+            if (!currentUserId.equals(bankWorker.getBankWorkerId().toString())) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bank worker can not update other bank workers.");
             }
             return ResponseEntity.ok(bankWorkerService.updateBankWorkerByBankWorker(bankWorker));
