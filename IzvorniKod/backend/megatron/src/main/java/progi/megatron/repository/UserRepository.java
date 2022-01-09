@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query(value = "SELECT user_id, password, acc_activated, perm_deactivated, opt_out " +
+    @Query(value = "SELECT user_id, user_role, password, acc_activated, perm_deactivated, opt_out " +
             " FROM user_account " +
             " WHERE user_account.perm_deactivated = 0 " +
             " AND user_account.user_id = ?1", nativeQuery = true)
