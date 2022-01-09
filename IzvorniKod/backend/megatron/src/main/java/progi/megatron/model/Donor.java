@@ -1,5 +1,6 @@
 package progi.megatron.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class Donor implements Serializable {
 
     private String gender;
 
+    @JsonFormat(pattern="dd.MM.yyyy")
     private LocalDate birthDate;
 
     private String birthPlace;

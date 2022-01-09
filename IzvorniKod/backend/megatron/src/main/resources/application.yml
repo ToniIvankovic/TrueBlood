@@ -21,11 +21,10 @@ spring:
             trust: smtp.gmail.com
     protocol: smtp
     test-connection: false
-
-site:
   base:
     url:
     http: http://localhost:8080
     https: http://localhost:8080
 
 debug: false
+
