@@ -5,7 +5,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.User;
 import progi.megatron.model.dto.UserDTO;
@@ -13,7 +12,7 @@ import progi.megatron.service.UserService;
 import progi.megatron.security.JwtTokenUtil;
 import javax.servlet.http.HttpServletRequest;
 
-@Controller
+@RestController
 @CrossOrigin
 @RequestMapping("/api/v1/user")
 public class UserController {

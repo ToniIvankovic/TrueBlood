@@ -3,7 +3,6 @@ package progi.megatron.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.BankWorker;
 import progi.megatron.model.dto.BankWorkerDTO;
@@ -11,7 +10,7 @@ import progi.megatron.service.BankWorkerService;
 import progi.megatron.util.CurrentUserUtil;
 import javax.servlet.http.HttpServletRequest;
 
-@Controller
+@RestController
 @CrossOrigin
 @RequestMapping("/api/v1/bank-worker")
 public class BankWorkerController {

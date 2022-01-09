@@ -3,7 +3,6 @@ package progi.megatron.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.dto.DonationTryRequestDTO;
 import progi.megatron.service.DonationTryService;
@@ -11,7 +10,7 @@ import progi.megatron.service.UserService;
 import progi.megatron.util.CurrentUserUtil;
 import javax.servlet.http.HttpServletRequest;
 
-@Controller
+@RestController
 @CrossOrigin
 @RequestMapping("/api/v1/donation-try")
 public class DonationTryController {
