@@ -57,14 +57,10 @@ const OptimalneGranice = (props) => {
         let arrayLevels = {'bloodTypes': bloodTypes, 'minUnits': lowerLevels, 'maxUnits': upperLevels}
         console.log('Submitting!');
         console.log(arrayLevels);
-
-        const bearerAuth = 'Bearer ' + props.token;
     
         const url = '/api/v1/blood-supply';
 
-        axios.post(url, arrayLevels, {
-            headers: { 'Authorization': bearerAuth }
-        })
+        axios.post(url, arrayLevels)
             .then((response) => {
                 console.log('Optimal levels successfully set:');
                 console.log(response.data)

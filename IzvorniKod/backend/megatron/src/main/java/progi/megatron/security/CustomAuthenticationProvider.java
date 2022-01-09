@@ -28,7 +28,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             throws AuthenticationException {
 
         String name = authentication.getName();
-        String password = authentication.getCredentials().toString();
+        String password;
+        try {
+            password = authentication.getCredentials().toString();
+        } catch(NullPointerException ex) {
+            return null;
+        }
 
         // check if user exists
         User user = userService.findById(name);
@@ -38,7 +43,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         // check password
         if(encoder.matches(password, encodedPassword)) {
-            System.out.println("TRUE");
             List<GrantedAuthority> authorities;
             // tip: role names have to start with 'ROLE_'
             if(user.isDonor()) {
