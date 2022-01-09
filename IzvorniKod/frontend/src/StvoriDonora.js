@@ -103,6 +103,8 @@ const StvoriDonora = (props) => {
                             }
                         } else if (message.includes('blood')) {
                             setErrorMessage('Greška! Krvna grupa mora se postaviti.');
+                        } else{
+                            setErrorMessage(message);
                         }
                         console.log(error.response.data);
                     } else {

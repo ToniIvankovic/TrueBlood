@@ -110,31 +110,27 @@ const Profil = (props) => {
                         <div>ID: {props.user.userId}</div>
                     </div>
                 </div>
+                {(props.user.role == "DONOR" || props.user.role == "BANK_WORKER")?
                 <div className="podaci-role">
                     <div>Uloga: {props.user.role}</div>
                     <div></div>
-                    <div>Ime: {props.user.firstname}</div>
-                    <div>Prezime: {props.user.lastname}</div>
-                    <div>Datum rođenja: {props.user.dateofbirth}</div>
+                    <div>Ime: {props.user.firstName}</div>
+                    <div>Prezime: {props.user.lastName}</div>
+                    <div>Datum rođenja: {props.user.birthDate}</div>
                     <div>OIB: {props.user.oib}</div>
                 </div>
+                : 
+                <div className="podaci-role">
+                    <div>Uloga: {props.user.role}</div>
+                </div>
+                }
             </div>
             
-            {props.user.role == 'BANK_WORKER' ? 
-                [
-                <div key={7} className="image-alert">
+            {props.user.role == 'BANK_WORKER' || props.user.role == "DONOR" ? 
+                <div className="image-alert">
                     {warningMessage? <p className="alert">{warningMessage}</p> : ''}
                 </div>
-                ]
                 : ''}
-
-            {props.user.role == 'DONOR' ? 
-                [
-                <div key={8} className="image-alert">
-                    {warningMessage? <p className="alert">{warningMessage}</p> : ''}
-                </div>
-                ]
-                : ''}    
                 
             <button onClick={() => props.setUser({
                     ...props.user,

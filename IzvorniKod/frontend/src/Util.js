@@ -56,7 +56,11 @@ const getDonorById = async (donorId, setDonor) => {
                     return;
                 }
 
-                setDonor(response.data);
+                setDonor({
+                    ...response.data,
+                    role: "DONOR",
+                    userId: response.data.donorId
+                });
             } else {
                 console.log("Prazan odgovor poslužitelja")
             }
@@ -77,7 +81,11 @@ const getWorkerById = async (workerId, setWorker) => {
                     return;
                 }
 
-                setWorker(response.data);
+                setWorker({
+                    ...response.data,
+                    role: "BANK_WORKER",
+                    userId: response.data.bankWorkerId
+                });
             } else {
                 console.log("Prazan odgovor poslužitelja")
             }
