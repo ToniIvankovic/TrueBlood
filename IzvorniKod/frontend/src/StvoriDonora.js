@@ -166,6 +166,30 @@ const StvoriDonora = (props) => {
                         defaultValue={donorInfo.oib}
                         required></input>
                 </div>
+                <div className="redak">
+                    <div className="question">
+                        Spol:
+                    </div>
+                    <div className="odgovor">
+                        <label htmlFor="M">Muški</label>
+                        <input 
+                        id="M" 
+                        type="radio" 
+                        name = "gender"
+                        value = 'M' 
+                        onChange={(event) => handleChange(event)}
+                        required/>
+                    </div>
+                    <div className="odgovor">
+                        <label htmlFor="F">Ženski</label>
+                        <input 
+                        id="F" 
+                        type="radio" 
+                        name ="gender" 
+                        onChange={(event) => handleChange(event)}
+                        value = 'F'/>
+                    </div>
+                </div>  
                 <div className="dupli">
                     <input
                         onChange={(event) => handleChange(event)}

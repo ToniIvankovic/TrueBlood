@@ -36,13 +36,13 @@ const App = () => {
     }, []);
     
     useEffect(() => {
+        console.log(user)
         if(user.role == "DONOR"){
             getDonorById(user.userId,setUser);
         } else if(user.role == "BANK_WORKER"){
             getWorkerById(user.userId, setUser);
         }
     }, [user.role]);
-    console.log(user)
 
     // const [donorPermRejected, setDonorPermRejected] = useState(null);
     // useEffect(() => {

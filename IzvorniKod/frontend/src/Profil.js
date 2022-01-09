@@ -18,10 +18,11 @@ const Profil = (props) => {
     },[props.user.role])    
     
     const [warningMessage, setWarningMessage] = useState(undefined)
+    const [warningArray, setWarningArray] = useState([])
     const [daysUntilDonation, setDaysUntilDonation] = useState(undefined)
     useEffect(()=>{
         if(bloodSupply != undefined){
-            if(daysUntilDonation != undefined && bloodType != undefined && props.user.role == 'DONOR'){
+            if(daysUntilDonation !== undefined && bloodType !== undefined && props.user.role == 'DONOR'){
                 if(daysUntilDonation != 0){
                     setWarningMessage("Hvala na nedavnoj donaciji krvi - ponovno ćete moći donirati za " + daysUntilDonation + " dana")
                 }
@@ -36,24 +37,26 @@ const Profil = (props) => {
                 }
             } else if(props.user.role == 'BANK_WORKER'){
                 let anyOutOfBounds = false;
+                let warningArrayLocal = [];
                 let warningString = "Krvne grupe izvan optimalnih granica: ";
                 for (let supply of bloodSupply){
                     if(supply.review == 'TOO LITTLE'){
                         anyOutOfBounds = true;
                         warningString += supply.bloodType + " (premalo), ";
+                        warningArrayLocal.push(supply.bloodType + " (premalo)")
                     } else if(supply.review == 'TOO MUCH'){
                         anyOutOfBounds = true;
                         warningString += supply.bloodType + " (previše), ";
+                        warningArrayLocal.push(supply.bloodType + " (previše)")
                     }
                 }
                 if(anyOutOfBounds){
-                    setWarningMessage(warningString)
+                    setWarningMessage(warningArray)
+                    setWarningArray(warningArrayLocal)
                 }
             }
         }
     },[bloodType, bloodSupply, daysUntilDonation])
-
-    console.log(warningMessage)
 
     return (
         <div className="profile">
@@ -126,10 +129,26 @@ const Profil = (props) => {
                 }
             </div>
             
-            {props.user.role == 'BANK_WORKER' || props.user.role == "DONOR" ? 
+            {props.user.role == "DONOR" ? 
                 <div className="image-alert">
                     {warningMessage? <p className="alert">{warningMessage}</p> : ''}
                 </div>
+                : ''}
+
+            {props.user.role == 'BANK_WORKER'? 
+                <div className="image-alert">
+                    <div className="alert">
+                        <div className="alert">Krvne grupe izvan optimalnih granica:</div>
+                {warningArray.map((message, i) => {
+                    if(message.search("premalo") != -1){
+                        return (<div key={i} className="alert alert-red">{message}</div>)
+                    } else{
+                        return (<div key={i} className="alert">{message}</div>)
+                    }
+                })}
+                    </div>
+                </div>
+                   
                 : ''}
                 
             <button onClick={() => props.setUser({
