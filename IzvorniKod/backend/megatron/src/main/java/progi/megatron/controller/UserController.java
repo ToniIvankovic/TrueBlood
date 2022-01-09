@@ -37,7 +37,7 @@ public class UserController {
             final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
             final String token = header.split(" ")[1].trim();
             String userId = jwtTokenUtil.getUserId(token);
-            User user = userService.findById(userId);
+            User user = userService.findNotDeactivatedUserById(userId);
             return ResponseEntity.ok(modelMapper.map(user, UserDTO.class));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());

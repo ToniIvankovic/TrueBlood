@@ -13,7 +13,6 @@ import progi.megatron.model.dto.DonationTryRequestDTO;
 import progi.megatron.model.dto.DonationTryResponseDTO;
 import progi.megatron.repository.DonationTryRepository;
 import progi.megatron.validation.IdValidator;
-
 import javax.mail.MessagingException;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;

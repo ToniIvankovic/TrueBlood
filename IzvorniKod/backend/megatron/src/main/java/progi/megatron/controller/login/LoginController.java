@@ -12,7 +12,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.controller.UserController;
-import progi.megatron.exception.UserNotActivatedException;
 import progi.megatron.security.LoggedInResponse;
 import progi.megatron.model.User;
 import progi.megatron.security.AuthRequest;
@@ -47,7 +46,7 @@ public class LoginController {
                     );
 
             String userId = authenticate.getPrincipal().toString();
-            User user = userService.findById(userId);
+            User user = userService.findNotDeactivatedUserById(userId);
 
             // todo: uncomment this after activation link is finished
             //if (user.getAccActivated() != 1) throw new UserNotActivatedException("Account not activated");

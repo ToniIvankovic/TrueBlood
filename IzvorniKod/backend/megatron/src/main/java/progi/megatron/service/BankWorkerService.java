@@ -49,7 +49,7 @@ public class BankWorkerService {
 
     public BankWorker getBankWorkerByOib(String oib){
         oibValidator.validateOib(oib);
-        return bankWorkerRepository.getBankWorkerByOib(oib);
+        return bankWorkerRepository.getNotDeactivatedBankWorkerByOib(oib);
     }
 
     public List<BankWorker> getBankWorkersByAny(String query) {

@@ -84,7 +84,7 @@ public class DonorController {
     @GetMapping("/oib/{oib}")
     public ResponseEntity<Object> getDonorByOib(@PathVariable String oib) {
         try {
-            Donor donor = donorService.getDonorByOib(oib);
+            Donor donor = donorService.getNotDeactivatedDonorByOib(oib);
             if (donor == null) return ResponseEntity.ok("No donor with that oib found.");
             else return ResponseEntity.ok(donor);
         } catch (Exception ex) {

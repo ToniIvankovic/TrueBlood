@@ -47,7 +47,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         }
 
         // Get user identity and set it on the spring security context
-        User user = userService.findById(jwtTokenUtil.getUserId(token));
+        User user = userService.findNotDeactivatedUserById(jwtTokenUtil.getUserId(token));
 
         // check role
         UsernamePasswordAuthenticationToken

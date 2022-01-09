@@ -27,7 +27,7 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
         String name = authentication.getName();
         User user;
         try {
-            user = userService.findById(name);
+            user = userService.findNotDeactivatedUserById(name);
         } catch(Exception e) {
             throw new BadCredentialsException("User does not exist.");
         }

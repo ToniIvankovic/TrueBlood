@@ -31,7 +31,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
 
         // check if user exists
-        User user = userService.findById(name);
+        User user = userService.findNotDeactivatedUserById(name);
 
         String encodedPassword = user.getPassword();
         PasswordEncoder encoder = new BCryptPasswordEncoder();
