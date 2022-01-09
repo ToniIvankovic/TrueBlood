@@ -77,6 +77,7 @@ public class BankWorkerService {
     }
 
     public BankWorker createBankWorker(BankWorkerDTO bankWorkerDTO) {
+        bankWorkerValidator.validateBankWorker(modelMapper.map(bankWorkerDTO, BankWorker.class));
 
         String password = userService.randomPassword();
         User user = new User(Role.BANK_WORKER, passwordEncoder.encode(password));
@@ -84,14 +85,11 @@ public class BankWorkerService {
         BankWorker bankWorker = modelMapper.map(bankWorkerDTO, BankWorker.class);
         bankWorker.setBankWorkerId(user.getUserId());
 
-        bankWorkerValidator.validateBankWorker(bankWorker);
-
         if (getBankWorkerByOib(bankWorker.getOib()) != null) {
             throw new WrongDonorException("Bank worker with that oib already exists. ");
         }
 
         // todo: send email
-
         System.out.println("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
 
         return bankWorkerRepository.save(bankWorker);
