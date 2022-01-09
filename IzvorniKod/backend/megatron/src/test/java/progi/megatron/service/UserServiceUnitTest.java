@@ -41,9 +41,9 @@ public class UserServiceUnitTest {
     @Autowired
     private UserService userService;
 
-    //tests UserService.findById()
+    //tests UserService.findNotDeactivatedUserById()
     @Test
-    void testFindById(){
+    void testFindNotDeactivatedUserById(){
         User user = new User(Role.DONOR, "59263487");
         Mockito.when(userRepository.getNotDeactivatedUserByUserId(Mockito.any())).thenReturn(java.util.Optional.of(user));
         ReflectionTestUtils.setField(userService, "userRepository", userRepository);
@@ -52,9 +52,9 @@ public class UserServiceUnitTest {
         assertEquals(retUser, user);
     }
 
-    //tests UserService.findById()
+    //tests UserService.findNotDeactivatedUserById()
     @Test
-    void testFindByIdForNonExistingUser(){
+    void testFindNotDeactivatedUserByIdForNonExistingUser(){
 
         Mockito.when(userRepository.getNotDeactivatedUserByUserId(Mockito.any())).thenReturn(Optional.empty());
         ReflectionTestUtils.setField(userService, "userRepository", userRepository);
@@ -67,9 +67,9 @@ public class UserServiceUnitTest {
         assertEquals(ex.getMessage(), "No user '12355'");
     }
 
-    //tests UserService.findById() and UserService.isValidUserId
+
     @Test
-    void testFindByIdForNonNumericId(){
+    void testFindNotDeactivatedUserByIdForNonNumericId(){
 
         Mockito.when(userRepository.getNotDeactivatedUserByUserId(Mockito.any())).thenReturn(Optional.empty());
         ReflectionTestUtils.setField(userService, "userRepository", userRepository);
