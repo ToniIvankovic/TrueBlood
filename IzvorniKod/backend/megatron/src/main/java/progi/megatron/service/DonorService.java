@@ -3,7 +3,6 @@ package progi.megatron.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.jmx.export.notification.UnableToSendNotificationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import progi.megatron.email.AccountVerificationEmailContext;
@@ -20,8 +19,9 @@ import progi.megatron.util.Role;
 import progi.megatron.validation.DonorValidator;
 import progi.megatron.validation.IdValidator;
 import progi.megatron.validation.OibValidator;
-
 import javax.mail.MessagingException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,8 +46,6 @@ public class DonorService {
     @Autowired
     private SecureTokenService secureTokenService;
 
-    ;
-
     @Value("http://trueblood-be-dev.herokuapp.com/api/v1/donor/")
     private String baseURL;
 
@@ -63,6 +61,8 @@ public class DonorService {
     }
 
     public Donor createDonorByDonor(DonorByDonorDTOWithoutId donorByDonorDTOWithoutId) {
+        donorValidator.validateDonor(modelMapper.map(donorByDonorDTOWithoutId, Donor.class));
+
         String password = userService.randomPassword();
         System.out.println("PASSWORD: " + password);
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
@@ -70,33 +70,27 @@ public class DonorService {
         Donor donor = modelMapper.map(donorByDonorDTOWithoutId, Donor.class);
         donor.setDonorId(user.getUserId());
 
-        donorValidator.validateDonor(donor);
-        if (getDonorByOib(donor.getOib()) != null) {
+        if (getAllDonorByOib(donor.getOib()) != null) {
             throw new WrongDonorException("Donor with that oib already exists. ");
         }
         donor = donorRepository.save(donor);
 
-//      sendRegistrationConfirmationEmail(donor);
-
-        try {
-            sendRegistrationConfirmationEmail(donor,user.getUserId(), password);
-        } catch (UnableToSendNotificationException e) {
-            e.printStackTrace();
-        }
+        sendRegistrationConfirmationEmail(donor,user.getUserId(), password);
         System.out.println("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
 
         return donor;
     }
 
     public Donor createDonorByBankWorker(DonorByBankWorkerDTOWithoutId donorByBankWorkerDTOWithoutId) {
+        donorValidator.validateDonor(modelMapper.map(donorByBankWorkerDTOWithoutId, Donor.class));
+
         String password = userService.randomPassword();
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
         userService.createUser(user);
         Donor donor = modelMapper.map(donorByBankWorkerDTOWithoutId, Donor.class);
         donor.setDonorId(user.getUserId());
 
-        donorValidator.validateDonor(donor);
-        if (getDonorByOib(donor.getOib()) != null) {
+        if (getAllDonorByOib(donor.getOib()) != null) {
             throw new WrongDonorException("Donor with that oib already exists. ");
         }
         donor = donorRepository.save(donor);
@@ -107,24 +101,29 @@ public class DonorService {
         return donor;
     }
 
-    public Donor getDonorByOib(String oib) {
+    private Donor getAllDonorByOib(String oib) {
         oibValidator.validateOib(oib);
         return donorRepository.getDonorByOib(oib);
     }
 
+    public Donor getNotDeactivatedDonorByOib(String oib) {
+        oibValidator.validateOib(oib);
+        return donorRepository.getNotDeactivatedDonorByOib(oib);
+    }
+
     public Donor getDonorByDonorId(String donorId) {
         idValidator.validateId(donorId);
-        return donorRepository.getDonorByDonorId(Long.valueOf(donorId));
+        return donorRepository.getNotDeactivatedDonorByDonorId(Long.valueOf(donorId));
     }
 
     public List<String> getOibsByFirstNameAndLastName(String firstName, String lastName) {
-        List<Donor> donors = donorRepository.getDonorByFirstNameAndLastName(firstName, lastName);
+        List<Donor> donors = donorRepository.getNotDeactivatedDonorByFirstNameAndLastName(firstName, lastName);
         return donors.stream().map(donor -> donor.getOib()).collect(Collectors.toList());
     }
 
     // page numbering starts from 1
     public List<Donor> getDonorsAll(Integer resultsPerPage, Integer page) {
-        List<Donor> donors = donorRepository.findAll();
+        List<Donor> donors = donorRepository.getAllNotDeactivatedDonors();
         if (donors.size() < resultsPerPage) {
             return donors;
         }
@@ -142,7 +141,7 @@ public class DonorService {
         for(String part : querySplit){
             Set<Donor> localDonorSet = new HashSet<>();
             try{
-                Donor donorById = donorRepository.getDonorByDonorId(Long.valueOf(part));
+                Donor donorById = donorRepository.getNotDeactivatedDonorByDonorId(Long.valueOf(part));
                 if(donorById != null) localDonorSet.add(donorById);
             } catch (NumberFormatException e){
             }
@@ -174,14 +173,14 @@ public class DonorService {
     public Donor updateDonorByDonor(DonorByDonorDTOWithId donorNew) {
         Long donorId = donorNew.getDonorId();
         if (donorId == null) throw new WrongDonorException("Donor id is not given. ");
-        Donor donor = donorRepository.getDonorByDonorId(donorId);
+        Donor donor = donorRepository.getNotDeactivatedDonorByDonorId(donorId);
         if (donor == null) throw new WrongDonorException("There is no donor with that id.");
         String oibOld = donor.getOib();
         donor = modelMapper.map(donorNew, Donor.class);
         String oibNew = donor.getOib();
         donorValidator.validateDonor(donor);
-        if (getDonorByOib(oibNew) != null && !oibNew.equals(oibOld)) {
-            throw new WrongDonorException("Donor with that oib already exists. ");
+        if (getAllDonorByOib(oibNew) != null && !oibNew.equals(oibOld)) {
+            throw new WrongDonorException("Can not change donor's oib because there already exists another donor with that oib. ");
         }
         donorRepository.save(donor);
         return donor;
@@ -190,17 +189,21 @@ public class DonorService {
     public Donor updateDonorByBankWorker(Donor donorNew) {
         Long donorId = donorNew.getDonorId();
         if (donorId == null) throw new WrongDonorException("Donor id is not given. ");
-        Donor donor = donorRepository.getDonorByDonorId(donorId);
+        Donor donor = donorRepository.getNotDeactivatedDonorByDonorId(donorId);
         if (donor == null) throw new WrongDonorException("There is no donor with that id.");
         String oibOld = donor.getOib();
         donor = modelMapper.map(donorNew, Donor.class);
         String oibNew = donor.getOib();
         donorValidator.validateDonor(donor);
-        if (getDonorByOib(oibNew) != null && !oibNew.equals(oibOld)) {
-            throw new WrongDonorException("Donor with that oib already exists. "); //Je li ovo dobra poruka?
+        if (getAllDonorByOib(oibNew) != null && !oibNew.equals(oibOld)) {
+            throw new WrongDonorException("Can not change donor's oib because there already exists another donor with that oib. ");
         }
         donorRepository.save(donor);
         return donor;
+    }
+
+    public List<Donor> getAllDonors() {
+        return donorRepository.getAllNotDeactivatedDonors();
     }
 
 }

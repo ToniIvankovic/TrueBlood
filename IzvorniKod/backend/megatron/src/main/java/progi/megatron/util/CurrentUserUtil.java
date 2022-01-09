@@ -27,7 +27,7 @@ public class CurrentUserUtil {
             System.out.println("Error retrieving authentication data.");
             return "";
         }
-        User user = userService.findById(userId);
+        User user = userService.findNotDeactivatedUserById(userId);
         return user.getUserRole();
     }
 

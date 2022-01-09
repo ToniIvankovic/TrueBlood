@@ -31,16 +31,16 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User findById(String userIdString) {
+    public User findNotDeactivatedUserById(String userIdString) {
         isValidUserId(userIdString);
-        User user = userRepository.getUserByUserId(Long.valueOf(userIdString)).orElseThrow(() -> new UsernameNotFoundException("No user '" + userIdString + "'"));
+        User user = userRepository.getNotDeactivatedUserByUserId(Long.valueOf(userIdString)).orElseThrow(() -> new UsernameNotFoundException("No user '" + userIdString + "'"));
         return user;
     }
 
     public Long activateUserAccount(String userId) {
         isValidUserId(userId);
         Long longUserId = Long.valueOf(userId);
-        User user = userRepository.getUserByUserId(longUserId).orElseThrow(() -> new WrongUserException("No user with that userId."));
+        User user = userRepository.getNotDeactivatedUserByUserId(longUserId).orElseThrow(() -> new WrongUserException("No user with that userId."));
         if (user.getAccActivated() == 1) return null;
         userRepository.activateUserAccount(longUserId);
         return longUserId;
@@ -49,7 +49,7 @@ public class UserService {
     public Long permDeactivateUserAccount(String userId) {
         isValidUserId(userId);
         Long longUserId = Long.valueOf(userId);
-        User user = userRepository.getUserByUserId(longUserId).orElseThrow(() -> new WrongUserException("No user with that userId."));
+        User user = userRepository.getNotDeactivatedUserByUserId(longUserId).orElseThrow(() -> new WrongUserException("No user with that userId."));
         if (user.getPermDeactivated() == 1) return null;
         userRepository.deactivateUserAccount(longUserId);
         return Long.valueOf(userId);
@@ -57,7 +57,7 @@ public class UserService {
 
     private void isValidUserId(String id) {
         try {
-            Long value = Long.valueOf(id);
+            Long.valueOf(id);
         } catch(NumberFormatException exc) {
             throw new WrongUserException("User id is not numeric. ");
         }
@@ -84,7 +84,7 @@ public class UserService {
         if (Objects.isNull(secureToken) || !StringUtils.equals(token, secureToken.getToken()) || secureToken.isExpired()) {
             throw new InvalidTokenException("Token is not valid");
         }
-        User user = userRepository.getUserByUserId(secureToken.getUserId()).orElseThrow(() -> new UsernameNotFoundException("No user found"));
+        User user = userRepository.getNotDeactivatedUserByUserId(secureToken.getUserId()).orElseThrow(() -> new UsernameNotFoundException("No user found"));
         if (Objects.isNull(user)) {
             return false;
         }
@@ -96,7 +96,7 @@ public class UserService {
     }
 
     public UserActivationDTO checkIfUserActivated(String userId) {
-        User user = findById(userId);
+        User user = findNotDeactivatedUserById(userId);
         return modelMapper.map(user, UserActivationDTO.class);
     }
 }

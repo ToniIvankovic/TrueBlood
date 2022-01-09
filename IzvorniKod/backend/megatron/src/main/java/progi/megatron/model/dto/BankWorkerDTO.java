@@ -1,5 +1,6 @@
 package progi.megatron.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ public class BankWorkerDTO {
     private String firstName;
     private String lastName;
     private String oib;
-    private LocalDate birthDate;
+    @JsonFormat(pattern="dd.MM.yyyy") private LocalDate birthDate;
     private String birthPlace;
     private String address;
     private String workPlace;

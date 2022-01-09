@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS donor
   first_name VARCHAR(50) NOT NULL,
   last_name VARCHAR(50) NOT NULL,
   oib CHAR(11) NOT NULL,
+  gender CHAR(1) NOT NULL,
   birth_date DATE NOT NULL,
   birth_place VARCHAR(100) NOT NULL,
   address VARCHAR(100) NOT NULL,

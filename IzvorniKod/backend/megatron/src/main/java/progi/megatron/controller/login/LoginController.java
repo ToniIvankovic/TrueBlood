@@ -43,7 +43,7 @@ public class LoginController {
 
 
             String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-            User user = userService.findById(userId);
+            User user = userService.findNotDeactivatedUserById(userId);
 
             // todo: uncomment this after activation link is finished
             //if (user.getAccActivated() != 1) throw new UserNotActivatedException("Account not activated");
