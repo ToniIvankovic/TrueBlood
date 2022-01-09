@@ -25,7 +25,7 @@ const ZdravstveniPodaci = ({question, id, handleChange}) => {
                 onChange={(event) => handleChange(event)}
                 value = 'ne'/>
             </div>
-    </div>        
+        </div>        
     )
 }
 

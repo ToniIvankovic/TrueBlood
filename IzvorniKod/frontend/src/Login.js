@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from './util/axios-instance';
 import { useHistory } from "react-router";
 import ErrorCard from "./ErrorCard";
+import { generateBasicAuthHeader } from "./Util"; 
 
 // TODO: Clean up logs
 
@@ -31,13 +32,16 @@ const Login = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const url = '/api/v1/login';
-        axios.post(url, {
-            userId: userId,
-            password: password
+        // const basicAuthHeader = generateBasicAuthHeader(userId, password);
+        axios.post(url, null, {
+            auth: {
+                username: userId,
+                password: password
+            }
         })
             .then((response) => {
                 setErrorHidden(true);
-                window.localStorage.setItem('token', response.headers.authorization);
+                //window.localStorage.setItem('token', response.headers.authorization);
                 props.onLogin();
                 history.push('/profil');
             })

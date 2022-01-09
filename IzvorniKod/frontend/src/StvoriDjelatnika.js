@@ -72,7 +72,7 @@ const StvoriDjelatnika = (props) => {
             url = '/api/v1/bank-worker'
         }
 
-        axios.post(url, workerInfo, { headers: { "Authorization": `Bearer ${props.token}`} })
+        axios.post(url, workerInfo)
             .then((response) => {
                 console.log('Worker successfully created:');
                 console.log(response.data)

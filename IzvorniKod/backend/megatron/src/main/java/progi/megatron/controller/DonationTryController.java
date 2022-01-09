@@ -3,6 +3,7 @@ package progi.megatron.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.dto.DonationTryRequestDTO;
 import progi.megatron.service.DonationTryService;
@@ -39,8 +40,9 @@ public class DonationTryController {
     @GetMapping("/{donorId}")
     public ResponseEntity<Object> getDonationTryHistory(@PathVariable String donorId, HttpServletRequest request) {
         try {
-            String role = currentUserUtil.getCurrentUserRole(request);
-            if (!currentUserUtil.checkIfCurrentUser(request, donorId) && !role.equals("BANK_WORKER")) {
+            String role = currentUserUtil.getCurrentUserRole();
+            String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
+            if (!currentUserId.equals(donorId) && !role.equals("BANK_WORKER")) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not fetch other donor's donation history.");
             }
             return ResponseEntity.ok(donationTryService.getDonationTryHistory(donorId));
@@ -65,8 +67,8 @@ public class DonationTryController {
     @GetMapping("/last/{donorId}")
     public ResponseEntity<Object> getLastDonationDateForDonor(@PathVariable String donorId, HttpServletRequest request) {
         try {
-            String role = currentUserUtil.getCurrentUserRole(request);
-            if (role.equals("DONOR") && !currentUserUtil.checkIfCurrentUser(request, donorId)) {
+            String role = currentUserUtil.getCurrentUserRole();
+            if (role.equals("DONOR") && !currentUserUtil.checkIfCurrentUser(donorId)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not fetch other donor's data.");
             }
             return ResponseEntity.ok(donationTryService.getLastDonationDateForDonor(donorId));
@@ -79,8 +81,8 @@ public class DonationTryController {
     @GetMapping("/days-until-next-donation/{donorId}")
     public ResponseEntity<Object> getWhenIsWaitingPeriodOverForDonor(@PathVariable String donorId, HttpServletRequest request) {
         try {
-            String role = currentUserUtil.getCurrentUserRole(request);
-            if (role.equals("DONOR") && !currentUserUtil.checkIfCurrentUser(request, donorId)) {
+            String role = currentUserUtil.getCurrentUserRole();
+            if (role.equals("DONOR") && !currentUserUtil.checkIfCurrentUser(donorId)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not fetch other donor's data.");
             }
             return ResponseEntity.ok(donationTryService.getWhenIsWaitingPeriodOverForDonor(donorId));

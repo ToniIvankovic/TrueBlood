@@ -16,47 +16,46 @@ import PokusajDoniranja from "./PokusajDoniranja";
 import Trazilica from "./Trazilica";
 import SlanjeKrvi from "./SlanjeKrvi";
 
-import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, userNone, userPublic, donorNone, workerNone, getDonorPermRejected } from "./Util";
+import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, userNone, userPublic, donorNone, workerNone, getDonorPermRejected, getDonorById, getWorkerById } from "./Util";
 import _ from 'lodash';
 import KreiranDjelatnik from "./KreiranDjelatnik";
 import PostPokusajDoniranja from "./PostPokusajDoniranja";
 import OptimalneGranice from "./OptimalneGranice";
 import DeaktivirajRacun from "./DeaktivirajRacun";
 import RacunDeaktiviran from "./RacunDeaktiviran";
+import axios from "axios";
 
 // TODO: global context for role and user data - done?
 
 const App = () => {
 
-    //Provjeri je li itko logiran
+    //Provjeriti tko je user i postaviti njegov role
     const [user, setUser] = useState(userNone);
-    const [token, setToken] = useState("");
-
     useEffect(() => {
-        setToken(window.localStorage.getItem('token'));
-        if (token) {
-            getCurrentUserIdAndRole(user, setUser);
-        } else{
-            setUser(userPublic);
-        }
-    }, [token]);
-    console.log(user)
-
-
-    //Kada se nađe user, provjeriti je li aktiviran i postaviti njegov role
-    const [donorPermRejected, setDonorPermRejected] = useState(null);
+        getCurrentUserIdAndRole(user, setUser);
+    }, []);
+    
     useEffect(() => {
-        if(!isEqualWithNull(user,userNone)){
-            getDonorPermRejected(user.userId, setDonorPermRejected);
+        console.log(user)
+        if(user.role == "DONOR"){
+            getDonorById(user.userId,setUser);
+        } else if(user.role == "BANK_WORKER"){
+            getWorkerById(user.userId, setUser);
         }
-    }, [user]);
+    }, [user.role]);
+
+    // const [donorPermRejected, setDonorPermRejected] = useState(null);
+    // useEffect(() => {
+    //     if(!isEqualWithNull(user,userNone)){
+    //         getDonorPermRejected(user.userId, setDonorPermRejected);
+    //     }
+    // }, [user]);
 
     const [existingDonor, setExistingDonor] = useState(false);
     const [existingWorker, setExistingWorker] = useState(false);
     
     const [donor, setDonor] = useState(donorNone);
     const [worker, setWorker] = useState(workerNone);
-
     
     const [donationPlace, setDonationPlace] = useState(undefined);
     const [successfulDonation, setSuccessfulDonation] = useState(false);
@@ -67,36 +66,36 @@ const App = () => {
     return (
         <div className='app'>
             <Router>
-                <Navbar showProfile={token != null} onLogout={() => {
-                            setToken(null);
+                <Navbar showProfile={user != userPublic} onLogout={() => {
+                            //setToken(null);
+                            setUser(userPublic);
                             setDonor({});
                             setExistingDonor(false);
                             setExistingWorker(false);
                         }}/>
                 <Switch>
                     <Route path="/" exact>
-                        <Home loggedIn={token != null} />
+                        <Home loggedIn={user != userPublic} />
                     </Route>
                     <Route path="/prijava" exact>
                         <Login onLogin={() => {
                             getCurrentUserIdAndRole(user, setUser);
-                            setToken(window.localStorage.getItem('token'));
                         }}
                         setExistingDonor={setExistingDonor} />
                     </Route>
                     <Route path="/profil" exact>
                         <Profil onLogout={() => {
-                            setToken(null);
                             setDonor({});
                             setExistingDonor(false);
                             setExistingWorker(false);
                         }}
-                            donorPermRejected={donorPermRejected}
+                            // donorPermRejected={donorPermRejected}
                             user={user}
                             setUser={setUser}
                             setExistingDonor={setExistingDonor}
                             setExistingWorker={setExistingWorker}
-                            worker={worker} />
+                            worker={worker}
+                            donor={donor} />
                     </Route>
                     <Route path="/update" exact>
                         <Update />
@@ -109,8 +108,7 @@ const App = () => {
                     </Route>
                     <Route path='/stvori_donora' exact>
                         <StvoriDonora 
-                        user={user} 
-                        token={token} 
+                        user={user}
                         donor={donor} 
                         setDonor={setDonor} 
                         existing={existingDonor} 
@@ -118,8 +116,7 @@ const App = () => {
                     </Route>
                     <Route path='/stvori_djelatnika' exact>
                         <StvoriDjelatnika 
-                        user={user} 
-                        token={token} 
+                        user={user}
                         worker={worker} 
                         setWorker={setWorker} 
                         existing={existingWorker} 
@@ -134,8 +131,7 @@ const App = () => {
                     <Route path='/pokusaj_doniranja' exact>
                         <PokusajDoniranja 
                         donationPlace={donationPlace} 
-                        setDonationPlace={setDonationPlace} 
-                        token={token} 
+                        setDonationPlace={setDonationPlace}
                         user={user} 
                         donor={donor} 
                         existingDonor={existingDonor} 
@@ -146,16 +142,14 @@ const App = () => {
                         setSuccessfulDonation={setSuccessfulDonation}/>
                     </Route>
                     <Route path='/trazi_donora' exact>
-                        <Trazilica 
-                        token={token} 
+                        <Trazilica
                         user={user} 
                         setFoundUser={setDonor} 
                         setExisting={setExistingDonor}
                         userClass={'donor'} />
                     </Route>
                     <Route path='/trazi_djelatnika' exact>
-                        <Trazilica 
-                        token={token} 
+                        <Trazilica
                         user={user} 
                         setFoundUser={setWorker} 
                         setExisting={setExistingWorker}
@@ -169,17 +163,14 @@ const App = () => {
                     </Route>
                     <Route path='/slanje_krvi' exact>
                         <SlanjeKrvi 
-                        user={user}
-                        token={token} />
+                        user={user} />
                     </Route>
                     <Route path='/optimalne_granice' exact>
                         <OptimalneGranice
-                        user={user}
-                        token={token} />
+                        user={user} />
                     </Route>
                     <Route path='/povijest_doniranja' exact>
                         <Trazilica 
-                        token={token} 
                         user={user} 
                         setFoundUser={()=>{}} 
                         setExisting={()=>{}}
@@ -187,7 +178,6 @@ const App = () => {
                     </Route>
                     <Route path='/povijest_doniranja_donora' exact>
                         <Trazilica 
-                        token={token} 
                         user={{userId: donor.donorId, role:'DONOR'}} 
                         setFoundUser={()=>{}} 
                         setExisting={()=>{}}

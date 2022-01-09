@@ -347,7 +347,13 @@
     margin-bottom: 20px;
     font-size: 30px;
     font-style: italic;
+    text-align: center;
     
+}
+
+.alert-red{
+    color: #f57d68;
+    font-weight: 500;
 }
 
 .image{

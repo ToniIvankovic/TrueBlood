@@ -15,7 +15,6 @@ const Navbar = (props) => {
         axios.get(url)
             .then((response) => {
                 console.log('LOGOUT SUCCESS');
-                history.push('/');
             })
             .catch((error) => {
                 console.log('LOGOUT ERROR: ' + error);
@@ -23,6 +22,7 @@ const Navbar = (props) => {
             .finally(() => {
                 window.localStorage.clear();
                 props.onLogout();
+                history.push('/');
             });
     }
 
@@ -44,9 +44,10 @@ const Navbar = (props) => {
                     <li key="4">Kontakt</li>
                 </Link>
                 { props.showProfile ?
-                    <Link to="/" className="profil" onClick={()=>{logout(); setIsMob(false); }}>
-                        <li key="2">Odjava</li>
-                    </Link>
+                
+                <Link to='/' className="kontakt" onClick={()=>setIsMob(false)}>
+                    <li onClick={()=>{logout(); setIsMob(false); }} key="2">Odjava</li>
+                </Link>
                 : null }
             </ul>
             <button className = "mobile-menu" onClick={handleClick}>

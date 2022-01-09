@@ -75,7 +75,7 @@ const StvoriDonora = (props) => {
         }
 
         //Zabraniti workeru da updatea donora bez da postavi krvnu grupu (ako ju ne dira) 
-        axios.post(url, donorInfo, { headers: { "Authorization": `Bearer ${props.token}` } })
+        axios.post(url, donorInfo)
             .then((response) => {
                 console.log('Donor successfully created:');
                 console.log(response.data)
@@ -103,6 +103,8 @@ const StvoriDonora = (props) => {
                             }
                         } else if (message.includes('blood')) {
                             setErrorMessage('Greška! Krvna grupa mora se postaviti.');
+                        } else{
+                            setErrorMessage(message);
                         }
                         console.log(error.response.data);
                     } else {
@@ -164,6 +166,30 @@ const StvoriDonora = (props) => {
                         defaultValue={donorInfo.oib}
                         required></input>
                 </div>
+                <div className="redak">
+                    <div className="question">
+                        Spol:
+                    </div>
+                    <div className="odgovor">
+                        <label htmlFor="M">Muški</label>
+                        <input 
+                        id="M" 
+                        type="radio" 
+                        name = "gender"
+                        value = 'M' 
+                        onChange={(event) => handleChange(event)}
+                        required/>
+                    </div>
+                    <div className="odgovor">
+                        <label htmlFor="F">Ženski</label>
+                        <input 
+                        id="F" 
+                        type="radio" 
+                        name ="gender" 
+                        onChange={(event) => handleChange(event)}
+                        value = 'F'/>
+                    </div>
+                </div>  
                 <div className="dupli">
                     <input
                         onChange={(event) => handleChange(event)}
