@@ -1,18 +1,26 @@
 package progi.megatron.service;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jmx.export.notification.UnableToSendNotificationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import progi.megatron.email.AccountVerificationEmailContext;
 import progi.megatron.exception.WrongBankWorkerException;
 import progi.megatron.exception.WrongDonorException;
 import progi.megatron.model.BankWorker;
+import progi.megatron.model.SecureToken;
 import progi.megatron.model.User;
 import progi.megatron.model.dto.BankWorkerDTO;
 import progi.megatron.repository.BankWorkerRepository;
+import progi.megatron.repository.SecureTokenRepository;
 import progi.megatron.util.Role;
 import progi.megatron.validation.BankWorkerValidator;
 import progi.megatron.validation.IdValidator;
 import progi.megatron.validation.OibValidator;
+
+import javax.mail.MessagingException;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,8 +37,18 @@ public class BankWorkerService {
     private final OibValidator oibValidator;
     private final BankWorkerValidator bankWorkerValidator;
     private final ModelMapper modelMapper;
+    private final SecureTokenRepository secureTokenRepository;
 
-    public BankWorkerService(BankWorkerRepository bankWorkerRepository, UserService userService, PasswordEncoder passwordEncoder, IdValidator idValidator, OibValidator oibValidator, BankWorkerValidator bankWorkerValidator, ModelMapper modelMapper) {
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private SecureTokenService secureTokenService;
+
+    @Value("http://localhost:8080/api/v1/bank-worker/")
+    private String baseURL;
+
+    public BankWorkerService(BankWorkerRepository bankWorkerRepository, UserService userService, PasswordEncoder passwordEncoder, IdValidator idValidator, OibValidator oibValidator, BankWorkerValidator bankWorkerValidator, ModelMapper modelMapper, SecureTokenRepository secureTokenRepository) {
         this.bankWorkerRepository = bankWorkerRepository;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
@@ -38,6 +56,7 @@ public class BankWorkerService {
         this.oibValidator = oibValidator;
         this.bankWorkerValidator = bankWorkerValidator;
         this.modelMapper = modelMapper;
+        this.secureTokenRepository = secureTokenRepository;
     }
 
     java.util.logging.Logger logger =  java.util.logging.Logger.getLogger(this.getClass().getName());
@@ -90,13 +109,29 @@ public class BankWorkerService {
             throw new WrongDonorException("Bank worker with that oib already exists. ");
         }
 
-        // todo: send email
-
+        try {
+            sendRegistrationConfirmationEmail(bankWorker, user.getUserId(), password);
+        }catch (UnableToSendNotificationException e){
+            e.printStackTrace();
+        }
         System.out.println("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
 
         return bankWorkerRepository.save(bankWorker);
     }
-
+    public void sendRegistrationConfirmationEmail(BankWorker user, Long id, String password) {
+        SecureToken secureToken = secureTokenService.createSecureToken();
+        secureToken.setUser(user.getBankWorkerId());
+        secureTokenRepository.save(secureToken);
+        AccountVerificationEmailContext emailContext = new AccountVerificationEmailContext();
+        emailContext.init(user);
+        emailContext.setToken(secureToken.getToken());
+        emailContext.buildVerificationUrl(baseURL, secureToken.getToken());
+        try {
+            emailService.sendMail(emailContext, id, password);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
     public BankWorker updateBankWorkerByBankWorker(BankWorker bankWorkerNew) {
         Long bankWorkerId = bankWorkerNew.getBankWorkerId();
         if (bankWorkerId == null) throw new WrongBankWorkerException("Bank worker id is not given.");

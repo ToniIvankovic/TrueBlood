@@ -46,9 +46,7 @@ public class DonorService {
     @Autowired
     private SecureTokenService secureTokenService;
 
-    ;
-
-    @Value("http://trueblood-be-dev.herokuapp.com/api/v1/donor/")
+    @Value("http://localhost:8080/api/v1/donor/")
     private String baseURL;
 
     public DonorService(DonorRepository donorRepository, UserService userService, DonorValidator donorValidator, IdValidator idValidator, OibValidator oibValidator, PasswordEncoder passwordEncoder, SecureTokenRepository secureTokenRepository, ModelMapper modelMapper, SecureTokenRepository secureTokenRepository1) {
@@ -101,7 +99,11 @@ public class DonorService {
         }
         donor = donorRepository.save(donor);
 
-        sendRegistrationConfirmationEmail(donor, user.getUserId(), password);
+        try {
+            sendRegistrationConfirmationEmail(donor, user.getUserId(), password);
+        }catch (UnableToSendNotificationException e){
+            e.printStackTrace();
+        }
         System.out.println("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
 
         return donor;
@@ -169,6 +171,15 @@ public class DonorService {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+    }
+
+    public void sendCanDonateAgain(Donor donor){
+        try{
+            emailService.sendNotificationEmail(donor.getEmail(),"Ponovo možeš donirati",donor.getFirstName());
+        }catch (MessagingException e){
+            e.printStackTrace();
+        }
+
     }
 
     public Donor updateDonorByDonor(DonorByDonorDTOWithId donorNew) {
