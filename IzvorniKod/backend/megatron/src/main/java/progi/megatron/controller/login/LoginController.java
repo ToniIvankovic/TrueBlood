@@ -41,7 +41,6 @@ public class LoginController {
 //                            )
 //                    );
 
-
             String userId = SecurityContextHolder.getContext().getAuthentication().getName();
             User user = userService.findNotDeactivatedUserById(userId);
 
@@ -51,8 +50,8 @@ public class LoginController {
 
 //            HttpHeaders responseHeaders = new HttpHeaders();
 //            responseHeaders.add(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, HttpHeaders.ALL);
-            //responseHeaders.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.AUTHORIZATION);
-            //responseHeaders.add(HttpHeaders.AUTHORIZATION, jwtTokenUtil.generateAccessToken(user));
+//            responseHeaders.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.AUTHORIZATION);
+//            responseHeaders.add(HttpHeaders.AUTHORIZATION, jwtTokenUtil.generateAccessToken(user));
 
             return ResponseEntity.ok()
                     //.headers(responseHeaders)
@@ -60,6 +59,7 @@ public class LoginController {
         } catch (BadCredentialsException ex) {   // | UserNotActivatedException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
         }
+
     }
 
     @Secured({"ROLE_DONOR", "ROLE_BANK_WORKER", "ROLE_ADMIN"})

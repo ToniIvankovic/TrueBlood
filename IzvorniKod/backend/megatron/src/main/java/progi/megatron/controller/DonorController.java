@@ -61,12 +61,12 @@ public class DonorController {
         return ResponseEntity.ok(token);
     }
 
-    // todo: secured (no role)
     @PostMapping("/registration")
-    public ResponseEntity<Object> createDonorByDonor(@RequestBody DonorByDonorDTOWithoutId donorByDonorDTOWithoutId, HttpServletRequest request) {
-        System.out.println("USO BRATE");
+    public ResponseEntity<Object> createDonorByDonor(@RequestBody DonorByDonorDTOWithoutId donorByDonorDTOWithoutId) {
         try {
-            return ResponseEntity.ok(donorService.createDonorByDonor(donorByDonorDTOWithoutId));
+            String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+            if (!userId.equals("anonymousUser")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registered user can not register again.");
+            else return ResponseEntity.ok(donorService.createDonorByDonor(donorByDonorDTOWithoutId));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
@@ -96,7 +96,7 @@ public class DonorController {
 
     @Secured({"ROLE_ADMIN", "ROLE_BANK_WORKER", "ROLE_DONOR"})
     @GetMapping("/id/{donorId}")
-    public ResponseEntity<Object> getDonorByDonorId(@PathVariable String donorId, HttpServletRequest request) {
+    public ResponseEntity<Object> getDonorByDonorId(@PathVariable String donorId) {
         try {
             if (currentUserUtil.getCurrentUserRole().equals("DONOR") && !currentUserUtil.checkIfCurrentUser(donorId)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not fetch other donors.");
@@ -141,10 +141,9 @@ public class DonorController {
 
     @Secured({"ROLE_DONOR"})
     @PostMapping("/update")
-    public ResponseEntity<Object> updateDonorByDonor(@RequestBody DonorByDonorDTOWithId donorByDonorDTOWithId, HttpServletRequest request) {
+    public ResponseEntity<Object> updateDonorByDonor(@RequestBody DonorByDonorDTOWithId donorByDonorDTOWithId) {
         try {
-            String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
-            if (!currentUserId.equals(donorByDonorDTOWithId.getDonorId().toString())) {
+            if (!currentUserUtil.checkIfCurrentUser(String.valueOf(donorByDonorDTOWithId.getDonorId()))) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not update other donors.");
             }
             return ResponseEntity.ok(donorService.updateDonorByDonor(donorByDonorDTOWithId));

@@ -70,13 +70,13 @@ public class BankWorkerController {
 
     @Secured({"ROLE_BANK_WORKER"})
     @PostMapping("/update")
-    public ResponseEntity<Object> updateBankWorkerByBankWorker(@RequestBody BankWorker bankWorker, HttpServletRequest request) {
+    public ResponseEntity<Object> updateBankWorkerByBankWorker(@RequestBody BankWorker bankWorkerId) {
         try {
             String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
-            if (!currentUserId.equals(bankWorker.getBankWorkerId().toString())) {
+            if (!currentUserId.equals(bankWorkerId.getBankWorkerId().toString())) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bank worker can not update other bank workers.");
             }
-            return ResponseEntity.ok(bankWorkerService.updateBankWorkerByBankWorker(bankWorker));
+            return ResponseEntity.ok(bankWorkerService.updateBankWorkerByBankWorker(bankWorkerId));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
