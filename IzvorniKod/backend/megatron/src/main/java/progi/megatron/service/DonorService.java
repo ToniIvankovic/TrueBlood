@@ -61,13 +61,14 @@ public class DonorService {
     }
 
     public Donor createDonorByDonor(DonorByDonorDTOWithoutId donorByDonorDTOWithoutId) {
+        donorValidator.validateDonor(modelMapper.map(donorByDonorDTOWithoutId, Donor.class));
+
         String password = userService.randomPassword();
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
         user = userService.createUser(user);
         Donor donor = modelMapper.map(donorByDonorDTOWithoutId, Donor.class);
         donor.setDonorId(user.getUserId());
 
-        donorValidator.validateDonor(donor);
         if (getAllDonorByOib(donor.getOib()) != null) {
             throw new WrongDonorException("Donor with that oib already exists. ");
         }
@@ -80,13 +81,14 @@ public class DonorService {
     }
 
     public Donor createDonorByBankWorker(DonorByBankWorkerDTOWithoutId donorByBankWorkerDTOWithoutId) {
+        donorValidator.validateDonor(modelMapper.map(donorByBankWorkerDTOWithoutId, Donor.class));
+
         String password = userService.randomPassword();
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
         userService.createUser(user);
         Donor donor = modelMapper.map(donorByBankWorkerDTOWithoutId, Donor.class);
         donor.setDonorId(user.getUserId());
 
-        donorValidator.validateDonor(donor);
         if (getAllDonorByOib(donor.getOib()) != null) {
             throw new WrongDonorException("Donor with that oib already exists. ");
         }
