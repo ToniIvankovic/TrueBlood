@@ -1,5 +1,6 @@
 package progi.megatron.service;
 
+import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
 @Service
 public class DonorService {
 
@@ -40,6 +42,7 @@ public class DonorService {
     private final ModelMapper modelMapper;
     private final SecureTokenRepository secureTokenRepository;
 
+
     @Autowired
     private EmailService emailService;
 
@@ -48,6 +51,7 @@ public class DonorService {
 
     @Value("http://trueblood-be-dev.herokuapp.com/api/v1/donor/")
     private String baseURL;
+
 
     public DonorService(DonorRepository donorRepository, UserService userService, DonorValidator donorValidator, IdValidator idValidator, OibValidator oibValidator, PasswordEncoder passwordEncoder, SecureTokenRepository secureTokenRepository, ModelMapper modelMapper, SecureTokenRepository secureTokenRepository1) {
         this.donorRepository = donorRepository;
@@ -59,6 +63,8 @@ public class DonorService {
         this.modelMapper = modelMapper;
         this.secureTokenRepository = secureTokenRepository1;
     }
+
+
 
     public Donor createDonorByDonor(DonorByDonorDTOWithoutId donorByDonorDTOWithoutId) {
         donorValidator.validateDonor(modelMapper.map(donorByDonorDTOWithoutId, Donor.class));
