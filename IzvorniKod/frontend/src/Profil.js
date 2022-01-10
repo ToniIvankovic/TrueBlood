@@ -22,7 +22,7 @@ const Profil = (props) => {
     const [daysUntilDonation, setDaysUntilDonation] = useState(undefined)
     useEffect(()=>{
         if(bloodSupply != undefined){
-            if(daysUntilDonation !== undefined && bloodType !== undefined && props.user.role == 'DONOR'){
+            if(daysUntilDonation !== undefined && bloodType != undefined && props.user.role == 'DONOR'){
                 if(daysUntilDonation != 0){
                     setWarningMessage("Hvala na nedavnoj donaciji krvi - ponovno ćete moći donirati za " + daysUntilDonation + " dana")
                 }
