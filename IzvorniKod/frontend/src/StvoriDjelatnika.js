@@ -55,7 +55,6 @@ const StvoriDjelatnika = (props) => {
         let value = event.target.value;
         if(name == "birthDate"){
             value = formatDateToCro(value);
-            console.log(value)
         }
         setWorkerInfo({
             ...workerInfo,
