@@ -78,6 +78,8 @@ public class EmailService{
         context.setVariable("bankWorkerFirstName",donationTry.getBankWorker().getFirstName());
         context.setVariable("bankWorkerLastName",donationTry.getBankWorker().getLastName());
         context.setVariable("bankWorkerWorkContact",donationTry.getBankWorker().getWorkContact());
+        context.setVariable("bankWorkerEmail",donationTry.getBankWorker().getEmail());
+
 
         String emailContent = templateEngine.process("emails/pdf.html",context);
 
