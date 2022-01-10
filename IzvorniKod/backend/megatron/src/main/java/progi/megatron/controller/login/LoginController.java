@@ -31,7 +31,7 @@ public class LoginController {
     }
 
     //@Secured({"ROLE_DONOR", "ROLE_BANK_WORKER", "ROLE_ADMIN"})
-    @PostMapping
+    @GetMapping
     public ResponseEntity<? extends Object> login() {//@RequestBody AuthRequest request) {
         try {
 //            Authentication authenticate = authenticationManager

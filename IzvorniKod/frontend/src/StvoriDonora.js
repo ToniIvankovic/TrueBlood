@@ -95,7 +95,9 @@ const StvoriDonora = (props) => {
                 if (error.response) {
                     if (error.response.status == 400) {
                         const message = error.response.data;
-                        if (message.includes('oib')) {
+                        if (message == undefined) {
+                            setErrorMessage('Greška!');
+                        } else if (message.includes('oib')) {
                             if (message.includes('already exists')) {
                                 setErrorMessage('Greška! OIB već postoji.');
                             } else {

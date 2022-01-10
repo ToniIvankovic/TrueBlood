@@ -33,7 +33,7 @@ const Login = (props) => {
         event.preventDefault();
         const url = '/api/v1/login';
         // const basicAuthHeader = generateBasicAuthHeader(userId, password);
-        axios.post(url, null, {
+        axios.get(url, {
             auth: {
                 username: userId,
                 password: password
