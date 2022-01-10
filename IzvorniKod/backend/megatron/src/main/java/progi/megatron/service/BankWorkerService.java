@@ -123,7 +123,7 @@ public class BankWorkerService {
         secureToken.setUser(user.getBankWorkerId());
         secureTokenRepository.save(secureToken);
         AccountVerificationEmailContext emailContext = new AccountVerificationEmailContext();
-        emailContext.init(user);
+        emailContext.initBankWorker(user);
         emailContext.setToken(secureToken.getToken());
         emailContext.buildVerificationUrl(baseURL, secureToken.getToken());
         try {
