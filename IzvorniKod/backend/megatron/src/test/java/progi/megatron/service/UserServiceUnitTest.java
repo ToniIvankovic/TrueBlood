@@ -3,6 +3,7 @@ package progi.megatron.service;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
@@ -24,13 +25,18 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @EnableAutoConfiguration(exclude={FlywayAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 @SpringBootTest(classes ={UserService.class})
 
-public class UserServiceUnitTest {
+public class UserServiceUnitTest{
 
     @MockBean
     private UserRepository userRepository;
-
+    @MockBean
+    private ModelMapper modelMapper;
+    @MockBean
+    private SecureTokenService secureTokenService;
     @Autowired
     private UserService userService;
+
+
 
     //tests UserService.findNotDeactivatedUserById()
     @Test
