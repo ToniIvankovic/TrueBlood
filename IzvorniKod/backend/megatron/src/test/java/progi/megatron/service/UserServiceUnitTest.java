@@ -2,29 +2,19 @@ package progi.megatron.service;
 
 
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
 import progi.megatron.exception.WrongUserException;
 import progi.megatron.model.User;
 import progi.megatron.repository.UserRepository;
 import progi.megatron.util.Role;
-
-
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManagerFactory;
-import javax.xml.bind.ValidationException;
 
 import java.util.Optional;
 
@@ -33,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @EnableAutoConfiguration(exclude={FlywayAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 @SpringBootTest(classes ={UserService.class})
+
 public class UserServiceUnitTest {
 
     @MockBean
