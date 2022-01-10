@@ -68,4 +68,5 @@ public class SecureToken{
     public void setUser(Long userId) {
         this.userId = userId;
     }
+
 }

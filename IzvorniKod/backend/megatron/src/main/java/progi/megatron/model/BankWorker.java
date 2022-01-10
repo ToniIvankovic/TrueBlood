@@ -3,6 +3,7 @@ package progi.megatron.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class BankWorker implements Serializable {
 
     private String oib;
 
+    @JsonFormat(pattern="dd.MM.yyyy")
     private LocalDate birthDate;
 
     private String birthPlace;

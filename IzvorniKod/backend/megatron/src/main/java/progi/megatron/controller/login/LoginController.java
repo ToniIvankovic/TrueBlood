@@ -1,5 +1,6 @@
 package progi.megatron.controller.login;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -12,6 +13,8 @@ import progi.megatron.controller.UserController;
 import progi.megatron.security.LoggedInResponse;
 import progi.megatron.model.User;
 import progi.megatron.service.UserService;
+
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @CrossOrigin
@@ -31,8 +34,8 @@ public class LoginController {
     }
 
     //@Secured({"ROLE_DONOR", "ROLE_BANK_WORKER", "ROLE_ADMIN"})
-    @PostMapping
-    public ResponseEntity<? extends Object> login() {//@RequestBody AuthRequest request) {
+    @GetMapping
+    public ResponseEntity<? extends Object> login(HttpServletResponse response) {//@RequestBody AuthRequest request) {
         try {
 //            Authentication authenticate = authenticationManager
 //                    .authenticate(
@@ -41,9 +44,8 @@ public class LoginController {
 //                            )
 //                    );
 
-
             String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-            User user = userService.findById(userId);
+            User user = userService.findNotDeactivatedUserById(userId);
 
             // todo: uncomment this after activation link is finished
             //if (user.getAccActivated() != 1) throw new UserNotActivatedException("Account not activated");
@@ -51,8 +53,12 @@ public class LoginController {
 
 //            HttpHeaders responseHeaders = new HttpHeaders();
 //            responseHeaders.add(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, HttpHeaders.ALL);
-            //responseHeaders.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.AUTHORIZATION);
-            //responseHeaders.add(HttpHeaders.AUTHORIZATION, jwtTokenUtil.generateAccessToken(user));
+//            responseHeaders.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.AUTHORIZATION);
+//            responseHeaders.add(HttpHeaders.AUTHORIZATION, jwtTokenUtil.generateAccessToken(user));
+
+            String cookieHeader = response.getHeader(HttpHeaders.SET_COOKIE);
+            cookieHeader += "; SameSite=None; Secure";
+            response.setHeader(HttpHeaders.SET_COOKIE, cookieHeader);
 
             return ResponseEntity.ok()
                     //.headers(responseHeaders)
@@ -60,6 +66,7 @@ public class LoginController {
         } catch (BadCredentialsException ex) {   // | UserNotActivatedException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
         }
+
     }
 
     @Secured({"ROLE_DONOR", "ROLE_BANK_WORKER", "ROLE_ADMIN"})

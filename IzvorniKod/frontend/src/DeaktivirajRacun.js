@@ -45,7 +45,7 @@ const DeaktivirajRacun = (props) => {
                     <button className='maligumb' onClick={reset}>Pronađi djelatnika</button>
                 </Link>
             </div>
-            { props.existingDonor || props.existingWorker ? 
+            { (props.existingDonor || props.existingWorker) && (props.donor && props.donor.donorId || props.worker && props.worker.bankWorkerId)? 
                 <div>
                     <div className="label">
                         <label>Osobni podaci</label>

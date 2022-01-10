@@ -28,7 +28,7 @@ const PostPokusajDoniranja = (props) => {
                     <button className="registracija">Idi na naslovnicu</button>
                 </Link>
                 <Link to='/pokusaj_doniranja'>
-                    <button className="registracija">Stvori novi pokušaj doniranja</button>
+                    <button className="registracija">Nova donacija</button>
                 </Link>
             </div>
         </div>

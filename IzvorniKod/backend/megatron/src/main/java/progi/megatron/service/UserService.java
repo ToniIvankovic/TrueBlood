@@ -10,7 +10,6 @@ import progi.megatron.model.SecureToken;
 import progi.megatron.model.User;
 import progi.megatron.model.dto.UserActivationDTO;
 import progi.megatron.repository.UserRepository;
-
 import java.security.SecureRandom;
 import java.util.Objects;
 
@@ -32,16 +31,16 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User findById(String userIdString) {
+    public User findNotDeactivatedUserById(String userIdString) {
         isValidUserId(userIdString);
-        User user = userRepository.getUserByUserId(Long.valueOf(userIdString)).orElseThrow(() -> new UsernameNotFoundException("No user '" + userIdString + "'"));
+        User user = userRepository.getNotDeactivatedUserByUserId(Long.valueOf(userIdString)).orElseThrow(() -> new UsernameNotFoundException("No user '" + userIdString + "'"));
         return user;
     }
 
     public Long activateUserAccount(String userId) {
         isValidUserId(userId);
         Long longUserId = Long.valueOf(userId);
-        User user = userRepository.getUserByUserId(longUserId).orElseThrow(() -> new WrongUserException("No user with that userId."));
+        User user = userRepository.getNotDeactivatedUserByUserId(longUserId).orElseThrow(() -> new WrongUserException("No user with that userId."));
         if (user.getAccActivated() == 1) return null;
         userRepository.activateUserAccount(longUserId);
         return longUserId;
@@ -50,7 +49,7 @@ public class UserService {
     public Long permDeactivateUserAccount(String userId) {
         isValidUserId(userId);
         Long longUserId = Long.valueOf(userId);
-        User user = userRepository.getUserByUserId(longUserId).orElseThrow(() -> new WrongUserException("No user with that userId."));
+        User user = userRepository.getNotDeactivatedUserByUserId(longUserId).orElseThrow(() -> new WrongUserException("No user with that userId."));
         if (user.getPermDeactivated() == 1) return null;
         userRepository.deactivateUserAccount(longUserId);
         return Long.valueOf(userId);
@@ -58,8 +57,8 @@ public class UserService {
 
     private void isValidUserId(String id) {
         try {
-            Long value = Long.valueOf(id);
-        } catch (NumberFormatException exc) {
+            Long.valueOf(id);
+        } catch(NumberFormatException exc) {
             throw new WrongUserException("User id is not numeric. ");
         }
     }
@@ -67,7 +66,7 @@ public class UserService {
     /**
      * @return String with random chars from A-Z, a-z and 0-9
      */
-    public String randomPassword() {
+    public String randomPassword(){
         final int size = 8;     //length of password
         final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         SecureRandom randomizer = new SecureRandom();
@@ -76,26 +75,28 @@ public class UserService {
         for (int i = 0; i < size; i++) {
             sb.append(chars.charAt(randomizer.nextInt(chars.length())));
         }
+
         return sb.toString();
     }
 
-    public void verifyUser(String token) throws InvalidTokenException {
+    public boolean verifyUser(String token) throws InvalidTokenException {
         SecureToken secureToken = secureTokenService.findByToken(token);
         if (Objects.isNull(secureToken) || !StringUtils.equals(token, secureToken.getToken()) || secureToken.isExpired()) {
             throw new InvalidTokenException("Token is not valid");
         }
-        User user = userRepository.getUserByUserId(secureToken.getUserId()).orElseThrow(() -> new UsernameNotFoundException("No user found"));
+        User user = userRepository.getNotDeactivatedUserByUserId(secureToken.getUserId()).orElseThrow(() -> new UsernameNotFoundException("No user found"));
         if (Objects.isNull(user)) {
-            return;
+            return false;
         }
         user.setAccActivated(1);
         userRepository.activateUserAccount(user.getUserId()); // let’s same user details
 
         secureTokenService.removeToken(secureToken);
+        return true;
     }
 
     public UserActivationDTO checkIfUserActivated(String userId) {
-        User user = findById(userId);
+        User user = findNotDeactivatedUserById(userId);
         return modelMapper.map(user, UserActivationDTO.class);
     }
 }

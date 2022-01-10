@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { useHistory } from 'react-router';
 import ErrorCard from './ErrorCard';
-import { getWorkerById } from './Util';
+import { formatDate, formatDateToCro, formatDateToEng, formatDateToSlash, getWorkerById } from './Util';
 
 const StvoriDjelatnika = (props) => {
 
@@ -21,7 +21,6 @@ const StvoriDjelatnika = (props) => {
         privateContact: '',
         workContact: '',
         email: '',
-        bloodType: ''
     });
 
     useEffect(()=>{
@@ -54,6 +53,9 @@ const StvoriDjelatnika = (props) => {
     const handleChange = (event) => {
         let name = event.target.name;
         let value = event.target.value;
+        if(name == "birthDate"){
+            value = formatDateToCro(value);
+        }
         setWorkerInfo({
             ...workerInfo,
             [name]: value
@@ -77,7 +79,10 @@ const StvoriDjelatnika = (props) => {
                 console.log('Worker successfully created:');
                 console.log(response.data)
 
-                props.setWorker(response.data) //Upitna potreba za stanjem worker
+                if(props.user.role == "BANK_WORKER"){
+                    getWorkerById(props.user.userId, props.setUser)
+                }
+                // props.setWorker(response.data) //Upitna potreba za stanjem worker
                 if(props.existing){
                     history.goBack();
                 }
@@ -92,14 +97,16 @@ const StvoriDjelatnika = (props) => {
                 if (error.response) {
                     if (error.response.status == 400) {
                         const message = error.response.data;
-                        if (message.includes('oib')) {
+                        console.log(message);
+                        if(!message){
+                            setErrorMessage('Nepoznata greška...');
+                        } else if (message.includes('oib')) {
                             if (message.includes('already exists')) {
                                 setErrorMessage('Greška! OIB već postoji.');
                             } else {
                                 setErrorMessage('Greška! Pogrešan format OIB-a.');
                             }
                         } 
-                        console.log(error.response.data);
                     } else {
                         setErrorMessage('Greška pri registraciji!');
                     }
@@ -161,12 +168,11 @@ const StvoriDjelatnika = (props) => {
                     <input
                         onChange={(event) => handleChange(event)}
                         name='birthDate'
-                        type='text'
+                        type={workerInfo.birthDate ? 'date' : 'text'}
+                        onFocus={() => {ref.current.type = 'date'}}
                         ref={ref}
-                        onFocus={() => (ref.current.type = 'date')}
-                        onBlur={() => (ref.current.type = 'text')}
                         placeholder="Datum rođenja *"
-                        defaultValue={workerInfo.birthDate}
+                        defaultValue={formatDateToEng(workerInfo.birthDate)}
                         required></input>
                     <input
                         onChange={(event) => handleChange(event)}

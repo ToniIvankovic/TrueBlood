@@ -1,5 +1,6 @@
 package progi.megatron.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class DonationTry {
 
     private String rejectReason;
 
+    @JsonFormat(pattern="dd.MM.yyyy")
     private LocalDate donationDate;
 
     private String donationPlace;

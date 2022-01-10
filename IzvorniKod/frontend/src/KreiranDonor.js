@@ -26,7 +26,7 @@ const KreiranDonor = (props) => {
             {props.user.role == 'BANK_WORKER' ?
                 <div className="idi">
                     <Link to='/pokusaj_doniranja'>
-                        <button className="registracija">Stvori pokušaj doniranja</button>
+                        <button className="registracija">Nova donacija</button>
                     </Link>
                 </div>
                 : ''}

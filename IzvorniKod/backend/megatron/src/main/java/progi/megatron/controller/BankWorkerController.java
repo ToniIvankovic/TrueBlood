@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.exception.InvalidTokenException;
 import progi.megatron.model.BankWorker;
@@ -18,7 +17,7 @@ import progi.megatron.service.UserService;
 import progi.megatron.util.CurrentUserUtil;
 import javax.servlet.http.HttpServletRequest;
 
-@Controller
+@RestController
 @CrossOrigin
 @RequestMapping("/api/v1/bank-worker")
 public class BankWorkerController {
@@ -96,13 +95,13 @@ public class BankWorkerController {
 
     @Secured({"ROLE_BANK_WORKER"})
     @PostMapping("/update")
-    public ResponseEntity<Object> updateBankWorkerByBankWorker(@RequestBody BankWorker bankWorker, HttpServletRequest request) {
+    public ResponseEntity<Object> updateBankWorkerByBankWorker(@RequestBody BankWorker bankWorkerId) {
         try {
             String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
-            if (!currentUserId.equals(bankWorker.getBankWorkerId().toString())) {
+            if (!currentUserId.equals(bankWorkerId.getBankWorkerId().toString())) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bank worker can not update other bank workers.");
             }
-            return ResponseEntity.ok(bankWorkerService.updateBankWorkerByBankWorker(bankWorker));
+            return ResponseEntity.ok(bankWorkerService.updateBankWorkerByBankWorker(bankWorkerId));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
