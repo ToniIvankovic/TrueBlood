@@ -6,53 +6,59 @@
           name="viewport">
     <meta content="ie=edge" http-equiv="X-UA-Compatible">
     <title>Spring Boot - Thymeleaf</title>
-    <link th:href="@{src/main/resources/templates/emails/main.css}" href="src/main/resources/templates.emails/main.css" rel="stylesheet"/>
+    <link th:href="@{src/main/resources/templates/emails/main.css}" href="main.css" rel="stylesheet"/>
 </head>
-<body class="flex items-center justify-center h-screen">
-<div class="rounded-lg border shadow-lg p-10 w-3/5">
-    <div class="flex flex-row justify-between pb-4">
+<body>
+<div>
+    <div>
         <div>
-            <h2 class="text-xl font-bold">Donacija #<span class="text-green-600" th:text="${donationId}"></span>
-            </h2>
+            <h2>Donacija #<span th:text="${donationId}"></span></h2>
         </div>
         <div>
-            <div class="text-xl font-bold" th:text="${donationDate}"></div>
+            Na dan <b th:text="${donationDate}"></b> osoba
         </div>
     </div>
-    <table class="table-fixed w-full text-right border rounded">
-        <thead class="bg-gray-100">
+    <table class="donor-table">
+        <thead>
         <tr>
-            <th class="text-left pl-4">Ime</th>
+            <th>Ime</th>
             <th>Prezime</th>
             <th>Adresa</th>
-            <th class="pr-4">Radno Mjesto</th>
+            <th>Radno mjesto</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td class="pl-4 text-left" th:text="${donorFirstName}"></td>
+            <td th:text="${donorFirstName}"></td>
             <td th:text="${donorLastName}"></td>
             <td th:text="${donorAddress}"></td>
-            <td class="pr-4" th:text="${donorWorkPlace}"></td>
+            <td th:text="${donorWorkPlace}"></td>
         </tr>
         </tbody>
     </table>
 
-    <h2 class="text-xl font-bold">Djelatnik</h2>
-    <table class="table-fixed text-left w-2/6 border">
+    <p>donirala je krv i po zakonu zaslužuje potpuno oslobođenje od radnih obaveza na taj dan.</p>
+    <p>Djelatnik koji je zadužen za ovu donaciju:</p>
+    <table class="worker-table">
         <tr>
-            <th class="text-green-600">Ime</th>
-            <td th:text="${bankWorkerFirstName}"></td>
+            <th>Ime i prezime</th>
+            <td th:text="${bankWorkerFirstName} + ' ' + ${bankWorkerLastName}"></td>
         </tr>
         <tr>
-            <th class="text-green-600">Prezime</th>
-            <td th:text="${bankWorkerLastName}"></td>
-        </tr>
-        <tr>
-            <th class="text-green-600">Kontakt:</th>
+            <th>Kontakt</th>
             <td th:text="${bankWorkerWorkContact}"></td>
         </tr>
+        <tr>
+            <th>E-mail adresa</th>
+            <td th:text="${bankWorkerEmail}"></td>
+        </tr>
     </table>
+    <p>Za sve dodatne informacije molimo obratite se djelatniku na neki od navedenih kontakt podataka ili na 
+        neki od podataka naveden na službenoj stranici portala Trueblood (<a href="http://trueblood-fe.herokuapp.com">trueblood-fe.herokuapp.com</a>)
+    </p>
+    <br/>
+    <br/>
+    <p><b>Trueblood</b></p>
 </div>
 </body>
 </html>
