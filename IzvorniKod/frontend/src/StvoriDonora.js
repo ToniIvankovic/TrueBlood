@@ -15,6 +15,7 @@ const StvoriDonora = (props) => {
         firstName: '',
         lastName: '',
         oib: '',
+        gender: '',
         birthDate: '',
         birthPlace: '',
         address: '',
@@ -184,6 +185,7 @@ const StvoriDonora = (props) => {
                         name = "gender"
                         value = 'M' 
                         onChange={(event) => handleChange(event)}
+                        checked = {donorInfo.gender == 'M'}
                         required/>
                     </div>
                     <div className="odgovor">
@@ -193,7 +195,9 @@ const StvoriDonora = (props) => {
                         type="radio" 
                         name ="gender" 
                         onChange={(event) => handleChange(event)}
-                        value = 'F'/>
+                        checked = {donorInfo.gender == 'F'}
+                        value = 'F'
+                        required/>
                     </div>
                 </div>  
                 <div className="dupli">
