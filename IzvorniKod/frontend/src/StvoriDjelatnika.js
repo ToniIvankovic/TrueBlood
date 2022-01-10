@@ -98,14 +98,16 @@ const StvoriDjelatnika = (props) => {
                 if (error.response) {
                     if (error.response.status == 400) {
                         const message = error.response.data;
-                        if (message.includes('oib')) {
+                        console.log(message);
+                        if(!message){
+                            setErrorMessage('Nepoznata greška...');
+                        } else if (message.includes('oib')) {
                             if (message.includes('already exists')) {
                                 setErrorMessage('Greška! OIB već postoji.');
                             } else {
                                 setErrorMessage('Greška! Pogrešan format OIB-a.');
                             }
                         } 
-                        console.log(error.response.data);
                     } else {
                         setErrorMessage('Greška pri registraciji!');
                     }

@@ -100,7 +100,7 @@ const StvoriDonora = (props) => {
                     if (error.response.status == 400) {
                         const message = error.response.data;
                         if (message == undefined) {
-                            setErrorMessage('Greška!');
+                            setErrorMessage('Nepoznata greška...');
                         } else if (message.includes('oib')) {
                             if (message.includes('already exists')) {
                                 setErrorMessage('Greška! OIB već postoji.');
