@@ -35,19 +35,19 @@ public interface DonorRepository extends JpaRepository<Donor, Long> {
     @Query(value = "SELECT donor_id, first_name, last_name, oib, gender, birth_date, birth_place, address, work_place, private_contact, work_contact, email, blood_type, perm_rejected_reason " +
             " FROM donor JOIN user_account ON donor.donor_id = user_account.user_id " +
             " WHERE user_account.perm_deactivated = 0 " +
-            " AND donor.oib LIKE '%' + ?1 + '%' ", nativeQuery = true)
+            " AND oib LIKE  CONCAT(CONCAT('%', CAST(?1 AS text)), '%')", nativeQuery = true)
     List<Donor> getDonorsByOibIsContaining(String oib);
 
     @Query(value = "SELECT donor_id, first_name, last_name, oib, gender, birth_date, birth_place, address, work_place, private_contact, work_contact, email, blood_type, perm_rejected_reason " +
             " FROM donor JOIN user_account ON donor.donor_id = user_account.user_id " +
             " WHERE user_account.perm_deactivated = 0 " +
-            " AND UPPER(donor.first_name) LIKE '%' + UPPER(?1) + '%' ", nativeQuery = true)
+            " AND UPPER(donor.first_name) LIKE CONCAT(CONCAT('%', CAST(UPPER(?1) AS text)), '%')", nativeQuery = true)
     List<Donor> getDonorByFirstNameIsContainingIgnoreCase(String firstName);
 
     @Query(value = "SELECT donor_id, first_name, last_name, oib, gender, birth_date, birth_place, address, work_place, private_contact, work_contact, email, blood_type, perm_rejected_reason " +
             " FROM donor JOIN user_account ON donor.donor_id = user_account.user_id " +
             " WHERE user_account.perm_deactivated = 0 " +
-            " AND UPPER(donor.last_name) LIKE '%' + UPPER(?1) + '%' ", nativeQuery = true)
+            " AND UPPER(donor.last_name) LIKE CONCAT(CONCAT('%', CAST(UPPER(?1) AS text)), '%')", nativeQuery = true)
     List<Donor> getDonorByLastNameIsContainingIgnoreCase(String lastName);
 
     @Query(value = "SELECT donor_id, first_name, last_name, oib, gender, birth_date, birth_place, address, work_place, private_contact, work_contact, email, blood_type, perm_rejected_reason " +

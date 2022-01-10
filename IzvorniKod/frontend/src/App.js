@@ -117,8 +117,7 @@ const App = () => {
                     <Route path='/stvori_djelatnika' exact>
                         <StvoriDjelatnika 
                         user={user}
-                        worker={worker} 
-                        setWorker={setWorker} 
+                        setUser={setUser}
                         existing={existingWorker} 
                         setExisting={setExistingWorker} />
                     </Route>

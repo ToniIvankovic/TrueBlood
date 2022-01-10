@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { useHistory } from 'react-router';
 import ErrorCard from './ErrorCard';
-import { getDonorById } from './Util';
+import { formatDateToCro, formatDateToEng, getDonorById } from './Util';
 
 const StvoriDonora = (props) => {
 
@@ -47,6 +47,10 @@ const StvoriDonora = (props) => {
     const handleChange = (event) => {
         let name = event.target.name;
         let value = event.target.value;
+        if(name == "birthDate"){
+            value = formatDateToCro(value);
+            console.log(value)
+        }
         setDonorInfo({
             ...donorInfo,
             [name]: value
@@ -196,12 +200,11 @@ const StvoriDonora = (props) => {
                     <input
                         onChange={(event) => handleChange(event)}
                         name='birthDate'
-                        type='text'
+                        type={donorInfo.birthDate ? 'date' : 'text'}
+                        onFocus={() => {ref.current.type = 'date'}}
                         ref={ref}
-                        onFocus={() => (ref.current.type = 'date')}
-                        onBlur={() => (ref.current.type = 'text')}
                         placeholder="Datum rođenja *"
-                        defaultValue={donorInfo.birthDate}
+                        defaultValue={formatDateToEng(donorInfo.birthDate)}
                         required></input>
                     <input
                         onChange={(event) => handleChange(event)}
