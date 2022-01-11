@@ -3,6 +3,7 @@ package progi.megatron.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jmx.export.notification.UnableToSendNotificationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import progi.megatron.email.AccountVerificationEmailContext;
@@ -74,8 +75,12 @@ public class DonorService {
             throw new WrongDonorException("Donor with that oib already exists. ");
         }
         donor = donorRepository.save(donor);
-
-        sendRegistrationConfirmationEmail(donor,user.getUserId(), password);
+        
+        try {
+            sendRegistrationConfirmationEmail(donor,user.getUserId(), password);
+        }catch (UnableToSendNotificationException e){
+            e.printStackTrace();
+        }
         System.out.println("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
 
         return donor;
