@@ -71,7 +71,7 @@ const StvoriDjelatnika = (props) => {
         if(props.existing){
             url='/api/v1/bank-worker/update';
         } else{
-            url = '/api/v1/bank-worker'
+            url = '/api/v1/bank-worker/registration'
         }
 
         axios.post(url, workerInfo)
