@@ -29,7 +29,7 @@ const getCurrentUserIdAndRole = async (user, setUser) => {
 
     await axios.get(url)
         .then((response) => {
-            if (response.data != null) {
+            if (response.data != null && response.data != "") {
                 setUser({
                     userId: response.data.userId,
                     role: response.data.userRole
