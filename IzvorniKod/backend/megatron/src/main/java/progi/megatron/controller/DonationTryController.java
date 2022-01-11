@@ -1,6 +1,7 @@
 package progi.megatron.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -61,9 +62,9 @@ public class DonationTryController {
             if (donationTry == null || !currentUserUtil.checkIfCurrentUser(String.valueOf(donationTry.getDonor().getDonorId()))) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not download other donor's certificate.");
             }
-            donationTryService.generatePDFCertificateForSuccessfulDonation(donationId);
-            //todo actually download the certificate
-            return ResponseEntity.ok("Successfully downloaded PDF certificate.");
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .body(donationTryService.generatePDFCertificateForSuccessfulDonation(donationId));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }

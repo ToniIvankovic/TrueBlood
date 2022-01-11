@@ -51,12 +51,21 @@ public class EmailService{
         emailSender.send(message);
     }
 
-    public void sendSimpleEmail(String toAddress, String subject, String message) {
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setTo(toAddress);
-        simpleMailMessage.setSubject(subject);
-        simpleMailMessage.setText(message);
-        emailSender.send(simpleMailMessage);
+    public void sendNotificationEmail(String toAddress, String subject, String firstName) throws MessagingException {
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message,
+                MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                StandardCharsets.UTF_8.name());
+        Context context = new Context();
+        context.setVariable("firstName", firstName);
+        String emailContent = templateEngine.process("/emails/email-noBlood", context);
+
+        mimeMessageHelper.setTo(toAddress);
+        mimeMessageHelper.setSubject(subject);
+        mimeMessageHelper.setFrom("truebloodfer@gmail.com");
+        mimeMessageHelper.setText(emailContent, true);
+
+        emailSender.send(message);
     }
 
     public void sendEmailWithAttachment(String toAddress, String subject, String message, String attachment, DonationTry donationTry) throws MessagingException, FileNotFoundException {

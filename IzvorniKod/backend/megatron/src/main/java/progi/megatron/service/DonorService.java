@@ -95,7 +95,11 @@ public class DonorService {
         }
         donor = donorRepository.save(donor);
 
-        sendRegistrationConfirmationEmail(donor, user.getUserId(), password);
+        try {
+            sendRegistrationConfirmationEmail(donor, user.getUserId(), password);
+        }catch (UnableToSendNotificationException e){
+            e.printStackTrace();
+        }
         System.out.println("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
 
         return donor;
@@ -168,6 +172,15 @@ public class DonorService {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+    }
+
+    public void sendCanDonateAgain(Donor donor){
+        try{
+            emailService.sendNotificationEmail(donor.getEmail(),"Ponovo možeš donirati",donor.getFirstName());
+        }catch (MessagingException e){
+            e.printStackTrace();
+        }
+
     }
 
     public Donor updateDonorByDonor(DonorByDonorDTOWithId donorNew) {

@@ -1,6 +1,7 @@
 package progi.megatron.email;
 
 import org.springframework.web.util.UriComponentsBuilder;
+import progi.megatron.model.BankWorker;
 import progi.megatron.model.Donor;
 
 public class AccountVerificationEmailContext extends AbstractEmailContext {
@@ -11,12 +12,21 @@ public class AccountVerificationEmailContext extends AbstractEmailContext {
     public <T> void init(T context){
         //we can do any common configuration setup here
         // like setting up some base URL and context
-        Donor customer = (Donor) context; // we pass the customer informati
-        put("firstName", customer.getFirstName());
+        Donor donor = (Donor) context;
+        put("firstName", donor.getFirstName());
         setTemplateLocation("emails/email-verification");
         setSubject("Završi proces registracije");
         setFrom("truebloodfer@gmail.com");
-        setTo(customer.getEmail());
+        setTo(donor.getEmail());
+    }
+
+    public <T> void initBankWorker(T context){
+        BankWorker bankWorker = (BankWorker) context;
+        put("firstName", bankWorker.getFirstName());
+        setTemplateLocation("emails/email-verification");
+        setSubject("Complete your registration");
+        setFrom("truebloodfer@gmail.com");
+        setTo(bankWorker.getEmail());
     }
 
     public void setToken(String token) {

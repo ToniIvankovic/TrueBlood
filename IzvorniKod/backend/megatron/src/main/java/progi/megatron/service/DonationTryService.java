@@ -1,11 +1,11 @@
 package progi.megatron.service;
 
+import com.itextpdf.html2pdf.HtmlConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import progi.megatron.exception.DonationWaitingPeriodNotOver;
-import progi.megatron.exception.WrongBankWorkerException;
-import progi.megatron.exception.WrongDonationTryException;
-import progi.megatron.exception.WrongDonorException;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import progi.megatron.exception.*;
 import progi.megatron.model.BankWorker;
 import progi.megatron.model.DonationTry;
 import progi.megatron.model.Donor;
@@ -14,6 +14,7 @@ import progi.megatron.model.dto.DonationTryResponseDTO;
 import progi.megatron.repository.DonationTryRepository;
 import progi.megatron.validation.IdValidator;
 import javax.mail.MessagingException;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class DonationTryService {
 
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private SpringTemplateEngine templateEngine;
 
     public DonationTryService(DonationTryRepository donationTryRepository, DonorService donorService, BankWorkerService bankWorkerService, BloodSupplyService bloodSupplyService, IdValidator idValidator) {
         this.donationTryRepository = donationTryRepository;
@@ -108,12 +111,31 @@ public class DonationTryService {
         return donationTry;
     }
 
-    public void generatePDFCertificateForSuccessfulDonation(String donationId) {
+    public byte[] generatePDFCertificateForSuccessfulDonation(String donationId) {
         idValidator.validateId(donationId);
         DonationTry donationTry = getDonationTryByDonationId(donationId);
-        if (donationTry != null && donationTry.getRejectReason() == null) {
-            // todo: finishhh
-        }
+        if (donationTry != null) {
+
+            Context context = new Context();
+            context.setVariable("donationId",donationTry.getDonationId());
+            context.setVariable("donationDate",donationTry.getDonationDate());
+            context.setVariable("donorFirstName",donationTry.getDonor().getFirstName());
+            context.setVariable("donorLastName",donationTry.getDonor().getLastName());
+            context.setVariable("donorAddress",donationTry.getDonor().getAddress());
+            context.setVariable("donorWorkPlace",donationTry.getDonor().getWorkPlace());
+            context.setVariable("bankWorkerFirstName",donationTry.getBankWorker().getFirstName());
+            context.setVariable("bankWorkerLastName",donationTry.getBankWorker().getLastName());
+            context.setVariable("bankWorkerWorkContact",donationTry.getBankWorker().getWorkContact());
+
+            String content = templateEngine.process("emails/pdf.html",context);
+
+            ByteArrayOutputStream target = new ByteArrayOutputStream();
+
+            HtmlConverter.convertToPdf(content,target);
+            byte[] bytes = target.toByteArray();
+            return bytes;
+        }else throw new DonationTryNotFound("Donation try can not be found");
+
     }
 
     public List<Long> getIdsOfDonorsWhoDonatedToday() {
