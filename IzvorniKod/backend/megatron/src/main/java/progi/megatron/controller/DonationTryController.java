@@ -62,6 +62,7 @@ public class DonationTryController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not download other donor's certificate.");
             }
             donationTryService.generatePDFCertificateForSuccessfulDonation(donationId);
+            //todo actually download the certificate
             return ResponseEntity.ok("Successfully downloaded PDF certificate.");
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
