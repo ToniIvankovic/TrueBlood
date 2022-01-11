@@ -5,7 +5,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.DonationTry;
 import progi.megatron.model.dto.DonationTryRequestDTO;
@@ -55,16 +54,15 @@ public class DonationTryController {
         }
     }
 
-    // todo: for current user
-    @Secured({"ROLE_DONOR"})
+    @Secured({"ROLE_DONOR", "ROLE_BANK_WORKER"})
     @GetMapping("/pdf/{donationId}")
     public ResponseEntity<Object> getSuccessfulDonationPdfCert(@PathVariable String donationId) {
         try {
             DonationTry donationTry = donationTryService.getDonationTryByDonationId(donationId);
-            if (donationTry == null || !currentUserUtil.checkIfCurrentUser(String.valueOf(donationTry.getDonor().getDonorId()))) {
+            if (donationTry == null || !currentUserUtil.getCurrentUserRole().equals("BANK_WORKER")
+                    && !currentUserUtil.checkIfCurrentUser(String.valueOf(donationTry.getDonor().getDonorId()))) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not download other donor's certificate.");
             }
-            donationTryService.generatePDFCertificateForSuccessfulDonation(donationId);
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_PDF)
                     .body(donationTryService.generatePDFCertificateForSuccessfulDonation(donationId));

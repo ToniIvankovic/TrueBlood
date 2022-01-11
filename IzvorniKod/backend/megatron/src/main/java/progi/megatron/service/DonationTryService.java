@@ -62,7 +62,7 @@ public class DonationTryService {
 
         if (donationTryRequestDTO.getRejectReason() == null) {
             if (donor.getPermRejectedReason() != null) {
-                donationTryRequestDTO.setRejectReason("Donor is permanently rejected.");
+                donationTryRequestDTO.setRejectReason("Donor je trajno odbijen.");
             } else {
                 bloodSupplyService.manageBloodSupply(new String[]{donor.getBloodType()}, new int[]{1}, true);
                 donated = true;
@@ -114,9 +114,6 @@ public class DonationTryService {
     public byte[] generatePDFCertificateForSuccessfulDonation(String donationId) {
         idValidator.validateId(donationId);
         DonationTry donationTry = getDonationTryByDonationId(donationId);
-        if (donationTry != null && donationTry.getRejectReason() == null) {
-            // todo: finishhh
-        }
         if (donationTry != null) {
 
             Context context = new Context();

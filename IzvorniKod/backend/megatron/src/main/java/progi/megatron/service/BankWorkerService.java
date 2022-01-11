@@ -45,7 +45,7 @@ public class BankWorkerService {
     @Autowired
     private SecureTokenService secureTokenService;
 
-    @Value("http://localhost:8080/api/v1/bank-worker/")
+    @Value("http://trueblood-be-dev.herokuapp.com/api/v1/bank-worker/")
     private String baseURL;
 
     public BankWorkerService(BankWorkerRepository bankWorkerRepository, UserService userService, PasswordEncoder passwordEncoder, IdValidator idValidator, OibValidator oibValidator, BankWorkerValidator bankWorkerValidator, ModelMapper modelMapper, SecureTokenRepository secureTokenRepository) {
