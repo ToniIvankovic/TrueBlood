@@ -54,12 +54,13 @@ public class DonationTryController {
         }
     }
 
-    @Secured({"ROLE_DONOR"})
+    @Secured({"ROLE_DONOR", "ROLE_BANK_WORKER"})
     @GetMapping("/pdf/{donationId}")
     public ResponseEntity<Object> getSuccessfulDonationPdfCert(@PathVariable String donationId) {
         try {
             DonationTry donationTry = donationTryService.getDonationTryByDonationId(donationId);
-            if (donationTry == null || !currentUserUtil.checkIfCurrentUser(String.valueOf(donationTry.getDonor().getDonorId()))) {
+            if (donationTry == null || !currentUserUtil.getCurrentUserRole().equals("BANK_WORKER")
+                    && !currentUserUtil.checkIfCurrentUser(String.valueOf(donationTry.getDonor().getDonorId()))) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not download other donor's certificate.");
             }
             return ResponseEntity.ok()

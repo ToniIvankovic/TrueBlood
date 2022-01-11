@@ -1,6 +1,7 @@
 import React from "react";
 import axios from 'axios';
 import { Buffer } from "buffer";
+import fileSaver from 'file-saver'
 //import { useHistory } from "react-router";
 
 //globalne varijable za aplikaciju
@@ -118,7 +119,15 @@ const downloadPDF = async (donationId) => {
 
     await axios.get(url)
         .then((response) => {
-            console.log(response.data)
+            let data = response.data;
+            var byteNumbers = new Array(data.length);
+            for (var i = 0; i < data.length; i++) {
+                byteNumbers[i] = data.charCodeAt(i);
+            }
+            var byteArray = new Uint8Array(byteNumbers);
+            var blob = new Blob([byteArray], { type: "application/pdf" });
+            fileSaver.saveAs(blob, "Potvrda o donaciji.pdf")
+            // console.log(response.data)
         })
         .catch((error) => {
             console.log("Greška - nije moguće preuzeti PDF potvrdu");

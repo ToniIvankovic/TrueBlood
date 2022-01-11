@@ -100,7 +100,7 @@ public class EmailService{
         DataSource dataSource = new ByteArrayDataSource(bytes, "application/pdf");
         MimeBodyPart pdfBodyPart = new MimeBodyPart();
         pdfBodyPart.setDataHandler(new DataHandler(dataSource));
-        pdfBodyPart.setFileName("potvrda.pdf");
+        pdfBodyPart.setFileName("Potvrda o doniranju.pdf");
 
         //construct the mime multi part
         MimeMultipart mimeMultipart = new MimeMultipart();
