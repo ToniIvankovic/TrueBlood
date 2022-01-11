@@ -827,7 +827,7 @@
 
 .home-alert{
     position: fixed;
-    top:75%;
+    top:60%;
     width: 30%;
     justify-content: center;
 }
