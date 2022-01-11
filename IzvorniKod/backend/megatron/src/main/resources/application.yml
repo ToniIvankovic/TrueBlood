@@ -23,8 +23,8 @@ spring:
     test-connection: false
   base:
     url:
-    http: http://localhost:8080
-    https: http://localhost:8080
+    http: http://trueblood-be-dev.herokuapp.com
+    https: https://trueblood-be-dev.herokuapp.com
 
 debug: false
 
