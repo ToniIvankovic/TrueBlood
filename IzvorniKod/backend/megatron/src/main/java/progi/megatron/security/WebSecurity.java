@@ -62,6 +62,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/api/v1/donor/registration").permitAll()
                 .antMatchers("/api/v1/blood-supply").permitAll()
+                .antMatchers("/api/v1/verify").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic().and()
