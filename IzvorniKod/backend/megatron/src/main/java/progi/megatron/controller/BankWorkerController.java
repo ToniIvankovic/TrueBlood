@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -46,7 +47,7 @@ public class BankWorkerController {
     }
 
     @GetMapping("/verify")
-    public ResponseEntity verifyDonor(@RequestParam(name = "token") String token) {
+    public ResponseEntity verifyBankWorker(@RequestParam(name = "token") String token) {
         if (StringUtils.isEmpty(token)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageSource.getMessage("user.registration.verification.missing.token", null, LocaleContextHolder.getLocale()));
         }
@@ -56,7 +57,7 @@ public class BankWorkerController {
         } catch (InvalidTokenException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-        return ResponseEntity.ok(token);
+        return ResponseEntity.status(302).header(HttpHeaders.LOCATION, "https://trueblood-fe-dev.herokuapp.com/aktiviran_racun").build();
     }
 
     @Secured({"ROLE_ADMIN"})

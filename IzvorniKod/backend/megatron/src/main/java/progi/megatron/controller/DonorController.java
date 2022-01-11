@@ -45,24 +45,17 @@ public class DonorController {
     }
 
     @GetMapping("/verify")
-    public ResponseEntity verifyDonor(@RequestParam(name = "token") String token, final Model model, RedirectAttributes redirAttr) {
+    public ResponseEntity verifyDonor(@RequestParam(name = "token") String token) {
         if (StringUtils.isEmpty(token)) {
-            redirAttr.addFlashAttribute("tokenError", messageSource.getMessage("user.registration.verification.missing.token", null, LocaleContextHolder.getLocale()));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageSource.getMessage("user.registration.verification.missing.token", null, LocaleContextHolder.getLocale()));
         }
         try {
             System.out.println(token);
             userService.verifyUser(token);
         } catch (InvalidTokenException e) {
-            redirAttr.addFlashAttribute("tokenError", messageSource.getMessage("user.registration.verification.invalid.token", null, LocaleContextHolder.getLocale()));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-
-        redirAttr.addFlashAttribute("verifiedAccountMsg", messageSource.getMessage("user.registration.verification.success", null, LocaleContextHolder.getLocale()));
-
-
-        ResponseEntity re = ResponseEntity.status(302).header(HttpHeaders.LOCATION, "https://trueblood-fe-dev.herokuapp.com/aktiviran_racun").build();
-        return re;
+        return ResponseEntity.status(302).header(HttpHeaders.LOCATION, "https://trueblood-fe-dev.herokuapp.com/aktiviran_racun").build();
     }
 
     @PostMapping("/registration")
