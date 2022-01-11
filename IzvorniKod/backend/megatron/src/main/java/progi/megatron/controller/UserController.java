@@ -9,8 +9,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.User;
+import progi.megatron.model.dto.PasswordChangeUserDTO;
 import progi.megatron.model.dto.UserDTO;
 import progi.megatron.service.UserService;
+import progi.megatron.util.CurrentUserUtil;
 
 import java.util.Collection;
 
@@ -21,13 +23,14 @@ public class UserController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
+    private final CurrentUserUtil currentUserUtil;
 
-    public UserController(UserService userService, ModelMapper modelMapper) {
+    public UserController(UserService userService, ModelMapper modelMapper, CurrentUserUtil currentUserUtil) {
         this.userService = userService;
         this.modelMapper = modelMapper;
+        this.currentUserUtil = currentUserUtil;
     }
 
-    //@Secured({"ROLE_DONOR", "ROLE_BANK_WORKER", "ROLE_ADMIN"})
     @GetMapping
     public ResponseEntity<Object> getCurrentUser() {
         try {
@@ -78,6 +81,20 @@ public class UserController {
     public ResponseEntity<Object> checkIfUserActivated(@PathVariable String userId) {
         try {
             return ResponseEntity.ok(userService.checkIfUserActivated(userId));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
+    @Secured({"ROLE_DONOR"})
+    @PostMapping("/password")
+    public ResponseEntity<Object> changePassword(@RequestBody PasswordChangeUserDTO passwordChangeUserDTO) {
+        try {
+            if (!currentUserUtil.checkIfCurrentUser(String.valueOf(passwordChangeUserDTO.getUserId()))) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User can not change other user's passwords.");
+            }
+            userService.changePassword(passwordChangeUserDTO);
+            return ResponseEntity.ok().build();
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }

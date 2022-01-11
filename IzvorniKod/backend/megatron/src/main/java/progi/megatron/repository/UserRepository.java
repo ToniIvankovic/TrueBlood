@@ -27,4 +27,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("UPDATE User u SET u.permDeactivated = 1 WHERE u.userId = ?1")
     void deactivateUserAccount(Long userId);
 
+    @Transactional
+    @Modifying
+    @Query("UPDATE User u SET u.password = ?2 WHERE u.userId = ?1")
+    void changePassword(Long userId, String password);
+
 }
