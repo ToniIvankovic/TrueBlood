@@ -29,7 +29,6 @@ const OptimalneGranice = (props) => {
         }
         
         setLevels(localLevels);
-        console.log(localLevels)
     },[bloodSupplyArray])
     console.log(levels)
 
