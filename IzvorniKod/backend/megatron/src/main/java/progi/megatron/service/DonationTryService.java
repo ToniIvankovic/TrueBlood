@@ -46,6 +46,7 @@ public class DonationTryService {
     public DonationTryResponseDTO createDonationTry(DonationTryRequestDTO donationTryRequestDTO) {
 
         LocalDate lastDonationDate = getLastDonationDateForDonor(donationTryRequestDTO.getDonorId());
+        //todo ovisno o spolu!
         if (lastDonationDate != null && lastDonationDate.plusMonths(3).isAfter(LocalDate.now())) {
             throw new DonationWaitingPeriodNotOver("Donor must wait at least three months after last donation before a new blood donation.");
         }
@@ -86,7 +87,7 @@ public class DonationTryService {
 
         donationTry = donationTryRepository.save(donationTry);
         try {
-            emailService.sendEmailWithAttachment(donor.getEmail(),"PDF Potvrda", "Poštovani, \n Potvrda se nalazi u prilogu. \n Srdačno,\n Vaš Trueblood", "templates/emails/pdf.html", donationTry);
+            emailService.sendEmailWithAttachment(donor.getEmail(),"PDF Potvrda o darivanju krvi", "Poštovani, \n Potvrda se nalazi u prilogu. \n Srdačno,\n Vaš Trueblood", "templates/emails/pdf.html", donationTry);
         } catch (MessagingException | FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -114,7 +115,7 @@ public class DonationTryService {
         idValidator.validateId(donationId);
         DonationTry donationTry = getDonationTryByDonationId(donationId);
         if (donationTry != null && donationTry.getRejectReason() == null) {
-            // todo: finish
+            // todo: finishhh
         }
         if (donationTry != null) {
 

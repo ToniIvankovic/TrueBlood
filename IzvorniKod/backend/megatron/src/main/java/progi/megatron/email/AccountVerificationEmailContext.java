@@ -15,7 +15,7 @@ public class AccountVerificationEmailContext extends AbstractEmailContext {
         Donor donor = (Donor) context;
         put("firstName", donor.getFirstName());
         setTemplateLocation("emails/email-verification");
-        setSubject("Complete your registration");
+        setSubject("Završi proces registracije");
         setFrom("truebloodfer@gmail.com");
         setTo(donor.getEmail());
     }

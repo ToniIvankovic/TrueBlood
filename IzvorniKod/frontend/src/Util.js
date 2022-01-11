@@ -29,8 +29,7 @@ const getCurrentUserIdAndRole = async (user, setUser) => {
 
     await axios.get(url)
         .then((response) => {
-            console.log('user queried success');
-            if (response.data != null) {
+            if (response.data != null && response.data != "") {
                 setUser({
                     userId: response.data.userId,
                     role: response.data.userRole
@@ -41,7 +40,6 @@ const getCurrentUserIdAndRole = async (user, setUser) => {
             }
         })
         .catch((error) => {
-            console.log('Error retrieving user info: ' + error);
         })
 }
 

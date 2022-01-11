@@ -109,7 +109,6 @@ const Login = (props) => {
                 </form>
             </div>
             <div className="image-alert">
-                <p className="alert">Nedostaje krvi krvne grupe x</p>
                 <img src={Image} alt="image1" className="image" />
             </div>
         </div>

@@ -825,6 +825,13 @@
 	transition: 1s ease 0.3s;
 }
 
+.home-alert{
+    position: fixed;
+    top:60%;
+    width: 30%;
+    justify-content: center;
+}
+
 @media screen and (max-width: 840px) {
     .str {
         display: grid;
