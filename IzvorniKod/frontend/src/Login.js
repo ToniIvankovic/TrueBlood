@@ -33,7 +33,7 @@ const Login = (props) => {
         event.preventDefault();
         const url = '/api/v1/login';
         // const basicAuthHeader = generateBasicAuthHeader(userId, password);
-        axios.post(url, null, {
+        axios.get(url, {
             auth: {
                 username: userId,
                 password: password
@@ -109,7 +109,6 @@ const Login = (props) => {
                 </form>
             </div>
             <div className="image-alert">
-                <p className="alert">Nedostaje krvi krvne grupe x</p>
                 <img src={Image} alt="image1" className="image" />
             </div>
         </div>

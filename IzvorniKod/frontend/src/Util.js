@@ -29,8 +29,7 @@ const getCurrentUserIdAndRole = async (user, setUser) => {
 
     await axios.get(url)
         .then((response) => {
-            console.log('user queried success');
-            if (response.data != null) {
+            if (response.data != null && response.data != "") {
                 setUser({
                     userId: response.data.userId,
                     role: response.data.userRole
@@ -41,7 +40,6 @@ const getCurrentUserIdAndRole = async (user, setUser) => {
             }
         })
         .catch((error) => {
-            console.log('Error retrieving user info: ' + error);
         })
 }
 
@@ -56,7 +54,11 @@ const getDonorById = async (donorId, setDonor) => {
                     return;
                 }
 
-                setDonor(response.data);
+                setDonor({
+                    ...response.data,
+                    role: "DONOR",
+                    userId: response.data.donorId
+                });
             } else {
                 console.log("Prazan odgovor poslužitelja")
             }
@@ -77,7 +79,11 @@ const getWorkerById = async (workerId, setWorker) => {
                     return;
                 }
 
-                setWorker(response.data);
+                setWorker({
+                    ...response.data,
+                    role: "BANK_WORKER",
+                    userId: response.data.bankWorkerId
+                });
             } else {
                 console.log("Prazan odgovor poslužitelja")
             }
@@ -176,6 +182,21 @@ const getDonorNextDonation = async (donorId, setNextDonation) => {
         })
 }
 
+const formatDateToCro = (americanDate) => {
+    let dateParts = americanDate.split("-")
+    return dateParts[2] + "." + dateParts[1] + "." + dateParts[0]
+}
+const formatDateToEng = (americanDate) => {
+    if(!americanDate) return americanDate
+    let dateParts = americanDate.split(".")
+    return dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0]
+}
+const formatDateToSlash = (dotDate) => {
+    if(!dotDate) return dotDate
+    let dateParts = dotDate.split(".")
+    return dateParts[0] + "/" + dateParts[1] + "/" + dateParts[2]
+}
+
 const isJSONEqual = (v1,v2) =>{
     if(JSON.stringify(v1) == JSON.stringify(v2))
         return true;
@@ -205,6 +226,9 @@ export { getBloodSupply };
 export { downloadPDF };
 export { getDonorBloodType };
 export { getDonorNextDonation };
+export { formatDateToCro }
+export { formatDateToEng }
+export { formatDateToSlash }
 export { userNone };
 export { userPublic };
 export { donorNone };

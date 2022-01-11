@@ -16,7 +16,7 @@ import PokusajDoniranja from "./PokusajDoniranja";
 import Trazilica from "./Trazilica";
 import SlanjeKrvi from "./SlanjeKrvi";
 
-import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, userNone, userPublic, donorNone, workerNone, getDonorPermRejected } from "./Util";
+import { getCurrentUserIdAndRole, getAccActivated, isEqualWithNull, userNone, userPublic, donorNone, workerNone, getDonorPermRejected, getDonorById, getWorkerById } from "./Util";
 import _ from 'lodash';
 import KreiranDjelatnik from "./KreiranDjelatnik";
 import PostPokusajDoniranja from "./PostPokusajDoniranja";
@@ -24,6 +24,7 @@ import OptimalneGranice from "./OptimalneGranice";
 import DeaktivirajRacun from "./DeaktivirajRacun";
 import RacunDeaktiviran from "./RacunDeaktiviran";
 import axios from "axios";
+import RacunAktiviran from "./RacunAktiviran";
 
 // TODO: global context for role and user data - done?
 
@@ -34,21 +35,28 @@ const App = () => {
     useEffect(() => {
         getCurrentUserIdAndRole(user, setUser);
     }, []);
-    console.log(user)
-
-    const [donorPermRejected, setDonorPermRejected] = useState(null);
+    
     useEffect(() => {
-        if(!isEqualWithNull(user,userNone)){
-            getDonorPermRejected(user.userId, setDonorPermRejected);
+        console.log(user)
+        if(user.role == "DONOR"){
+            getDonorById(user.userId,setUser);
+        } else if(user.role == "BANK_WORKER"){
+            getWorkerById(user.userId, setUser);
         }
-    }, [user]);
+    }, [user.role]);
+
+    // const [donorPermRejected, setDonorPermRejected] = useState(null);
+    // useEffect(() => {
+    //     if(!isEqualWithNull(user,userNone)){
+    //         getDonorPermRejected(user.userId, setDonorPermRejected);
+    //     }
+    // }, [user]);
 
     const [existingDonor, setExistingDonor] = useState(false);
     const [existingWorker, setExistingWorker] = useState(false);
     
     const [donor, setDonor] = useState(donorNone);
     const [worker, setWorker] = useState(workerNone);
-
     
     const [donationPlace, setDonationPlace] = useState(undefined);
     const [successfulDonation, setSuccessfulDonation] = useState(false);
@@ -73,23 +81,22 @@ const App = () => {
                     <Route path="/prijava" exact>
                         <Login onLogin={() => {
                             getCurrentUserIdAndRole(user, setUser);
-                            //setToken(window.localStorage.getItem('token'));
                         }}
                         setExistingDonor={setExistingDonor} />
                     </Route>
                     <Route path="/profil" exact>
                         <Profil onLogout={() => {
-                            //setToken(null);
                             setDonor({});
                             setExistingDonor(false);
                             setExistingWorker(false);
                         }}
-                            donorPermRejected={donorPermRejected}
+                            // donorPermRejected={donorPermRejected}
                             user={user}
                             setUser={setUser}
                             setExistingDonor={setExistingDonor}
                             setExistingWorker={setExistingWorker}
-                            worker={worker} />
+                            worker={worker}
+                            donor={donor} />
                     </Route>
                     <Route path="/update" exact>
                         <Update />
@@ -111,8 +118,7 @@ const App = () => {
                     <Route path='/stvori_djelatnika' exact>
                         <StvoriDjelatnika 
                         user={user}
-                        worker={worker} 
-                        setWorker={setWorker} 
+                        setUser={setUser}
                         existing={existingWorker} 
                         setExisting={setExistingWorker} />
                     </Route>
@@ -196,6 +202,9 @@ const App = () => {
                         setWorker={setWorker}
                         setExistingWorker={setExistingWorker}
                         />
+                    </Route>
+                    <Route path='/aktiviran_racun' exact>
+                        <RacunAktiviran />
                     </Route>
                 </Switch>
             </Router>

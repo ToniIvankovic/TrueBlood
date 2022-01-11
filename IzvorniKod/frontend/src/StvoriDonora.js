@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { useHistory } from 'react-router';
 import ErrorCard from './ErrorCard';
-import { getDonorById } from './Util';
+import { formatDateToCro, formatDateToEng, getDonorById } from './Util';
 
 const StvoriDonora = (props) => {
 
@@ -15,6 +15,7 @@ const StvoriDonora = (props) => {
         firstName: '',
         lastName: '',
         oib: '',
+        gender: '',
         birthDate: '',
         birthPlace: '',
         address: '',
@@ -47,6 +48,9 @@ const StvoriDonora = (props) => {
     const handleChange = (event) => {
         let name = event.target.name;
         let value = event.target.value;
+        if(name == "birthDate"){
+            value = formatDateToCro(value);
+        }
         setDonorInfo({
             ...donorInfo,
             [name]: value
@@ -95,7 +99,9 @@ const StvoriDonora = (props) => {
                 if (error.response) {
                     if (error.response.status == 400) {
                         const message = error.response.data;
-                        if (message.includes('oib')) {
+                        if (message == undefined) {
+                            setErrorMessage('Nepoznata greška...');
+                        } else if (message.includes('oib')) {
                             if (message.includes('already exists')) {
                                 setErrorMessage('Greška! OIB već postoji.');
                             } else {
@@ -103,6 +109,8 @@ const StvoriDonora = (props) => {
                             }
                         } else if (message.includes('blood')) {
                             setErrorMessage('Greška! Krvna grupa mora se postaviti.');
+                        } else{
+                            setErrorMessage(message);
                         }
                         console.log(error.response.data);
                     } else {
@@ -164,16 +172,42 @@ const StvoriDonora = (props) => {
                         defaultValue={donorInfo.oib}
                         required></input>
                 </div>
+                <div className="redak">
+                    <div className="question">
+                        Spol:
+                    </div>
+                    <div className="odgovor">
+                        <label htmlFor="M">Muški</label>
+                        <input 
+                        id="M" 
+                        type="radio" 
+                        name = "gender"
+                        value = 'M' 
+                        onChange={(event) => handleChange(event)}
+                        checked = {donorInfo.gender == 'M'}
+                        required/>
+                    </div>
+                    <div className="odgovor">
+                        <label htmlFor="F">Ženski</label>
+                        <input 
+                        id="F" 
+                        type="radio" 
+                        name ="gender" 
+                        onChange={(event) => handleChange(event)}
+                        checked = {donorInfo.gender == 'F'}
+                        value = 'F'
+                        required/>
+                    </div>
+                </div>  
                 <div className="dupli">
                     <input
                         onChange={(event) => handleChange(event)}
                         name='birthDate'
-                        type='text'
+                        type={donorInfo.birthDate ? 'date' : 'text'}
+                        onFocus={() => {ref.current.type = 'date'}}
                         ref={ref}
-                        onFocus={() => (ref.current.type = 'date')}
-                        onBlur={() => (ref.current.type = 'text')}
                         placeholder="Datum rođenja *"
-                        defaultValue={donorInfo.birthDate}
+                        defaultValue={formatDateToEng(donorInfo.birthDate)}
                         required></input>
                     <input
                         onChange={(event) => handleChange(event)}

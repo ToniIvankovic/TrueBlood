@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -58,15 +59,18 @@ public class DonorController {
         }
 
         redirAttr.addFlashAttribute("verifiedAccountMsg", messageSource.getMessage("user.registration.verification.success", null, LocaleContextHolder.getLocale()));
-        return ResponseEntity.ok(token);
+
+
+        ResponseEntity re = ResponseEntity.status(302).header(HttpHeaders.LOCATION, "https://trueblood-fe-dev.herokuapp.com/aktiviran_racun").build();
+        return re;
     }
 
-    // todo: secured (no role)
     @PostMapping("/registration")
-    public ResponseEntity<Object> createDonorByDonor(@RequestBody DonorByDonorDTOWithoutId donorByDonorDTOWithoutId, HttpServletRequest request) {
-        System.out.println("USO BRATE");
+    public ResponseEntity<Object> createDonorByDonor(@RequestBody DonorByDonorDTOWithoutId donorByDonorDTOWithoutId) {
         try {
-            return ResponseEntity.ok(donorService.createDonorByDonor(donorByDonorDTOWithoutId));
+            String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+            if (!userId.equals("anonymousUser")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registered user can not register again.");
+            else return ResponseEntity.ok(donorService.createDonorByDonor(donorByDonorDTOWithoutId));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
@@ -86,7 +90,7 @@ public class DonorController {
     @GetMapping("/oib/{oib}")
     public ResponseEntity<Object> getDonorByOib(@PathVariable String oib) {
         try {
-            Donor donor = donorService.getDonorByOib(oib);
+            Donor donor = donorService.getNotDeactivatedDonorByOib(oib);
             if (donor == null) return ResponseEntity.ok("No donor with that oib found.");
             else return ResponseEntity.ok(donor);
         } catch (Exception ex) {
@@ -96,7 +100,7 @@ public class DonorController {
 
     @Secured({"ROLE_ADMIN", "ROLE_BANK_WORKER", "ROLE_DONOR"})
     @GetMapping("/id/{donorId}")
-    public ResponseEntity<Object> getDonorByDonorId(@PathVariable String donorId, HttpServletRequest request) {
+    public ResponseEntity<Object> getDonorByDonorId(@PathVariable String donorId) {
         try {
             if (currentUserUtil.getCurrentUserRole().equals("DONOR") && !currentUserUtil.checkIfCurrentUser(donorId)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not fetch other donors.");
@@ -141,10 +145,9 @@ public class DonorController {
 
     @Secured({"ROLE_DONOR"})
     @PostMapping("/update")
-    public ResponseEntity<Object> updateDonorByDonor(@RequestBody DonorByDonorDTOWithId donorByDonorDTOWithId, HttpServletRequest request) {
+    public ResponseEntity<Object> updateDonorByDonor(@RequestBody DonorByDonorDTOWithId donorByDonorDTOWithId) {
         try {
-            String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
-            if (!currentUserId.equals(donorByDonorDTOWithId.getDonorId().toString())) {
+            if (!currentUserUtil.checkIfCurrentUser(String.valueOf(donorByDonorDTOWithId.getDonorId()))) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not update other donors.");
             }
             return ResponseEntity.ok(donorService.updateDonorByDonor(donorByDonorDTOWithId));

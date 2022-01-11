@@ -4,16 +4,17 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.model.User;
 import progi.megatron.model.dto.UserDTO;
 import progi.megatron.service.UserService;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
 
-@Controller
+@RestController
 @CrossOrigin
 @RequestMapping("/api/v1/user")
 public class UserController {
@@ -26,19 +27,26 @@ public class UserController {
         this.modelMapper = modelMapper;
     }
 
-    @Secured({"ROLE_DONOR", "ROLE_BANK_WORKER", "ROLE_ADMIN"})
+    //@Secured({"ROLE_DONOR", "ROLE_BANK_WORKER", "ROLE_ADMIN"})
     @GetMapping
-    public ResponseEntity<Object> getCurrentUser(HttpServletRequest request) {
-
-        // todo: examine if there is a more apt method of passing current userId to this method than getting token from request header
+    public ResponseEntity<Object> getCurrentUser() {
         try {
-            String userId = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-            User user = userService.findById(userId);
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) auth.getAuthorities();
+            if(authorities == null || authorities.isEmpty()) {
+                return ResponseEntity.ok(null);
+            }
+            for (GrantedAuthority authority : authorities) {
+                if(authority.getAuthority().equals("ROLE_ANONYMOUS")) {
+                    return ResponseEntity.ok(null);
+                }
+            }
+            String userId = auth.getPrincipal().toString();
+            User user = userService.findNotDeactivatedUserById(userId);
             return ResponseEntity.ok(modelMapper.map(user, UserDTO.class));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
-
     }
 
     // todo: maybe add some sort of security for this

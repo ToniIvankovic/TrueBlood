@@ -1,5 +1,6 @@
 package progi.megatron.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ public class DonationTryResponseDTO {
     private Long donationId;
     private boolean successful;
     private String rejectedReason;
-    private LocalDate donationDate;
+    @JsonFormat(pattern="dd.MM.yyyy") private LocalDate donationDate;
     private String donationPlace;
     private Long donorId;
 

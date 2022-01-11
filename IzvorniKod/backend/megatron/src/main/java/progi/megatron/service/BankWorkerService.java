@@ -68,7 +68,7 @@ public class BankWorkerService {
 
     public BankWorker getBankWorkerByOib(String oib){
         oibValidator.validateOib(oib);
-        return bankWorkerRepository.getBankWorkerByOib(oib);
+        return bankWorkerRepository.getNotDeactivatedBankWorkerByOib(oib);
     }
 
     public List<BankWorker> getBankWorkersByAny(String query) {
@@ -96,14 +96,13 @@ public class BankWorkerService {
     }
 
     public BankWorker createBankWorker(BankWorkerDTO bankWorkerDTO) {
+        bankWorkerValidator.validateBankWorker(modelMapper.map(bankWorkerDTO, BankWorker.class));
 
         String password = userService.randomPassword();
         User user = new User(Role.BANK_WORKER, passwordEncoder.encode(password));
         user = userService.createUser(user);
         BankWorker bankWorker = modelMapper.map(bankWorkerDTO, BankWorker.class);
         bankWorker.setBankWorkerId(user.getUserId());
-
-        bankWorkerValidator.validateBankWorker(bankWorker);
 
         if (getBankWorkerByOib(bankWorker.getOib()) != null) {
             throw new WrongDonorException("Bank worker with that oib already exists. ");
