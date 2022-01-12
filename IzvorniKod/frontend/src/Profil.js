@@ -151,20 +151,6 @@ const Profil = (props) => {
                    
                 : ''}
                 
-            <button onClick={() => props.setUser({
-                    ...props.user,
-                    role: 'DONOR'
-                })}>Sad sam donor</button>
-                
-            <button onClick={() => props.setUser({
-                    ...props.user,
-                    role: 'BANK_WORKER'
-                })}>Sad sam worker</button>
-                
-            <button onClick={() => props.setUser({
-                    ...props.user,
-                    role: 'ADMIN'
-                })}>Sad sam admin</button>
         </div>
     )
 }
