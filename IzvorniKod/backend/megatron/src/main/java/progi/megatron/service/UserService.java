@@ -8,6 +8,7 @@ import progi.megatron.exception.InvalidTokenException;
 import progi.megatron.exception.WrongUserException;
 import progi.megatron.model.SecureToken;
 import progi.megatron.model.User;
+import progi.megatron.model.dto.PasswordChangeUserDTO;
 import progi.megatron.model.dto.UserActivationDTO;
 import progi.megatron.repository.UserRepository;
 
@@ -96,6 +97,14 @@ public class UserService {
 
     public UserActivationDTO checkIfUserActivated(String userId) {
         User user = findNotDeactivatedUserById(userId);
+        if (user == null) throw new WrongUserException("No donor with that id.");
         return modelMapper.map(user, UserActivationDTO.class);
     }
+
+    public void changePassword(PasswordChangeUserDTO passwordChangeUserDTO) {
+        User user = findNotDeactivatedUserById(String.valueOf(passwordChangeUserDTO.getUserId()));
+        if (user == null) throw new WrongUserException("No donor with that id.");
+        userRepository.changePassword(passwordChangeUserDTO.getUserId(), passwordChangeUserDTO.getPassword());
+    }
+
 }

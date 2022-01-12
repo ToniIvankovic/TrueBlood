@@ -46,16 +46,21 @@ public class DonationTryService {
     public DonationTryResponseDTO createDonationTry(DonationTryRequestDTO donationTryRequestDTO) {
 
         LocalDate lastDonationDate = getLastDonationDateForDonor(donationTryRequestDTO.getDonorId());
-        //todo ovisno o spolu!
-        if (lastDonationDate != null && lastDonationDate.plusMonths(3).isAfter(LocalDate.now())) {
-            throw new DonationWaitingPeriodNotOver("Donor must wait at least three months after last donation before a new blood donation.");
-        }
-
-        boolean donated = false;
-
         Donor donor = donorService.getDonorByDonorId(donationTryRequestDTO.getDonorId());
         if (donor == null) throw new WrongDonorException("There is no donor with that id.");
         if (donor.getBloodType() == null) throw new WrongDonorException("Blood type for this donor is not defined.");
+
+        if (lastDonationDate != null) {
+            String gender = donor.getGender();
+            if (gender.equals("M") && lastDonationDate.plusMonths(3).isAfter(LocalDate.now())) {
+                throw new DonationWaitingPeriodNotOver("Male donor must wait at least three months after last donation before a new blood donation.");
+            }
+            if (gender.equals("F") && lastDonationDate.plusMonths(4).isAfter(LocalDate.now())) {
+                throw new DonationWaitingPeriodNotOver("Female donor must wait at least four months after last donation before a new blood donation.");
+            }
+        }
+
+        boolean donated = false;
 
         BankWorker bankWorker = bankWorkerService.getBankWorkerByBankWorkerId(donationTryRequestDTO.getBankWorkerId());
         if (bankWorker == null) throw new WrongBankWorkerException("There is no bank worker with that id.");
