@@ -61,7 +61,7 @@ public class UserServiceUnitTest{
                 () -> userService.findNotDeactivatedUserById("12355"),
                 "Expected findById to throw, but it didnt");
 
-        assertEquals(ex.getMessage(), "No user '12355'");
+        assertEquals("No user '12355'", ex.getMessage());
     }
 
 
@@ -76,7 +76,7 @@ public class UserServiceUnitTest{
                 () -> userService.findNotDeactivatedUserById("abcd"),
                 "Expected findNotDeactivatedUserById to throw, but it didnt");
 
-        assertEquals(ex.getMessage(), "User id is not numeric. ");
+        assertEquals("User id is not numeric. ", ex.getMessage());
     }
 
     //tests UserService.randomPassword()

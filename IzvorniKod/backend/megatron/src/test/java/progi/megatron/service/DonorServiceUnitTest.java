@@ -50,11 +50,6 @@ public class DonorServiceUnitTest {
     @Autowired
     private DonorService donorService;
 
-
-
-
-
-
     @Test
     void testUpdateDonorByBankWorker(){
         Donor donor = new Donor(1234L, "Josip", "Josipovic", "12345678", "M",
@@ -85,7 +80,7 @@ public class DonorServiceUnitTest {
             () -> donorService.updateDonorByBankWorker(donor),
             "Expected findNotDeactivatedUserById to throw, but it didnt");
 
-        assertEquals(ex.getMessage(), "Donor id is not given. ");
+        assertEquals( "Donor id is not given. ", ex.getMessage());
     }
 
     @Test
@@ -100,7 +95,8 @@ public class DonorServiceUnitTest {
                 () -> donorService.updateDonorByBankWorker(donor),
                 "Expected findNotDeactivatedUserById to throw, but it didnt");
 
-        assertEquals(ex.getMessage(), "There is no donor with that id.");
+        assertEquals( "There is no donor with that id.", ex.getMessage());
+
     }
 
     @Test
@@ -137,21 +133,22 @@ public class DonorServiceUnitTest {
                 () -> donorService.updateDonorByDonor(newDonor),
                 "Expected findNotDeactivatedUserById to throw, but it didnt");
 
-        assertEquals(ex.getMessage(), "There is no donor with that id.");
+        assertEquals("There is no donor with that id." , ex.getMessage());
     }
 
     @Test
     void testUpdateDonorByDonorNoId(){
-        DonorByDonorDTOWithId newDonor = new DonorByDonorDTOWithId(1234L, "Josip", "Horvat",
+        DonorByDonorDTOWithId newDonor = new DonorByDonorDTOWithId(null, "Josip", "Horvat",
                 "12345678", "M", LocalDate.of(2000, 9, 23), "Zagreb",
                 "Ilica 2", "Fer", "0911234123", "0991234123", "josip@email.io");
+
 
         WrongDonorException ex = assertThrows(
                 WrongDonorException.class,
                 () -> donorService.updateDonorByDonor(newDonor),
                 "Expected findNotDeactivatedUserById to throw, but it didnt");
 
-        assertEquals(ex.getMessage(), "Donor id is not given. ");
+        assertEquals("Donor id is not given. ", ex.getMessage());
     }
 
 }
