@@ -43,7 +43,7 @@ public class BloodSupplyService {
             if (increase) {
                 bloodSupplyRepository.manageBloodSupply(bloodType, oldNumberOfUnits + 1);
             } else if (oldNumberOfUnits < numberOfUnits) {
-                throw new TooManyBloodUnitsException("There are not enough available blood units to send the desired amount.");
+                throw new TooManyBloodUnitsException("Ne postoji dovoljno jedinica krvi za provedbu željene transakcije.");
             } else {
                 bloodSupplyRepository.manageBloodSupply(bloodType, oldNumberOfUnits - numberOfUnits);
             }
