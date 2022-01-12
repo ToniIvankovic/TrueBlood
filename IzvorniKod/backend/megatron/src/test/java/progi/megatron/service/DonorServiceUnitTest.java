@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
 import progi.megatron.exception.WrongDonorException;
 import progi.megatron.model.Donor;
+import progi.megatron.model.dto.DonorByDonorDTOWithId;
 import progi.megatron.repository.DonorRepository;
 
 import java.time.LocalDate;
@@ -70,7 +71,7 @@ public class DonorServiceUnitTest {
 
         Donor retDonor = donorService.updateDonorByBankWorker(newDonor);
 
-        assertEquals(retDonor, donor);
+        assertEquals(retDonor, newDonor);
     }
 
     @Test
@@ -98,5 +99,44 @@ public class DonorServiceUnitTest {
         assertEquals(ex.getMessage(), "There is no donor with that id.");
     }
 
+    @Test
+    void testUpdateDonorByDonor(){
+        Donor donor = new Donor(1234L, "Josip", "Josipovic", "12345678", "M", LocalDate.of(2000, 9, 23), "Zagreb", "Ilica 2", "Fer", "0911234123", "0991234123", "josip@email.io", "A-", null);
+        DonorByDonorDTOWithId newDonor = new DonorByDonorDTOWithId(1234L, "Josip", "Horvat", "12345678", "M", LocalDate.of(2000, 9, 23), "Zagreb", "Ilica 2", "Fer", "0911234123", "0991234123", "josip@email.io");
+        Donor referenceDonor = new Donor(1234L, "Josip", "Horvat", "12345678", "M", LocalDate.of(2000, 9, 23), "Zagreb", "Ilica 2", "Fer", "0911234123", "0991234123", "josip@email.io", "A-", null);
+
+        Mockito.when(donorRepository.getNotDeactivatedDonorByDonorId(Mockito.any())).thenReturn(donor);
+        Mockito.when(donorRepository.save(Mockito.any())).thenReturn(Optional.empty());
+
+        Donor retDonor = donorService.updateDonorByDonor(newDonor);
+
+        assertEquals(retDonor, referenceDonor);
+
+    }
+
+    @Test
+    void testUpdateDonorByDonorNoUser(){
+        DonorByDonorDTOWithId newDonor = new DonorByDonorDTOWithId(1234L, "Josip", "Horvat", "12345678", "M", LocalDate.of(2000, 9, 23), "Zagreb", "Ilica 2", "Fer", "0911234123", "0991234123", "josip@email.io");
+        Mockito.when(donorRepository.getNotDeactivatedDonorByDonorId(Mockito.any())).thenReturn(null);
+
+        WrongDonorException ex = assertThrows(
+                WrongDonorException.class,
+                () -> donorService.updateDonorByDonor(newDonor),
+                "Expected findNotDeactivatedUserById to throw, but it didnt");
+
+        assertEquals(ex.getMessage(), "There is no donor with that id.");
+    }
+
+    @Test
+    void testUpdateDonorByDonorNoId(){
+        DonorByDonorDTOWithId newDonor = new DonorByDonorDTOWithId(1234L, "Josip", "Horvat", "12345678", "M", LocalDate.of(2000, 9, 23), "Zagreb", "Ilica 2", "Fer", "0911234123", "0991234123", "josip@email.io");
+
+        WrongDonorException ex = assertThrows(
+                WrongDonorException.class,
+                () -> donorService.updateDonorByDonor(newDonor),
+                "Expected findNotDeactivatedUserById to throw, but it didnt");
+
+        assertEquals(ex.getMessage(), "Donor id is not given. ");
+    }
 
 }
