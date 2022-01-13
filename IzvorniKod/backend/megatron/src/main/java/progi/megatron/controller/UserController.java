@@ -52,24 +52,12 @@ public class UserController {
         }
     }
 
-    // todo: maybe add some sort of security for this
-    @GetMapping("/activate/{userId}")
-    public ResponseEntity<Object> activateUser(@PathVariable String userId) {
-        try {
-            Long longUserId = userService.activateUserAccount(userId);
-            if (longUserId == null) return ResponseEntity.ok("This user is already activated.");
-            return ResponseEntity.ok(longUserId);
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-        }
-    }
-
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/deactivate/{userId}")
     public ResponseEntity<Object> permDeactivateUser(@PathVariable String userId) {
         try {
             Long longUserId = userService.permDeactivateUserAccount(userId);
-            if (longUserId == null) return ResponseEntity.ok("This user is already permanently deactivated.");
+            if (longUserId == null) return ResponseEntity.ok("Ovaj korisnik je trajno deaktiviran.");
             return ResponseEntity.ok(longUserId);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
@@ -91,7 +79,7 @@ public class UserController {
     public ResponseEntity<Object> changePassword(@RequestBody PasswordChangeUserDTO passwordChangeUserDTO) {
         try {
             if (!currentUserUtil.checkIfCurrentUser(String.valueOf(passwordChangeUserDTO.getUserId()))) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User can not change other user's passwords.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Korisnik ne može promjeniti lozinku drugog korisnika.");
             }
             userService.changePassword(passwordChangeUserDTO);
             return ResponseEntity.ok().build();
