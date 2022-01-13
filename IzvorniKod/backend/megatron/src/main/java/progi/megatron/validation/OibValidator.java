@@ -8,11 +8,11 @@ public class OibValidator {
 
     public boolean validateOib(String oib) {
         try {
-            long value = Long.valueOf(oib);
+            Long.valueOf(oib);
         } catch (NumberFormatException ex) {
-            throw new WrongDonorException("Oib is not numeric. ");
+            throw new WrongDonorException("Oib nije numerički.");
         }
-        if (oib.length() != 11) throw new WrongDonorException("Donor oib does not have exactly 11 characters. ");
+        if (oib.length() != 11) throw new WrongDonorException("Oib mora imati točno 11 znakova.");
         return true;
     }
 
