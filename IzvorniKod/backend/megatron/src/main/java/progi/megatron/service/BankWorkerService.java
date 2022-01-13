@@ -105,7 +105,7 @@ public class BankWorkerService {
         bankWorker.setBankWorkerId(user.getUserId());
 
         if (getBankWorkerByOib(bankWorker.getOib()) != null) {
-            throw new WrongDonorException("Bank worker with that oib already exists. ");
+            throw new WrongDonorException("Već postoji djelatnik banke krvi s tim oibom.");
         }
 
         try {
@@ -133,15 +133,15 @@ public class BankWorkerService {
     }
     public BankWorker updateBankWorkerByBankWorker(BankWorker bankWorkerNew) {
         Long bankWorkerId = bankWorkerNew.getBankWorkerId();
-        if (bankWorkerId == null) throw new WrongBankWorkerException("Bank worker id is not given.");
+        if (bankWorkerId == null) throw new WrongBankWorkerException("Id djelatnika banke nije definiran.");
         BankWorker bankWorker = bankWorkerRepository.getBankWorkerByBankWorkerId(bankWorkerId);
-        if (bankWorker == null) throw new WrongBankWorkerException("There is no bank worker with that id.");
+        if (bankWorker == null) throw new WrongBankWorkerException("Ne postoji djelatnik banke krvi s tim id-em.");
         String oibOld = bankWorker.getOib();
         bankWorker = modelMapper.map(bankWorkerNew, BankWorker.class);
         String oibNew = bankWorker.getOib();
         bankWorkerValidator.validateBankWorker(bankWorker);
         if (getBankWorkerByOib(oibNew) != null && !oibNew.equals(oibOld)) {
-            throw new WrongBankWorkerException("Bank worker with that oib already exists.");
+            throw new WrongBankWorkerException("Već postoji djelatnik banke krvi s tim id-em.");
         }
         bankWorkerRepository.save(bankWorker);
         return bankWorker;

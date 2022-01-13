@@ -45,7 +45,10 @@ public class DonorController {
     }
 
     @GetMapping("/verify")
-    public ResponseEntity verifyDonor(@RequestParam(name = "token") String token, final Model model, RedirectAttributes redirAttr) {
+    public ResponseEntity verifyDonor(@RequestParam(name = "token") String token, RedirectAttributes redirAttr) {
+        String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!currentUserId.equals("anonymousUser")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Već ulogirani korisnik se ne može ponovo verificirati.");
+
         if (StringUtils.isEmpty(token)) {
             redirAttr.addFlashAttribute("tokenError", messageSource.getMessage("user.registration.verification.missing.token", null, LocaleContextHolder.getLocale()));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageSource.getMessage("user.registration.verification.missing.token", null, LocaleContextHolder.getLocale()));
@@ -69,7 +72,7 @@ public class DonorController {
     public ResponseEntity<Object> createDonorByDonor(@RequestBody DonorByDonorDTOWithoutId donorByDonorDTOWithoutId) {
         try {
             String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-            if (!userId.equals("anonymousUser")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registered user can not register again.");
+            if (!userId.equals("anonymousUser")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Već registrirani korisnik se ne može ponovo registrirati.");
             else return ResponseEntity.ok(donorService.createDonorByDonor(donorByDonorDTOWithoutId));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
@@ -91,7 +94,7 @@ public class DonorController {
     public ResponseEntity<Object> getDonorByOib(@PathVariable String oib) {
         try {
             Donor donor = donorService.getNotDeactivatedDonorByOib(oib);
-            if (donor == null) return ResponseEntity.ok("No donor with that oib found.");
+            if (donor == null) return ResponseEntity.ok("Ne postoji djelatnik krvi s tim id-em");
             else return ResponseEntity.ok(donor);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
@@ -103,10 +106,10 @@ public class DonorController {
     public ResponseEntity<Object> getDonorByDonorId(@PathVariable String donorId) {
         try {
             if (currentUserUtil.getCurrentUserRole().equals("DONOR") && !currentUserUtil.checkIfCurrentUser(donorId)) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not fetch other donors.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Darivatelj krvi ne može pristupiti podacima drugog darivatelja krvi.");
             }
             Donor donor = donorService.getDonorByDonorId(donorId);
-            if (donor == null) return ResponseEntity.ok("No donor with that id found.");
+            if (donor == null) return ResponseEntity.ok("Ne postoji darivatelj krvi s tim id-em.");
             else return ResponseEntity.ok(donor);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
@@ -148,7 +151,7 @@ public class DonorController {
     public ResponseEntity<Object> updateDonorByDonor(@RequestBody DonorByDonorDTOWithId donorByDonorDTOWithId) {
         try {
             if (!currentUserUtil.checkIfCurrentUser(String.valueOf(donorByDonorDTOWithId.getDonorId()))) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not update other donors.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Darivatelj krvi ne može uređivati podatke drugog darivatelja krvi.");
             }
             return ResponseEntity.ok(donorService.updateDonorByDonor(donorByDonorDTOWithId));
         } catch (Exception ex) {

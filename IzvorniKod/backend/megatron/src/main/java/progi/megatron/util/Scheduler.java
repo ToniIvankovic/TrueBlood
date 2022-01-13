@@ -30,8 +30,6 @@ public class Scheduler {
     @Scheduled(cron = "0 0 12 * * *")   // at noon every day
     public void performTaskUsingCron() {
 
-//        System.out.println("This happens daily.");
-//
 //        List<Long> donationTriesToday = donationTryService.getIdsOfDonorsWhoDonatedToday();
 //        System.out.println("Donors who donated today: " + donationTriesToday);
 //
@@ -43,10 +41,7 @@ public class Scheduler {
            }
        }
 //        System.out.println("Donors whose waiting period is over: " + donationTriesThreeMonthsAgo);
-//
-//        System.out.println();
 
-        // todo: notify donors whose waiting period is over
 
     }
 
