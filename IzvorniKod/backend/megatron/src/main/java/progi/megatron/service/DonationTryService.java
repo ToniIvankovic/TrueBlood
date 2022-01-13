@@ -147,6 +147,15 @@ public class DonationTryService {
         return donationTryRepository.getDonationTryByDonationDate(LocalDate.now()).stream().map(donationTry -> donationTry.getDonor().getDonorId()).collect(Collectors.toList());
     }
 
+    public List<Long> getIdsOfDonorsWhoDonated34MonthsAgo() {
+        List<Long> donorIds3MonthsAgo = donationTryRepository.getDonationTryByDonationDate(LocalDate.now().minusMonths(3)).stream().map(donationTry -> donationTry.getDonor().getDonorId()).collect(Collectors.toList());
+        List<Long> donorIds4MonthsAgo = donationTryRepository.getDonationTryByDonationDate(LocalDate.now().minusMonths(4)).stream().map(donationTry -> donationTry.getDonor().getDonorId()).collect(Collectors.toList());
+        donorIds3MonthsAgo = donorIds3MonthsAgo.stream().filter(id -> donorService.getDonorByDonorId(String.valueOf(id)).getGender().equals("M")).collect(Collectors.toList());
+        donorIds4MonthsAgo = donorIds4MonthsAgo.stream().filter(id -> donorService.getDonorByDonorId(String.valueOf(id)).getGender().equals("F")).collect(Collectors.toList());
+        donorIds3MonthsAgo.addAll(donorIds4MonthsAgo);
+        return donorIds3MonthsAgo;
+    }
+
     public List<Long> getIdsOfDonorsWhoseWaitingPeriodIsOver() {
         List<Donor> donors = donorService.getAllDonors();
         return donors.stream()

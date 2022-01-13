@@ -27,13 +27,14 @@ public class Scheduler {
 
     //@Scheduled(cron = "*/20 * * * * *")   // every 20 seconds
     //@Scheduled(cron = "* */5 * * * *")   // every 5 minutes
+
     @Scheduled(cron = "0 18 17 * * *")   // at noon every day
     public void performTaskUsingCron() {
 
 //        List<Long> donationTriesToday = donationTryService.getIdsOfDonorsWhoDonatedToday();
 //        System.out.println("Donors who donated today: " + donationTriesToday);
 //
-       List<Long> donationTriesThreeMonthsAgo = donationTryService.getIdsOfDonorsWhoseWaitingPeriodIsOver();
+       List<Long> donationTriesThreeMonthsAgo = donationTryService.getIdsOfDonorsWhoDonated34MonthsAgo();
        for (Long id : donationTriesThreeMonthsAgo){
            System.out.println("DONORS id: " + id);
            Donor donor = donorService.getDonorByDonorId(id.toString());
