@@ -70,10 +70,6 @@ public class BankWorkerService {
         return bankWorkerRepository.getNotDeactivatedBankWorkerByOib(oib);
     }
 
-    public List<BankWorker> getAllBankWorkers() {
-        return bankWorkerRepository.findAll();
-    }
-
     public List<BankWorker> getBankWorkersByAny(String query) {
         if (query.isEmpty()) return new LinkedList<>();
 
