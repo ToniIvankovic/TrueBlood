@@ -65,7 +65,6 @@ public class DonorService {
         donorValidator.validateDonor(modelMapper.map(donorByDonorDTOWithoutId, Donor.class));
 
         String password = userService.randomPassword();
-        System.out.println("PASSWORD: " + password);
         User user = new User(Role.DONOR, passwordEncoder.encode(password));
         user = userService.createUser(user);
         Donor donor = modelMapper.map(donorByDonorDTOWithoutId, Donor.class);

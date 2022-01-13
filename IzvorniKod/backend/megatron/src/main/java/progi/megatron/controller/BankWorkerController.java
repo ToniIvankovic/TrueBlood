@@ -34,7 +34,7 @@ public class BankWorkerController {
     }
 
     @Secured({"ROLE_ADMIN"})
-    @PostMapping("/registration")
+    @PostMapping("/add-bank-worker")
     public ResponseEntity<Object> createBankWorker(@RequestBody BankWorkerDTO bankWorkerDTO) {
         try {
             return ResponseEntity.ok(bankWorkerService.createBankWorker(bankWorkerDTO));
