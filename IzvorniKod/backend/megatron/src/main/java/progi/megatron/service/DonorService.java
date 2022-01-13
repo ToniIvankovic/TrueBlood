@@ -1,7 +1,6 @@
 package progi.megatron.service;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jmx.export.notification.UnableToSendNotificationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,8 +20,6 @@ import progi.megatron.validation.DonorValidator;
 import progi.megatron.validation.IdValidator;
 import progi.megatron.validation.OibValidator;
 import javax.mail.MessagingException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,6 +29,9 @@ import java.util.stream.Collectors;
 @Service
 public class DonorService {
 
+    @Value("http://trueblood-be-dev.herokuapp.com/api/v1/donor/")
+    private String baseURL;
+
     private final DonorRepository donorRepository;
     private final UserService userService;
     private final DonorValidator donorValidator;
@@ -40,17 +40,10 @@ public class DonorService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private final SecureTokenRepository secureTokenRepository;
+    private final EmailService emailService;
+    private final SecureTokenService secureTokenService;
 
-    @Autowired
-    private EmailService emailService;
-
-    @Autowired
-    private SecureTokenService secureTokenService;
-
-    @Value("http://trueblood-be-dev.herokuapp.com/api/v1/user/")
-    private String baseURL;
-
-    public DonorService(DonorRepository donorRepository, UserService userService, DonorValidator donorValidator, IdValidator idValidator, OibValidator oibValidator, PasswordEncoder passwordEncoder, SecureTokenRepository secureTokenRepository, ModelMapper modelMapper, SecureTokenRepository secureTokenRepository1) {
+    public DonorService(DonorRepository donorRepository, UserService userService, DonorValidator donorValidator, IdValidator idValidator, OibValidator oibValidator, PasswordEncoder passwordEncoder, ModelMapper modelMapper, SecureTokenRepository secureTokenRepository, EmailService emailService, SecureTokenService secureTokenService) {
         this.donorRepository = donorRepository;
         this.userService = userService;
         this.donorValidator = donorValidator;
@@ -58,7 +51,9 @@ public class DonorService {
         this.oibValidator = oibValidator;
         this.passwordEncoder = passwordEncoder;
         this.modelMapper = modelMapper;
-        this.secureTokenRepository = secureTokenRepository1;
+        this.secureTokenRepository = secureTokenRepository;
+        this.emailService = emailService;
+        this.secureTokenService = secureTokenService;
     }
 
     public Donor createDonorByDonor(DonorByDonorDTOWithoutId donorByDonorDTOWithoutId) {
@@ -71,7 +66,7 @@ public class DonorService {
         donor.setDonorId(user.getUserId());
 
         if (getAllDonorByOib(donor.getOib()) != null) {
-            throw new WrongDonorException("Donor with that oib already exists. ");
+            throw new WrongDonorException("Već postoji darivatelj krvi s tim id-em.");
         }
         donor = donorRepository.save(donor);
         
@@ -95,7 +90,7 @@ public class DonorService {
         donor.setDonorId(user.getUserId());
 
         if (getAllDonorByOib(donor.getOib()) != null) {
-            throw new WrongDonorException("Donor with that oib already exists. ");
+            throw new WrongDonorException("Već postoji darivatelj krvi s tim id-em.");
         }
         donor = donorRepository.save(donor);
 
@@ -104,6 +99,7 @@ public class DonorService {
         }catch (UnableToSendNotificationException e){
             e.printStackTrace();
         }
+
         System.out.println("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
 
         return donor;
@@ -179,9 +175,11 @@ public class DonorService {
     }
 
     public void sendCanDonateAgain(Donor donor){
-        try{
-            emailService.sendNotificationEmail(donor.getEmail(),"Ponovo možeš donirati",donor.getFirstName());
-        }catch (MessagingException e){
+        try {
+            System.out.println("Gonna try to send mail now ");
+            emailService.sendNotificationEmail(donor.getEmail(),"Ponovo možeš donirati", donor.getFirstName());
+        } catch (MessagingException e){
+            System.out.println("Didnt manage to send mail");
             e.printStackTrace();
         }
 
@@ -189,15 +187,15 @@ public class DonorService {
 
     public Donor updateDonorByDonor(DonorByDonorDTOWithId donorNew) {
         Long donorId = donorNew.getDonorId();
-        if (donorId == null) throw new WrongDonorException("Donor id is not given. ");
+        if (donorId == null) throw new WrongDonorException("Id darivatelja krvi nije definiran.");
         Donor donor = donorRepository.getNotDeactivatedDonorByDonorId(donorId);
-        if (donor == null) throw new WrongDonorException("There is no donor with that id.");
+        if (donor == null) throw new WrongDonorException("Ne postoji darivatelj krvi s tim id-em.");
         String oibOld = donor.getOib();
         donor = modelMapper.map(donorNew, Donor.class);
         String oibNew = donor.getOib();
         donorValidator.validateDonor(donor);
         if (getAllDonorByOib(oibNew) != null && !oibNew.equals(oibOld)) {
-            throw new WrongDonorException("Can not change donor's oib because there already exists another donor with that oib. ");
+            throw new WrongDonorException("Nije moguće promjeniti oib darivatelja krvi jer već postoji darivatelj krvi s tim oibom.");
         }
         donorRepository.save(donor);
         return donor;
@@ -205,15 +203,15 @@ public class DonorService {
 
     public Donor updateDonorByBankWorker(Donor donorNew) {
         Long donorId = donorNew.getDonorId();
-        if (donorId == null) throw new WrongDonorException("Donor id is not given. ");
+        if (donorId == null) throw new WrongDonorException("Id darivatelja krvi nije definiran.");
         Donor donor = donorRepository.getNotDeactivatedDonorByDonorId(donorId);
-        if (donor == null) throw new WrongDonorException("There is no donor with that id.");
+        if (donor == null) throw new WrongDonorException("Ne postoji darivatelj krvi s tim id-em.");
         String oibOld = donor.getOib();
         donor = modelMapper.map(donorNew, Donor.class);
         String oibNew = donor.getOib();
         donorValidator.validateDonor(donor);
         if (getAllDonorByOib(oibNew) != null && !oibNew.equals(oibOld)) {
-            throw new WrongDonorException("Can not change donor's oib because there already exists another donor with that oib. ");
+            throw new WrongDonorException("Nije moguće promjeniti oib darivatelja krvi jer već postoji darivatelj krvi s tim oibom.");
         }
         donorRepository.save(donor);
         return donor;

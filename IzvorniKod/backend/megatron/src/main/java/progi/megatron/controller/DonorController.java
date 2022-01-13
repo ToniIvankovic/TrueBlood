@@ -1,7 +1,6 @@
 package progi.megatron.controller;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
@@ -9,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import progi.megatron.exception.InvalidTokenException;
@@ -21,8 +19,6 @@ import progi.megatron.service.DonorService;
 import progi.megatron.service.UserService;
 import progi.megatron.util.CurrentUserUtil;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v1/donor")
@@ -30,13 +26,12 @@ public class DonorController {
 
     private static final String REDIRECT_LOGIN = "redirect:/login";
 
-    @Autowired
-    private UserService userService;
-
+    private final UserService userService;
     private final DonorService donorService;
     private final CurrentUserUtil currentUserUtil;
 
-    public DonorController(DonorService donorService, CurrentUserUtil currentUserUtil) {
+    public DonorController(UserService userService, DonorService donorService, CurrentUserUtil currentUserUtil) {
+        this.userService = userService;
         this.donorService = donorService;
         this.currentUserUtil = currentUserUtil;
     }
@@ -45,7 +40,7 @@ public class DonorController {
     public ResponseEntity<Object> createDonorByDonor(@RequestBody DonorByDonorDTOWithoutId donorByDonorDTOWithoutId) {
         try {
             String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-            if (!userId.equals("anonymousUser")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registered user can not register again.");
+            if (!userId.equals("anonymousUser")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Već registrirani korisnik se ne može ponovo registrirati.");
             else return ResponseEntity.ok(donorService.createDonorByDonor(donorByDonorDTOWithoutId));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
@@ -67,7 +62,7 @@ public class DonorController {
     public ResponseEntity<Object> getDonorByOib(@PathVariable String oib) {
         try {
             Donor donor = donorService.getNotDeactivatedDonorByOib(oib);
-            if (donor == null) return ResponseEntity.ok("No donor with that oib found.");
+            if (donor == null) return ResponseEntity.ok("Ne postoji djelatnik krvi s tim id-em");
             else return ResponseEntity.ok(donor);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
@@ -79,10 +74,10 @@ public class DonorController {
     public ResponseEntity<Object> getDonorByDonorId(@PathVariable String donorId) {
         try {
             if (currentUserUtil.getCurrentUserRole().equals("DONOR") && !currentUserUtil.checkIfCurrentUser(donorId)) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not fetch other donors.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Darivatelj krvi ne može pristupiti podacima drugog darivatelja krvi.");
             }
             Donor donor = donorService.getDonorByDonorId(donorId);
-            if (donor == null) return ResponseEntity.ok("No donor with that id found.");
+            if (donor == null) return ResponseEntity.ok("Ne postoji darivatelj krvi s tim id-em.");
             else return ResponseEntity.ok(donor);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
@@ -124,7 +119,7 @@ public class DonorController {
     public ResponseEntity<Object> updateDonorByDonor(@RequestBody DonorByDonorDTOWithId donorByDonorDTOWithId) {
         try {
             if (!currentUserUtil.checkIfCurrentUser(String.valueOf(donorByDonorDTOWithId.getDonorId()))) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not update other donors.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Darivatelj krvi ne može uređivati podatke drugog darivatelja krvi.");
             }
             return ResponseEntity.ok(donorService.updateDonorByDonor(donorByDonorDTOWithId));
         } catch (Exception ex) {

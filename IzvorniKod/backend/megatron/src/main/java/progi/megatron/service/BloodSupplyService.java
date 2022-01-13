@@ -145,7 +145,6 @@ public class BloodSupplyService {
 
         for(String bloodType : bloodSupplyRequestDTO.getBloodTypes()){
             bloodSupplyValidator.validateBloodType(bloodType, this.bloodTypes);
-            //BloodSupply bloodSupply = bloodSupplyRepository.getBloodSupplyByBloodType(bloodSupplyRequestDTO.getBloodType());
             BloodSupply bloodSupply = bloodSupplyRepository.getBloodSupplyByBloodType(bloodType);
             String oldReview = getReview(bloodSupply);
             bloodSupply.setMaxUnits(bloodSupplyRequestDTO.getMaxUnits()[i]);

@@ -22,11 +22,11 @@ public class DonorValidator {
 
     public boolean validateDonor(Donor donor) {
         if (oibValidator.validateOib(donor.getOib()) == false) return false;
-        if (!donor.getEmail().contains("@")) throw new WrongDonorException("Donor email is not correct. ");
+        if (!donor.getEmail().contains("@")) throw new WrongDonorException("Email nije validan.");
         String gender = donor.getGender();
-        if (gender.length() != 1) throw new WrongDonorException("Donor gender is invalid. ");
-        if (gender.equals("M") && gender.equals("F")) throw new WrongDonorException("Donor gender is invalid. ");
-        if (donor.getBirthDate().plusYears(18).isAfter(LocalDate.now())) throw new WrongDonorException("Donor must be at least 18 years old. ");
+        if (gender.length() != 1) throw new WrongDonorException("Spol nije validan.");
+        if (gender.equals("M") && gender.equals("F")) throw new WrongDonorException("Spol nije validan.");
+        if (donor.getBirthDate().plusYears(18).isAfter(LocalDate.now())) throw new WrongDonorException("Darivatelj krvi mora biti punoljetan.");
         if (donor.getBloodType() != null) {
             bloodSupplyValidator.validateBloodType(donor.getBloodType(), bloodTypes);
         }

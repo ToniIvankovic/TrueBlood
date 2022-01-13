@@ -29,7 +29,7 @@ public class Donor implements Serializable {
 
     private String gender;
 
-    @JsonFormat(pattern="dd.MM.yyyy")
+    @JsonFormat(pattern="dd.MM.yyyy.")
     private LocalDate birthDate;
 
     private String birthPlace;

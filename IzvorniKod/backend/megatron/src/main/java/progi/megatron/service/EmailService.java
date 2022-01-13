@@ -1,9 +1,7 @@
 package progi.megatron.service;
 
 import com.itextpdf.html2pdf.HtmlConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -29,11 +27,13 @@ import java.util.List;
 @Service
 public class EmailService{
 
-    @Autowired
-    private JavaMailSender emailSender;
+    private final JavaMailSender emailSender;
+    private final SpringTemplateEngine templateEngine;
 
-    @Autowired
-    private SpringTemplateEngine templateEngine;
+    public EmailService(JavaMailSender emailSender, SpringTemplateEngine templateEngine) {
+        this.emailSender = emailSender;
+        this.templateEngine = templateEngine;
+    }
 
     public void sendMail(AbstractEmailContext email, Long id, String password) throws MessagingException {
         MimeMessage message = emailSender.createMimeMessage();

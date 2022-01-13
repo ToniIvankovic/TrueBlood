@@ -1,7 +1,6 @@
 package progi.megatron.service;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jmx.export.notification.UnableToSendNotificationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,6 +29,9 @@ import java.util.stream.Collectors;
 @Service
 public class BankWorkerService {
 
+    @Value("http://trueblood-be-dev.herokuapp.com/api/v1/bank-worker/")
+    private String baseURL;
+
     private final BankWorkerRepository bankWorkerRepository;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
@@ -38,17 +40,10 @@ public class BankWorkerService {
     private final BankWorkerValidator bankWorkerValidator;
     private final ModelMapper modelMapper;
     private final SecureTokenRepository secureTokenRepository;
+    private final EmailService emailService;
+    private final SecureTokenService secureTokenService;
 
-    @Autowired
-    private EmailService emailService;
-
-    @Autowired
-    private SecureTokenService secureTokenService;
-
-    @Value("http://trueblood-be-dev.herokuapp.com/api/v1/user/")
-    private String baseURL;
-
-    public BankWorkerService(BankWorkerRepository bankWorkerRepository, UserService userService, PasswordEncoder passwordEncoder, IdValidator idValidator, OibValidator oibValidator, BankWorkerValidator bankWorkerValidator, ModelMapper modelMapper, SecureTokenRepository secureTokenRepository) {
+    public BankWorkerService(BankWorkerRepository bankWorkerRepository, UserService userService, PasswordEncoder passwordEncoder, IdValidator idValidator, OibValidator oibValidator, BankWorkerValidator bankWorkerValidator, ModelMapper modelMapper, SecureTokenRepository secureTokenRepository, EmailService emailService, SecureTokenService secureTokenService) {
         this.bankWorkerRepository = bankWorkerRepository;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
@@ -57,9 +52,13 @@ public class BankWorkerService {
         this.bankWorkerValidator = bankWorkerValidator;
         this.modelMapper = modelMapper;
         this.secureTokenRepository = secureTokenRepository;
+        this.emailService = emailService;
+        this.secureTokenService = secureTokenService;
     }
 
-    java.util.logging.Logger logger =  java.util.logging.Logger.getLogger(this.getClass().getName());
+    public List<BankWorker> getAllBankWorkers() {
+        return bankWorkerRepository.findAll();
+    }
 
     public BankWorker getBankWorkerByBankWorkerId(String bankWorkerId) {
         idValidator.validateId(bankWorkerId);
@@ -76,15 +75,14 @@ public class BankWorkerService {
     }
 
     public List<BankWorker> getBankWorkersByAny(String query) {
-        if(query.isEmpty())
-            return new LinkedList<>();
+        if (query.isEmpty()) return new LinkedList<>();
 
         Set<BankWorker> bankWorkerSet = new HashSet<>();
         String[] querySplit = query.split(" ");
         boolean firstPass = true;
-        for(String part : querySplit){
+        for (String part : querySplit) {
             Set<BankWorker> localBankWorkerSet = new HashSet<>();
-            try{
+            try {
                 BankWorker bankWorkerById = bankWorkerRepository.getBankWorkerByBankWorkerId(Long.valueOf(part));
                 if(bankWorkerById != null) localBankWorkerSet.add(bankWorkerById);
             } catch (NumberFormatException e){
@@ -92,7 +90,7 @@ public class BankWorkerService {
             localBankWorkerSet.addAll(bankWorkerRepository.getBankWorkersByOibIsContaining(part));
             localBankWorkerSet.addAll(bankWorkerRepository.getBankWorkerByFirstNameIsContainingIgnoreCase(part));
             localBankWorkerSet.addAll(bankWorkerRepository.getBankWorkerByLastNameIsContainingIgnoreCase(part));
-            if(firstPass) bankWorkerSet.addAll(localBankWorkerSet);
+            if (firstPass) bankWorkerSet.addAll(localBankWorkerSet);
             else bankWorkerSet.retainAll(localBankWorkerSet);
             firstPass = false;
         }
@@ -111,14 +109,15 @@ public class BankWorkerService {
         bankWorkerValidator.validateBankWorker(bankWorker);
 
         if (getBankWorkerByOib(bankWorker.getOib()) != null) {
-            throw new WrongDonorException("Bank worker with that oib already exists. ");
+            throw new WrongDonorException("Već postoji djelatnik banke krvi s tim oibom.");
         }
 
         try {
             sendRegistrationConfirmationEmail(bankWorker, user.getUserId(), password);
-        }catch (UnableToSendNotificationException e){
+        } catch (UnableToSendNotificationException e){
             e.printStackTrace();
         }
+
         System.out.println("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
 
         return bankWorkerRepository.save(bankWorker);
@@ -139,15 +138,15 @@ public class BankWorkerService {
     }
     public BankWorker updateBankWorkerByBankWorker(BankWorker bankWorkerNew) {
         Long bankWorkerId = bankWorkerNew.getBankWorkerId();
-        if (bankWorkerId == null) throw new WrongBankWorkerException("Bank worker id is not given.");
+        if (bankWorkerId == null) throw new WrongBankWorkerException("Id djelatnika banke nije definiran.");
         BankWorker bankWorker = bankWorkerRepository.getBankWorkerByBankWorkerId(bankWorkerId);
-        if (bankWorker == null) throw new WrongBankWorkerException("There is no bank worker with that id.");
+        if (bankWorker == null) throw new WrongBankWorkerException("Ne postoji djelatnik banke krvi s tim id-em.");
         String oibOld = bankWorker.getOib();
         bankWorker = modelMapper.map(bankWorkerNew, BankWorker.class);
         String oibNew = bankWorker.getOib();
         bankWorkerValidator.validateBankWorker(bankWorker);
         if (getBankWorkerByOib(oibNew) != null && !oibNew.equals(oibOld)) {
-            throw new WrongBankWorkerException("Bank worker with that oib already exists.");
+            throw new WrongBankWorkerException("Već postoji djelatnik banke krvi s tim id-em.");
         }
         bankWorkerRepository.save(bankWorker);
         return bankWorker;

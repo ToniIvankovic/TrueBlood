@@ -1,7 +1,6 @@
 package progi.megatron.service;
 
 import com.itextpdf.html2pdf.HtmlConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -30,45 +29,44 @@ public class DonationTryService {
     private final BankWorkerService bankWorkerService;
     private final BloodSupplyService bloodSupplyService;
     private final IdValidator idValidator;
+    private final EmailService emailService;
+    private final SpringTemplateEngine templateEngine;
 
-    @Autowired
-    private EmailService emailService;
-    @Autowired
-    private SpringTemplateEngine templateEngine;
-
-    public DonationTryService(DonationTryRepository donationTryRepository, DonorService donorService, BankWorkerService bankWorkerService, BloodSupplyService bloodSupplyService, IdValidator idValidator) {
+    public DonationTryService(DonationTryRepository donationTryRepository, DonorService donorService, BankWorkerService bankWorkerService, BloodSupplyService bloodSupplyService, IdValidator idValidator, EmailService emailService, SpringTemplateEngine templateEngine) {
         this.donationTryRepository = donationTryRepository;
         this.donorService = donorService;
         this.bankWorkerService = bankWorkerService;
         this.bloodSupplyService = bloodSupplyService;
         this.idValidator = idValidator;
+        this.emailService = emailService;
+        this.templateEngine = templateEngine;
     }
 
     public DonationTryResponseDTO createDonationTry(DonationTryRequestDTO donationTryRequestDTO) throws MessagingException {
 
         LocalDate lastDonationDate = getLastDonationDateForDonor(donationTryRequestDTO.getDonorId());
         Donor donor = donorService.getDonorByDonorId(donationTryRequestDTO.getDonorId());
-        if (donor == null) throw new WrongDonorException("There is no donor with that id.");
-        if (donor.getBloodType() == null) throw new WrongDonorException("Blood type for this donor is not defined.");
+        if (donor == null) throw new WrongDonorException("Ne postoji darivatelj krvi s tim id-em.");
+        if (donor.getBloodType() == null) throw new WrongDonorException("Krvna grupa ovog darivatelja krvi nije definirana.");
 
         if (lastDonationDate != null) {
             String gender = donor.getGender();
             if (gender.equals("M") && lastDonationDate.plusMonths(3).isAfter(LocalDate.now())) {
-                throw new DonationWaitingPeriodNotOver("Male donor must wait at least three months after last donation before a new blood donation.");
+                throw new DonationWaitingPeriodNotOver("Muški darivatelj krvi treba pričekati tri mjeseca prije nego što ponovo može darivati krv.");
             }
             if (gender.equals("F") && lastDonationDate.plusMonths(4).isAfter(LocalDate.now())) {
-                throw new DonationWaitingPeriodNotOver("Female donor must wait at least four months after last donation before a new blood donation.");
+                throw new DonationWaitingPeriodNotOver("Ženski darivatelj krvi treba pričekati četiri mjeseca prije nego što ponovo može darivati krv.");
             }
         }
 
         boolean donated = false;
 
         BankWorker bankWorker = bankWorkerService.getBankWorkerByBankWorkerId(donationTryRequestDTO.getBankWorkerId());
-        if (bankWorker == null) throw new WrongBankWorkerException("There is no bank worker with that id.");
+        if (bankWorker == null) throw new WrongBankWorkerException("Ne postoji djelatnik banke krvi s tim id-em.");
 
         if (donationTryRequestDTO.getRejectReason() == null) {
             if (donor.getPermRejectedReason() != null) {
-                donationTryRequestDTO.setRejectReason("Donor je trajno odbijen.");
+                donationTryRequestDTO.setRejectReason("Darivatelj krvi je trajno odbijen.");
             } else {
                 bloodSupplyService.manageBloodSupply(new String[]{donor.getBloodType()}, new int[]{1}, true);
                 donated = true;
@@ -77,7 +75,7 @@ public class DonationTryService {
 
         if (donationTryRequestDTO.isReasonPerm()) {
             String permRejectReason = donationTryRequestDTO.getRejectReason();
-            if (permRejectReason == null) throw new WrongDonationTryException("No reason for rejection given.");
+            if (permRejectReason == null) throw new WrongDonationTryException("Razlog odbijanja je neispravno definiran.");
             donor.setPermRejectedReason(permRejectReason);
             donorService.updateDonorByBankWorker(donor);
         }
@@ -141,7 +139,7 @@ public class DonationTryService {
             HtmlConverter.convertToPdf(content,target);
             byte[] bytes = target.toByteArray();
             return bytes;
-        }else throw new DonationTryNotFound("Donation try can not be found");
+        } else throw new WrongDonationTryException("Ne postoji pokušaj doniranja s tim id-em.");
 
     }
 
@@ -172,14 +170,14 @@ public class DonationTryService {
     public long getWhenIsWaitingPeriodOverForDonor(String donorId) {
         idValidator.validateId(donorId);
         LocalDate lastDonationDate = getLastDonationDateForDonor(donorId);
-        long daysUnitlWaitingPeriodOver;
+        long daysUntilWaitingPeriodOver;
         if (lastDonationDate == null) return 0;
         else {
             Donor donor = donorService.getDonorByDonorId(donorId);
-            if (donor.getGender().equals("M")) daysUnitlWaitingPeriodOver = LocalDate.now().datesUntil(lastDonationDate.plusMonths(3)).count();
-            else daysUnitlWaitingPeriodOver = LocalDate.now().datesUntil(lastDonationDate.plusMonths(4)).count();
+            if (donor.getGender().equals("M")) daysUntilWaitingPeriodOver = LocalDate.now().datesUntil(lastDonationDate.plusMonths(3)).count();
+            else daysUntilWaitingPeriodOver = LocalDate.now().datesUntil(lastDonationDate.plusMonths(4)).count();
         }
-        return daysUnitlWaitingPeriodOver;
+        return daysUntilWaitingPeriodOver;
     }
 
 }

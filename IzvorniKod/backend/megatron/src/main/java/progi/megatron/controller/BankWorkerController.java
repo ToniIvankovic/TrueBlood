@@ -1,7 +1,6 @@
 package progi.megatron.controller;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
@@ -16,7 +15,6 @@ import progi.megatron.model.dto.BankWorkerDTO;
 import progi.megatron.service.BankWorkerService;
 import progi.megatron.service.UserService;
 import progi.megatron.util.CurrentUserUtil;
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @CrossOrigin
@@ -24,13 +22,13 @@ import javax.servlet.http.HttpServletRequest;
 public class BankWorkerController {
 
     private final BankWorkerService bankWorkerService;
-    private final CurrentUserUtil currentUserUtil;
     private final UserService userService;
+    private final MessageSource messageSource;
 
-    public BankWorkerController(BankWorkerService bankWorkerService, CurrentUserUtil currentUserUtil, UserService userService) {
+    public BankWorkerController(BankWorkerService bankWorkerService, UserService userService, MessageSource messageSource) {
         this.bankWorkerService = bankWorkerService;
-        this.currentUserUtil = currentUserUtil;
         this.userService = userService;
+        this.messageSource = messageSource;
     }
 
     @Secured({"ROLE_ADMIN"})
@@ -48,7 +46,7 @@ public class BankWorkerController {
     public ResponseEntity<Object> getBankWorkerByOib(@PathVariable String oib) {
         try {
             BankWorker bankWorker = bankWorkerService.getBankWorkerByOib(oib);
-            if (bankWorker == null) return ResponseEntity.ok("No bank worker with that oib found.");
+            if (bankWorker == null) return ResponseEntity.ok("Ne postoji djelatinik banke s tim id-em.");
             return ResponseEntity.ok(bankWorker);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
@@ -60,7 +58,7 @@ public class BankWorkerController {
     public ResponseEntity<Object> getBankWorkerByBankWorkerId(@PathVariable String bankWorkerId) {
         try {
             BankWorker bankWorker = bankWorkerService.getBankWorkerByBankWorkerId(bankWorkerId);
-            if (bankWorker == null) return ResponseEntity.ok("No bank worker with that id found.");
+            if (bankWorker == null) return ResponseEntity.ok("Ne postoji djelatinik banke s tim id-em.");
             return ResponseEntity.ok(bankWorker);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
@@ -83,7 +81,7 @@ public class BankWorkerController {
         try {
             String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
             if (!currentUserId.equals(bankWorkerId.getBankWorkerId().toString())) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bank worker can not update other bank workers.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Djelatnik banke ne može uređivati podatke drugog djelatnika banke.");
             }
             return ResponseEntity.ok(bankWorkerService.updateBankWorkerByBankWorker(bankWorkerId));
         } catch (Exception ex) {

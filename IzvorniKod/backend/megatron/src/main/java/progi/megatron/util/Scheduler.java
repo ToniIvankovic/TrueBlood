@@ -25,28 +25,24 @@ public class Scheduler {
         this.donorService = donorService;
     }
 
-    //@Scheduled(cron = "*/5 * * * * *")   // every 5 seconds
+    //@Scheduled(cron = "*/20 * * * * *")   // every 20 seconds
     //@Scheduled(cron = "* */5 * * * *")   // every 5 minutes
-    @Scheduled(cron = "0 0 12 * * *")   // at noon every day
+    @Scheduled(cron = "0 0 17 * * *")   // at noon every day
     public void performTaskUsingCron() {
 
-//        System.out.println("This happens daily.");
-//
 //        List<Long> donationTriesToday = donationTryService.getIdsOfDonorsWhoDonatedToday();
 //        System.out.println("Donors who donated today: " + donationTriesToday);
 //
        List<Long> donationTriesThreeMonthsAgo = donationTryService.getIdsOfDonorsWhoseWaitingPeriodIsOver();
-       for(Long id : donationTriesThreeMonthsAgo){
+       for (Long id : donationTriesThreeMonthsAgo){
+           System.out.println("DONORS id: " + id);
            Donor donor = donorService.getDonorByDonorId(id.toString());
-           if(donor.getPermRejectedReason() == null){
+           if (donor.getPermRejectedReason() == null){
                donorService.sendCanDonateAgain(donor);
            }
        }
 //        System.out.println("Donors whose waiting period is over: " + donationTriesThreeMonthsAgo);
-//
-//        System.out.println();
 
-        // todo: notify donors whose waiting period is over
 
     }
 

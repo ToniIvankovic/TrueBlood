@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import progi.megatron.controller.UserController;
+import progi.megatron.exception.UserNotActivatedException;
 import progi.megatron.security.LoggedInResponse;
 import progi.megatron.model.User;
 import progi.megatron.service.UserService;
@@ -24,13 +25,11 @@ public class LoginController {
 //    private final AuthenticationManager authenticationManager;
 //    private final JwtTokenUtil jwtTokenUtil;
     private final UserService userService;
-    private final UserController userController;
 
-    public LoginController(UserService userService, UserController userController) {
+    public LoginController(UserService userService) {
 //        this.authenticationManager = authenticationManager;
 //        this.jwtTokenUtil = jwtTokenUtil;
         this.userService = userService;
-        this.userController = userController;
     }
 
     //@Secured({"ROLE_DONOR", "ROLE_BANK_WORKER", "ROLE_ADMIN"})
@@ -47,9 +46,9 @@ public class LoginController {
             String userId = SecurityContextHolder.getContext().getAuthentication().getName();
             User user = userService.findNotDeactivatedUserById(userId);
 
-            // todo: uncomment this after activation link is finished
-            //if (user.getAccActivated() != 1) throw new UserNotActivatedException("Account not activated");
-            //if (user.getPermDeactivated() != 0) throw new UserNotActivatedException("Account is permanently deactivated.");
+            if (user.getAccActivated() != 1) {
+                throw new UserNotActivatedException("Račun nije aktiviran.");
+            }
 
 //            HttpHeaders responseHeaders = new HttpHeaders();
 //            responseHeaders.add(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, HttpHeaders.ALL);
@@ -63,7 +62,7 @@ public class LoginController {
             return ResponseEntity.ok()
                     //.headers(responseHeaders)
                     .body(user.getUserId());
-        } catch (BadCredentialsException ex) {   // | UserNotActivatedException ex) {
+        } catch (BadCredentialsException | UserNotActivatedException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
         }
 
