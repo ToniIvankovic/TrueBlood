@@ -53,23 +53,30 @@ const Login = (props) => {
                     return;
                 }
                 const response = error.response;
+
                 if (range(400, 500).includes(response.status)) {
                     if (response.status == 401) {
-                        // authentication error, userid or password incorrect
-                        console.log('userid and/or password incorrect');
-                        setErrorMessage('Netočan ID ili lozinka!');
-                        setErrorHidden(false);
-                    } else {
-                        if(response.includes("not activated")){
+                        if(response.data.includes("nije aktiviran")){
                             setErrorMessage('Račun nije aktiviran - molimo prije korištenja aktivirajte račun poveznicom u e-pošti');
                             setErrorHidden(false);
-                        } else if (response.includes("permanently deactivated")){
+                        } else if (response.data.includes("trajno deaktiviran")){
                             setErrorMessage('Račun je deaktiviran - ako mislite da je ovo greška, molimo kontaktirajte administratora sustava');
                             setErrorHidden(false);
+                        } else{
+                            setErrorMessage('Netočan ID ili lozinka!');
+                            setErrorHidden(false);
                         }
+                    } else {
+                        setErrorMessage(response.data);
+                        setErrorHidden(false);
                     }
                 } else if (range(500, 600).includes(response.status)) {
                     console.log('Internal server error: ' + response.statusText);
+                    setErrorMessage("Unutarnja greška");
+                    setErrorHidden(false);
+                } else{
+                    setErrorMessage("Nepoznata greška pri prijavi u sustav");
+                    setErrorHidden(false);
                 }
             });
     }

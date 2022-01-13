@@ -6,16 +6,16 @@ import progi.megatron.model.Donor;
 import progi.megatron.service.BloodSupplyService;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Component
 public class DonorValidator {
 
-    public final BloodSupplyService bloodSupplyService;
     public final BloodSupplyValidator bloodSupplyValidator;
     public final OibValidator oibValidator;
+    public final List<String> bloodTypes = List.of("A+", "A-", "B+", "B-", "0+", "0-", "AB+", "AB-");
 
-    public DonorValidator(BloodSupplyService bloodSupplyService, BloodSupplyValidator bloodSupplyValidator, OibValidator oibValidator) {
-        this.bloodSupplyService = bloodSupplyService;
+    public DonorValidator(BloodSupplyValidator bloodSupplyValidator, OibValidator oibValidator) {
         this.bloodSupplyValidator = bloodSupplyValidator;
         this.oibValidator = oibValidator;
     }
@@ -28,7 +28,7 @@ public class DonorValidator {
         if (gender.equals("M") && gender.equals("F")) throw new WrongDonorException("Spol nije validan.");
         if (donor.getBirthDate().plusYears(18).isAfter(LocalDate.now())) throw new WrongDonorException("Darivatelj krvi mora biti punoljetan.");
         if (donor.getBloodType() != null) {
-            bloodSupplyValidator.validateBloodType(donor.getBloodType(), bloodSupplyService.bloodTypes);
+            bloodSupplyValidator.validateBloodType(donor.getBloodType(), bloodTypes);
         }
         return true;
     }

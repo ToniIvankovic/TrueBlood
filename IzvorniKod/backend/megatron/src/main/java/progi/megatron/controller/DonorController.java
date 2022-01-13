@@ -30,16 +30,12 @@ public class DonorController {
 
     private static final String REDIRECT_LOGIN = "redirect:/login";
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private MessageSource messageSource;
-
+    private final UserService userService;
     private final DonorService donorService;
     private final CurrentUserUtil currentUserUtil;
 
-    public DonorController(DonorService donorService, CurrentUserUtil currentUserUtil) {
+    public DonorController(UserService userService, DonorService donorService, CurrentUserUtil currentUserUtil) {
+        this.userService = userService;
         this.donorService = donorService;
         this.currentUserUtil = currentUserUtil;
     }
@@ -48,7 +44,7 @@ public class DonorController {
     public ResponseEntity<Object> createDonorByDonor(@RequestBody DonorByDonorDTOWithoutId donorByDonorDTOWithoutId) {
         try {
             String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-            if (!userId.equals("anonymousUser")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registered user can not register again.");
+            if (!userId.equals("anonymousUser")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Već registrirani korisnik se ne može ponovo registrirati.");
             else return ResponseEntity.ok(donorService.createDonorByDonor(donorByDonorDTOWithoutId));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());

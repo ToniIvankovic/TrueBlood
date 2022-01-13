@@ -84,7 +84,7 @@ public class DonationTryController {
             if (role.equals("DONOR") && !currentUserUtil.checkIfCurrentUser(donorId)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Darivatelj krvi ne može pristupiti podacima drugog darivatelja krvi.");
             }
-            return ResponseEntity.ok(donationTryService.getLastDonationDateForDonor(donorId).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+            return ResponseEntity.ok(donationTryService.getLastDonationDateForDonor(donorId).format(DateTimeFormatter.ofPattern("dd.MM.yyyy.")));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }

@@ -3,7 +3,8 @@ import {
     Box,
     debounce,
     InputAdornment,
-    TextField
+    TextField,
+    Stack
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "../util/axios-instance";
@@ -80,6 +81,24 @@ const SearchBar = (props) => {
                     paginationMode="client"
                     disableSelectionOnClick
                     loading={props.loading}
+                    components={{
+                        NoRowsOverlay: () => (
+                          <Stack height="100%" alignItems="center" justifyContent="center">
+                            Nema rezultata
+                          </Stack>
+                        ),
+                        NoResultsOverlay: () => (
+                          <Stack height="100%" alignItems="center" justifyContent="center">
+                            Nema rezultata
+                          </Stack>
+                        )
+                      }}
+                    componentsProps={{
+                        pagination: {
+                            labelRowsPerPage: "Rezultata po stranici"
+                        }
+
+                    }}
                 />
             </Box>
         </>

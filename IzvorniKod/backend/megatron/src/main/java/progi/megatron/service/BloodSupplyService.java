@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import progi.megatron.exception.TooManyBloodUnitsException;
+import progi.megatron.model.BankWorker;
 import progi.megatron.model.BloodSupply;
 import progi.megatron.model.Donor;
 import progi.megatron.model.dto.BloodSupplyRequestDTO;
@@ -12,9 +13,8 @@ import progi.megatron.repository.BloodSupplyRepository;
 import progi.megatron.validation.BloodSupplyValidator;
 
 import javax.mail.MessagingException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class BloodSupplyService {
@@ -25,26 +25,19 @@ public class BloodSupplyService {
     private final BloodSupplyValidator bloodSupplyValidator;
     private final ModelMapper modelMapper;
     private final DonorService donorService;
-    private final DonationTryService donationTryService;
-    private boolean overLimit = false;
+    private final BankWorkerService bankWorkerService;
+    //private final DonationTryService donationTryService;
 
     @Autowired
     private EmailService emailService;
 
-    public boolean isOverLimit() {
-        return overLimit;
-    }
-
-    public void setOverLimit(boolean overLimit) {
-        this.overLimit = overLimit;
-    }
-
-    public BloodSupplyService(BloodSupplyRepository bloodSupplyRepository, BloodSupplyValidator bloodSupplyValidator, ModelMapper modelMapper, DonorService donorService, DonationTryService donationTryService) {
+    public BloodSupplyService(BloodSupplyRepository bloodSupplyRepository, BloodSupplyValidator bloodSupplyValidator, ModelMapper modelMapper, DonorService donorService, BankWorkerService bankWorkerService) {
         this.bloodSupplyRepository = bloodSupplyRepository;
         this.bloodSupplyValidator = bloodSupplyValidator;
         this.modelMapper = modelMapper;
         this.donorService = donorService;
-        this.donationTryService = donationTryService;
+        this.bankWorkerService = bankWorkerService;
+        //this.donationTryService = donationTryService;
     }
 
     public BloodSupplyResponseDTO getBloodSupplyByBloodType(String bloodType) {
@@ -53,50 +46,87 @@ public class BloodSupplyService {
         return new BloodSupplyResponseDTO(bloodSupply.getBloodType(), bloodSupply.getNumberOfUnits(), getReview(bloodSupply), bloodSupply.getMaxUnits(), bloodSupply.getMinUnits());
     }
 
-    public int[] manageBloodSupply(String[] bloodTypes, int[] bloodSupplies, boolean increase) throws MessagingException {
+    public int[] manageBloodSupply(String[] bloodTypes, int[] bloodSupplies, boolean increase) {
         int i = 0;
         int[] newStates = new int[8];
-        System.out.println(bloodSupplies);
+        List<String> bloodTypesOverLimit = new LinkedList<>();
+        List<String> bloodTypesUnderLimit = new LinkedList<>();
         for(String bloodType : bloodTypes){
             int numberOfUnits = bloodSupplies[i];
-            bloodSupplyValidator.validateBloodType(bloodType, this.bloodTypes);
-            List<Donor> donors = donorService.getAllDonorsWithBloodType(bloodType);
             BloodSupply bloodSupply = bloodSupplyRepository.getBloodSupplyByBloodType(bloodType);
             int oldNumberOfUnits = bloodSupply.getNumberOfUnits();
+            if (oldNumberOfUnits < numberOfUnits) {
+                throw new TooManyBloodUnitsException("U sustavu nema dovoljno krvi tražene krvne grupe.");
+            }
+            bloodSupplyValidator.validateBloodType(bloodType, this.bloodTypes);
+            List<Donor> donors = donorService.getAllDonorsWithBloodType(bloodType);
             if (increase) {
-                if(bloodSupply.getMaxUnits() <= (oldNumberOfUnits+1) && !overLimit){
-                    for(Donor donor : donors){
-                        if(donationTryService.getWhenIsWaitingPeriodOverForDonor(donor.getDonorId().toString()) < 1){
-                            emailService.tooMuchBloodEmail(donor.getEmail(),donor.getFirstName());
-                        }
-                    }
+                if(oldNumberOfUnits <= bloodSupply.getMaxUnits() && (oldNumberOfUnits+1) > bloodSupply.getMaxUnits()){
+                    bloodTypesOverLimit.add(bloodType.trim());
                 }
-                overLimit = true;
                 bloodSupplyRepository.manageBloodSupply(bloodType, oldNumberOfUnits + 1);
-            } else if (oldNumberOfUnits < numberOfUnits) {
-                throw new TooManyBloodUnitsException("Ne postoji dovoljno jedinica krvi za provedbu željene transakcije.");
             } else {
-                overLimit = false;
-                if(bloodSupply.getMaxUnits() < oldNumberOfUnits && bloodSupply.getMaxUnits()> (oldNumberOfUnits-numberOfUnits)){
-                    for(Donor donor : donors){
-                        if(donationTryService.getWhenIsWaitingPeriodOverForDonor(donor.getDonorId().toString()) < 1){
-                            emailService.canDonateAgainEmail(donor.getEmail(),donor.getFirstName());
-                        }
-                    }
-                }
-                else if(bloodSupply.getMinUnits() < oldNumberOfUnits && bloodSupply.getMinUnits() > (oldNumberOfUnits - numberOfUnits)){
-                    for(Donor donor : donors){
-                        if(donationTryService.getWhenIsWaitingPeriodOverForDonor(donor.getDonorId().toString()) < 1){
-                            emailService.tooLittleBloodEmail(donor.getEmail(),donor.getFirstName());
-                        }
-                    }
+                if(oldNumberOfUnits >= bloodSupply.getMinUnits()  && (oldNumberOfUnits - numberOfUnits) < bloodSupply.getMinUnits()){
+                    bloodTypesUnderLimit.add(bloodType.trim());
                 }
                 bloodSupplyRepository.manageBloodSupply(bloodType, oldNumberOfUnits - numberOfUnits);
             }
             newStates[i] = bloodSupplyRepository.getBloodSupplyByBloodType(bloodType).getNumberOfUnits();
             i++;
         }
+        if(bloodTypesOverLimit.size() > 0){
+            sendMailTooMuchBlood(bloodTypesOverLimit);
+        }
+        if(bloodTypesUnderLimit.size() > 0){
+            sendMailTooLittleBlood(bloodTypesUnderLimit);
+        }
         return newStates;
+    }
+
+    private void sendMailTooMuchBlood(List<String> bloodTypesOverLimit) {
+        List<BankWorker> bankWorkers = bankWorkerService.getAllBankWorkers();
+        Set<String> emailsSent = new HashSet<>();
+        for(BankWorker bankWorker : bankWorkers){
+            if(emailsSent.contains(bankWorker.getEmail())) continue;
+            try {
+                emailService.tooMuchBloodEmail(bankWorker.getEmail(), bankWorker.getFirstName(), bloodTypesOverLimit);
+                emailsSent.add(bankWorker.getEmail());
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void sendMailTooLittleBlood(List<String> bloodTypesUnderLimit) {
+        List<BankWorker> bankWorkers = bankWorkerService.getAllBankWorkers();
+        Set<Donor> donorsToSend = donorService.getAllDonors()
+                .stream()
+                //.filter(d -> donationTryService.getWhenIsWaitingPeriodOverForDonor(d.getDonorId().toString()) < 1)
+                .filter(d -> d.getBloodType() != null && bloodTypesUnderLimit.contains(d.getBloodType().trim()))
+                .collect(Collectors.toSet());
+        System.out.println(donorsToSend);
+        Set<String> emailsSent = new HashSet<>();
+
+        for(Donor donor : donorsToSend){
+            //if(emailsSent.contains(donor.getEmail())) continue;
+            try {
+                emailService.tooLittleBloodEmail(donor.getEmail(),donor.getFirstName(), true, List.of(donor.getBloodType()));
+                //emailsSent.add(donor.getEmail());
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }
+        emailsSent.clear();
+        for(BankWorker bankWorker : bankWorkers){
+            if(emailsSent.contains(bankWorker.getEmail())) continue;
+            try {
+                System.out.println(bloodTypesUnderLimit);
+                emailService.tooLittleBloodEmail(bankWorker.getEmail(), bankWorker.getFirstName(), false, bloodTypesUnderLimit);
+                emailsSent.add(bankWorker.getEmail());
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public List<BloodSupplyResponseDTO> getBloodSupply() {
@@ -107,36 +137,35 @@ public class BloodSupplyService {
         return bloodSupplies;
     }
 
-    public BloodSupply[] setMinMax(BloodSupplyRequestDTO bloodSupplyRequestDTO) throws MessagingException {
+    public BloodSupply[] setMinMax(BloodSupplyRequestDTO bloodSupplyRequestDTO) {
         int i = 0;
         BloodSupply[] supplies = new BloodSupply[bloodSupplyRequestDTO.getBloodTypes().length];
+        List<String> bloodTypesUnderLimit = new LinkedList<>();
+        List<String> bloodTypesOverLimit = new LinkedList<>();
+
         for(String bloodType : bloodSupplyRequestDTO.getBloodTypes()){
             bloodSupplyValidator.validateBloodType(bloodType, this.bloodTypes);
-            //BloodSupply bloodSupply = bloodSupplyRepository.getBloodSupplyByBloodType(bloodSupplyRequestDTO.getBloodType());
             BloodSupply bloodSupply = bloodSupplyRepository.getBloodSupplyByBloodType(bloodType);
+            String oldReview = getReview(bloodSupply);
             bloodSupply.setMaxUnits(bloodSupplyRequestDTO.getMaxUnits()[i]);
             bloodSupply.setMinUnits(bloodSupplyRequestDTO.getMinUnits()[i]);
             bloodSupplyValidator.validateBloodSupply(bloodSupply);
             bloodSupplyRepository.save(bloodSupply);
             String review = getReview(bloodSupply);
-            if(review.equals("TOO LITTLE")){
-                List<Donor> donors = donorService.getAllDonorsWithBloodType(bloodType);
-                for(Donor donor : donors){
-                    if(donationTryService.getWhenIsWaitingPeriodOverForDonor(donor.getDonorId().toString()) < 1){
-                        emailService.tooLittleBloodEmail(donor.getEmail(),donor.getFirstName());
-                    }
-                }
+            if( !oldReview.equals("TOO LITTLE") && review.equals("TOO LITTLE")){
+                bloodTypesUnderLimit.add(bloodType);
             }
-            if(review.equals("TOO MUCH")){
-                List<Donor> donors = donorService.getAllDonorsWithBloodType(bloodType);
-                for(Donor donor : donors){
-                    if(donationTryService.getWhenIsWaitingPeriodOverForDonor(donor.getDonorId().toString()) < 1){
-                        emailService.tooMuchBloodEmail(donor.getEmail(),donor.getFirstName());
-                    }
-                }
+            if( !oldReview.equals("TOO MUCH") && review.equals("TOO MUCH")){
+                bloodTypesOverLimit.add(bloodType);
             }
             supplies[i] = bloodSupply;
             i++;
+        }
+        if(bloodTypesOverLimit.size() != 0){
+            sendMailTooMuchBlood(bloodTypesOverLimit);
+        }
+        if(bloodTypesUnderLimit.size() != 0){
+            sendMailTooLittleBlood(bloodTypesUnderLimit);
         }
         return supplies;
     }

@@ -1,7 +1,6 @@
 package progi.megatron.service;
 
 import com.itextpdf.html2pdf.HtmlConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -30,18 +29,17 @@ public class DonationTryService {
     private final BankWorkerService bankWorkerService;
     private final BloodSupplyService bloodSupplyService;
     private final IdValidator idValidator;
+    private final EmailService emailService;
+    private final SpringTemplateEngine templateEngine;
 
-    @Autowired
-    private EmailService emailService;
-    @Autowired
-    private SpringTemplateEngine templateEngine;
-
-    public DonationTryService(DonationTryRepository donationTryRepository, DonorService donorService, BankWorkerService bankWorkerService, BloodSupplyService bloodSupplyService, IdValidator idValidator) {
+    public DonationTryService(DonationTryRepository donationTryRepository, DonorService donorService, BankWorkerService bankWorkerService, BloodSupplyService bloodSupplyService, IdValidator idValidator, EmailService emailService, SpringTemplateEngine templateEngine) {
         this.donationTryRepository = donationTryRepository;
         this.donorService = donorService;
         this.bankWorkerService = bankWorkerService;
         this.bloodSupplyService = bloodSupplyService;
         this.idValidator = idValidator;
+        this.emailService = emailService;
+        this.templateEngine = templateEngine;
     }
 
     public DonationTryResponseDTO createDonationTry(DonationTryRequestDTO donationTryRequestDTO) throws MessagingException {
@@ -92,8 +90,9 @@ public class DonationTryService {
         );
 
         donationTry = donationTryRepository.save(donationTry);
+        DonationTry donationTryForThread = donationTry;
         try {
-            emailService.sendEmailWithAttachment(donor.getEmail(),"PDF Potvrda o darivanju krvi", "Poštovani, \n Potvrda se nalazi u prilogu. \n Srdačno,\n Vaš Trueblood", "templates/emails/pdf.html", donationTry);
+            emailService.sendEmailWithAttachment(donor.getEmail(),"PDF Potvrda o darivanju krvi", "Poštovani, \n Potvrda se nalazi u prilogu. \n Srdačno,\n Vaš Trueblood", "templates/emails/pdf.html", donationTryForThread);
         } catch (MessagingException | FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -124,7 +123,7 @@ public class DonationTryService {
 
             Context context = new Context();
             context.setVariable("donationId",donationTry.getDonationId());
-            context.setVariable("donationDate",donationTry.getDonationDate());
+            context.setVariable("donationDate",donationTry.getDonationDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy.")));
             context.setVariable("donorFirstName",donationTry.getDonor().getFirstName());
             context.setVariable("donorLastName",donationTry.getDonor().getLastName());
             context.setVariable("donorAddress",donationTry.getDonor().getAddress());
@@ -147,6 +146,15 @@ public class DonationTryService {
 
     public List<Long> getIdsOfDonorsWhoDonatedToday() {
         return donationTryRepository.getDonationTryByDonationDate(LocalDate.now()).stream().map(donationTry -> donationTry.getDonor().getDonorId()).collect(Collectors.toList());
+    }
+
+    public List<Long> getIdsOfDonorsWhoDonated34MonthsAgo() {
+        List<Long> donorIds3MonthsAgo = donationTryRepository.getDonationTryByDonationDate(LocalDate.now().minusMonths(3)).stream().map(donationTry -> donationTry.getDonor().getDonorId()).collect(Collectors.toList());
+        List<Long> donorIds4MonthsAgo = donationTryRepository.getDonationTryByDonationDate(LocalDate.now().minusMonths(4)).stream().map(donationTry -> donationTry.getDonor().getDonorId()).collect(Collectors.toList());
+        donorIds3MonthsAgo = donorIds3MonthsAgo.stream().filter(id -> donorService.getDonorByDonorId(String.valueOf(id)).getGender().equals("M")).collect(Collectors.toList());
+        donorIds4MonthsAgo = donorIds4MonthsAgo.stream().filter(id -> donorService.getDonorByDonorId(String.valueOf(id)).getGender().equals("F")).collect(Collectors.toList());
+        donorIds3MonthsAgo.addAll(donorIds4MonthsAgo);
+        return donorIds3MonthsAgo;
     }
 
     public List<Long> getIdsOfDonorsWhoseWaitingPeriodIsOver() {

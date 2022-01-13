@@ -1,7 +1,6 @@
 package progi.megatron.controller;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
@@ -16,7 +15,6 @@ import progi.megatron.model.dto.BankWorkerDTO;
 import progi.megatron.service.BankWorkerService;
 import progi.megatron.service.UserService;
 import progi.megatron.util.CurrentUserUtil;
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @CrossOrigin
@@ -24,13 +22,13 @@ import javax.servlet.http.HttpServletRequest;
 public class BankWorkerController {
 
     private final BankWorkerService bankWorkerService;
-    private final CurrentUserUtil currentUserUtil;
     private final UserService userService;
+    private final MessageSource messageSource;
 
-    public BankWorkerController(BankWorkerService bankWorkerService, CurrentUserUtil currentUserUtil, UserService userService) {
+    public BankWorkerController(BankWorkerService bankWorkerService, UserService userService, MessageSource messageSource) {
         this.bankWorkerService = bankWorkerService;
-        this.currentUserUtil = currentUserUtil;
         this.userService = userService;
+        this.messageSource = messageSource;
     }
 
     @Secured({"ROLE_ADMIN"})
