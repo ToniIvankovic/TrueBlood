@@ -23,6 +23,8 @@ import javax.mail.util.ByteArrayDataSource;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.nio.charset.StandardCharsets;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class EmailService{
@@ -51,20 +53,37 @@ public class EmailService{
         emailSender.send(message);
     }
 
-    public void tooLittleBloodEmail(String toAddress, String firstName) throws MessagingException {
+    public void tooLittleBloodEmail(String toAddress, String firstName, boolean isDonor, List<String> bloodTypesUnderLimit) throws MessagingException {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message,
                 MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                 StandardCharsets.UTF_8.name());
         mimeMessageHelper.setTo(toAddress);
-        mimeMessageHelper.setSubject("Smanjene zalihe!");
+        mimeMessageHelper.setSubject("Smanjene zalihe krvi");
         mimeMessageHelper.setFrom("truebloodfer@gmail.com");
-        mimeMessageHelper.setText("Pozdrav " + firstName + ",\n Želimo te obavijestiti da nam trenutačno fali tvoje krvne grupe. \n" +
-                "Vaš Trueblood");
+        if(isDonor){
+            mimeMessageHelper.setText("Pozdrav " + firstName + ",\n Želimo Vas obavijestiti da nam trenutačno nedostaje Vaše krvne grupe ("+
+                    bloodTypesUnderLimit.get(0) + ").\n Ako ste u mogućnosti, molimo Vas da se što prije odazovete akciji darivanja krvi.\n" +
+                    "Vaš Trueblood");
+        } else{
+            String bloodTypeString = "";
+            for(String bloodType : bloodTypesUnderLimit){
+                bloodTypeString += (bloodType + ", ");
+            }
+            mimeMessageHelper.setText("Pozdrav " + firstName + ",\n U sustavu je smanjena zaliha krvi za krvne grupe: "+
+                    bloodTypeString
+                    + "molimo potaknite donore na darivanje ovih krvnih grupa i smanjite slanje tih " +
+                    "krvnih grupa u vanjske institucije. Hvala\n" +
+                    "Vaš Trueblood");
+        }
         emailSender.send(message);
     }
 
-    public void tooMuchBloodEmail(String toAddress, String firstName) throws MessagingException {
+    public void tooMuchBloodEmail(String toAddress, String firstName, List<String> bloodTypesOverLimit) throws MessagingException {
+        String bloodTypeString = "";
+        for(String bloodType : bloodTypesOverLimit){
+            bloodTypeString += (bloodType + ", ");
+        }
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message,
                 MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
@@ -72,8 +91,10 @@ public class EmailService{
         mimeMessageHelper.setTo(toAddress);
         mimeMessageHelper.setSubject("Prevelike zalihe!");
         mimeMessageHelper.setFrom("truebloodfer@gmail.com");
-        mimeMessageHelper.setText("Pozdrav " + firstName + ",\n Želimo te obavijestiti da nam trenutačno nemamo kapaciteta za pohranjivanje tvoje krvne grupe. " +
-                "Nažalost, ako ste planirali donirati krv, moramo vas zamoliti da strpite neko vrijeme  dok vas ne obavijestimo. \n" +
+        mimeMessageHelper.setText("Pozdrav " + firstName +
+                ",\n U sustavu je prekoračena zaliha sljedećih krvnih grupa: " + bloodTypeString +
+                "molimo Vas da primate manje donacija navedene krvne grupe dok se zalihe ne smanje, ili da višak zaliha pošaljete " +
+                "u vanjsku instituciju. \n" +
                 "Hvala, \n Vaš Trueblood");
         emailSender.send(message);
     }
@@ -121,7 +142,7 @@ public class EmailService{
 
         Context context = new Context();
         context.setVariable("donationId",donationTry.getDonationId());
-        context.setVariable("donationDate",donationTry.getDonationDate());
+        context.setVariable("donationDate",donationTry.getDonationDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy.")));
         context.setVariable("donorFirstName",donationTry.getDonor().getFirstName());
         context.setVariable("donorLastName",donationTry.getDonor().getLastName());
         context.setVariable("donorAddress",donationTry.getDonor().getAddress());

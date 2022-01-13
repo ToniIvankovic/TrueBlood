@@ -17,6 +17,7 @@ import javax.mail.MessagingException;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -118,7 +119,7 @@ public class DonationTryService {
 
             Context context = new Context();
             context.setVariable("donationId",donationTry.getDonationId());
-            context.setVariable("donationDate",donationTry.getDonationDate());
+            context.setVariable("donationDate",donationTry.getDonationDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy.")));
             context.setVariable("donorFirstName",donationTry.getDonor().getFirstName());
             context.setVariable("donorLastName",donationTry.getDonor().getLastName());
             context.setVariable("donorAddress",donationTry.getDonor().getAddress());
