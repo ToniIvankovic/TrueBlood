@@ -48,7 +48,7 @@ public class BankWorkerController {
     public ResponseEntity<Object> getBankWorkerByOib(@PathVariable String oib) {
         try {
             BankWorker bankWorker = bankWorkerService.getBankWorkerByOib(oib);
-            if (bankWorker == null) return ResponseEntity.ok("No bank worker with that oib found.");
+            if (bankWorker == null) return ResponseEntity.ok("Ne postoji djelatinik banke s tim id-em.");
             return ResponseEntity.ok(bankWorker);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
@@ -60,7 +60,7 @@ public class BankWorkerController {
     public ResponseEntity<Object> getBankWorkerByBankWorkerId(@PathVariable String bankWorkerId) {
         try {
             BankWorker bankWorker = bankWorkerService.getBankWorkerByBankWorkerId(bankWorkerId);
-            if (bankWorker == null) return ResponseEntity.ok("No bank worker with that id found.");
+            if (bankWorker == null) return ResponseEntity.ok("Ne postoji djelatinik banke s tim id-em.");
             return ResponseEntity.ok(bankWorker);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
@@ -83,7 +83,7 @@ public class BankWorkerController {
         try {
             String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
             if (!currentUserId.equals(bankWorkerId.getBankWorkerId().toString())) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bank worker can not update other bank workers.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Djelatnik banke ne može uređivati podatke drugog djelatnika banke.");
             }
             return ResponseEntity.ok(bankWorkerService.updateBankWorkerByBankWorker(bankWorkerId));
         } catch (Exception ex) {

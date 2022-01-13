@@ -10,7 +10,7 @@ public class IdValidator {
         try {
             Long value = Long.valueOf(id);
         } catch (NumberFormatException ex) {
-            throw new WrongDonorException("The id is not numeric. ");
+            throw new WrongDonorException("Id nije numerički.");
         }
         return true;
     }

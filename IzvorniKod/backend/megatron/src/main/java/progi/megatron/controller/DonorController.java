@@ -33,6 +33,9 @@ public class DonorController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private MessageSource messageSource;
+
     private final DonorService donorService;
     private final CurrentUserUtil currentUserUtil;
 
@@ -67,7 +70,7 @@ public class DonorController {
     public ResponseEntity<Object> getDonorByOib(@PathVariable String oib) {
         try {
             Donor donor = donorService.getNotDeactivatedDonorByOib(oib);
-            if (donor == null) return ResponseEntity.ok("No donor with that oib found.");
+            if (donor == null) return ResponseEntity.ok("Ne postoji djelatnik krvi s tim id-em");
             else return ResponseEntity.ok(donor);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
@@ -79,10 +82,10 @@ public class DonorController {
     public ResponseEntity<Object> getDonorByDonorId(@PathVariable String donorId) {
         try {
             if (currentUserUtil.getCurrentUserRole().equals("DONOR") && !currentUserUtil.checkIfCurrentUser(donorId)) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not fetch other donors.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Darivatelj krvi ne može pristupiti podacima drugog darivatelja krvi.");
             }
             Donor donor = donorService.getDonorByDonorId(donorId);
-            if (donor == null) return ResponseEntity.ok("No donor with that id found.");
+            if (donor == null) return ResponseEntity.ok("Ne postoji darivatelj krvi s tim id-em.");
             else return ResponseEntity.ok(donor);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
@@ -124,7 +127,7 @@ public class DonorController {
     public ResponseEntity<Object> updateDonorByDonor(@RequestBody DonorByDonorDTOWithId donorByDonorDTOWithId) {
         try {
             if (!currentUserUtil.checkIfCurrentUser(String.valueOf(donorByDonorDTOWithId.getDonorId()))) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Donor can not update other donors.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Darivatelj krvi ne može uređivati podatke drugog darivatelja krvi.");
             }
             return ResponseEntity.ok(donorService.updateDonorByDonor(donorByDonorDTOWithId));
         } catch (Exception ex) {

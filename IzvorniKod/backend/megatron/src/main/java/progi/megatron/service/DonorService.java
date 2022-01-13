@@ -71,7 +71,7 @@ public class DonorService {
         donor.setDonorId(user.getUserId());
 
         if (getAllDonorByOib(donor.getOib()) != null) {
-            throw new WrongDonorException("Donor with that oib already exists. ");
+            throw new WrongDonorException("Već postoji darivatelj krvi s tim id-em.");
         }
         donor = donorRepository.save(donor);
         
@@ -95,7 +95,7 @@ public class DonorService {
         donor.setDonorId(user.getUserId());
 
         if (getAllDonorByOib(donor.getOib()) != null) {
-            throw new WrongDonorException("Donor with that oib already exists. ");
+            throw new WrongDonorException("Već postoji darivatelj krvi s tim id-em.");
         }
         donor = donorRepository.save(donor);
 
@@ -189,15 +189,15 @@ public class DonorService {
 
     public Donor updateDonorByDonor(DonorByDonorDTOWithId donorNew) {
         Long donorId = donorNew.getDonorId();
-        if (donorId == null) throw new WrongDonorException("Donor id is not given. ");
+        if (donorId == null) throw new WrongDonorException("Id darivatelja krvi nije definiran.");
         Donor donor = donorRepository.getNotDeactivatedDonorByDonorId(donorId);
-        if (donor == null) throw new WrongDonorException("There is no donor with that id.");
+        if (donor == null) throw new WrongDonorException("Ne postoji darivatelj krvi s tim id-em.");
         String oibOld = donor.getOib();
         donor = modelMapper.map(donorNew, Donor.class);
         String oibNew = donor.getOib();
         donorValidator.validateDonor(donor);
         if (getAllDonorByOib(oibNew) != null && !oibNew.equals(oibOld)) {
-            throw new WrongDonorException("Can not change donor's oib because there already exists another donor with that oib. ");
+            throw new WrongDonorException("Nije moguće promjeniti oib darivatelja krvi jer već postoji darivatelj krvi s tim oibom.");
         }
         donorRepository.save(donor);
         return donor;
@@ -205,15 +205,15 @@ public class DonorService {
 
     public Donor updateDonorByBankWorker(Donor donorNew) {
         Long donorId = donorNew.getDonorId();
-        if (donorId == null) throw new WrongDonorException("Donor id is not given. ");
+        if (donorId == null) throw new WrongDonorException("Id darivatelja krvi nije definiran.");
         Donor donor = donorRepository.getNotDeactivatedDonorByDonorId(donorId);
-        if (donor == null) throw new WrongDonorException("There is no donor with that id.");
+        if (donor == null) throw new WrongDonorException("Ne postoji darivatelj krvi s tim id-em.");
         String oibOld = donor.getOib();
         donor = modelMapper.map(donorNew, Donor.class);
         String oibNew = donor.getOib();
         donorValidator.validateDonor(donor);
         if (getAllDonorByOib(oibNew) != null && !oibNew.equals(oibOld)) {
-            throw new WrongDonorException("Can not change donor's oib because there already exists another donor with that oib. ");
+            throw new WrongDonorException("Nije moguće promjeniti oib darivatelja krvi jer već postoji darivatelj krvi s tim oibom.");
         }
         donorRepository.save(donor);
         return donor;

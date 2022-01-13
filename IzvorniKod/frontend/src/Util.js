@@ -2,7 +2,7 @@ import React from "react";
 import axios from 'axios';
 import { Buffer } from "buffer";
 import fileSaver from 'file-saver'
-//import { useHistory } from "react-router";
+import { useHistory } from "react-router";
 
 //globalne varijable za aplikaciju
 const roleNone = 'JAVNO';
@@ -116,23 +116,24 @@ const getBloodSupply = async (setBloodSupply) => {
 const downloadPDF = async (donationId) => {
 
     const url = '/api/v1/donation-try/pdf/' + donationId;
-
-    await axios.get(url)
-        .then((response) => {
-            let data = response.data;
-            var byteNumbers = new Array(data.length);
-            for (var i = 0; i < data.length; i++) {
-                byteNumbers[i] = data.charCodeAt(i);
-            }
-            var byteArray = new Uint8Array(byteNumbers);
-            var blob = new Blob([byteArray], { type: "application/pdf" });
-            fileSaver.saveAs(blob, "Potvrda o donaciji.pdf")
-            // console.log(response.data)
-        })
-        .catch((error) => {
-            console.log("Greška - nije moguće preuzeti PDF potvrdu");
-            console.log(error);
-        })
+    history = useHistory();
+    history.push(url);
+    // await axios.get(url)
+    //     .then((response) => {
+    //         let data = response.data;
+    //         var byteNumbers = new Array(data.length);
+    //         for (var i = 0; i < data.length; i++) {
+    //             byteNumbers[i] = data.charCodeAt(i);
+    //         }
+    //         var byteArray = new Uint8Array(byteNumbers);
+    //         var blob = new Blob([byteArray], { type: "application/pdf" });
+    //         fileSaver.saveAs(blob, "Potvrda o donaciji.pdf")
+    //         // console.log(response.data)
+    //     })
+    //     .catch((error) => {
+    //         console.log("Greška - nije moguće preuzeti PDF potvrdu");
+    //         console.log(error);
+    //     })
 }
 
 const getDonorPermRejected = async (userId, setPermDeactivated) => {
