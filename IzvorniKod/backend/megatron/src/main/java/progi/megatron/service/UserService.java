@@ -106,6 +106,7 @@ public class UserService {
     public void changePassword(PasswordChangeUserDTO passwordChangeUserDTO) {
         User user = findNotDeactivatedUserById(String.valueOf(passwordChangeUserDTO.getUserId()));
         if (user == null) throw new WrongUserException("Ne postoji korisnik s tim id-em.");
+        // validate password
         userRepository.changePassword(passwordChangeUserDTO.getUserId(), passwordEncoder.encode(passwordChangeUserDTO.getPassword()));
     }
 

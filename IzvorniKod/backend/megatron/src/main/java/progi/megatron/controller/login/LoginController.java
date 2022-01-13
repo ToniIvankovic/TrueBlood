@@ -49,10 +49,7 @@ public class LoginController {
             User user = userService.findNotDeactivatedUserById(userId);
 
             if (user.getAccActivated() != 1) {
-                throw new UserNotActivatedException("Account not activated");
-            }
-            if (user.getPermDeactivated() != 0) {
-                throw new UserNotActivatedException("Account is permanently deactivated.");
+                throw new UserNotActivatedException("Račun nije aktiviran.");
             }
 
 //            HttpHeaders responseHeaders = new HttpHeaders();
