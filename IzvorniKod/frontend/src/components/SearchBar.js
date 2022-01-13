@@ -93,6 +93,12 @@ const SearchBar = (props) => {
                           </Stack>
                         )
                       }}
+                    componentsProps={{
+                        pagination: {
+                            labelRowsPerPage: "Rezultata po stranici"
+                        }
+
+                    }}
                 />
             </Box>
         </>
