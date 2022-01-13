@@ -95,14 +95,19 @@ const App = () => {
                     </Route>
                     :''}
                     {user.role && user.role != "ADMIN" ?
-                    <Route path='/stvori_donora' exact>
+                    [
+                    <Route key={1} path='/stvori_donora' exact>
                         <StvoriDonora 
                         user={user}
                         donor={donor} 
                         setDonor={setDonor} 
                         existing={existingDonor} 
                         setExisting={setExistingDonor} />
+                    </Route>,
+                    <Route key={2} path='/kreiran_donor' exact>
+                        <KreiranDonor user={user} />
                     </Route>
+                    ]
                     :''}
 
                     {user.role && userPublic.role != user.role ?
@@ -220,11 +225,6 @@ const App = () => {
                         userClass={'donor'} />
                     </Route>
                     ]
-                    :''}
-                    {isRoleAnyOfThese(user.role, ["DONOR", "BANK_WORKER"]) ?
-                    <Route path='/kreiran_donor' exact>
-                        <KreiranDonor user={user} />
-                    </Route>
                     :''}
                 </Switch>
             </Router>
