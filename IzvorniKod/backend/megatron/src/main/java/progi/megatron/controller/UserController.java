@@ -34,7 +34,7 @@ public class UserController {
     @Autowired
     private MessageSource messageSource;
 
-    public UserController(UserService userService, ModelMapper modelMapper) {
+    public UserController(UserService userService, ModelMapper modelMapper, CurrentUserUtil currentUserUtil) {
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.currentUserUtil = currentUserUtil;
