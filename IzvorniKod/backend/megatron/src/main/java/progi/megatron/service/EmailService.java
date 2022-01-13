@@ -36,21 +36,29 @@ public class EmailService{
     }
 
     public void sendMail(AbstractEmailContext email, Long id, String password) throws MessagingException {
-        MimeMessage message = emailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message,
-                MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
-                StandardCharsets.UTF_8.name());
-        Context context = new Context();
-        context.setVariables(email.getContext());
-        context.setVariable("username", id);
-        context.setVariable("password", password);
-        String emailContent = templateEngine.process(email.getTemplateLocation(), context);
+        Thread t = new Thread(()->{
+            try {
+                MimeMessage message = emailSender.createMimeMessage();
+                MimeMessageHelper mimeMessageHelper = null;
+                    mimeMessageHelper = new MimeMessageHelper(message,
+                            MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                            StandardCharsets.UTF_8.name());
+                Context context = new Context();
+                context.setVariables(email.getContext());
+                context.setVariable("username", id);
+                context.setVariable("password", password);
+                String emailContent = templateEngine.process(email.getTemplateLocation(), context);
 
-        mimeMessageHelper.setTo(email.getTo());
-        mimeMessageHelper.setSubject(email.getSubject());
-        mimeMessageHelper.setFrom(email.getFrom());
-        mimeMessageHelper.setText(emailContent, true);
-        emailSender.send(message);
+                mimeMessageHelper.setTo(email.getTo());
+                mimeMessageHelper.setSubject(email.getSubject());
+                mimeMessageHelper.setFrom(email.getFrom());
+                mimeMessageHelper.setText(emailContent, true);
+                emailSender.send(message);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        });
+        t.start();
     }
 
     public void tooLittleBloodEmail(String toAddress, String firstName, boolean isDonor, List<String> bloodTypesUnderLimit) throws MessagingException {
@@ -76,7 +84,10 @@ public class EmailService{
                     "krvnih grupa u vanjske institucije. Hvala\n" +
                     "Vaš Trueblood");
         }
-        emailSender.send(message);
+        Thread t = new Thread(()->{
+            emailSender.send(message);
+        });
+        t.start();
     }
 
     public void tooMuchBloodEmail(String toAddress, String firstName, List<String> bloodTypesOverLimit) throws MessagingException {
@@ -96,7 +107,10 @@ public class EmailService{
                 "molimo Vas da primate manje donacija navedene krvne grupe dok se zalihe ne smanje, ili da višak zaliha pošaljete " +
                 "u vanjsku instituciju. \n" +
                 "Hvala, \n Vaš Trueblood");
-        emailSender.send(message);
+        Thread t = new Thread(()->{
+            emailSender.send(message);
+        });
+        t.start();
     }
 
     public  void canDonateAgainEmail(String toAddress, String firstName) throws MessagingException{
@@ -110,7 +124,10 @@ public class EmailService{
         mimeMessageHelper.setText("Pozdrav " + firstName + ",\n Želimo te obavijestiti da nam smo oslobodili kapacitet za pohranjivanje tvoje krvne grupe. " +
                 "Želimo vam zahvaliti na vašem strpljenju i jedva vas čekamo ponovo vidjeti! \n" +
                 "Vaš Trueblood");
-        emailSender.send(message);
+        Thread t = new Thread(()->{
+            emailSender.send(message);
+        });
+        t.start();
     }
 
 
@@ -127,8 +144,10 @@ public class EmailService{
         mimeMessageHelper.setSubject(subject);
         mimeMessageHelper.setFrom("truebloodfer@gmail.com");
         mimeMessageHelper.setText(emailContent, true);
-
-        emailSender.send(message);
+        Thread t = new Thread(()->{
+            emailSender.send(message);
+        });
+        t.start();
     }
 
     public void sendEmailWithAttachment(String toAddress, String subject, String message, String attachment, DonationTry donationTry) throws MessagingException, FileNotFoundException {
@@ -170,6 +189,9 @@ public class EmailService{
         mimeMultipart.addBodyPart(pdfBodyPart);
         mimeMessage.setContent(mimeMultipart);
 
-        emailSender.send(mimeMessage);
+        Thread t = new Thread(()->{
+            emailSender.send(mimeMessage);
+        });
+        t.start();
     }
 }

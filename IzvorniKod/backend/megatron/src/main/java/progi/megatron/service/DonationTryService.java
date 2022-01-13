@@ -90,8 +90,9 @@ public class DonationTryService {
         );
 
         donationTry = donationTryRepository.save(donationTry);
+        DonationTry donationTryForThread = donationTry;
         try {
-            emailService.sendEmailWithAttachment(donor.getEmail(),"PDF Potvrda o darivanju krvi", "Poštovani, \n Potvrda se nalazi u prilogu. \n Srdačno,\n Vaš Trueblood", "templates/emails/pdf.html", donationTry);
+            emailService.sendEmailWithAttachment(donor.getEmail(),"PDF Potvrda o darivanju krvi", "Poštovani, \n Potvrda se nalazi u prilogu. \n Srdačno,\n Vaš Trueblood", "templates/emails/pdf.html", donationTryForThread);
         } catch (MessagingException | FileNotFoundException e) {
             e.printStackTrace();
         }
