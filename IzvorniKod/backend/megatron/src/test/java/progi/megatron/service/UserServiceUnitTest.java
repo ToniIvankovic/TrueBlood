@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
 import progi.megatron.exception.WrongUserException;
 import progi.megatron.model.User;
@@ -33,6 +34,8 @@ public class UserServiceUnitTest{
     private ModelMapper modelMapper;
     @MockBean
     private SecureTokenService secureTokenService;
+    @MockBean
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private UserService userService;
 
