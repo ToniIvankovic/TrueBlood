@@ -1,7 +1,6 @@
 package progi.megatron.service;
 
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.keygen.BytesKeyGenerator;
 import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.stereotype.Service;
@@ -17,11 +16,13 @@ public class SecureTokenService {
     private static final BytesKeyGenerator DEFAULT_TOKEN_GENERATOR = KeyGenerators.secureRandom(15);
     private static final Charset US_ASCII = StandardCharsets.UTF_8;
 
-
     private int tokenValidityInHours = 24*365;
 
-    @Autowired
-    SecureTokenRepository secureTokenRepository;
+    private final SecureTokenRepository secureTokenRepository;
+
+    public SecureTokenService(SecureTokenRepository secureTokenRepository) {
+        this.secureTokenRepository = secureTokenRepository;
+    }
 
     public SecureToken createSecureToken(){
         String tokenValue = new String(Base64.encodeBase64URLSafe(DEFAULT_TOKEN_GENERATOR.generateKey()), US_ASCII); // this is a sample, you can adapt as per your security need
@@ -43,7 +44,6 @@ public class SecureTokenService {
     public void removeToken(SecureToken token) {
         secureTokenRepository.delete(token);
     }
-    
 
     public int getTokenValidityInHours() {
         return tokenValidityInHours;

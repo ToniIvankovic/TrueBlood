@@ -1,7 +1,6 @@
 package progi.megatron.service;
 
 import com.itextpdf.html2pdf.HtmlConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -17,7 +16,6 @@ import javax.mail.MessagingException;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,18 +28,17 @@ public class DonationTryService {
     private final BankWorkerService bankWorkerService;
     private final BloodSupplyService bloodSupplyService;
     private final IdValidator idValidator;
+    private final EmailService emailService;
+    private final SpringTemplateEngine templateEngine;
 
-    @Autowired
-    private EmailService emailService;
-    @Autowired
-    private SpringTemplateEngine templateEngine;
-
-    public DonationTryService(DonationTryRepository donationTryRepository, DonorService donorService, BankWorkerService bankWorkerService, BloodSupplyService bloodSupplyService, IdValidator idValidator) {
+    public DonationTryService(DonationTryRepository donationTryRepository, DonorService donorService, BankWorkerService bankWorkerService, BloodSupplyService bloodSupplyService, IdValidator idValidator, EmailService emailService, SpringTemplateEngine templateEngine) {
         this.donationTryRepository = donationTryRepository;
         this.donorService = donorService;
         this.bankWorkerService = bankWorkerService;
         this.bloodSupplyService = bloodSupplyService;
         this.idValidator = idValidator;
+        this.emailService = emailService;
+        this.templateEngine = templateEngine;
     }
 
     public DonationTryResponseDTO createDonationTry(DonationTryRequestDTO donationTryRequestDTO) {

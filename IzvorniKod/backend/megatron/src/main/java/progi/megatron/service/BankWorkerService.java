@@ -1,7 +1,6 @@
 package progi.megatron.service;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jmx.export.notification.UnableToSendNotificationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,6 +29,9 @@ import java.util.stream.Collectors;
 @Service
 public class BankWorkerService {
 
+    @Value("http://trueblood-be-dev.herokuapp.com/api/v1/bank-worker/")
+    private String baseURL;
+
     private final BankWorkerRepository bankWorkerRepository;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
@@ -38,17 +40,10 @@ public class BankWorkerService {
     private final BankWorkerValidator bankWorkerValidator;
     private final ModelMapper modelMapper;
     private final SecureTokenRepository secureTokenRepository;
+    private final EmailService emailService;
+    private final SecureTokenService secureTokenService;
 
-    @Autowired
-    private EmailService emailService;
-
-    @Autowired
-    private SecureTokenService secureTokenService;
-
-    @Value("http://trueblood-be-dev.herokuapp.com/api/v1/bank-worker/")
-    private String baseURL;
-
-    public BankWorkerService(BankWorkerRepository bankWorkerRepository, UserService userService, PasswordEncoder passwordEncoder, IdValidator idValidator, OibValidator oibValidator, BankWorkerValidator bankWorkerValidator, ModelMapper modelMapper, SecureTokenRepository secureTokenRepository) {
+    public BankWorkerService(BankWorkerRepository bankWorkerRepository, UserService userService, PasswordEncoder passwordEncoder, IdValidator idValidator, OibValidator oibValidator, BankWorkerValidator bankWorkerValidator, ModelMapper modelMapper, SecureTokenRepository secureTokenRepository, EmailService emailService, SecureTokenService secureTokenService) {
         this.bankWorkerRepository = bankWorkerRepository;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
@@ -57,6 +52,8 @@ public class BankWorkerService {
         this.bankWorkerValidator = bankWorkerValidator;
         this.modelMapper = modelMapper;
         this.secureTokenRepository = secureTokenRepository;
+        this.emailService = emailService;
+        this.secureTokenService = secureTokenService;
     }
 
     public List<BankWorker> getAllBankWorkers() {
@@ -74,15 +71,14 @@ public class BankWorkerService {
     }
 
     public List<BankWorker> getBankWorkersByAny(String query) {
-        if(query.isEmpty())
-            return new LinkedList<>();
+        if (query.isEmpty()) return new LinkedList<>();
 
         Set<BankWorker> bankWorkerSet = new HashSet<>();
         String[] querySplit = query.split(" ");
         boolean firstPass = true;
-        for(String part : querySplit){
+        for (String part : querySplit) {
             Set<BankWorker> localBankWorkerSet = new HashSet<>();
-            try{
+            try {
                 BankWorker bankWorkerById = bankWorkerRepository.getBankWorkerByBankWorkerId(Long.valueOf(part));
                 if(bankWorkerById != null) localBankWorkerSet.add(bankWorkerById);
             } catch (NumberFormatException e){
@@ -90,7 +86,7 @@ public class BankWorkerService {
             localBankWorkerSet.addAll(bankWorkerRepository.getBankWorkersByOibIsContaining(part));
             localBankWorkerSet.addAll(bankWorkerRepository.getBankWorkerByFirstNameIsContainingIgnoreCase(part));
             localBankWorkerSet.addAll(bankWorkerRepository.getBankWorkerByLastNameIsContainingIgnoreCase(part));
-            if(firstPass) bankWorkerSet.addAll(localBankWorkerSet);
+            if (firstPass) bankWorkerSet.addAll(localBankWorkerSet);
             else bankWorkerSet.retainAll(localBankWorkerSet);
             firstPass = false;
         }
@@ -112,9 +108,10 @@ public class BankWorkerService {
 
         try {
             sendRegistrationConfirmationEmail(bankWorker, user.getUserId(), password);
-        }catch (UnableToSendNotificationException e){
+        } catch (UnableToSendNotificationException e){
             e.printStackTrace();
         }
+
         System.out.println("Sending e-mail to user. ID is " + user.getUserId() + ", password is " + password);
 
         return bankWorkerRepository.save(bankWorker);

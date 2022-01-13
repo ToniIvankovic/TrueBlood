@@ -18,12 +18,10 @@ public class BloodSupplyService {
 
     private final BloodSupplyRepository bloodSupplyRepository;
     private final BloodSupplyValidator bloodSupplyValidator;
-    private final ModelMapper modelMapper;
 
-    public BloodSupplyService(BloodSupplyRepository bloodSupplyRepository, BloodSupplyValidator bloodSupplyValidator, ModelMapper modelMapper) {
+    public BloodSupplyService(BloodSupplyRepository bloodSupplyRepository, BloodSupplyValidator bloodSupplyValidator) {
         this.bloodSupplyRepository = bloodSupplyRepository;
         this.bloodSupplyValidator = bloodSupplyValidator;
-        this.modelMapper = modelMapper;
     }
 
     public BloodSupplyResponseDTO getBloodSupplyByBloodType(String bloodType) {
@@ -66,7 +64,6 @@ public class BloodSupplyService {
         BloodSupply[] supplies = new BloodSupply[bloodSupplyRequestDTO.getBloodTypes().length];
         for(String bloodType : bloodSupplyRequestDTO.getBloodTypes()){
             bloodSupplyValidator.validateBloodType(bloodType, this.bloodTypes);
-            //BloodSupply bloodSupply = bloodSupplyRepository.getBloodSupplyByBloodType(bloodSupplyRequestDTO.getBloodType());
             BloodSupply bloodSupply = bloodSupplyRepository.getBloodSupplyByBloodType(bloodType);
             bloodSupply.setMaxUnits(bloodSupplyRequestDTO.getMaxUnits()[i]);
             bloodSupply.setMinUnits(bloodSupplyRequestDTO.getMinUnits()[i]);
