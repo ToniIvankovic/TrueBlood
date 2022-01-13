@@ -48,8 +48,12 @@ public class LoginController {
             String userId = SecurityContextHolder.getContext().getAuthentication().getName();
             User user = userService.findNotDeactivatedUserById(userId);
 
-            if (user.getAccActivated() != 1) throw new UserNotActivatedException("Account not activated");
-            if (user.getPermDeactivated() != 0) throw new UserNotActivatedException("Account is permanently deactivated.");
+            if (user.getAccActivated() != 1) {
+                throw new UserNotActivatedException("Account not activated");
+            }
+            if (user.getPermDeactivated() != 0) {
+                throw new UserNotActivatedException("Account is permanently deactivated.");
+            }
 
 //            HttpHeaders responseHeaders = new HttpHeaders();
 //            responseHeaders.add(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, HttpHeaders.ALL);

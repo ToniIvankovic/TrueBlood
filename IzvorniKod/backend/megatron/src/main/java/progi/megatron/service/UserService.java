@@ -3,6 +3,7 @@ package progi.megatron.service;
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import progi.megatron.exception.InvalidTokenException;
 import progi.megatron.exception.WrongUserException;
@@ -21,12 +22,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final SecureTokenService secureTokenService;
+    private final PasswordEncoder passwordEncoder;
 
-
-    public UserService(UserRepository userRepository, ModelMapper modelMapper, SecureTokenService secureTokenService) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper, SecureTokenService secureTokenService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.secureTokenService = secureTokenService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User createUser(User user) {
@@ -104,7 +106,7 @@ public class UserService {
     public void changePassword(PasswordChangeUserDTO passwordChangeUserDTO) {
         User user = findNotDeactivatedUserById(String.valueOf(passwordChangeUserDTO.getUserId()));
         if (user == null) throw new WrongUserException("Ne postoji korisnik s tim id-em.");
-        userRepository.changePassword(passwordChangeUserDTO.getUserId(), passwordChangeUserDTO.getPassword());
+        userRepository.changePassword(passwordChangeUserDTO.getUserId(), passwordEncoder.encode(passwordChangeUserDTO.getPassword()));
     }
 
 }

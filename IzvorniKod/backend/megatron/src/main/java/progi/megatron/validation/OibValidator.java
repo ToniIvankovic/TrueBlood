@@ -8,7 +8,7 @@ public class OibValidator {
 
     public boolean validateOib(String oib) {
         try {
-            Long value = Long.valueOf(oib);
+            long value = Long.valueOf(oib);
         } catch (NumberFormatException ex) {
             throw new WrongDonorException("Oib is not numeric. ");
         }
