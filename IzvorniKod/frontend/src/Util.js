@@ -225,6 +225,13 @@ const isEqualWithNull = (v1, v2) =>{
         return false;
     }
 }
+const isRoleAnyOfThese = (role, roles) => {
+    if(!role) return false;
+    for(var someRole of roles){
+        if(role == someRole) return true;
+    }
+    return false;
+}
 
 export { generateBasicAuthHeader };
 export { getCurrentUserIdAndRole };
@@ -239,6 +246,7 @@ export { getDonorNextDonation };
 export { formatDateToCro }
 export { formatDateToEng }
 export { formatDateToSlash }
+export { isRoleAnyOfThese };
 export { userNone };
 export { userPublic };
 export { donorNone };

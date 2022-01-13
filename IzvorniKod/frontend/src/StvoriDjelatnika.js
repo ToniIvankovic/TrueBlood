@@ -34,21 +34,8 @@ const StvoriDjelatnika = (props) => {
         }
     },[props.user.userId])
 
-    // useEffect(()=>{
-    //     console.log("donorinfo u stvoridonora")
-    //     console.log(donorInfo)
-    // },[donorInfo])
-    
     const [errorMessage, setErrorMessage] = useState('Greška');
     const [errorHidden, setErrorHidden] = useState(true);
-
-
-    // useEffect(() => {
-    //     if (props.user.role == 'DONOR') {
-    //         history.push('/profil');
-    //     }
-    // }, [props.user.role]);
-
 
     const handleChange = (event) => {
         let name = event.target.name;
@@ -71,7 +58,7 @@ const StvoriDjelatnika = (props) => {
         if(props.existing){
             url='/api/v1/bank-worker/update';
         } else{
-            url = '/api/v1/bank-worker/registration'
+            url = '/api/v1/bank-worker/add-bank-worker'
         }
 
         axios.post(url, workerInfo)
@@ -119,7 +106,6 @@ const StvoriDjelatnika = (props) => {
 
     return (
         <div className="reg">
-            ({props.user.role})
             <form onSubmit={(event) => handleSubmit(event)} className='formular'>
                 <div className="tekst">
                     <p>{props.existing?"Uredi ":"Kreiraj "}korisnički račun!</p>

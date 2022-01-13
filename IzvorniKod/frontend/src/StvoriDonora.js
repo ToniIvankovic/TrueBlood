@@ -127,7 +127,6 @@ const StvoriDonora = (props) => {
 
     return (
         <div className="reg">
-            <div className="roledesplay">({props.user.role})</div>
             <form onSubmit={(event) => handleSubmit(event)} className='formular'>
                 <div className="tekst">
                     <p>{props.existing?"Uredi ":"Kreiraj "}korisnički račun!</p>

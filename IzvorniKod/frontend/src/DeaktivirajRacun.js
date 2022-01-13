@@ -30,9 +30,6 @@ const DeaktivirajRacun = (props) => {
 
     return (
         <div className="reg">
-            <div className='roledesplay'>
-                ({props.user.role})
-            </div>
             <div className="tekst">
                 <p>Deaktiviraj račun </p>
             </div>

@@ -75,7 +75,6 @@ const SlanjeKrvi = (props) => {
 
     return (
         <div className="reg">
-            <div className="roledesplay">({props.user.role})</div>
             <form onSubmit={(event) => handleSubmit(event)} className='formular'>
                 <div className="tekst-secondary">
                     <p>Evidencija slanja krvi</p>
