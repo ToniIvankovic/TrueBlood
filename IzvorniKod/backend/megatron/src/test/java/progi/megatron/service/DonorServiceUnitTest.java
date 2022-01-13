@@ -80,7 +80,7 @@ public class DonorServiceUnitTest {
             () -> donorService.updateDonorByBankWorker(donor),
             "Expected findNotDeactivatedUserById to throw, but it didnt");
 
-        assertEquals( "Donor id is not given. ", ex.getMessage());
+        assertEquals( "Id darivatelja krvi nije definiran.", ex.getMessage());
     }
 
     @Test
@@ -95,7 +95,7 @@ public class DonorServiceUnitTest {
                 () -> donorService.updateDonorByBankWorker(donor),
                 "Expected findNotDeactivatedUserById to throw, but it didnt");
 
-        assertEquals( "There is no donor with that id.", ex.getMessage());
+        assertEquals( "Ne postoji darivatelj krvi s tim id-em.", ex.getMessage());
 
     }
 
@@ -133,7 +133,7 @@ public class DonorServiceUnitTest {
                 () -> donorService.updateDonorByDonor(newDonor),
                 "Expected findNotDeactivatedUserById to throw, but it didnt");
 
-        assertEquals("There is no donor with that id." , ex.getMessage());
+        assertEquals("Ne postoji darivatelj krvi s tim id-em." , ex.getMessage());
     }
 
     @Test
@@ -148,7 +148,7 @@ public class DonorServiceUnitTest {
                 () -> donorService.updateDonorByDonor(newDonor),
                 "Expected findNotDeactivatedUserById to throw, but it didnt");
 
-        assertEquals("Donor id is not given. ", ex.getMessage());
+        assertEquals("Id darivatelja krvi nije definiran.", ex.getMessage());
     }
 
 }
