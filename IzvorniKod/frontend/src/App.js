@@ -82,19 +82,17 @@ const App = () => {
                     <Route path="/kontakt" exact>
                         <Kontakt />
                     </Route>
+                    <Route path='/aktiviran_racun' exact>
+                        <RacunAktiviran />
+                    </Route>
 
                     {isRoleAnyOfThese(user.role, [userPublic.role]) ?
-                    [
                     <Route key={1} path="/prijava" exact>
                         <Login onLogin={() => {
                             getCurrentUserIdAndRole(user, setUser);
                         }}
                         setExistingDonor={setExistingDonor} />
-                    </Route>,
-                    <Route key={2} path='/aktiviran_racun' exact>
-                        <RacunAktiviran />
                     </Route>
-                    ]
                     :''}
                     {user.role && user.role != "ADMIN" ?
                     <Route path='/stvori_donora' exact>
