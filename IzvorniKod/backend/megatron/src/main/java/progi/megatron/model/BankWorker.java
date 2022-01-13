@@ -26,7 +26,7 @@ public class BankWorker implements Serializable {
 
     private String oib;
 
-    @JsonFormat(pattern="dd.MM.yyyy")
+    @JsonFormat(pattern="dd.MM.yyyy.")
     private LocalDate birthDate;
 
     private String birthPlace;

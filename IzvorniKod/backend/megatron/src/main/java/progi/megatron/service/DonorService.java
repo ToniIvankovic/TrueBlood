@@ -175,9 +175,11 @@ public class DonorService {
     }
 
     public void sendCanDonateAgain(Donor donor){
-        try{
-            emailService.sendNotificationEmail(donor.getEmail(),"Ponovo možeš donirati",donor.getFirstName());
-        }catch (MessagingException e){
+        try {
+            System.out.println("Gonna try to send mail now ");
+            emailService.sendNotificationEmail(donor.getEmail(),"Ponovo možeš donirati", donor.getFirstName());
+        } catch (MessagingException e){
+            System.out.println("Didnt manage to send mail");
             e.printStackTrace();
         }
 
