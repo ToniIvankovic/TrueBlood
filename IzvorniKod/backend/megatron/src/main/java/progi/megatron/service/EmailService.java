@@ -121,7 +121,7 @@ public class EmailService{
                 StandardCharsets.UTF_8.name());
         Context context = new Context();
         context.setVariable("firstName", firstName);
-        String emailContent = templateEngine.process("/emails/email-noBlood", context);
+        String emailContent = templateEngine.process("/emails/email-donate-again.html", context);
 
         mimeMessageHelper.setTo(toAddress);
         mimeMessageHelper.setSubject(subject);
