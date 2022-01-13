@@ -28,7 +28,7 @@ public class Scheduler {
     //@Scheduled(cron = "*/20 * * * * *")   // every 20 seconds
     //@Scheduled(cron = "* */5 * * * *")   // every 5 minutes
 
-    @Scheduled(cron = "0 20 18 * * *")   // at noon every day
+    @Scheduled(cron = "0 37 18 * * *")   // at noon every day
     public void performTaskUsingCron() {
 
 //        List<Long> donationTriesToday = donationTryService.getIdsOfDonorsWhoDonatedToday();
