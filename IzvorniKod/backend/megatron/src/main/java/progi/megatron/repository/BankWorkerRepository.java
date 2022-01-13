@@ -9,7 +9,6 @@ import progi.megatron.model.BankWorker;
 import java.util.List;
 
 @Repository
-@Transactional
 public interface BankWorkerRepository extends JpaRepository<BankWorker, Long> {
 
     @Query(value = "SELECT bank_worker_id, first_name, last_name, oib, birth_date, birth_place, address, work_place, private_contact, work_contact, email " +

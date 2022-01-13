@@ -1,7 +1,6 @@
 package progi.megatron.controller;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
@@ -9,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import progi.megatron.exception.InvalidTokenException;
@@ -21,8 +19,6 @@ import progi.megatron.service.DonorService;
 import progi.megatron.service.UserService;
 import progi.megatron.util.CurrentUserUtil;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v1/donor")
@@ -30,16 +26,14 @@ public class DonorController {
 
     private static final String REDIRECT_LOGIN = "redirect:/login";
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private MessageSource messageSource;
-
+    private final UserService userService;
+    private final MessageSource messageSource;
     private final DonorService donorService;
     private final CurrentUserUtil currentUserUtil;
 
-    public DonorController(DonorService donorService, CurrentUserUtil currentUserUtil) {
+    public DonorController(UserService userService, MessageSource messageSource, DonorService donorService, CurrentUserUtil currentUserUtil) {
+        this.userService = userService;
+        this.messageSource = messageSource;
         this.donorService = donorService;
         this.currentUserUtil = currentUserUtil;
     }
@@ -62,7 +56,6 @@ public class DonorController {
         }
 
         redirAttr.addFlashAttribute("verifiedAccountMsg", messageSource.getMessage("user.registration.verification.success", null, LocaleContextHolder.getLocale()));
-
 
         ResponseEntity re = ResponseEntity.status(302).header(HttpHeaders.LOCATION, "https://trueblood-fe-dev.herokuapp.com/aktiviran_racun").build();
         return re;

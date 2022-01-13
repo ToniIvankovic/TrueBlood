@@ -59,7 +59,9 @@ public class BankWorkerService {
         this.secureTokenRepository = secureTokenRepository;
     }
 
-    java.util.logging.Logger logger =  java.util.logging.Logger.getLogger(this.getClass().getName());
+    public List<BankWorker> getAllBankWorkers() {
+        return bankWorkerRepository.findAll();
+    }
 
     public BankWorker getBankWorkerByBankWorkerId(String bankWorkerId) {
         idValidator.validateId(bankWorkerId);

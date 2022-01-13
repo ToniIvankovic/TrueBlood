@@ -9,7 +9,6 @@ import progi.megatron.model.Donor;
 import java.util.List;
 
 @Repository
-@Transactional
 public interface DonorRepository extends JpaRepository<Donor, Long> {
 
     Donor getDonorByOib(String oib);

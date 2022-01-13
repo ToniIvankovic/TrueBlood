@@ -25,13 +25,11 @@ public class LoginController {
 //    private final AuthenticationManager authenticationManager;
 //    private final JwtTokenUtil jwtTokenUtil;
     private final UserService userService;
-    private final UserController userController;
 
-    public LoginController(UserService userService, UserController userController) {
+    public LoginController(UserService userService) {
 //        this.authenticationManager = authenticationManager;
 //        this.jwtTokenUtil = jwtTokenUtil;
         this.userService = userService;
-        this.userController = userController;
     }
 
     //@Secured({"ROLE_DONOR", "ROLE_BANK_WORKER", "ROLE_ADMIN"})
