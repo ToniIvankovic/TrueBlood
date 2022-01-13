@@ -55,4 +55,10 @@ public interface DonorRepository extends JpaRepository<Donor, Long> {
             " WHERE user_account.perm_deactivated = 0 ", nativeQuery = true)
     List<Donor> getAllNotDeactivatedDonors();
 
+    @Query(value = "SELECT donor_id, first_name, last_name, oib, gender, birth_date, birth_place, address, work_place, private_contact, work_contact, email, blood_type, perm_rejected_reason " +
+            " FROM donor JOIN user_account ON donor.donor_id = user_account.user_id " +
+            " WHERE user_account.perm_deactivated = 0 " +
+            " AND donor.blood_type = ?1", nativeQuery = true)
+    List<Donor> getDonorsByBloodType(String bloodType);
+
 }

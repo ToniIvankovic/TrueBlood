@@ -43,7 +43,7 @@ public class DonationTryService {
         this.idValidator = idValidator;
     }
 
-    public DonationTryResponseDTO createDonationTry(DonationTryRequestDTO donationTryRequestDTO) {
+    public DonationTryResponseDTO createDonationTry(DonationTryRequestDTO donationTryRequestDTO) throws MessagingException {
 
         LocalDate lastDonationDate = getLastDonationDateForDonor(donationTryRequestDTO.getDonorId());
         //todo ovisno o spolu!

@@ -33,29 +33,12 @@ public class DonorController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private MessageSource messageSource;
-
     private final DonorService donorService;
     private final CurrentUserUtil currentUserUtil;
 
     public DonorController(DonorService donorService, CurrentUserUtil currentUserUtil) {
         this.donorService = donorService;
         this.currentUserUtil = currentUserUtil;
-    }
-
-    @GetMapping("/verify")
-    public ResponseEntity verifyDonor(@RequestParam(name = "token") String token) {
-        if (StringUtils.isEmpty(token)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageSource.getMessage("user.registration.verification.missing.token", null, LocaleContextHolder.getLocale()));
-        }
-        try {
-            System.out.println(token);
-            userService.verifyUser(token);
-        } catch (InvalidTokenException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-        return ResponseEntity.status(302).header(HttpHeaders.LOCATION, "https://trueblood-fe-dev.herokuapp.com/aktiviran_racun").build();
     }
 
     @PostMapping("/registration")

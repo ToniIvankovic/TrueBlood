@@ -51,6 +51,48 @@ public class EmailService{
         emailSender.send(message);
     }
 
+    public void tooLittleBloodEmail(String toAddress, String firstName) throws MessagingException {
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message,
+                MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                StandardCharsets.UTF_8.name());
+        mimeMessageHelper.setTo(toAddress);
+        mimeMessageHelper.setSubject("Smanjene zalihe!");
+        mimeMessageHelper.setFrom("truebloodfer@gmail.com");
+        mimeMessageHelper.setText("Pozdrav " + firstName + ",\n Želimo te obavijestiti da nam trenutačno fali tvoje krvne grupe. \n" +
+                "Vaš Trueblood");
+        emailSender.send(message);
+    }
+
+    public void tooMuchBloodEmail(String toAddress, String firstName) throws MessagingException {
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message,
+                MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                StandardCharsets.UTF_8.name());
+        mimeMessageHelper.setTo(toAddress);
+        mimeMessageHelper.setSubject("Prevelike zalihe!");
+        mimeMessageHelper.setFrom("truebloodfer@gmail.com");
+        mimeMessageHelper.setText("Pozdrav " + firstName + ",\n Želimo te obavijestiti da nam trenutačno nemamo kapaciteta za pohranjivanje tvoje krvne grupe. " +
+                "Nažalost, ako ste planirali donirati krv, moramo vas zamoliti da strpite neko vrijeme  dok vas ne obavijestimo. \n" +
+                "Hvala, \n Vaš Trueblood");
+        emailSender.send(message);
+    }
+
+    public  void canDonateAgainEmail(String toAddress, String firstName) throws MessagingException{
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message,
+                MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                StandardCharsets.UTF_8.name());
+        mimeMessageHelper.setTo(toAddress);
+        mimeMessageHelper.setSubject("Oslobođen kapacitet");
+        mimeMessageHelper.setFrom("truebloodfer@gmail.com");
+        mimeMessageHelper.setText("Pozdrav " + firstName + ",\n Želimo te obavijestiti da nam smo oslobodili kapacitet za pohranjivanje tvoje krvne grupe. " +
+                "Želimo vam zahvaliti na vašem strpljenju i jedva vas čekamo ponovo vidjeti! \n" +
+                "Vaš Trueblood");
+        emailSender.send(message);
+    }
+
+
     public void sendNotificationEmail(String toAddress, String subject, String firstName) throws MessagingException {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message,

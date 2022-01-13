@@ -1,6 +1,11 @@
 package progi.megatron.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -8,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import progi.megatron.exception.InvalidTokenException;
 import progi.megatron.model.User;
 import progi.megatron.model.dto.UserDTO;
 import progi.megatron.service.UserService;
@@ -22,9 +28,26 @@ public class UserController {
     private final UserService userService;
     private final ModelMapper modelMapper;
 
+    @Autowired
+    private MessageSource messageSource;
+
     public UserController(UserService userService, ModelMapper modelMapper) {
         this.userService = userService;
         this.modelMapper = modelMapper;
+    }
+
+    @GetMapping("/verify")
+    public ResponseEntity verifyDonor(@RequestParam(name = "token") String token) {
+        if (StringUtils.isEmpty(token)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageSource.getMessage("user.registration.verification.missing.token", null, LocaleContextHolder.getLocale()));
+        }
+        try {
+            System.out.println(token);
+            userService.verifyUser(token);
+        } catch (InvalidTokenException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        return ResponseEntity.status(302).header(HttpHeaders.LOCATION, "https://trueblood-fe-dev.herokuapp.com/aktiviran_racun").build();
     }
 
     //@Secured({"ROLE_DONOR", "ROLE_BANK_WORKER", "ROLE_ADMIN"})

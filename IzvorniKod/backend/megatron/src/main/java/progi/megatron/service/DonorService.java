@@ -47,7 +47,7 @@ public class DonorService {
     @Autowired
     private SecureTokenService secureTokenService;
 
-    @Value("http://trueblood-be-dev.herokuapp.com/api/v1/donor/")
+    @Value("http://trueblood-be-dev.herokuapp.com/api/v1/user/")
     private String baseURL;
 
     public DonorService(DonorRepository donorRepository, UserService userService, DonorValidator donorValidator, IdValidator idValidator, OibValidator oibValidator, PasswordEncoder passwordEncoder, SecureTokenRepository secureTokenRepository, ModelMapper modelMapper, SecureTokenRepository secureTokenRepository1) {
@@ -223,5 +223,7 @@ public class DonorService {
     public List<Donor> getAllDonors() {
         return donorRepository.getAllNotDeactivatedDonors();
     }
+
+    public List<Donor> getAllDonorsWithBloodType(String bloodType){ return donorRepository.getDonorsByBloodType(bloodType);}
 
 }

@@ -27,9 +27,6 @@ public class BankWorkerController {
     private final CurrentUserUtil currentUserUtil;
     private final UserService userService;
 
-    @Autowired
-    private MessageSource messageSource;
-
     public BankWorkerController(BankWorkerService bankWorkerService, CurrentUserUtil currentUserUtil, UserService userService) {
         this.bankWorkerService = bankWorkerService;
         this.currentUserUtil = currentUserUtil;
@@ -44,20 +41,6 @@ public class BankWorkerController {
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
-    }
-
-    @GetMapping("/verify")
-    public ResponseEntity verifyBankWorker(@RequestParam(name = "token") String token) {
-        if (StringUtils.isEmpty(token)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageSource.getMessage("user.registration.verification.missing.token", null, LocaleContextHolder.getLocale()));
-        }
-        try {
-            System.out.println(token);
-            userService.verifyUser(token);
-        } catch (InvalidTokenException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-        return ResponseEntity.status(302).header(HttpHeaders.LOCATION, "https://trueblood-fe-dev.herokuapp.com/aktiviran_racun").build();
     }
 
     @Secured({"ROLE_ADMIN"})
