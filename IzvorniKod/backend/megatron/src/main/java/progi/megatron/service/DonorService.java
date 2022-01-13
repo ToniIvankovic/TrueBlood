@@ -221,4 +221,6 @@ public class DonorService {
         return donorRepository.getAllNotDeactivatedDonors();
     }
 
+    public List<Donor> getAllDonorsWithBloodType(String bloodType){ return donorRepository.getDonorsByBloodType(bloodType);}
+
 }

@@ -70,6 +70,10 @@ public class BankWorkerService {
         return bankWorkerRepository.getNotDeactivatedBankWorkerByOib(oib);
     }
 
+    public List<BankWorker> getAllBankWorkers() {
+        return bankWorkerRepository.findAll();
+    }
+
     public List<BankWorker> getBankWorkersByAny(String query) {
         if (query.isEmpty()) return new LinkedList<>();
 
@@ -101,6 +105,8 @@ public class BankWorkerService {
         user = userService.createUser(user);
         BankWorker bankWorker = modelMapper.map(bankWorkerDTO, BankWorker.class);
         bankWorker.setBankWorkerId(user.getUserId());
+
+        bankWorkerValidator.validateBankWorker(bankWorker);
 
         if (getBankWorkerByOib(bankWorker.getOib()) != null) {
             throw new WrongDonorException("Već postoji djelatnik banke krvi s tim oibom.");

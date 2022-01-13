@@ -24,6 +24,8 @@ public class DonationTryController {
     private final DonationTryService donationTryService;
     private final CurrentUserUtil currentUserUtil;
     private final UserService userService;
+    private Long before;
+    private Long after;
 
     public DonationTryController(UserService userService, DonationTryService donationTryService, CurrentUserUtil currentUserUtil) {
         this.donationTryService = donationTryService;
@@ -35,6 +37,7 @@ public class DonationTryController {
     @PostMapping
     public ResponseEntity<Object> createDonationTry(@RequestBody DonationTryRequestDTO donationTryRequestDTO){
         try {
+
             return ResponseEntity.ok(donationTryService.createDonationTry(donationTryRequestDTO));
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
