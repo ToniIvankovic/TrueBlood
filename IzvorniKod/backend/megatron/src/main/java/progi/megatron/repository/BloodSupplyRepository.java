@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import progi.megatron.model.BloodSupply;
 
 @Repository
-@Transactional
 public interface BloodSupplyRepository extends JpaRepository<BloodSupply, String> {
 
     @Transactional

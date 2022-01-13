@@ -1,7 +1,8 @@
 import React from "react";
 import axios from 'axios';
 import { Buffer } from "buffer";
-//import { useHistory } from "react-router";
+import fileSaver from 'file-saver'
+import { useHistory } from "react-router";
 
 //globalne varijable za aplikaciju
 const roleNone = 'JAVNO';
@@ -29,8 +30,7 @@ const getCurrentUserIdAndRole = async (user, setUser) => {
 
     await axios.get(url)
         .then((response) => {
-            console.log('user queried success');
-            if (response.data != null) {
+            if (response.data != null && response.data != "") {
                 setUser({
                     userId: response.data.userId,
                     role: response.data.userRole
@@ -41,7 +41,6 @@ const getCurrentUserIdAndRole = async (user, setUser) => {
             }
         })
         .catch((error) => {
-            console.log('Error retrieving user info: ' + error);
         })
 }
 
@@ -117,15 +116,24 @@ const getBloodSupply = async (setBloodSupply) => {
 const downloadPDF = async (donationId) => {
 
     const url = '/api/v1/donation-try/pdf/' + donationId;
-
-    await axios.get(url)
-        .then((response) => {
-            console.log(response.data)
-        })
-        .catch((error) => {
-            console.log("Greška - nije moguće preuzeti PDF potvrdu");
-            console.log(error);
-        })
+    history = useHistory();
+    history.push(url);
+    // await axios.get(url)
+    //     .then((response) => {
+    //         let data = response.data;
+    //         var byteNumbers = new Array(data.length);
+    //         for (var i = 0; i < data.length; i++) {
+    //             byteNumbers[i] = data.charCodeAt(i);
+    //         }
+    //         var byteArray = new Uint8Array(byteNumbers);
+    //         var blob = new Blob([byteArray], { type: "application/pdf" });
+    //         fileSaver.saveAs(blob, "Potvrda o donaciji.pdf")
+    //         // console.log(response.data)
+    //     })
+    //     .catch((error) => {
+    //         console.log("Greška - nije moguće preuzeti PDF potvrdu");
+    //         console.log(error);
+    //     })
 }
 
 const getDonorPermRejected = async (userId, setPermDeactivated) => {
@@ -184,6 +192,21 @@ const getDonorNextDonation = async (donorId, setNextDonation) => {
         })
 }
 
+const formatDateToCro = (americanDate) => {
+    let dateParts = americanDate.split("-")
+    return dateParts[2] + "." + dateParts[1] + "." + dateParts[0]
+}
+const formatDateToEng = (americanDate) => {
+    if(!americanDate) return americanDate
+    let dateParts = americanDate.split(".")
+    return dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0]
+}
+const formatDateToSlash = (dotDate) => {
+    if(!dotDate) return dotDate
+    let dateParts = dotDate.split(".")
+    return dateParts[0] + "/" + dateParts[1] + "/" + dateParts[2]
+}
+
 const isJSONEqual = (v1,v2) =>{
     if(JSON.stringify(v1) == JSON.stringify(v2))
         return true;
@@ -213,6 +236,9 @@ export { getBloodSupply };
 export { downloadPDF };
 export { getDonorBloodType };
 export { getDonorNextDonation };
+export { formatDateToCro }
+export { formatDateToEng }
+export { formatDateToSlash }
 export { userNone };
 export { userPublic };
 export { donorNone };

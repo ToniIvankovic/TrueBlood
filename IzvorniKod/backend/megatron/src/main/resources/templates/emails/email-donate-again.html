@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
 <head>
-    <title>Potvrdite račun</title>
+    <title>Ponovno donirajte krv</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -103,7 +103,7 @@
 
 <body style="background-color: #f4f4f4; margin: 0 !important; padding: 0 !important;">
 <!-- HIDDEN PREHEADER TEXT -->
-<div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: 'Lato', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;"> Drago nam je da ste s nama, započnite s aktiviranjem računa. </div>
+<div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: 'Lato', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;"> Ponovno možete donirati krv </div>
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
     <!-- LOGO -->
     <tr>
@@ -131,7 +131,9 @@
             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                 <tr>
                     <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                        <p style="margin: 0;"> <div th:text="'Pozdrav ' + ${firstName} + '! '"></div>Drago nam je da ste otvorili račun na portalu za darivanje krvi Trueblood. Prvo trebamo potvrditi vaš račun. Pritisnite gumb ispod.</p>
+                        <p style="margin: 0;"> <div th:text="'Pozdrav ' + ${firstName} + '! '"></div>S obzirom na to da je prošlo nekoliko mjeseci otkad ste donirali krv, podsjećamo Vas
+                        da je prošao sigurnosni period te da ponovno možete donirati krv.</p>
+                        <p>Molimo da kad budete u mogućnosti provjerite gdje se održava akcija doniranja koja Vam najviše odgovara i ponovno darujete krv.</p>
                     </td>
                 </tr>
                 <tr>
@@ -142,9 +144,9 @@
                                     <table border="0" cellspacing="0" cellpadding="0">
                                         <tr>
                                             <td align="center" style="border-radius: 3px;" bgcolor="#FFA73B">
-                                                <a th:href="${verificationURL}" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff;
+                                                <a href="https://trueblood-fe-dev.herokuapp.com" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff;
                                                     text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px;
-                                                    border: 1px solid #FFA73B; display: inline-block;">Potvrdi račun</a>
+                                                    border: 1px solid #FFA73B; display: inline-block;">Stranica portala</a>
                                             </td>
                                         </tr>
                                     </table>
@@ -154,38 +156,13 @@
                     </td>
                 </tr> <!-- COPY -->
                 <tr>
-                    <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 0px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                        <p style="margin: 0;">Ako gumb ne radi, kopirajte sljedeću poveznicu i zalijepite ju u svoj web preglednik:</p>
-                    </td>
-                </tr> <!-- COPY -->
-                <tr>
-                    <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                        <p style="margin: 0;"><a th:text="${verificationURL}" th:href="${verificationURL}" target="_blank" style="color: #FFA73B;"></a></p>
-                    </td>
-                </tr>
-                <tr>
-                    <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                        <p style="margin: 0;">Vaši inicijalni korisnički podatci:</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                        <p style="margin: 0;">donorId: <b th:text="${username}"></b></p>
-                    </td>
-                </tr>
-                <tr>
-                    <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                        <p style="margin: 0;">Lozinka: <b th:text="${password}"></b></p>
-                    </td>
-                </tr>
-                <tr>
                     <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
                         <p style="margin: 0;">Ako imate pitanja, kontaktirajte nas na pomoću podataka navedenih na stranici.</p>
                     </td>
                 </tr>
                 <tr>
                     <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 40px 30px; border-radius: 0px 0px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                        <p style="margin: 0;">Ugodno korištenje sustava,<br>vaš Trueblood</p>
+                        <p style="margin: 0;">Hvala što brinete za one kojima je Vaša pomoć najpotrebnija,<br>vaš Trueblood</p>
                     </td>
                 </tr>
             </table>

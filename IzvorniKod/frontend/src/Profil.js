@@ -22,7 +22,7 @@ const Profil = (props) => {
     const [daysUntilDonation, setDaysUntilDonation] = useState(undefined)
     useEffect(()=>{
         if(bloodSupply != undefined){
-            if(daysUntilDonation !== undefined && bloodType !== undefined && props.user.role == 'DONOR'){
+            if(daysUntilDonation !== undefined && bloodType != undefined && props.user.role == 'DONOR'){
                 if(daysUntilDonation != 0){
                     setWarningMessage("Hvala na nedavnoj donaciji krvi - ponovno ćete moći donirati za " + daysUntilDonation + " dana")
                 }
@@ -51,7 +51,7 @@ const Profil = (props) => {
                     }
                 }
                 if(anyOutOfBounds){
-                    setWarningMessage(warningArray)
+                    setWarningMessage(warningString)
                     setWarningArray(warningArrayLocal)
                 }
             }
@@ -115,7 +115,7 @@ const Profil = (props) => {
                 </div>
                 {(props.user.role == "DONOR" || props.user.role == "BANK_WORKER")?
                 <div className="podaci-role">
-                    <div>Uloga: {props.user.role}</div>
+                    <div>Uloga: {props.user.role == "BANK_WORKER" ? "DJELATNIK" : props.user.role}</div>
                     <div></div>
                     <div>Ime: {props.user.firstName}</div>
                     <div>Prezime: {props.user.lastName}</div>
@@ -135,7 +135,7 @@ const Profil = (props) => {
                 </div>
                 : ''}
 
-            {props.user.role == 'BANK_WORKER'? 
+            {props.user.role == 'BANK_WORKER' && warningMessage? 
                 <div className="image-alert">
                     <div className="alert">
                         <div className="alert">Krvne grupe izvan optimalnih granica:</div>
@@ -151,20 +151,6 @@ const Profil = (props) => {
                    
                 : ''}
                 
-            <button onClick={() => props.setUser({
-                    ...props.user,
-                    role: 'DONOR'
-                })}>Sad sam donor</button>
-                
-            <button onClick={() => props.setUser({
-                    ...props.user,
-                    role: 'BANK_WORKER'
-                })}>Sad sam worker</button>
-                
-            <button onClick={() => props.setUser({
-                    ...props.user,
-                    role: 'ADMIN'
-                })}>Sad sam admin</button>
         </div>
     )
 }

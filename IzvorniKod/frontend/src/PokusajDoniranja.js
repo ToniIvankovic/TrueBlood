@@ -106,7 +106,7 @@ const PokusajDoniranja = (props) => {
 
         if(permRejectedReasons != ''){
             props.setPermRejected(true);
-            retVal['permRejectReason'] = permRejectedReasons;
+            retVal['isReasonPerm'] = true;
         } else{
             props.setPermRejected(false);
         }
@@ -129,6 +129,9 @@ const PokusajDoniranja = (props) => {
                 console.log('Donation try successfully created:');
                 console.log(response.data)
                 props.setSuccessfulDonation(response.data.successful)
+                if(!response.data.successful){
+                    props.setRejectReason(response.data.rejectedReason);
+                }
 
                 history.push('/donirano');
             })

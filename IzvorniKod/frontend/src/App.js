@@ -24,6 +24,7 @@ import OptimalneGranice from "./OptimalneGranice";
 import DeaktivirajRacun from "./DeaktivirajRacun";
 import RacunDeaktiviran from "./RacunDeaktiviran";
 import axios from "axios";
+import RacunAktiviran from "./RacunAktiviran";
 
 // TODO: global context for role and user data - done?
 
@@ -117,8 +118,7 @@ const App = () => {
                     <Route path='/stvori_djelatnika' exact>
                         <StvoriDjelatnika 
                         user={user}
-                        worker={worker} 
-                        setWorker={setWorker} 
+                        setUser={setUser}
                         existing={existingWorker} 
                         setExisting={setExistingWorker} />
                     </Route>
@@ -202,6 +202,9 @@ const App = () => {
                         setWorker={setWorker}
                         setExistingWorker={setExistingWorker}
                         />
+                    </Route>
+                    <Route path='/aktiviran_racun' exact>
+                        <RacunAktiviran />
                     </Route>
                 </Switch>
             </Router>

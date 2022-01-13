@@ -17,8 +17,8 @@ public class BankWorkerValidator {
 
     public boolean validateBankWorker(BankWorker bankWorker) {
         if (oibValidator.validateOib(bankWorker.getOib()) == false) return false;
-        if (!bankWorker.getEmail().contains("@")) throw new WrongDonorException("Donor email is not correct. ");
-        if (bankWorker.getBirthDate().plusYears(18).isAfter(LocalDate.now())) throw new WrongDonorException("Bank worker must be at least 18 years old. ");
+        if (!bankWorker.getEmail().contains("@")) throw new WrongDonorException("Email nije validan.");
+        if (bankWorker.getBirthDate().plusYears(18).isAfter(LocalDate.now())) throw new WrongDonorException("Djelatnik banke mora biti punoljetan.");
         return true;
     }
 

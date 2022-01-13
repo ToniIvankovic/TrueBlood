@@ -62,6 +62,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/api/v1/donor/registration").permitAll()
                 .antMatchers("/api/v1/blood-supply").permitAll()
+                .antMatchers("/api/v1/user").permitAll()
+                .antMatchers("/api/v1/user/verify").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic().and()
@@ -94,9 +96,5 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
 
 }
