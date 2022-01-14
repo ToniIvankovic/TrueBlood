@@ -64,7 +64,7 @@ public class UserServiceUnitTest{
                 () -> userService.findNotDeactivatedUserById("12355"),
                 "Expected findById to throw, but it didnt");
 
-        assertEquals("Ne postoji korisnik s tim id-em.", ex.getMessage());
+        assertEquals("Ne postoji korisnik s tim ID-jem.", ex.getMessage());
     }
 
 

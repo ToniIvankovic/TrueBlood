@@ -12,9 +12,9 @@ public class OibValidator {
                 throw new NumberFormatException();
             };
         } catch (NumberFormatException ex) {
-            throw new WrongDonorException("Oib nije numerički.");
+            throw new WrongDonorException("OIB nije numerički.");
         }
-        if (oib.length() != 11) throw new WrongDonorException("Oib mora imati točno 11 znakova.");
+        if (oib.length() != 11) throw new WrongDonorException("OIB mora imati točno 11 znakova.");
         return true;
     }
 

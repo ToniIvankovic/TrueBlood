@@ -66,7 +66,7 @@ public class DonorController {
     public ResponseEntity<Object> getDonorByOib(@PathVariable String oib) {
         try {
             Donor donor = donorService.getNotDeactivatedDonorByOib(oib);
-            if (donor == null) return ResponseEntity.ok("Ne postoji djelatnik krvi s tim id-em");
+            if (donor == null) return ResponseEntity.ok("Ne postoji djelatnik krvi s tim ID-jem");
             else return ResponseEntity.ok(donor);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
@@ -81,7 +81,7 @@ public class DonorController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Darivatelj krvi ne može pristupiti podacima drugog darivatelja krvi.");
             }
             Donor donor = donorService.getDonorByDonorId(donorId);
-            if (donor == null) return ResponseEntity.ok("Ne postoji darivatelj krvi s tim id-em.");
+            if (donor == null) return ResponseEntity.ok("Ne postoji darivatelj krvi s tim ID-jem.");
             else return ResponseEntity.ok(donor);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
