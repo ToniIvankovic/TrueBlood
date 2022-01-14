@@ -191,7 +191,11 @@ public class DonorService {
         Donor donor = donorRepository.getNotDeactivatedDonorByDonorId(donorId);
         if (donor == null) throw new WrongDonorException("Ne postoji darivatelj krvi s tim ID-jem.");
         String oibOld = donor.getOib();
+        String oldBloodType = donor.getBloodType();
         donor = modelMapper.map(donorNew, Donor.class);
+        if(donor.getBloodType() == null || donor.getBloodType().isBlank()){
+            donor.setBloodType(oldBloodType);
+        }
         String oibNew = donor.getOib();
         donorValidator.validateDonor(donor);
         if (getAllDonorByOib(oibNew) != null && !oibNew.equals(oibOld)) {
