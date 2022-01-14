@@ -149,7 +149,7 @@
 				%	\textit{Funkcionalne zahtjeve razraditi u obliku obrazaca uporabe. Svaki obrazac je potrebno razraditi prema donjem predlošku. Ukoliko u nekom koraku može doći do odstupanja, potrebno je to odstupanje opisati i po mogućnosti ponuditi rješenje kojim bi se tijek obrasca vratio na osnovni tijek.}\\
 					
                 \par {
-                    *Baza podataka je sudionik u svim obrascima uporabe, stoga ju ne navodimo zasebno u svakom obrascu
+                    *Baza podataka sudionik je u svim obrascima uporabe, stoga ju ne navodimo zasebno u svakom obrascu (ako je u nekom obrascu posebno navedena, to je kako bi se naglasilo da je u tom obrascu baza podataka glavni sudionik)
                 } \\ \\
 					\noindent \underbar{\textbf{UC1.1 - Stvori novi račun donora}} \label{UC1.1}
 					\begin{packed_item}
@@ -157,16 +157,17 @@
 						\item \textbf{Glavni sudionik: }djelatnik banke
 						\item  \textbf{Cilj:} Stvaranje novog računa donora u sustavu pri doniranju krvi
 						\item  \textbf{Sudionici:} donor
-						\item  \textbf{Preduvjet:} Donor nema stvoren račun, djelatnik je prijavljen u sustav (\hyperref[UC3.1]{UC3.1})
+						\item  \textbf{Preduvjet:} Donor nema stvoren račun, djelatnik banke je prijavljen u sustav (\hyperref[UC3.1]{UC3.1})
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
+							\item Djelatnik banke otvara obrazac za stvaranje pokušaja doniranja
 							\item Djelatnik banke otvara obrazac za stvaranje računa donora
 							\item Djelatnik banke unosi potrebne podatke o donoru koje saznaje ispitivanjem (matični i kontakt podatci, krvna grupa)
 							\item Djelatnik banke pokreće stvaranje računa klikom na gumb \textit{Kreiraj račun}
-							\item Sustav validira podatke 
+							\item Sustav validira podatke
 							\item Sustav stvara račun u bazi podataka, baza podataka generira donorID
-							\item Djelatniku banke na ekran se ispisuje generirani donorID (kako bi ga prenio donoru)
+							\item Djelatniku banke na ekran se ispisuje poruka o uspješno izrađenom računu
 							\item Pokreće se \hyperref[UC2]{UC2} (\textit{Pošalji e-mail za aktivaciju} - novom donoru)
 						\end{packed_enum}
 						
@@ -212,12 +213,12 @@
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-                        	\item Donor otvara obrazac za stvaranje računa donora
+                        	\item Donor otvara obrazac za registraciju
 							\item Donor unosi potrebne podatke (matični i kontakt podatci, ne i krvna grupa)
 							\item Donor pokreće stvaranje računa klikom na gumb \textit{Kreiraj račun}
 							\item Sustav validira podatke 
 							\item Sustav stvara račun u bazi podataka, baza podataka generira donorID
-							\item Donoru se na ekran ispisuje generirani donorID
+							\item Donoru se na ekran ispisuje poruka o uspješno izrađenom računu
 							\item Pokreće se \hyperref[UC2]{UC2} (\textit{Pošalji e-mail za aktivaciju} - novom donoru)
 						\end{packed_enum}
 						
@@ -261,7 +262,7 @@
 							\item Administrator pokreće stvaranje računa klikom na gumb \textit{Kreiraj račun}
 							\item Sustav validira podatke 
 							\item Sustav stvara račun u bazi podataka, baza podataka generira bankworkerID
-							\item Administratoru se na ekran ispisuje generirani bankworkerID
+							\item Administratoru se na ekran ispisuje poruka o uspješno izrađenom računu djelatnika
 							\item Pokreće se \hyperref[UC2]{UC2} (\textit{Pošalji e-mail za aktivaciju} - novom djelatniku banke)
 						\end{packed_enum}
 						
@@ -291,38 +292,38 @@
 						
 					\end{packed_item}
 					
-					\noindent \underbar{\textbf{UC1.4 - Stvori novi račun administratora}}
-					\begin{packed_item}
+					%\noindent \underbar{\textbf{UC1.4 - Stvori novi račun administratora}}
+					%\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }administrator
-						\item  \textbf{Cilj:} Stvaranje novog računa administratora u sustavu
-						\item  \textbf{Sudionici:} 
-						\item  \textbf{Preduvjet:} Postoji bar jedan administrator u sustavu, administrator je prijavljen u sustav (\hyperref[UC3.1]{UC3.1})
-						\item  \textbf{Opis osnovnog tijeka:}
+					%	\item \textbf{Glavni sudionik: }administrator
+					%	\item  \textbf{Cilj:} Stvaranje novog računa administratora u sustavu
+					%	\item  \textbf{Sudionici:} 
+					%	\item  \textbf{Preduvjet:} Postoji bar jedan administrator u sustavu, administrator je prijavljen u sustav (\hyperref[UC3.1]{UC3.1})
+					%	\item  \textbf{Opis osnovnog tijeka:}
 						
-						\item[] \begin{packed_enum}
-                        	\item Administrator otvara obrazac za stvaranje računa administratora
-							\item Administrator unosi e-adresu novog administratora (koja se ne sprema trajno)
-							\item Administrator pokreće stvaranje računa klikom na gumb \textit{Kreiraj račun}
-							\item Sustav validira e-adresu 
-							\item Sustav stvara račun u bazi podataka (generira lozinku), baza podataka generira userID
-							\item Administratoru se na ekran ispisuje generirani userID
-							\item Pokreće se \hyperref[UC2]{UC2} (Pošalji e-mail za aktivaciju - novom administratoru)
-						\end{packed_enum}
+					%	\item[] \begin{packed_enum}
+                    %    	\item Administrator otvara obrazac za stvaranje računa administratora
+					%		\item Administrator unosi e-adresu novog administratora (koja se ne sprema trajno)
+					%		\item Administrator pokreće stvaranje računa klikom na gumb \textit{Kreiraj račun}
+					%		\item Sustav validira e-adresu 
+					%		\item Sustav stvara račun u bazi podataka (generira lozinku), baza podataka generira userID
+					%		\item Administratoru se na ekran ispisuje generirani userID
+					%		\item Pokreće se \hyperref[UC2]{UC2} (Pošalji e-mail za aktivaciju - novom administratoru)
+					%	\end{packed_enum}
 
-						\item  \textbf{Opis mogućih odstupanja:}
+					%	\item  \textbf{Opis mogućih odstupanja:}
 						
-						\item[] \begin{packed_item}
+					%	\item[] \begin{packed_item}
 	
-							\item[4] E-adresa je sintaksno pogrešna
-							\begin{packed_enum}
-								\item Sustav na ekran ispisuje poruku o neispravnosti e-adrese
-								\item Proces se nastavlja na koraku 2 osnovnog tijeka
-							\end{packed_enum}
+					%		\item[4] E-adresa je sintaksno pogrešna
+					%		\begin{packed_enum}
+					%			\item Sustav na ekran ispisuje poruku o neispravnosti e-adrese
+					%			\item Proces se nastavlja na koraku 2 osnovnog tijeka
+					%		\end{packed_enum}
 							
-						\end{packed_item}
+					%	\end{packed_item}
 						
-					\end{packed_item}
+					%\end{packed_item}
 					
 					\noindent \underbar{\textbf{UC2 - Pošalji e-mail za aktivaciju}}
 					\begin{packed_item} \label{UC2}
@@ -335,6 +336,7 @@
 						
 						\item[] \begin{packed_enum}
 	                        \item Sustav generira poveznicu za aktivaciju računa
+	                        \item Sustav generira e-poruku s navedenom poveznicom za aktivaciju te inicijalnim podatcima za prijavu
 	                        \item Sustav na e-adresu definiranu pri kreiranju računa šalje e-poruku s generiranim podatcima
 						\end{packed_enum}
 						
@@ -376,8 +378,8 @@
 	                        \item Korisnik na početnoj stranici pritišće gumb \textit{Prijavi se}
 	                        \item Korisnik u polja za prijavu unosi svoj userID (donorID, bankworkerID) i lozinku
 	                        \item Korisnik pritiskom na gumb \textit{Prijava} pokreće proces prijave u sustav
-	                        \item Sustav provjerava ispravnost vjerodajnica i nakon potvrde vraća token
-	                        \item Sustav preusmjerava korisnika na početnu stranicu za prijavljene korisnike
+	                        \item Sustav provjerava ispravnost podataka i nakon potvrde vraća kolačić s identifikatorom sjednice
+	                        \item Sustav preusmjerava korisnika na početnu stranicu profila
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
@@ -410,7 +412,7 @@
 						
 						\item[] \begin{packed_enum}
 	
-	                        \item Korisnik na podstranici \textit{Profil} pritišće gumb \textit{Pregledaj osobne podatke}
+	                        \item Korisnik na podstranici \textit{Profil} pritišće gumb \textit{Uredi podatke}
 	                        \item Sustav učitava stranicu s postojećim podatcima i gumbom za uređivanje podataka
 
 						\end{packed_enum}
@@ -432,19 +434,28 @@
 						\\ *Korisnikom se smatra djelatnik banke ili administrator
 						\item[] \begin{packed_enum}
 	                    
-	                        \item Korisnik pristupa obrascu za traženje donora klikom na gumb \textit{Pronađi donora}
-	                        \item Korisnik u obrazac unosi neki od jedinstvenih podataka donora (donorID ili OIB)
-	                        \item Sustav iz baze podataka dobavlja podatke o traženom donoru
-	                        \item Sustav preusmjerava trenutnog korisnika na stranicu s podatcima 
+	                        \item Korisnik pristupa obrascu za traženje donora klikom na gumb \textit{Pronađi donora} na stranici za stvaranje pokušaja doniranja ili na stranici za deaktivaciju računa
+	                        \item Korisnik u obrazac unosi neki od podataka donora (donorID, OIB, ime, prezime) ili više njih u kombinaciji, odvojene razmakom
+	                        \item Sustav iz baze podataka dobavlja podatke o traženim donorima
+	                        \item Sustav u tabličnom prikazu ispisuje sve donore kojima se osobni podatci podudaraju s traženima
+	                        \item Korisnik odabire željenog donora klikom na željeni redak
+	                        \item Sustav preusmjerava korisnika na prethodnu stranicu s koje je došao, pritom noseći i podatak o odabranom donoru
 
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
 						\item[] \begin{packed_item}
 	
-							\item[3] Sustav od baze podataka ne dobiva podatke jer ne postoji donor s navedenim podatcima
+							\item[3.1] Sustav od baze podataka ne dobiva podatke jer ne postoji donor s navedenim podatcima
 							\item[] \begin{packed_enum}
-								\item Sustav na ekran ispisuje poruku o neuspješnom dohvaćanju donora
+								\item Sustav na ekran ispisuje da nema pronađenih rezultata
+								\item Izvođenje se nastavlja na koraku 2 osnovnog tijeka
+							\end{packed_enum}
+							\item[3.2] Traženi račun je trajno deaktiviran
+							\item[] \begin{packed_enum}
+								\item Sustav iz baze podataka dobavlja podatke samo o nedeaktiviranim korisnicima
+								\item Baza podataka ne pronalazi zapis traženog donora
+								\item Sustav na ekran ispisuje da nema pronađenih rezultata
 								\item Izvođenje se nastavlja na koraku 2 osnovnog tijeka
 							\end{packed_enum}
 							
@@ -459,22 +470,31 @@
 						\item \textbf{Glavni sudionik: }administrator
 						\item  \textbf{Cilj:} Pronaći djelatnika banke u sustavu i pregledati njegove podatke
 						\item  \textbf{Sudionici:} 
-						\item  \textbf{Preduvjet:} Djelatnik ima generiran račun, administrator je prijavljen u sustav (\hyperref[UC3.1]{UC3.1}), administrator ima dovoljno podataka o djelatniku banke kako bi ga pronašao u sustavu
+						\item  \textbf{Preduvjet:} Djelatnik banke ima generiran račun, administrator je prijavljen u sustav (\hyperref[UC3.1]{UC3.1}), administrator ima dovoljno podataka o djelatniku banke kako bi ga pronašao u sustavu
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-	                        \item Administrator pristupa obrascu za traženje djelatnika banke klikom na gumb \textit{Pronađi djelatnika banke}
-	                        \item Administrator u obrazac unosi neki od jedinstvenih podataka djelatnika banke (bankworkerID ili OIB)
-	                        \item Sustav iz baze podataka dobavlja podatke o traženom djelatniku banke
-	                        \item Sustav preusmjerava trenutnog administratora na stranicu s podatcima 
+	                        \item Administrator pristupa obrascu za traženje djelatnika banke klikom na gumb \textit{Pronađi djelatnika} sa stranice za deaktivaciju računa
+	                        \item Administrator u obrazac unosi neki od podataka donora (donorID, OIB, ime, prezime) ili više njih u kombinaciji, odvojene razmakom
+	                        \item Sustav iz baze podataka dobavlja podatke o traženim djelatnicima banke
+	                        \item Sustav u tabličnom prikazu ispisuje sve djelatnike banke kojima se osobni podatci podudaraju s traženima
+	                        \item Administrator odabire željenog djelatnika banke klikom na željeni redak
+	                        \item Sustav preusmjerava administratora na prethodnu stranicu s koje je došao, pritom noseći i podatak o odabranom djelatniku banke
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
 						\item[] \begin{packed_item}
 	
-							\item[3] Sustav od baze podataka ne dobiva podatke jer ne postoji djelatnik banke s navedenim podatcima
+							\item[3.1] Sustav od baze podataka ne dobiva podatke jer ne postoji djelatnik banke s navedenim podatcima
 							\item[] \begin{packed_enum}
 								\item Sustav na ekran ispisuje poruku o neuspješnom dohvaćanju djelatnika banke
+								\item Izvođenje se nastavlja na koraku 2 osnovnog tijeka
+							\end{packed_enum}
+							\item[3.2] Traženi račun je trajno deaktiviran
+							\item[] \begin{packed_enum}
+								\item Sustav iz baze podataka dobavlja podatke samo o nedeaktiviranim korisnicima
+								\item Baza podataka ne pronalazi zapis traženog djelatnika banke
+								\item Sustav na ekran ispisuje da nema pronađenih rezultata
 								\item Izvođenje se nastavlja na koraku 2 osnovnog tijeka
 							\end{packed_enum}
 							
@@ -489,13 +509,12 @@
 						\item \textbf{Glavni sudionik: }donor
 						\item  \textbf{Cilj:} Uređivanje svojih postojećih matičnih i kontakt podataka
 						\item  \textbf{Sudionici:} 
-						\item  \textbf{Preduvjet: }Donor ima stvoren račun i nalazi se na stranici pregleda osobnih podataka (vidi \hyperref[UC4]{UC4 (\textit{Pregledaj svoje podatke})}
+						\item  \textbf{Preduvjet: }Donor ima stvoren račun i nalazi se na stranici za uređivanje osobnih podataka (vidi \hyperref[UC4]{UC4 (\textit{Pregledaj svoje podatke})}
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-						    \item Donor sa stranice pregleda osobnih podataka pristupa obrascu za izmjenu svojih podataka klikom na gumb \textit{Uredi podatke}
 	                        \item Donor izmjenjuje potrebne matične ili kontakt podatake (ali ne i zdravstvene podatke)
-	                        \item Donor pritišće gumb \textit{Spremi promjene}
+	                        \item Donor pritišće gumb \textit{Pohrani promjene}
 	                        \item Sustav validira ispravnost podataka
 	                        \item Sustav ažurira postojeći zapis u bazi podataka
 	                        
@@ -531,9 +550,9 @@
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-	                        \item Djelatnik banke sa stranice sa podatcima donora pristupa obrascu za izmjenu podataka donora klikom na gumb \textit{Uredi podatke}
-	                        \item Djelatnik izmjenjuje bilo koji potrebni podatak o donoru  (uključujući i zdravstvene podatke)
-	                        \item Djelatnik pritišće gumb \textit{Spremi promjene}
+	                        \item Djelatnik banke sa stranice za stvaranje pokušaja donacije pristupa obrascu za izmjenu podataka donora klikom na gumb \textit{Uredi podatke}
+	                        \item Djelatnik banke izmjenjuje bilo koji potrebni podatak o donoru  (uključujući i zdravstvene podatke)
+	                        \item Djelatnik banke pritišće gumb \textit{Pohrani promjene}
 	                        \item Sustav validira ispravnost podataka
 	                        \item Sustav ažurira postojeći zapis u bazi podataka
 	                      %  \item U slučaju neaktualnih podataka, djelatnik banke ažurira podatke
@@ -568,13 +587,12 @@
 						\item \textbf{Glavni sudionik: }djelatnik banke
 						\item  \textbf{Cilj:} Uređivanje već postojećih podataka 
 						\item  \textbf{Sudionici:} 
-						\item  \textbf{Preduvjet: }Djelatnik banke ima stvoren račun i nalazi se na stranici pregleda osobnih podataka (vidi \hyperref[UC4]{UC4 (\textit{Pregledaj svoje podatke})}
+						\item  \textbf{Preduvjet: }Djelatnik banke ima stvoren račun i nalazi se na stranici za uređivanje osobnih podataka (vidi \hyperref[UC4]{UC4 (\textit{Pregledaj svoje podatke})}
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-						    \item Djelatnik banke sa stranice pregleda osobnih podataka pristupa obrascu za izmjenu svojih podataka klikom na gumb \textit{Uredi podatke}
 	                        \item Djelatnik banke izmjenjuje potrebni podatak 
-	                        \item Djelatnik banke pritišće gumb \textit{Spremi promjene}
+	                        \item Djelatnik banke pritišće gumb \textit{Pohrani promjene}
 	                        \item Sustav validira ispravnost podataka
 	                        \item Sustav ažurira postojeći zapis u bazi podataka
 	                        
@@ -607,12 +625,14 @@
 						\item \textbf{Glavni sudionik: }administrator
 						\item  \textbf{Cilj:} Deaktivacija postojećeg računa 
 						\item  \textbf{Sudionici:} 
-						\item  \textbf{Preduvjet:} Korisnički račun postoji i administrator ga je pronašao koristeći \hyperref[UC4.1]{UC4.1 (\textit{Pronađi i pregledaj podatke donora})} ili \hyperref[UC4.2]{UC4.2 (\textit{Pronađi i pregledaj podatke djelatnika banke})}
+						\item  \textbf{Preduvjet:} Korisnički račun koji se treba deaktivirati postoji
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item Administrator na stranici s podatcima računa koji treba deaktivirati pritišće gumb \textit{Deaktiviraj račun}
+	                        \item Administrator pristupa stranici za deaktivaciju računa pritiskom na gumb \textit{Upravljaj računima}
+	                        \item Administrator koristi tražilicu kako bi pronašao traženi račun pritiskom na gumb \textit{Pronađi donora} ili \textit{Pronađi djelatnika} (vidi \hyperref[UC4.1]{UC4.1 (\textit{Pronađi i pregledaj podatke donora})} ili \hyperref[UC4.2]{UC4.2 (\textit{Pronađi i pregledaj podatke djelatnika banke})})
+							\item Administrator nakon pronalaska računa i povratka na stranicu za deaktivaciju pritišće gumb \textit{Deaktiviraj račun}
 	                        \item Sustav u bazi podataka evidentira da je račun deaktiviran (ali račun se ne briše)
 
 						\end{packed_enum}
@@ -634,12 +654,14 @@
 						\item[] \begin{packed_enum}
 	
 							\item Djelatnik banke otvara obrazac za unos novog pokušaja darivanja
+							\item Djelatnik banke pronalazi donora u sustavu koristeći tražilicu pritiskom na gumb \textit{Pronađi donora} - vidi \hyperref[UC4.1]{UC4.1 (\textit{Pronađi i pregledaj podatke donora})}
 							\item Djelatnik banke u sustavu ispunjava zdravstveni upitnik prema odgovorima koje mu daje donor
+	                        \item Djelatnik banke pritiskom na gumb \textit{Spremi pokušaj doniranja} pokreće proces spremanja
 	                        \item Donor odlazi darivati krv, a pokušaj doniranja evidentira se kao uspješan
-	                        \item Djelatnik pritiskom na gumb \textit{Spremi pokušaj doniranja} pokreće proces spremanja
 	                        \item Sustav u bazi podataka stvara novi pokušaj doniranja s prethodno navedenim podatcima
 	                        \item Sustav u bazi podataka evidentira povećanje zalihe krvi krvne grupe donora iz ovog pokušaja za jednu dozu
 	                        \item Sustav generira PDF potvrdu o darivanju krvi
+	                        \item Djelatniku banke na ekran se ispisuje poruka o uspješnom darivanju krvi
 	                        \item Sustav šalje potvrdu na mail (vidi \hyperref[UC12]{UC12} za sličnu funkcionalnost gdje se potvrda preuzima na računalo)
 
 						\end{packed_enum}
@@ -648,25 +670,27 @@
 						
 						\item[] \begin{packed_item}
 	
-							\item[2.a] Neki od zdravstvenih podataka implicira privremeno odbijanje donora
+							\item[4.a] Neki od zdravstvenih podataka implicira privremeno odbijanje donora
 							\begin{packed_enum}
-								\item Djelatnik pokušaj doniranja evidentira kao neuspješan
-								\item Obavljaju se koraci 4 i 5 osnovnog tijeka (spremanje pokušaja doniranja)
+								\item Sustav pokušaj doniranja evidentira kao neuspješan
+								\item Obavlja se korak 6 osnovnog tijeka (spremanje pokušaja doniranja)
+								\item Djelatniku banke se na ekran ispisuje poruka o neuspješnom darivanju krvi
 								\item Proces završava
 							\end{packed_enum}
 							
-							\item[2.b] Neki od zdravstvenih podataka implicira trajno odbijanje donora
+							\item[4.b] Neki od zdravstvenih podataka implicira trajno odbijanje donora
 							\begin{packed_enum}
-								\item Djelatnik pokušaj doniranja evidentira kao neuspješan
-								\item Djelatnik evidentira trajno odbijanje u računu donora (pokreće se \hyperref[UC5.1]{UC5.1 - \textit{Uredi zdravstvene, matične i kontakt podatke donora}})
-								\item Obavljaju se koraci 4 i 5 osnovnog tijeka (spremanje pokušaja doniranja)
+								\item Sustav pokušaj doniranja evidentira kao neuspješan
+								\item Sustav evidentira trajno odbijanje u računu donora s razlogom odbijanja poslanom u obrascu
+								\item Obavlja se korak 6 osnovnog tijeka (spremanje pokušaja doniranja)
+								\item Djelatniku banke se na ekran ispisuje poruka o neuspješnom darivanju krvi
 								\item Proces završava
 							\end{packed_enum}
 							
-							\item[6] S novom dozom krvi prekoračuje se gornja optimalna granica zaliha doza krvi
+							\item[7] S novom dozom krvi prekoračuje se gornja optimalna granica zaliha doza krvi
 							\begin{packed_enum}
 							    \item Pokreće se \hyperref[UC14]{UC14 (\textit{Izdaj upozorenje o prekoračenju optimalne granice})}
-								\item Proces se nastavlja gdje je i stao na koraku 6 osnovnog tijeka
+								\item Proces se nastavlja gdje je i stao na koraku 7 osnovnog tijeka
 							\end{packed_enum}
 							
 						\end{packed_item}
@@ -687,8 +711,7 @@
 	
 	                        \item Korisnik interneta pristupa početnoj stranici aplikacije
 	                        \item Sustav dohvaća trenutna stanja zaliha krvi i optimalne granice za svaku krvnu grupu iz baze podataka
-	                        \item Sustav vizualno prikazuje stanja zaliha svih krvnih grupa tako da je minimalno stanje nula, a maksimalno stanje 20 \% veće od gornje optimalne granice
-	                        \item Sustav vizualno ucrtava i optimalne granice
+	                        \item Sustav vizualno prikazuje stanja zaliha svih krvnih grupa i njihovih optimalnih granica tako da je gornja optimalna granica na 90\% visine, donja optimalna granica i trenutna razina krvi proporcionalno tome (donja optimalna granica na visini od donjaGranica/gornjaGranica*90\%, a trenutna razina krvi na visini od razina/gornjaGranica*90\%)
 	                        \item Sustav provjerava nalaze li se sva stanja zaliha između optimalnih granica
 
 						\end{packed_enum}
@@ -697,13 +720,7 @@
 						
 						\item[] \begin{packed_item}
 	
-							\item[2] Administrator nije definirao optimalnu granicu zaliha krvi za neku krvnu grupu
-							\item[] \begin{packed_enum}
-								\item Sustav vizualno prikazuje stanje zalihe tako da uvijek prikazuje stanje kao 50 \% kapaciteta
-								\item Proces se nastavlja za preostale krvne grupe na koraku 3 osnovnog tijeka
-							\end{packed_enum}
-
-							\item[5] Neko stanje zaliha nalazi se ispod donje optimalne granice za tu krvnu grupu 
+							\item[4] Neko stanje zaliha nalazi se ispod donje optimalne granice za tu krvnu grupu 
 							\begin{packed_enum}
 								\item Sustav na stranici ispisuje i poruku o nedostatku krvnih grupa čije je stanje ispod donje optimalne granice
 								\item Proces završava
@@ -714,35 +731,36 @@
 					\end{packed_item}
 					
 					
-					\noindent \underbar{\textbf{UC8 - Promijeni lozinku}}
-					\begin{packed_item}
+					%\noindent \underbar{\textbf{UC8 - Promijeni lozinku}}
+					%\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }prijavljeni korisnik
-						\item  \textbf{Cilj:} Promijeniti lozinku svog računa
-						\item  \textbf{Sudionici:} 
-						\item  \textbf{Preduvjet:} Korisnik ima podatke za prijavu, prijavljen je u sustav (\hyperref[UC3.1]{UC3.1}) i ima potrebu za promjenom lozinke
-						\item  \textbf{Opis osnovnog tijeka:}
+						%\item \textbf{Glavni sudionik: }prijavljeni korisnik
+						%\item  \textbf{Cilj:} Promijeniti lozinku svog računa
+						%\item  \textbf{Sudionici:} 
+						%\item  \textbf{Preduvjet:} Korisnik ima podatke za prijavu, prijavljen je u sustav (\hyperref[UC3.1]{UC3.1}) i ima potrebu za promjenom lozinke
+						%\item  \textbf{Opis osnovnog tijeka:}
 						
-						\item[] \begin{packed_enum}
-	                        \item Korisnik otvara obrazac za promjenu lozinke
-	                        \item Korisnik unosi staru i novu lozinku te pokreće validaciju i promjenu lozinke pritiskom na gumb \textit{Promijeni lozinku}
-	                        \item Sustav validira lozinku
-	                        \item Sustav u bazi podataka evidentira promjenu lozinke
-						\end{packed_enum}
+						%item[] \begin{packed_enum}
+	                        %\item Korisnik s profila otvara obrazac za promjenu lozinke pritiskom na gumb \textit{Promijeni lozinku}
+	                        %\item Korisnik unosi staru i novu lozinku te pokreće validaciju i promjenu lozinke pritiskom na gumb \textit{Promijeni lozinku}
+	                        %\item Sustav validira lozinku
+	                        %\item Sustav u bazi podataka evidentira promjenu lozinke
+	                        %\item Sustav korisniku na ekran ispisuje poruku o uspješno promijenjenoj lozinki
+						%\end{packed_enum}
 						
-						\item  \textbf{Opis mogućih odstupanja:}
+						%\item  \textbf{Opis mogućih odstupanja:}
 						
-						\item[] \begin{packed_item}
+						%\item[] \begin{packed_item}
 	
-							\item[3] Lozinka je nesigurna (definirano u ostalim zahtjevima)
-							\begin{packed_enum}
-								\item Sustav na ekran ispisuje prikladnu poruku koja navodi korisnika na pravila za sastavljanje sigurne lozinke
-								\item Proces se nastavlja na koraku 2 osnovnog tijeka
-							\end{packed_enum}
+							%\item[3] Lozinka je nesigurna (definirano u ostalim zahtjevima)
+							%\begin{packed_enum}
+								%\item Sustav na ekran ispisuje prikladnu poruku koja navodi korisnika na pravila za sastavljanje sigurne lozinke
+								%\item Proces se nastavlja na koraku 2 osnovnog tijeka
+							%\end{packed_enum}
 							
-						\end{packed_item}
+						%\end{packed_item}
 						
-					\end{packed_item}
+					%\end{packed_item}
 					
 					
 					\noindent \underbar{\textbf{UC9 - Definiraj optimalne granice zaliha krvi}}
@@ -755,9 +773,9 @@
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-							\item Administrator pristupa obrascu za postavljanje optimalnih granica pritiskom na gumb \textit{Definiraj optimalne granice}
+							\item Administrator pristupa obrascu za postavljanje optimalnih granica pritiskom na gumb \textit{Uredi granice}
 	                        \item Administrator za svaku krvnu grupu podešava gornje i donje optimalne granice zaliha krvi
-	                        \item Administrator pokreće proces spremanja pritiskom na gumb \textit{Spremi promjene}
+	                        \item Administrator pokreće proces spremanja pritiskom na gumb \textit{Spremi granice}
 	                        \item Sustav sprema promjene u bazu podataka
 						\end{packed_enum}
 						
@@ -782,15 +800,13 @@
 						\item \textbf{Glavni sudionik: }donor
 						\item  \textbf{Cilj:} Informirati donora o okvirnom stanju zaliha njegove krvne grupe
 						\item  \textbf{Sudionici:} 
-						\item  \textbf{Preduvjet:} Donor je prijavljen u sustav (\hyperref[UC3.1]{UC3.1}) i nema trajnu zabranu darivanja
+						\item  \textbf{Preduvjet:} Donor je prijavljen u sustav (\hyperref[UC3.1]{UC3.1}) i nedostaje njegove krvne grupe
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item Donor dolazi na početnu stranicu prijavljenog korisnika
-	                        \item Sustav na ekranu prikazuje jednu od tri vrste poruka definiranih u ostalim zahtjevima, ovisno o stanju zaliha krvi krvne grupe donora
-	                        \item U slučaju stanja zaliha ispod gornje optimalne granice, ispisuje se i poticajna poruka za darivanje krvi
-	                        \item U slučaju stanja zaliha ispod donje optimalne granice, poticajna poruka je dodatno istaknuta
+							\item Donor dolazi na početnu stranicu prijavljenog korisnika (profil)
+	                        \item Sustav na ekranu prikazuje poruku o nedostatku zalihe te krvne grupe
 
 						\end{packed_enum}
 						
@@ -798,9 +814,9 @@
 						
 						\item[] \begin{packed_item}
 	
-							\item[2] Stanje zaliha krvi je unutar optimalnih granica
+							\item[2] Stanje zaliha krvi je iznad donje optimalne granice
 							\item[] \begin{packed_enum}
-								\item Sustav ispisuje poticajnu poruku za darivanje krvi
+								\item Poruka se ne ispisuje
 								\item Proces završava
 							\end{packed_enum}
 							
@@ -826,9 +842,9 @@
 						
 						*Korisnikom se smatra donor ili djelatnik banke opisani u preduvjetima
 						\item[] \begin{packed_enum}
-							\item Korisnik otvara stranicu s povijesti pokušaja doniranja pritiskom na gumb \textit{Pregledaj prošla darivanja}
+							\item Korisnik otvara stranicu s povijesti pokušaja doniranja pritiskom na gumb \textit{Moje donacije / Prošle donacije}
 	                        \item Sustav za svaki pokušaj doniranja navodi osnovne podatke definirane u ostalim zahtjevima
-	                        \item Sustav za svaki uspješni pokušaj stvara i gumb \textit{Preuzmi PDF potvrdu}
+	                        \item Sustav za svaki uspješni pokušaj stvara i gumb \textit{Preuzmi}
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
@@ -841,7 +857,7 @@
 								\item Proces završava
 							\end{packed_enum}
 							
-							\item[3] Korisnik pritišće gumb \textit{Preuzmi PDF potvrdu} za neki pokušaj doniranja
+							\item[3] Korisnik pritišće gumb \textit{Preuzmi} za neki pokušaj doniranja
 							\item[] \begin{packed_enum}
 							    \item Pokreće se (\hyperref[UC12]{UC12 - \textit{Preuzmi PDF potvrdu}}) od koraka 2 osnovnog tijeka
 							\end{packed_enum}
@@ -856,7 +872,7 @@
 						\item \textbf{Glavni sudionik: }donor
 						\item  \textbf{Cilj:} Preuzimanje PDF potvrde o pokušaju doniranja iz povijesti doniranja u sustavu
 						\item  \textbf{Sudionici:} djelatnik
-						\item  \textbf{Preduvjet:} Donor se nalazi na stranici s prethodnim pokušajima doniranja (vidi \hyperref[UC11]{UC11}) i ima obavljeno barem jedno uspješno doniranje
+						\item  \textbf{Preduvjet:} Donor se nalazi na stranici s prethodnim pokušajima doniranja i ima obavljeno barem jedno uspješno doniranje / djelatnik banke pronašao je donora u sustavu i pristupio je stranici s njegovim prijašnjim donacijama (vidi \hyperref[UC11]{UC11})
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						*Korisnikom se smatra donor ili djelatnik banke opisani u preduvjetima
@@ -877,13 +893,13 @@
 						\item \textbf{Glavni sudionik: }djelatnik banke
 						\item  \textbf{Cilj:} Evidentirati smanjenje zalihe krvi radi slanja u bolnicu
 						\item  \textbf{Sudionici:} 
-						\item  \textbf{Preduvjet:} U sustavu postoje doze krvi koje se mogu poslati, djelatnik banke prijavljen je u sustav (\hyperref[UC3.1]{UC3.1})
+						\item  \textbf{Preduvjet:} Djelatnik banke prijavljen je u sustav (\hyperref[UC3.1]{UC3.1})
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-	                        \item Djelatnik banke u sustavu otvara obrazac za slanje krvi u bolnicu pritiskom na gumb \textit{Evidentiraj slanje krvi}
+	                        \item Djelatnik banke u sustavu otvara obrazac za slanje krvi u bolnicu pritiskom na gumb \textit{Slanje krvi}
                             \item Djelatnik banke popunjava broj doza koji se šalje od svake krvne grupe
-                            \item Djelatnik banke inicira smanjenje zalihe krvi pritiskom na gumb \textit{Evidentiraj slanje krvi}
+                            \item Djelatnik banke inicira smanjenje zalihe krvi pritiskom na gumb \textit{Pošalji}
                         	\item Sustav u bazi podataka smanjuje zalihe krvi za odgovarajuće iznose
 						\end{packed_enum}
 						
@@ -891,7 +907,7 @@
 						
 						\item[] \begin{packed_item}
 						
-							\item[3] Djelatnik banke popunio je da se šalje više doza krvi nego što je postoji u sustavu za bilo koju krvnu grupu
+							\item[3] Djelatnik banke popunio je da se za neku krvnu grupu šalje više doza krvi nego što je postoji u sustavu
 							\item[] \begin{packed_enum}
 								\item Sustav djelatniku banke ispisuje poruku upozorenja o nemogućnosti slanja tolikog broja doza krvi 
 								\item Proces se nastavlja na koraku 2 osnovnog tijeka
@@ -924,7 +940,7 @@
 						\item[] \begin{packed_enum}
 
 	                        \item Sustav dohvaća e-adrese svih djelatnika banke iz baze podataka i izdaje im e-mail upozorenje o nedovoljnom stanju zaliha te krvne grupe 
-	                        \item Sustav dohvaća e-adresu svih donora te krvne grupe iz baze podataka i izdaje e-mail upozorenje o nedovoljnom stanju zaliha te krvne grupe s poticajem na doniranje 
+	                        \item Sustav dohvaća e-adresu svih donora te krvne grupe koji nisu trajno odbijeni iz baze podataka i izdaje e-mail upozorenje o nedovoljnom stanju zaliha te krvne grupe s poticajem na doniranje 
 	                       
     						
 						\end{packed_enum}

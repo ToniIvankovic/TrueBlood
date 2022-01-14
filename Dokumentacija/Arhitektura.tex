@@ -28,7 +28,7 @@
                     \includegraphics[scale=1]{slike/Arhitektura sustava.jpg}
         			\centering
         			\caption{Arhitektura sustava}
-        			\label{fig:hztm-stranica}
+        			\label{fig:arhitekturaSustava}
         		\end{figure}
 			
 			\eject
@@ -201,10 +201,10 @@
 			
 				
 				\begin{figure}[H]
-                    \includegraphics[scale=0.9]{slike/relational schema.png}
+                    \includegraphics[scale=0.7]{slike/DB DIAGRAM.png}
         			\centering
-        			\caption{Relacijska shema baze podataka}
-        			\label{fig:hztm-stranica}
+        			\caption{Dijagram baze podataka}
+        			\label{fig:dbDiagram}
         		\end{figure}
 			
 			\eject
@@ -218,68 +218,89 @@
 			
 %			\textit{Prilikom prve predaje projekta, potrebno je priložiti potpuno razrađen dijagram razreda vezan uz \textbf{generičku funkcionalnost} sustava. Ostale funkcionalnosti trebaju biti idejno razrađene u dijagramu sa sljedećim komponentama: nazivi razreda, nazivi metoda i vrste pristupa metodama (npr. javni, zaštićeni), nazivi atributa razreda, veze i odnosi između razreda.}\\
 
-Na slikama u nastavku prikazani su razredi koji pripadaju "backend" dijelu arhitekture. Slike su podlijeljene po pripadnosti odgovarajćim entitetima iz baze podataka koji su opisani u poglavlju 4.1 (Baza podataka). Za svaki entitet postoje klase sljedećih tipova:
-\begin{itemize}
-	        \item \textbf{Controller} - Vraća "response entity" objekt koji sadrži http status i .json objekt na endpoint-e. Obično se radi o vraćanju podataka iz baze podataka. Controller također određuje korisničke dozvole pristupa pojedinim endpoint-ima  .
-	        \item \textbf{Service} - Obavlja poslovnu logiku aplikacije. To uključuje validaciju računa, kreiranje računa, provjeru podataka itd.
-	        \item \textbf{Repository} - Vadi i sprema podatke iz baze podataka, koristeći Spring Data JPA.
-	        \item \textbf{Model} - Objekt koji je mapiran na entitet iz baze podataka. Sadrži atribute i konstruktore te gettere i settere.
-	    \end{itemize}
-	    
-Neki entiteti imaju DTO metode koje služe kako bi se mogao vratiti samo dio podataka pomoću Controller-a na endpoint.
-	    
-
+    Na slikama u nastavku prikazani su razredi koji pripadaju arhitekturi poslužiteljske aplikacije. Radi preglednosti, dijagram razreda razlomljen je na više njih, grupiranih prema sličnim razinama apstrakcije i srodnim funkcionalnostima.
                 \begin{figure}[H]
-                    \includegraphics[scale=0.28]{slike/user.png}
+                    \includegraphics[scale=0.20]{slike/Controller.png}
         			\centering
-        			\caption{Dijagram razreda vezanih za entitet Korisnik}
-        			\label{fig:hztm-stranica}
+        			\caption{Dijagram controller klasa}
+        			\label{fig:controller}
         		\end{figure}
+    \textbf{\textit{Controller}} klase vraćaju entitet odgovora (\textit{response entity}) kao odgovor na zahtjeve na krajnje točke. Entitet odgovora je objekt koji sadrži HTTP status i JSON (\textit{JavaScript Object Notation}) podatke. Obično se radi o dohvaćanju podataka koje korisnik aplikacije zahtjeva. U \textit{Controller} klasama je također određeno kojim krajnjim točkama korisnici imaju pristup (ovisno o ulozi korisnika) pomoću anotacija. Metode u Controller klasama obično pozivaju metode istog imena u odgovarajućim Service klasama te ih se može shvatiti kao klase koje svoju funkcionalnost vrše koristeći poslovnu logiku iz Service klasa. Ako neki Controller sadrži objekt tipa Service (većina ih sadrži), tada on koristi neke od metoda iz odgovarajuće Service klase. Bitno je napomenuti da se koristi @Controller notacija.
+    
+    \textbf{LoginController} zadužen je za ostvarivanje funkcionalnosti prijave. Login prima HTTP GET zahtjev. Koristi se osnovna autentikacija (\textit{basic authentication}), što znači da su u autorizacijskom zaglavlju (\textit{Authorization header}) zapisani userId i lozinka. Provjerava se postoji li u sustavu korisnik s navedenim identifikacijskim brojem, te ako postoji provjeriti je li lozinka u zahtjevu jednaka onoj zapisanoj u bazi. Lozinke se spremaju i provjeravaju u kodiranom obliku pomoću \textit{BCryptEncodera}. Kod vraćanja odgovora postavlja se kolačić sa sjednicom (\textit{session cookie}), a ukoliko su navedeni podaci ispravni, zapisuju se podatci o prijavljenom korisniku (poput imena i uloga). Ukoliko podaci nisu ispravni vraća se kod o pogrešci 401. Uz naredne zahtjeve korisnika prilaže se kolačić sa sjednicom čime poslužiteljska strana može prepoznati korisnikovu sjednicu i potvrditi da je korisnik prijavljen.
+    
+    \textbf{UserController} služi za: 
+    \begin{itemize}
+        \item Aktivaciju korisnika i provjeru stanja aktiviranosti korisnika
+        \item Dohvaćanje korisnika
+        \item Trajnu deaktivaciju korisničkog računa.
+    \end{itemize}
+    
+    \textbf{DonorController} služi za: 
+    \begin{itemize}
+        \item Dohvaćanje i kreiranje donora 
+        \item Dohvaćanje OIB-a donora
+        \item Upravljanje podatatcima donora
+    \end{itemize}
+    
+    \textbf{DonationTryController} služi za: 
+    \begin{itemize}
+        \item Kreiranje pokušaja donacije
+        \item Dohvaćanje povijesti pokušaja donacije
+        \item Zahtjevanje pdf potvrde donacije
+    \end{itemize}
+    
+    \textbf{BloodSupplyController} služi za: 
+    \begin{itemize}
+        \item Smanjivanje razine krvi
+        \item Dohvaćanje pojedinačnih ili svih zaliha krvi (ovisno o krvnoj grupi)
+        \item Postavljanje minimalne i maksimalne prihvatljive zalihe
+    \end{itemize}
+    
+    \textbf{BankWorkerController} služi za: 
+    \begin{itemize}
+        \item Kreiranje, dohvaćanje i upravljanje djelatnikom banke
+    \end{itemize}
+    
+    \begin{figure}[H]
+        \includegraphics[scale=0.20]{slike/Model.png}
+		\centering
+		\caption{Dijagram model klasa}
+		\label{fig:model}
+    \end{figure}
+    
+    \textbf{\textit{Model}} klase služe za stvaranje objekata ekvivalentnim onima u bazi podataka. Ove klase ne sadrže metode koje obavljaju poslovnu logiku (samo gettere, settere, konstruktore itd.).  Valja navesti jednu iznimku, SecureToken model klasu, koja nema ekvivalent u bazi podataka. Taj objekt se koristi u svrhu generiranja jedinstvenoe poveznice. Više informacija nalazi se u opisu SecureTokenService klase. \textit{User}, \textit{Donor} i \textit{BankWorker} klase implementiraju sučelje \textit{Serializable}.
+    
+    \begin{figure}[H]
+        \includegraphics[scale=0.16]{slike/DTO.png}
+		\centering
+		\caption{Dijagram DTO klasa}
+		\label{fig:DTO}
+    \end{figure}
+    \textbf{\textit{DTO}} (Data transfer object) klase služe kako bi se mogle vratiti na krajnje točke, i time izbjeći nepotrebno (ili nesigurno) slanje informacija koje nisu potrebne.
+    
+    
+    \begin{figure}[H]
+        \includegraphics[scale=0.064]{slike/RepositoryService.png}
+		\centering
+		\caption{Dijagram Repository sučelja i Service klasa}
+		\label{fig:repositoryService}
+    \end{figure}
+    
+    Na sljedećoj poveznici nalazi se dijagram klasa za Repository i Service klase koji se može uvećati: \href{https://drive.google.com/file/d/1SzOhj1Bq-YyAUKqIZqTj0oUILVQYDE_b/view?usp=sharing}{\textcolor{blue}{Dijagram Repository sučelja i Service klasa}}
+    
+    
+    \textbf{Repository} - Dohvaća i sprema podatke iz baze podataka, koristeći  sučelje \textit{JpaRepository}, koje sva Repository sučelja implementiraju. \textit{JpaRepository} je sučelje s metodama za pristup bazi podataka iz Springa, a metode se kreiraju same na temelju imenovanja metoda.
+    
+    \textbf{\textit{Service}} klase obavljaju poslovnu logiku aplikacije. Mnoge od metoda u Service klasama pozivaju su iz istoimenih metoda u odgovarajućim Controller klasama. Ako metode trebaju upravljati podatcima, koriste metode iz Repository sučelja.  Service klase uglavnom obavljaju logiku iza funkcionalnosti koje su navedene za Controller klase, ali valja navesti dvije iznimke:
+    
+    \textbf{EmailService} koji služi za slanje e-mailova (aktivacijskih i obavijesti) pomoću \textit{JavaMailSender} sučelja i
+    \textbf{SecureTokenService} koji služi isključivo za generiranje jedninstvene poveznice koja se šalje u aktivacijskoj e-poruci. SecureTokenService u sebi sadrži objekt tipa \textit{BytesKeyGenerator} koji se koristi u spomenutom generiranju.
+    
+    \href{https://drive.google.com/file/d/1oA-XBPEW6Ks2GIoX5Iqn9XRFGumoSmCd/view?usp=sharing}{\textcolor{blue}{Dijagram svih klasa aplikacije}}-Na ovoj poveznici nalazi se dijagram svih klasa aplikacije.
 
-Entitetu Korisnik pripadaju klase LoginController i LogoutController.
 
-LoginController je zadužen za ostvarivanje funkcionalnosti prijave. Lozinke se spremaju i provjeravaju u kodiranom obliku pomoću BCryptEncoder-a]. Dakle, koristi se sigurnosna shema Bearer Authentication.
-
-LogoutController je zadužen za odjavu korisnika.
-
-Entiteti Korisnik i Donor mogu uzrokovati iznimke ako se radi o krivom korisniku/donoru.
-
-                \begin{figure}[H]
-                    \includegraphics[scale=0.20]{slike/donor.png}
-        			\centering
-        			\caption{Dijagram razreda vezanih za entitet Donor}
-        			\label{fig:hztm-stranica}
-        		\end{figure}
-        		
-        		\begin{figure}[H]
-                    \includegraphics[scale=0.25]{slike/bankworker.png}
-        			\centering
-        			\caption{Dijagram razreda vezanih za entitet Djelatnika banke}
-        			\label{fig:hztm-stranica}
-        		\end{figure}
-        		
-        		\begin{figure}[H]
-                    \includegraphics[scale=0.25]{slike/donationtry.png}
-        			\centering
-        			\caption{Dijagram razreda vezanih za entitet Pokušaj donacije}
-        			\label{fig:hztm-stranica}
-        		\end{figure}
-        		
-        		\begin{figure}[H]
-                    \includegraphics[scale=0.25]{slike/bloodsupply.png}
-        			\centering
-        			\caption{Dijagram razreda vezanih za entitet Zaliha krvi}
-        			\label{fig:hztm-stranica}
-        		\end{figure}
-        		
-        		\begin{figure}[H]
-                    \includegraphics[scale=0.25]{slike/security.png}
-        			\centering
-        			\caption{Dijagram razreda vezanih za sigurnost i autentikaciju}
-        			\label{fig:hztm-stranica}
-        		\end{figure}
 			
-			Zadnja slika sadrži klase vezane za sigurnost i autentikaciju. Radi se o klasama koje pruža Spring. Koriste se Jwt Tokeni (iz biblioteke .jsonwebtoken.jjwt) koji osiguravaju identitet korisnika aplikacije.
 			
 %			\textbf{\textit{dio 2. revizije}}\\			
 			
@@ -289,24 +310,72 @@ Entiteti Korisnik i Donor mogu uzrokovati iznimke ako se radi o krivom korisniku
 		    
 		
 		
-%		\section{Dijagram stanja}
+\section{Dijagram stanja}
 			
-			
+	\begin{figure}[H]
+        \includegraphics[scale=0.35]{slike/DS1_1.png}
+    	\centering
+    	\caption{DS1 Trueblood web aplikacija}
+    	\label{fig:ds1}
+    \end{figure}
+    
+    \par {
+        \text Dijagram stanja prikazuje stanja u koje je moguće doći različitim akcijama korisnika. Stanja na dijagramu na slici 4.7 predstavljaju različite komponente Trueblood web aplikacije. Plavom bojom prikazane su komponente kojima može pristupiti administrator, zelenom djelatnik banke, crvenom donor, a bijelom svi. Sve funkcije navedene u dijagramu nalaze se u odgovarajućim \textit{controller} klasama. U početno stanje korisnik dolazi prijavom u sustav. Iz svakog stanja moguće se je odjaviti, doći u stanje profil te vidjeti često postavljana pitanja (FAQ) i kontakt, pritiskom na odgovarajuće gumbe. Iz stanja profil, korisnik može doći u razna druga stanja ovisno o svojoj ulozi. Svaki korisnik može urediti svoje podatke. Administrator ima mogućnost podešavanja optimalnih granica razina krvi u banci te može stvoriti račun djelatnika banke. Djelatnik banke ima mogućnost stvaranja računa donora, smanjivanja zaliha krvi te stvaranja pokušaja doniranja. Prilikom postupka doniranja, djelatnik banke može odabrati postojećeg donora ili stvoriti novog. Prema podacima donora djelatnik banke kreira donaciju koja se evidentira klikom na gumb "Doniraj".}
+
 %			\textbf{\textit{dio 2. revizije}}\\
 			
 %			\textit{Potrebno je priložiti dijagram stanja i opisati ga. Dovoljan je jedan dijagram stanja koji prikazuje \textbf{značajan dio funkcionalnosti} sustava. Na primjer, stanja korisničkog sučelja i tijek korištenja neke ključne funkcionalnosti jesu značajan dio sustava, a registracija i prijava nisu. }
 			
 			
 
-%		\section{Dijagram aktivnosti}
+\section{Dijagram aktivnosti}
+
+    \begin{figure}[H]
+        \includegraphics[scale=0.40]{slike/DA1 Postupak doniranja.png}
+    	\centering
+    	\caption{DA1 Postupak doniranja}
+    	\label{fig:da1}
+    \end{figure}
+        
+    \par {Dijagram aktivnosti prikazan na slici 4.8 modelira tijek aktivnosti prilikom postupka doniranja.  Po dolasku donora na doniranje, djelatnik banke vrši administraciju donorovog računa, opisanu na \textit{DA2 Djelatnik donor administracija računa} (slika 4.9). Djelatnik banke zatim stvara novi pokušaj doniranja koji sadrži matične podatke donora te od donora saznaje njegove trenutne zdravstvene podatke. Ako zdravstveni podaci nisu u redu, donor se odbija te ne može donirati krv. Ako su zdravstveni podaci donora u redu, donor odlazi donirati krv, dok djelatnik banke u sustavu evidentira njegovu donaciju te web aplikacija povećava razinu krvi u bazi. Ako razina krvi prijeđe gornju optimalnu granicu, sustav obavještava djelatnike banke porukom na profilu i e-porukom.}
+    
+    \eject
+    
+    \begin{figure}[H]
+        \includegraphics[scale=0.40]{slike/DA2 Djelatnik donor administracija racuna.png}
+    	\centering
+    	\caption{DA2 Djelatnik donor administracija računa}
+    	\label{fig:da2}
+    \end{figure}
+    
+    \par {Dijagram aktivnosti prikazan na slici 4.9 prikazuje upravljanje djelatnika banke donorovim računom. Djelatnik banke koristi donorov OIB kako bi utvrdio postoji li već račun koji odgovara tom donoru. Ako račun ne postoji, djelatnik banke kreira novi račun donora te sustav donoru šalje e-poruku za aktivaciju računa. Ukoliko račun postoji, a donorovi podaci su se promijenili, tada djelatnik banke ispravlja donorove podatke.}
 			
 %			\textbf{\textit{dio 2. revizije}}\\
 			
 %			 \textit{Potrebno je priložiti dijagram aktivnosti s pripadajućim opisom. Dijagram aktivnosti treba prikazivati značajan dio sustava.}
 			
-%			\eject
-%		\section{Dijagram komponenti}
+		\eject
+		\section{Dijagram komponenti}
 		
+		\par{
+		    Dijagram komponenti na slici 4.10 opisuje internu strukturu sustava, kako su komponente međusobno povezane te kako im se pristupa iz okoline.
+		}
+		\par{
+		    Poslužitelj klijentske aplikacije poslužuje \textit{bundle.js} datoteku koja na klijentskom računalu pokreće klijentsku web aplikaciju, a ona generira sve potrebne HTML i CSS datoteke te JavaScript kod. 
+		}
+		\par{
+		    Poslužiteljska aplikacija na krajnjim točkama (eng. \textit{endpoint}) API-ja (aplikacijsko-programskog sučelja) dočekuje zahtjeve klijentske aplikacije, obrađuje ih i vraća tražene podatke (ako oni postoje i ako klijentska aplikacija ima dopuštenje tražiti ih). API radi na REST principu, stoga ga nazivamo i REST API. REST API dio je Spring Boot kontrolera (eng. \textit{Controller}). Jednom kada neki kontroler primi zahtjev preko API-ja, on će odgovarajućem servisu proslijediti zahtjev, a od njega dobiti odgovor koji treba vratiti aplikaciji. Servisi (eng. \textit{service}) obrađuju zahtjeve koje im šalju kontroleri i dohvaćaju podatke iz repozitorija (eng. \textit{repository}), obrađuju te podatke te stvaraju odgovor koji vraćaju kontroleru. Repozitoriji podatke dobavljaju iz baze podataka pomoću SQL upita. Kako bi dobivene podatke mogli vratiti servisima koji će te podatke koristiti u obradi, koriste se modeli (eng. models), koji sadrže varijable koje odgovaraju određenim poljima iz baze podataka. Modeli su u pravilu jednostavni i sadrže varijable koje odgovaraju stupcima jedne tablice iz baze podataka. Kako nisu uvijek potrebni svi stupci neke tablice, podatci u prijenosu modeliraju se objektima za prijenos podataka (eng. \textit{DTO}), a moguće je da ti objekti ne sadrže sve varijable, već varijable koje odgovaraju samo nekim stupcima tablice.
+		}
+		\par{
+		    PostgreSQL baza podataka na SQL upite vraća podatke iz baze podataka.
+		}
+		
+		\begin{figure}[H]
+            \includegraphics[scale=0.40]{slike/Dijagram komponenti 1_0.png}
+        	\centering
+        	\caption{Dijagram komponenti}
+        	\label{fig:dk}
+        \end{figure}
 %			\textbf{\textit{dio 2. revizije}}\\
 		
 %			 \textit{Potrebno je priložiti dijagram komponenti s pripadajućim opisom. Dijagram komponenti treba prikazivati strukturu cijele aplikacije.}
