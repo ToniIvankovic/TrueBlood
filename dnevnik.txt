@@ -133,3 +133,46 @@
 		-Redizajnirati endpointe
 		-Promijeniti login na AWT-token
 	-Ispraviti i dovršiti poglavlje o arhitekturi sustava
+	
+7.1 sastanak: Koordinacija prije kolokviranja (5.12.2021.)
+	Prisutni: svi
+	-Prezentirani dijelovi projekta kako bi se svi upoznali sa bitnim funkcionalnostima
+	-Dogovor o preraspodjeli odgovornosti na projektu
+		-Borna: frontend
+		-Toni: frontend + koordinacija
+		-Marko: fullstack
+		-Ana: backend
+		-Vukota: backend
+		-Dora: dokumentacija + backend
+		-Jakov: dokumentacija + testiranje
+		
+8. sastanak: (8.12.2021.)
+	Prisutni: svi
+	-Dogovor oko demokratske raspodjele bodova na prvoj predaji
+	-Dogovor o prioritetima u nastavku projekta
+	-Oformljen dokument s napretkom na pojedinim stavkama projekta
+
+9. sastanak: (16.12.2021.)
+	Prisutni: svi
+	Sastanak s asistentom:
+		-Komentiran prostor za razvoj nakon prve predaje (dostupno u dokumentu na slacku)
+		-Dogovorena mogućnost povratnih informacija tijekom praznika
+	Sastanak nakon:
+		-Izvještavanje o napretku
+		-Raspodijeljen posao, dogovoreni prioriteti
+
+10. sastanak: (4.1.2022.)
+	Prisutni: Toni, Ana, Vukota, Marko, Jakov, Borna
+	-Prezentacija dosadašnjeg napretka
+	-Rješavanje problema oko autorizacije zahtjeva s frontenda
+	-Rješavanje problema vezanih za slanje maila i validaciju računa
+	
+11. sastanak: Sastanak s asistentom (5.1.2022.)
+	Prisutni: Dora, Marko, Toni, Jakov
+	-Razgovor o dosadašnjem napretku i očekivanim komponentama pri predaji
+	-Rasprava o mogućnsotima popravka dijagrama
+	-Popravci:
+		Urediti kontakt i FAQ
+		Informacije o krvnim grupama koje nedostaju da bude svaka u novi red
+		Tražilica treba po defaultu tražiti samo aktivne korisnike
+		Upute za puštanje u pogon su dosta dobro napisane kao naš readme pa možemo to iskoristiti
