@@ -37,7 +37,6 @@ const getCurrentUserIdAndRole = async (user, setUser) => {
                 });
             } else {
                 setUser(userPublic);
-                console.log("Prazan odgovor poslužitelja")
             }
         })
         .catch((error) => {
@@ -118,22 +117,6 @@ const downloadPDF = async (donationId) => {
     const url = '/api/v1/donation-try/pdf/' + donationId;
     history = useHistory();
     history.push(url);
-    // await axios.get(url)
-    //     .then((response) => {
-    //         let data = response.data;
-    //         var byteNumbers = new Array(data.length);
-    //         for (var i = 0; i < data.length; i++) {
-    //             byteNumbers[i] = data.charCodeAt(i);
-    //         }
-    //         var byteArray = new Uint8Array(byteNumbers);
-    //         var blob = new Blob([byteArray], { type: "application/pdf" });
-    //         fileSaver.saveAs(blob, "Potvrda o donaciji.pdf")
-    //         // console.log(response.data)
-    //     })
-    //     .catch((error) => {
-    //         console.log("Greška - nije moguće preuzeti PDF potvrdu");
-    //         console.log(error);
-    //     })
 }
 
 const getDonorPermRejected = async (userId, setPermDeactivated) => {
@@ -180,7 +163,6 @@ const getDonorNextDonation = async (donorId, setNextDonation) => {
     await axios.get(url)
         .then((response) => {
             if (response.data != null) {
-                console.log(response.data)
                 setNextDonation(response.data);
                 return;
             } else {

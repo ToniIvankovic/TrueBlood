@@ -46,7 +46,7 @@ public class BankWorkerController {
     public ResponseEntity<Object> getBankWorkerByOib(@PathVariable String oib) {
         try {
             BankWorker bankWorker = bankWorkerService.getBankWorkerByOib(oib);
-            if (bankWorker == null) return ResponseEntity.ok("Ne postoji djelatinik banke s tim id-em.");
+            if (bankWorker == null) return ResponseEntity.ok("Ne postoji djelatinik banke s tim ID-jem.");
             return ResponseEntity.ok(bankWorker);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
@@ -58,7 +58,7 @@ public class BankWorkerController {
     public ResponseEntity<Object> getBankWorkerByBankWorkerId(@PathVariable String bankWorkerId) {
         try {
             BankWorker bankWorker = bankWorkerService.getBankWorkerByBankWorkerId(bankWorkerId);
-            if (bankWorker == null) return ResponseEntity.ok("Ne postoji djelatinik banke s tim id-em.");
+            if (bankWorker == null) return ResponseEntity.ok("Ne postoji djelatinik banke s tim ID-jem.");
             return ResponseEntity.ok(bankWorker);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());

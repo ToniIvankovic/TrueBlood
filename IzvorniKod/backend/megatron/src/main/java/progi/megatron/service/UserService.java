@@ -37,14 +37,14 @@ public class UserService {
 
     public User findNotDeactivatedUserById(String userIdString) {
         isValidUserId(userIdString);
-        User user = userRepository.getNotDeactivatedUserByUserId(Long.valueOf(userIdString)).orElseThrow(() -> new UsernameNotFoundException("Ne postoji korisnik s tim id-em."));
+        User user = userRepository.getNotDeactivatedUserByUserId(Long.valueOf(userIdString)).orElseThrow(() -> new UsernameNotFoundException("Ne postoji korisnik s tim ID-jem."));
         return user;
     }
 
     public Long activateUserAccount(String userId) {
         isValidUserId(userId);
         Long longUserId = Long.valueOf(userId);
-        User user = userRepository.getNotDeactivatedUserByUserId(longUserId).orElseThrow(() -> new WrongUserException("Ne postoji korisnik s tim id-em."));
+        User user = userRepository.getNotDeactivatedUserByUserId(longUserId).orElseThrow(() -> new WrongUserException("Ne postoji korisnik s tim ID-jem."));
         if (user.getAccActivated() == 1) return null;
         userRepository.activateUserAccount(longUserId);
         return longUserId;
@@ -53,7 +53,7 @@ public class UserService {
     public Long permDeactivateUserAccount(String userId) {
         isValidUserId(userId);
         Long longUserId = Long.valueOf(userId);
-        User user = userRepository.getNotDeactivatedUserByUserId(longUserId).orElseThrow(() -> new WrongUserException("Ne postoji korisnik s tim id-em."));
+        User user = userRepository.getNotDeactivatedUserByUserId(longUserId).orElseThrow(() -> new WrongUserException("Ne postoji korisnik s tim ID-jem."));
         if (user.getPermDeactivated() == 1) return null;
         userRepository.deactivateUserAccount(longUserId);
         return Long.valueOf(userId);
@@ -87,7 +87,7 @@ public class UserService {
         if (Objects.isNull(secureToken) || !StringUtils.equals(token, secureToken.getToken()) || secureToken.isExpired()) {
             throw new InvalidTokenException("Token za verifikaciju korisnika nije validan.");
         }
-        User user = userRepository.getNotDeactivatedUserByUserId(secureToken.getUserId()).orElseThrow(() -> new UsernameNotFoundException("Ne postoji korisnik s tim id-em."));
+        User user = userRepository.getNotDeactivatedUserByUserId(secureToken.getUserId()).orElseThrow(() -> new UsernameNotFoundException("Ne postoji korisnik s tim ID-jem."));
         if (Objects.isNull(user)) {
             return;
         }
@@ -99,13 +99,13 @@ public class UserService {
 
     public UserActivationDTO checkIfUserActivated(String userId) {
         User user = findNotDeactivatedUserById(userId);
-        if (user == null) throw new WrongUserException("Ne postoji korisnik s tim id-em.");
+        if (user == null) throw new WrongUserException("Ne postoji korisnik s tim ID-jem.");
         return modelMapper.map(user, UserActivationDTO.class);
     }
 
     public void changePassword(PasswordChangeUserDTO passwordChangeUserDTO) {
         User user = findNotDeactivatedUserById(String.valueOf(passwordChangeUserDTO.getUserId()));
-        if (user == null) throw new WrongUserException("Ne postoji korisnik s tim id-em.");
+        if (user == null) throw new WrongUserException("Ne postoji korisnik s tim ID-jem.");
         // validate password
         userRepository.changePassword(passwordChangeUserDTO.getUserId(), passwordEncoder.encode(passwordChangeUserDTO.getPassword()));
     }

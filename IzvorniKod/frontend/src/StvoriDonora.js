@@ -28,7 +28,6 @@ const StvoriDonora = (props) => {
 
     //Razmisliti o unificiranju dohvata podataka sa backenda i da existing služi samo za naslov
     useEffect(()=>{
-        console.log('Existing:' + props.existing)
         if(!props.user.userId) 
             return;
         if (props.user.role == 'DONOR') {
@@ -59,8 +58,6 @@ const StvoriDonora = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log('Submitting!');
-        console.log(donorInfo);
 
         var url
         if(props.existing){
@@ -81,8 +78,6 @@ const StvoriDonora = (props) => {
         //Zabraniti workeru da updatea donora bez da postavi krvnu grupu (ako ju ne dira) 
         axios.post(url, donorInfo)
             .then((response) => {
-                console.log('Donor successfully created:');
-                console.log(response.data)
 
                 props.setDonor(response.data)
                 if(props.existing){
@@ -101,12 +96,6 @@ const StvoriDonora = (props) => {
                         const message = error.response.data;
                         if (message == undefined) {
                             setErrorMessage('Nepoznata greška...');
-                        } else if (message.includes('oib')) {
-                            if (message.includes('already exists')) {
-                                setErrorMessage('Greška! OIB već postoji.');
-                            } else {
-                                setErrorMessage('Greška! Pogrešan format OIB-a.');
-                            }
                         } else if (message.includes('blood')) {
                             setErrorMessage('Greška! Krvna grupa mora se postaviti.');
                         } else{

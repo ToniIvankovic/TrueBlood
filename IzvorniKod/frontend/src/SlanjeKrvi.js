@@ -41,15 +41,11 @@ const SlanjeKrvi = (props) => {
             bloodSupplies.push(bloodSupplyInfo[bloodType]);
         }
         let arrayBloodSupplyInfo = {'bloodTypes': bloodTypes, 'numbersOfUnits': bloodSupplies}
-        console.log('Submitting!');
-        console.log(arrayBloodSupplyInfo);
 
         const url = '/api/v1/blood-supply/decrease'
 
         axios.post(url, arrayBloodSupplyInfo)
             .then((response) => {
-                console.log('Blood supply succesfully decreased:');
-                console.log(response.data)
                 history.goBack();
             })
             .catch((error) => {

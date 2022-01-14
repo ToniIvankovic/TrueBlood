@@ -46,7 +46,7 @@ public class DonationTryService {
 
         LocalDate lastDonationDate = getLastDonationDateForDonor(donationTryRequestDTO.getDonorId());
         Donor donor = donorService.getDonorByDonorId(donationTryRequestDTO.getDonorId());
-        if (donor == null) throw new WrongDonorException("Ne postoji darivatelj krvi s tim id-em.");
+        if (donor == null) throw new WrongDonorException("Ne postoji darivatelj krvi s tim ID-jem.");
         if (donor.getBloodType() == null) throw new WrongDonorException("Krvna grupa ovog darivatelja krvi nije definirana.");
 
         if (lastDonationDate != null) {
@@ -62,7 +62,7 @@ public class DonationTryService {
         boolean donated = false;
 
         BankWorker bankWorker = bankWorkerService.getBankWorkerByBankWorkerId(donationTryRequestDTO.getBankWorkerId());
-        if (bankWorker == null) throw new WrongBankWorkerException("Ne postoji djelatnik banke krvi s tim id-em.");
+        if (bankWorker == null) throw new WrongBankWorkerException("Ne postoji djelatnik banke krvi s tim ID-jem.");
 
         if (donationTryRequestDTO.getRejectReason() == null) {
             if (donor.getPermRejectedReason() != null) {
@@ -140,7 +140,7 @@ public class DonationTryService {
             HtmlConverter.convertToPdf(content,target);
             byte[] bytes = target.toByteArray();
             return bytes;
-        } else throw new WrongDonationTryException("Ne postoji pokušaj doniranja s tim id-em.");
+        } else throw new WrongDonationTryException("Ne postoji pokušaj doniranja s tim ID-jem.");
 
     }
 

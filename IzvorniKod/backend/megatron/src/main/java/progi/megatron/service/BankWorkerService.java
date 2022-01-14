@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @Service
 public class BankWorkerService {
 
-    @Value("http://trueblood-be-dev.herokuapp.com/api/v1/user/")
+    @Value("http://trueblood-be.herokuapp.com/api/v1/user/")
     private String baseURL;
 
     private final BankWorkerRepository bankWorkerRepository;
@@ -136,13 +136,13 @@ public class BankWorkerService {
         Long bankWorkerId = bankWorkerNew.getBankWorkerId();
         if (bankWorkerId == null) throw new WrongBankWorkerException("Id djelatnika banke nije definiran.");
         BankWorker bankWorker = bankWorkerRepository.getBankWorkerByBankWorkerId(bankWorkerId);
-        if (bankWorker == null) throw new WrongBankWorkerException("Ne postoji djelatnik banke krvi s tim id-em.");
+        if (bankWorker == null) throw new WrongBankWorkerException("Ne postoji djelatnik banke krvi s tim ID-jem.");
         String oibOld = bankWorker.getOib();
         bankWorker = modelMapper.map(bankWorkerNew, BankWorker.class);
         String oibNew = bankWorker.getOib();
         bankWorkerValidator.validateBankWorker(bankWorker);
         if (getBankWorkerByOib(oibNew) != null && !oibNew.equals(oibOld)) {
-            throw new WrongBankWorkerException("Već postoji djelatnik banke krvi s tim id-em.");
+            throw new WrongBankWorkerException("Već postoji djelatnik banke krvi s tim ID-jem.");
         }
         bankWorkerRepository.save(bankWorker);
         return bankWorker;

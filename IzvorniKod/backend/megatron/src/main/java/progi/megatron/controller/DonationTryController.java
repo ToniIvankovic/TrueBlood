@@ -64,7 +64,7 @@ public class DonationTryController {
     public ResponseEntity<Object> getSuccessfulDonationPdfCert(@PathVariable String donationId) {
         try {
             DonationTry donationTry = donationTryService.getDonationTryByDonationId(donationId);
-            if (donationTry == null) throw new WrongDonationTryException("Ne postoji pokušaj doniranja s tim id-em.");
+            if (donationTry == null) throw new WrongDonationTryException("Ne postoji pokušaj doniranja s tim ID-jem.");
             if (currentUserUtil.getCurrentUserRole().equals("DONOR") && !currentUserUtil.checkIfCurrentUser(String.valueOf(donationTry.getDonor().getDonorId()))) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Darivatelj krvi ne može preuzeti potvrdu o doniranju drugog darivatelja krvi.");
             }

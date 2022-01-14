@@ -23,8 +23,8 @@ spring:
     test-connection: false
   base:
     url:
-    http: http://trueblood-be-dev.herokuapp.com
-    https: https://trueblood-be-dev.herokuapp.com
+    http: http://trueblood-be.herokuapp.com
+    https: https://trueblood-be.herokuapp.com
 
 debug: false
 

@@ -72,7 +72,6 @@ const PokusajDoniranja = (props) => {
     const handleChange = (event) => {
         let name = event.target.name;
         let value = event.target.value;
-        // console.log(name, value);
         setDonationTryInfo({
             ...donationTryInfo,
             [name]: value
@@ -96,7 +95,6 @@ const PokusajDoniranja = (props) => {
         if(permRejectedReasons != "")   //Ako se evidentira samo jedan razlog, onda perm pobjeđuje temp
             rejectedReasons = permRejectedReasons.split(";")[0];
         
-        console.log(rejectedReasons);
 
         let retVal = {
             donorId: donationTryInfo.donorId,
@@ -119,15 +117,12 @@ const PokusajDoniranja = (props) => {
             props.setRejectReason(undefined);
         }
         
-        console.log(retVal)
         const url = "/api/v1/donation-try";
         axios.post(url, retVal)
             .then((response) => {
                 props.setDonationPlace(donationTryInfo.donationPlace); //Čuva mjesto za nova doniranja
                 props.setDonor(donorNone);
                 props.setExistingDonor(false);
-                console.log('Donation try successfully created:');
-                console.log(response.data)
                 props.setSuccessfulDonation(response.data.successful)
                 if(!response.data.successful){
                     props.setRejectReason(response.data.rejectedReason);
@@ -143,14 +138,14 @@ const PokusajDoniranja = (props) => {
                         const message = error.response.data;
                         if (message.includes('SQL') && message.includes('place')) {
                             setErrorMessage('Neispravno mjesto donacije');
-                        } else if (message.includes('must wait')) {
-                            setErrorMessage('Greška! Donor je nedavno donirao krv (u zadnja 3 ili 4 mjeseca).');
+                        } else if (message.includes('pričekat')) {
+                            setErrorMessage(message);
                         } else if (message.includes('blood')) {
                             setErrorMessage('Greška! Krvna grupa mora se postaviti.');
-                        } else if(message.includes('no donor')){
-                            setErrorMessage('Greška! Nepostojeći donorId!');
                         } else if(message.includes('Blood type')){
                             setErrorMessage('Greška! Donoru se mora odrediti krvna grupa prije donacije!');
+                        } else{
+                            setErrorMessage(message);
                         }
                     } else {
                         setErrorMessage('Greška u autorizaciji!');

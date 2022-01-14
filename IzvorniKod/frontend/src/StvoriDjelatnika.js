@@ -51,8 +51,6 @@ const StvoriDjelatnika = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log('Submitting!');
-        console.log(workerInfo);
 
         var url
         if(props.existing){
@@ -63,8 +61,6 @@ const StvoriDjelatnika = (props) => {
 
         axios.post(url, workerInfo)
             .then((response) => {
-                console.log('Worker successfully created:');
-                console.log(response.data)
 
                 if(props.user.role == "BANK_WORKER"){
                     getWorkerById(props.user.userId, props.setUser)
@@ -87,13 +83,9 @@ const StvoriDjelatnika = (props) => {
                         console.log(message);
                         if(!message){
                             setErrorMessage('Nepoznata greška...');
-                        } else if (message.includes('oib')) {
-                            if (message.includes('already exists')) {
-                                setErrorMessage('Greška! OIB već postoji.');
-                            } else {
-                                setErrorMessage('Greška! Pogrešan format OIB-a.');
-                            }
-                        } 
+                        }  else{
+                            setErrorMessage(message);
+                        }
                     } else {
                         setErrorMessage('Greška pri registraciji!');
                     }
