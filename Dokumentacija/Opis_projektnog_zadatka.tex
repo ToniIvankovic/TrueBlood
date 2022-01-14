@@ -81,10 +81,10 @@
             Mnogi rizici u radu sustava i njegovom korištenju prepoznati su unaprijed i razriješeni. Neki rizici proizlaze iz domene primjene, a neki iz predviđanja nesavršenog ponašanja u radu sa sustavom. Neki od prepoznatih rizika i njihova implementirana rješenja ili razlozi odbacivanja su:
             }
             \begin{itemize}
-                \item Korisnik sustava zaboravlja svoj userID (donorID, bankworkerID) iako već ima stvoren račun
+                \item Korisnik sustava zaboravlja svoj userId (donorId, bankworkerId) iako već ima stvoren račun
                 \begin{itemize}
-                    \item U e-poruci s poveznicom za aktivaciju navedeni su i donorID i inicijalna lozinka, pa se korisnik pronalaskom aktivacijske poruke može podsjetiti zaboravljenih podataka
-                    \item Djelatnik banke donora i administrator djelatnika banke može pretražiti po bilo kojoj kombinaciji podataka, npr. imena, prezimena i datuma rođenja, OIB-a i slično. Na taj način može se pronaći račun u sustavu i podsjetiti donorID-ja.
+                    \item U e-poruci s poveznicom za aktivaciju navedeni su i donorId i inicijalna lozinka, pa se korisnik pronalaskom aktivacijske poruke može podsjetiti zaboravljenih podataka
+                    \item Djelatnik banke donora i administrator djelatnika banke može pretražiti po bilo kojoj kombinaciji podataka, npr. imena, prezimena ili OIB-a. Na taj način može se pronaći račun u sustavu i podsjetiti donorIdja.
                 \end{itemize}
                 
                 \item Donor pri stvaranju računa nema neki podatak
@@ -117,7 +117,7 @@
                     \item Aktivacijska poveznica dovoljno je dugačka da ovo ne predstavlja značajan rizik
                 \end{itemize} 
                 
-                \item Djelatnik banke želi promijeniti donorID nekog donora, a donorID je primarni ključ u bazi podataka (isto vrijedi i za odnos administrator - djelatnik banke)
+                \item Djelatnik banke želi promijeniti donorId nekog donora, a donorId je primarni ključ u bazi podataka (isto vrijedi i za odnos administrator - djelatnik banke)
                 \begin{itemize}
                     \item Primarni ključevi samo se ispisuju na ekran pri pregledu i uređivanju podataka računa i ne mogu se mijenjati.
                     \item Nije prepoznata funkcionalno nužna situacija kada bi ova funkcionalnost bila potrebna, osim iz \textit{estetskih} razloga 
@@ -142,6 +142,12 @@
             S obzirom na ograničen vremenski rok i ograničene resurse za izradu sustava, na brojnim mjestima u dogovoru s asistentom dogovoren je nužan i dovoljan opseg rješenja. Taj opseg definiran je funkcionalnim i nefunkcionalnim zahtjevima, dok su dodatne stvari ostavljene na slobodu timu za implementaciju.
             }
             \par{
+            Dio problema sa sustavom proizlazi iz ograničenih resursa dostupnih za puštanje aplikacije u pogon na besplatnom servisu \textit{Heroku}, koji gasi aplikaciju nakon određenog vremena u kojemu ne primi nijedan zahtjev. Zbog toga neke funkcionalnosti (poput slanja obavijesti o ponovnoj mogućnosti darivanja) neće raditi pouzdano. Kako bi se ove funkcionalnosti ispitale treba prvo napraviti neki zahtjev i na klijentski poslužitelj i na poslužitelj poslužiteljske aplikacije kako bi se oni pokrenuli, a nakon toga u redovnom korištenju aplikacije ne bi trebalo biti problema. Kako se obavijest o ponovnoj mogućnosti darivanja šalje svaki dan u 12:00 za sve donore koji su donirali krv tri/četiri mjeseca ranije, radi ispitivanja potrebno je netom prije 12:00 poslati bilo kakav zahtjev poslužiteljskoj aplikaciji kako bi se ona pokrenula (i naravno, imati donora u sustavu kojemu na taj dan istječe period nemogućnosti darivanja).
+            }
+            \par{
+            Potencijalan problem predstavlja i servis e-pošte, koji u nekom trenutku može onemogućiti korištenje njegovih usluga zbog sigurnosnih razloga (previše poruka i slično). Oba problema bila bi riješena posjedovanjem vlastitog poslužitelja koji bi aplikaciju držao stalno upaljenom i na kojemu bi se mogao pokrenuti vlastiti servis za e-poruke.
+            }
+            \par{
             Pri izradi sustava razmatrane su brojne dodatne i alternativne mogućnosti i scenariji koji u ovoj inačici aplikacije nisu podržane. Takve mogućnosti dokumentirane su u sljedećem odjeljku pa se u nekoj od budućih implementacija sustav može nadograditi da podržava neke od navedenih alternativnih mogućnosti. Te mogućnosti najčešće uključuju mogućnosti koje bi olakšale korisnicima korištenje sustava i dale dodatne funkcionalnosti koje se trenutno mogu izvoditi zaobilazno ili se zasad uopće ne mogu izvodti.
             }
         
@@ -152,7 +158,7 @@
             
                  \item Korisnik sustava pri stvaranju računa ima zabilježenu pogrešnu e-adresu pa ne dobije poruku s aktivacijskom poveznicom, a novi račun ne može stvoriti jer su u sustavu već zabilježeni podatci koji moraju biti jedinstveni 
                  \\ ILI
-                \\ Korisnik je zagubio poruku s aktivacijskom poveznicom i donorID-jem prije aktivacije računa (ili ju nije primio zbog prepunjene memorije pretinca e-pošte)
+                \\ Korisnik je zagubio poruku s aktivacijskom poveznicom i donorId-jem prije aktivacije računa (ili ju nije primio zbog prepunjene memorije pretinca e-pošte)
                 \begin{itemize}
                     \item Moguća je nadogradnja koja  bi djelatniku banke / administratoru pri pregledu računa donora/djelatnika ostavila mogućnost ponovnog slanja poruke s aktivacijskom poveznicom uz eventualni ispravak e-adrese
                     \item Moguća je nadogradnja koja bi ostavila mogućnost stvaranja novog računa s istim podatcima sve dok se račun ne aktivira te bi se neaktivirani račun s istim podatcima automatski obrisao
@@ -231,6 +237,16 @@
                     \item Sustav bi u budućoj implementaciji mogao podržati i spajanje s postojećim sustavima koji se već uhodano koriste u zdravstvu. Tako bi se obogatile funkcionalnosti oba softvera i stvorilo još veće rasterećenje zdravstvenom sustavu.
                 \end{itemize}
                 
+                \item Jedan administrator u sustavu mogao bi biti nedovoljan za obavljanje posla administracije računa
+                \begin{itemize}
+                    \item Sustav bi u budućoj implementaciji mogao podržati stvaranje novog računa administratora pa bi se tako posao mogao podijeliti na više osoba
+                \end{itemize}
+                
+                \item Korisnici bi mogli htjeti promijeniti inicijalnu lozinku, bilo radi lakšeg pamćenja, ili zbog sigurnosti
+                \begin{itemize}
+                    \item Sustav bi u budućoj implementaciji mogao podržati promjenu lozinke - funkcionalnost već postoji sa poslužiteljske strane, ali se može napraviti i sa klijentske strane
+                \end{itemize}
+                
             \end{itemize}
             }
             
@@ -287,7 +303,7 @@
 				rowhead = 1,
 			} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 			\hline \multicolumn{3}{|c|}{\textbf{naslov unutar tablice}}	 \\ \hline[3pt]
-			\SetCell{LightGreen}IDKorisnik & INT	&  	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  	\\ \hline
+			\SetCell{LightGreen}IdKorisnik & INT	&  	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  	\\ \hline
 			korisnickoIme	& VARCHAR &   	\\ \hline 
 			email & VARCHAR &   \\ \hline 
 			ime & VARCHAR	&  		\\ \hline 
@@ -304,7 +320,7 @@
 				rowhead = 1,
 			}
 			\hline
-			\SetCell{LightGreen}IDKorisnik & INT	&  	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  	\\ \hline
+			\SetCell{LightGreen}IdKorisnik & INT	&  	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  	\\ \hline
 			korisnickoIme	& VARCHAR &   	\\ \hline 
 			email & VARCHAR &   \\ \hline 
 			ime & VARCHAR	&  		\\ \hline 
