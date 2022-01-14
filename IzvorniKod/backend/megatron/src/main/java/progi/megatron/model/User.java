@@ -1,18 +1,21 @@
 package progi.megatron.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import progi.megatron.util.Role;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-
 import static org.springframework.security.core.authority.AuthorityUtils.NO_AUTHORITIES;
 import static org.springframework.security.core.authority.AuthorityUtils.commaSeparatedStringToAuthorityList;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "user_account")
 public class User implements Serializable {
@@ -31,9 +34,6 @@ public class User implements Serializable {
     private int permDeactivated;
 
     private int optOut;
-
-
-    public User() { }
 
     public User(Role userRole, String password) {
         this.userRole = userRole.toString();

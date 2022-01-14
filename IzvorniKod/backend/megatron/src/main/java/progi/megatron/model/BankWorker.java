@@ -2,11 +2,17 @@ package progi.megatron.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "bank_worker")
 public class BankWorker implements Serializable {
@@ -20,7 +26,8 @@ public class BankWorker implements Serializable {
 
     private String oib;
 
-    private String birthDate;
+    @JsonFormat(pattern="dd.MM.yyyy.")
+    private LocalDate birthDate;
 
     private String birthPlace;
 

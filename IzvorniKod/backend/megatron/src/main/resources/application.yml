@@ -5,6 +5,26 @@ spring:
     username: admin
   jpa:
     open-in-view: false
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: truebloodfer@gmail.com
+    password: dijuwividhtbfzea
+    tls: true
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
+    protocol: smtp
+    test-connection: false
+  base:
+    url:
+    http: http://trueblood-be-dev.herokuapp.com
+    https: https://trueblood-be-dev.herokuapp.com
 
 debug: false
+

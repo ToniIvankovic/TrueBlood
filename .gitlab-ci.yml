@@ -7,6 +7,7 @@ deploy-be:
     - apt-get update -yq
     - apt-get install -y ruby-dev
     - gem install dpl
+    - gem install faraday -v 1.8.0
     - cd IzvorniKod/backend/megatron
     - dpl --provider=heroku --app=$HEROKU_API_PRODUCTION_BE --api_key=$HEROKU_API_KEY
   only:
@@ -19,6 +20,7 @@ deploy-fe:
     - apt-get update -yq
     - apt-get install -y ruby-dev
     - gem install dpl
+    - gem install faraday -v 1.8.0
     - cd IzvorniKod/frontend
     - dpl --provider=heroku --app=$HEROKU_API_PRODUCTION_FE --api_key=$HEROKU_API_KEY
   only:
@@ -31,10 +33,12 @@ deploy-be-dev:
     - apt-get update -yq
     - apt-get install -y ruby-dev
     - gem install dpl
+    - gem install faraday -v 1.8.0
     - cd IzvorniKod/backend/megatron
     - dpl --provider=heroku --app=$HEROKU_API_STAGING_BE --api_key=$HEROKU_API_KEY
   only:
     - develop
+  when: manual
 
 deploy-fe-dev:
   stage: deploy
@@ -42,7 +46,9 @@ deploy-fe-dev:
     - apt-get update -yq
     - apt-get install -y ruby-dev
     - gem install dpl
+    - gem install faraday -v 1.8.0
     - cd IzvorniKod/frontend
     - dpl --provider=heroku --app=$HEROKU_API_STAGING_FE --api_key=$HEROKU_API_KEY
   only:
     - develop
+  when: manual

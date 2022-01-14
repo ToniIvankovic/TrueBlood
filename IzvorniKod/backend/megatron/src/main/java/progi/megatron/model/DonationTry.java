@@ -1,12 +1,17 @@
 package progi.megatron.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "donation_try")
 public class DonationTry {
@@ -18,12 +23,17 @@ public class DonationTry {
 
     private String rejectReason;
 
-    private String bloodType;
+    @JsonFormat(pattern="dd.MM.yyyy")
+    private LocalDate donationDate;
+
+    private String donationPlace;
 
     @ManyToOne
+    @JoinColumn(name = "donor_id")
     private Donor donor;
 
     @ManyToOne
+    @JoinColumn(name = "bank_worker_id")
     private BankWorker bankWorker;
 
 }

@@ -14,5 +14,5 @@ services:
 volumes:
   trueblood-db-data:
 
-#naredba za runnat container
+# naredba za runnat container
 # docker run --rm --name courses-database -v courses-data:/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=courses-db -d postgres:13-alpine
