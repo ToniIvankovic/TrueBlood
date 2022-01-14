@@ -28,7 +28,7 @@ export const searchDonationHistoryColumns = [
         headerName: "Preuzimanje",
         width: 150,
         renderCell: (params) => {
-            return (params.row.rejectedReason == null) ? <Button target="_blank" href={'https://trueblood-be-dev.herokuapp.com/api/v1/donation-try/pdf/' + params.id}>Preuzmi</Button> : "";
+            return (params.row.rejectedReason == null) ? <Button target="_blank" href={'https://trueblood-be.herokuapp.com/api/v1/donation-try/pdf/' + params.id}>Preuzmi</Button> : "";
         }
     }
 ];

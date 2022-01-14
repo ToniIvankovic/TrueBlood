@@ -51,7 +51,7 @@ public class UserController {
         } catch (InvalidTokenException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-        return ResponseEntity.status(302).header(HttpHeaders.LOCATION, "https://trueblood-fe-dev.herokuapp.com/aktiviran_racun").build();
+        return ResponseEntity.status(302).header(HttpHeaders.LOCATION, "https://trueblood-fe.herokuapp.com/aktiviran_racun").build();
     }
 
     //@Secured({"ROLE_DONOR", "ROLE_BANK_WORKER", "ROLE_ADMIN"})

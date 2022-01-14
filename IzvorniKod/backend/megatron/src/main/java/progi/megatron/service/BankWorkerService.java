@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @Service
 public class BankWorkerService {
 
-    @Value("http://trueblood-be-dev.herokuapp.com/api/v1/user/")
+    @Value("http://trueblood-be.herokuapp.com/api/v1/user/")
     private String baseURL;
 
     private final BankWorkerRepository bankWorkerRepository;
