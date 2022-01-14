@@ -21,7 +21,7 @@ export const searchDonationHistoryColumns = [
     {
         field: "rejectedReason",
         headerName: "Razlog odbijanja",
-        width: 300,
+        width: 450,
     },
     {
         field: "",
