@@ -67,21 +67,22 @@ public class EmailService{
                 MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                 StandardCharsets.UTF_8.name());
         mimeMessageHelper.setTo(toAddress);
-        mimeMessageHelper.setSubject("Smanjene zalihe krvi");
         mimeMessageHelper.setFrom("truebloodfer@gmail.com");
         if(isDonor){
-            mimeMessageHelper.setText("Pozdrav " + firstName + ",\n Želimo Vas obavijestiti da nam trenutačno nedostaje Vaše krvne grupe ("+
-                    bloodTypesUnderLimit.get(0) + ").\n Ako ste u mogućnosti, molimo Vas da se što prije odazovete akciji darivanja krvi.\n" +
+            mimeMessageHelper.setSubject("Smanjene zalihe krvi");
+            mimeMessageHelper.setText("Pozdrav " + firstName + ",\nŽelimo Vas obavijestiti da nam trenutačno nedostaje Vaše krvne grupe ("+
+                    bloodTypesUnderLimit.get(0) + ").\nAko ste u mogućnosti, molimo Vas da se što prije odazovete akciji darivanja krvi.\n" +
                     "Vaš Trueblood");
         } else{
+            mimeMessageHelper.setSubject("Smanjene zalihe krvi u banci Trueblood");
             String bloodTypeString = "";
             for(String bloodType : bloodTypesUnderLimit){
                 bloodTypeString += (bloodType + ", ");
             }
-            mimeMessageHelper.setText("Pozdrav " + firstName + ",\n U sustavu je smanjena zaliha krvi za krvne grupe: "+
+            mimeMessageHelper.setText("Pozdrav " + firstName + ",\nU sustavu je smanjena zaliha krvi za krvne grupe: "+
                     bloodTypeString
-                    + "molimo potaknite donore na darivanje ovih krvnih grupa i smanjite slanje tih " +
-                    "krvnih grupa u vanjske institucije. Hvala\n" +
+                    + "stoga molimo potaknite donore na darivanje ovih krvnih grupa i smanjite slanje tih " +
+                    "krvnih grupa u vanjske institucije. \nHvala\n" +
                     "Vaš Trueblood");
         }
         Thread t = new Thread(()->{

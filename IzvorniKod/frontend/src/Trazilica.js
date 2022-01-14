@@ -59,7 +59,6 @@ const Trazilica = (props) => {
                         return el;
                     });
                     
-                    console.log("query response");
                     setUserList(newUserList);
                 }
             })

@@ -30,7 +30,6 @@ const OptimalneGranice = (props) => {
         
         setLevels(localLevels);
     },[bloodSupplyArray])
-    console.log(levels)
 
     const [errorMessage, setErrorMessage] = useState('Greška');
     const [errorHidden, setErrorHidden] = useState(true);
@@ -54,28 +53,20 @@ const OptimalneGranice = (props) => {
             upperLevels.push(levels[bloodType.concat("max")]);
         }
         let arrayLevels = {'bloodTypes': bloodTypes, 'minUnits': lowerLevels, 'maxUnits': upperLevels}
-        console.log('Submitting!');
-        console.log(arrayLevels);
     
         const url = '/api/v1/blood-supply';
 
         axios.post(url, arrayLevels)
             .then((response) => {
-                console.log('Optimal levels successfully set:');
-                console.log(response.data)
                 history.goBack();
             })
             .catch((error) => {
-                console.log('Error while seting optimal levels. Response: ' + error.response);
-                console.log(error.response);
-                //edit this
                 if (error.response) {
                     if (error.response.status == 400) {
                         const message = error.response.data;
                         if (message.includes('veći je od dostupnog broja')) {
                             setErrorMessage('Greška! Nema toliko jedinica krvi u zalihi.');
                         } 
-                        console.log(error.response.data);
                     } else {
                         setErrorMessage('Greška pri registraciji!');
                     }
