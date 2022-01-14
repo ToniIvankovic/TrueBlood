@@ -20,7 +20,7 @@ public class DonorByDonorDTOWithId {
     private String lastName;
     private String oib;
     private String gender;
-    @JsonFormat(pattern="dd.MM.yyyy") private LocalDate birthDate;
+    @JsonFormat(pattern="dd.MM.yyyy.") private LocalDate birthDate;
     private String birthPlace;
     private String address;
     private String workPlace;
