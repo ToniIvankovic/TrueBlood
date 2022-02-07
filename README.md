@@ -1,25 +1,19 @@
-## Link to deployed application - stable version (1.0)
+## Link to deployed application - stable version (2.0)
 
 Frontend: https://trueblood-fe.herokuapp.com  
 Backend:  https://trueblood-be.herokuapp.com
-
-## Link to deployed application - develop version
-
-Frontend: https://trueblood-fe-dev.herokuapp.com  
-Backend:  https://trueblood-be-dev.herokuapp.com
 
 ### Test users
 
 | userId  | password |
 | ---     | ---      |
-| 1000001 | D5JBc9C4 |
-| 1000002 | XWZr3hE8 |
-| 1000031 | J5nocfC4 |
+| 1000005 | D5JBc9C4 |
+| 1000003 | ygLQIEO6 |
 | 1000000 | adminpass |
 
-1000031 is a BANK_WORKER,
+1000003 is a BANK_WORKER,
 1000000 is an ADMIN,
-others are donors
+1000005 is a donor
 
 
 ## Backend setup
